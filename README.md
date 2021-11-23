@@ -1,16 +1,16 @@
-# Cross Platform React apps - GREEN stack starter template
+# Move fast and Build things™️
 
 <p>
   <!-- Next.js -->
-  <a href="https://aetherspace-green-stack-starter-monorepo.vercel.app/">
+  <a href="https://aetherspace-green-stack-starter-premium.vercel.app/">
     <img alt="Supports Next.js" longdesc="Supports Next.js" src="https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white" />
   </a>
   <!-- Vercel -->
-  <a href="https://aetherspace-green-stack-starter-monorepo.vercel.app/">
+  <a href="https://aetherspace-green-stack-starter-premium.vercel.app/">
     <img alt="Supports Vercel Deployments" longdesc="Supports Vercel Deployments" src="https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white" />
   </a>
   <!-- Netlify -->
-  <a href="https://aetherspace-green-stack-starter-monorepo.netlify.app/">
+  <a href="https://aetherspace-green-stack-starter-premium.netlify.app/">
     <img alt="Supports Netlify Deployments" longdesc="Supports Netlify Deployments" src="https://img.shields.io/badge/netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=#00C7B7" />
   </a>
   <!-- Expo -->
@@ -27,7 +27,7 @@
   </a>
 </p>
 
-Use this repo as a starter template for all your full-stack cross platform app development needs {...💚} Build for Web, PWA, Static, SSR, iOS, Android, Mac, Linux, Windows, REST and/or GraphQL all in one 👇
+> This project was bootstrapped with [Aetherspace](https://github.com/codinsonn/aetherspace-green-stack-starter-premium), the premium GREEN stack repo setup for all your full-stack cross platform app development needs {...💚} Enabling the project to be built for Web, PWA, Static, SSR, iOS, Android, Mac, Linux, Windows, REST and GraphQL all at once 👇
 
 ### Getting Started ⚡️
 
@@ -39,6 +39,15 @@ Run on mobile: `yarn dev-mobile`
 
 Run on desktop: `yarn dev-desktop` (⚠️ WIP, coming soon)
 
+---
+
+<details>
+<summary><b>{...💚} Aetherspace, GREEN stack & Template Benefits? 🚀</b></summary>
+
+---
+
+# Aetherspace - Premium GREEN stack starter template for cross platform React app development
+
 ### Table of contents
 💚 - [What is the GREEN stack?](#what-is-the-green-stack)  
 🚀 - [What is Aetherspace?](#what-is-aetherspace)  
@@ -46,7 +55,7 @@ Run on desktop: `yarn dev-desktop` (⚠️ WIP, coming soon)
 📁 - [File structure and installing new packages.](#package-management)  
 👾 - [Benefits and next steps.](#benefits-next-steps)  
 🤷‍♂️ - [When *not* to use the GREEN stack.](#when-not-to-use-green-stack)  
-💡 - [Inspirations and alternatives.](#inspirations-alternatives)  
+📚 - [Relevant Docs.](#relevant-docs)  
 
 ## What the hell is the GREEN stack? 💚 <a name="what-is-the-green-stack"></a>
 
@@ -64,7 +73,7 @@ The core idea this tech stack enables you to achieve boils down to writing your 
 
 > Think of it as Unity for React Apps. Just like Unity aims to make cross console game development a lot easier for (indie) game devs, the GREEN stack aims to do the same for cross-platform app development.
 
-## Ok, what is 'Aetherspace' then? 🚀 <a name="what-is-aetherspace"></a>
+## How does 'Aetherspace' help, exactly? 🚀 <a name="what-is-aetherspace"></a>
 
 Aetherspace is an opinionated framework I've made that fills in the gaps of working and building with the GREEN stack:
 
@@ -201,8 +210,8 @@ Here's a list of what you can start doing out of the box:
 - Bring the power of GraphQL to JSON or REST apis with `aetherResolver()` and Schemas.
 - Add auth with [AuthSession](https://docs.expo.dev/versions/latest/sdk/auth-session/) ([Expo Examples](https://docs.expo.dev/guides/authentication/))
 - Document your components and APIs with Storybook.
-- Deploy to vercel with `yarn deploy` or `vercel --prod --no-clipboard` ([view live](https://aetherspace-green-stack-starter-monorepo.vercel.app/))
-- Deploy to netlify [via this guide](https://www.netlify.com/blog/2020/11/30/how-to-deploy-next.js-sites-to-netlify/) ([view live](https://aetherspace-green-stack-starter-monorepo.netlify.app/))
+- Deploy to vercel with `yarn deploy` or `vercel --prod --no-clipboard` ([view live](https://aetherspace-green-stack-starter-premium.vercel.app/))
+- Deploy to netlify [via this guide](https://www.netlify.com/blog/2020/11/30/how-to-deploy-next.js-sites-to-netlify/) ([view live](https://aetherspace-green-stack-starter-premium.netlify.app/))
 
 If you'd like to continue learning about Aetherspace and the GREEN stack, there are more detailed guides, tips and best-practices in:
 - `AETHERSPACE.md`, `CODEGEN.md`, `NAVIGATION.md` & `API.md` (Aetherspace & Codegen)  
@@ -287,24 +296,8 @@ If your project has required dependencies / SDKs / libraries that are either not
 🛠 * However, for JS libs, you could always try adding cross platform support yourself with `patch-package`
 ```
 
-## 💡 Inspirations and alternatives 💡 <a name="inspirations-alternatives"></a>
+## 📚 Relevant docs: <a name="relevant-docs"></a>
 
-This starter template is heavily inspired by these Expo + Next.js monorepos:
-- [axeldelafosse/expo-next-monorepo-example](https://github.com/axeldelafosse/expo-next-monorepo-example)
-- [nandorojo/expo-next-monorepo](https://github.com/nandorojo/expo-next-monorepo)
-
-If you only need Expo in a monorepo, they have an official example:  
-https://github.com/byCedric/eas-monorepo-example
-
-Alternatively, if you prefer a non-monorepo setup or **would** like to figure things out yourself, you can check out the official guide on the Expo docs:  
-https://docs.expo.dev/guides/using-nextjs/
-
-Next.js also has a bunch of examples you may consider:
-- [next/examples/with-react-native-web](https://github.com/vercel/next.js/tree/canary/examples/with-react-native-web)
-- [next/examples/with-expo-typescript](https://github.com/vercel/next.js/tree/canary/examples/with-expo-typescript)
-- [next/examples/with-expo](https://github.com/vercel/next.js/tree/canary/examples/with-expo)
-
-#### 📚 Other relevant docs:
 - [Yan Workspaces Docs](https://classic.yarnpkg.com/lang/en/docs/workspaces/)
 - [Expo Docs](https://docs.expo.dev/)
 - [Next.js Docs](https://nextjs.org/docs/getting-started)
@@ -315,16 +308,6 @@ Next.js also has a bunch of examples you may consider:
 - [Reanimated Docs](https://docs.swmansion.com/react-native-reanimated/docs)
 - [Moti Docs](https://moti.fyi/)
 
+</details>
+
 ---
-
-# Made by Thorr ⚡ ([@codinsonn.dev](https://codinsonn.dev))
-
-#### You can usually find me:
-
-🐙 Coding at about 50 wtf's / hr on [Github](https://github.com/codinsonn)
-
-🐦 Tweeting about Dev Memes and JS Dreams on [Twitter](https://twitter.com/codinsonn)
-
-📸 Sharing JS, React and UI/UX tips on [Instagram](https://www.instagram.com/codinsonn.dev)
-
-🤷‍♂️ Creating and selling dev stickers/merch on [Redbubble](https://www.redbubble.com/people/AetherspaceOne/shop)
