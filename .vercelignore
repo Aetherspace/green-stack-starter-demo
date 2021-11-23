@@ -1,0 +1,11 @@
+README.md
+.expo
+.next
+.vscode
+node_modules
+apps/app-project-expo/node_modules
+apps/app-project-expo/.expo
+apps/app-project-expo/ios
+apps/app-project-expo/android
+apps/app-project-next/node_modules
+apps/app-project-next/.next

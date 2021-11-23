@@ -1,0 +1,27 @@
+{
+  "name": "aetherspace-green-stack-starter-monorepo",
+  "private": true,
+  "license": "MIT",
+  "author": "codinsonn <thorr@codinsonn.dev>",
+  "repository": "https://github.com/codinsonn/aetherspace-green-stack-starter-monorepo",
+  "description": "A starter monorepo to get started with the GREEN stack for all your cross platform app development needs. Comes standard with GraphQL, React-Native(-Web), Expo, Electron & Next.js + A bunch of pre-written code to make these all work together smoothlessly.",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "cd apps/app-project-next && yarn build",
+    "deploy": "vercel --prod --no-clipboard",
+    "dev-web": "yarn app-project-dev",
+    "dev-mobile": "yarn app-project-start",
+    "app-project-next": "yarn workspace app-project-next",
+    "app-project-expo": "yarn workspace app-project-expo",
+    "app-project-dev": "yarn workspace app-project-next run dev",
+    "app-project-start": "yarn workspace app-project-expo run start",
+    "app-project-pwa": "yarn workspace app-project-expo run web",
+    "app-project-ios": "yarn workspace app-project-expo run ios",
+    "app-project-android": "yarn workspace app-project-expo run android",
+    "app-project-web": "yarn app-project-dev",
+    "app-project-uncache": "yarn workspace app-project-expo run uncache"
+  }
+}
