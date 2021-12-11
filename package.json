@@ -9,19 +9,45 @@
     "apps/*",
     "packages/*"
   ],
+  "turbo": {
+    "baseBranch": "origin/main",
+    "pipeline": {
+      "app-next#dev": {},
+      "app-next#dev-health-check": {},
+      "app-expo#web": {
+        "dependsOn": ["app-next#dev-health-check"]
+      },
+      "app-expo#start": {
+        "dependsOn": ["app-next#dev-health-check"]
+      },
+      "build": {
+        "outputs": [".expo/**", ".expo-shared/**", ".next/**"],
+        "dependsOn": ["^build"]
+      },
+      "lint": {},
+      "test": {
+        "outputs": [],
+        "dependsOn": ["build"]
+      },
+      "dev": {}
+    }
+  },
   "scripts": {
-    "build": "cd apps/app-project-next && yarn build",
+    "build": "cd apps/app-next && yarn build",
     "deploy": "vercel --prod --no-clipboard",
-    "dev-web": "yarn app-project-dev",
-    "dev-mobile": "yarn app-project-start",
-    "app-project-next": "yarn workspace app-project-next",
-    "app-project-expo": "yarn workspace app-project-expo",
-    "app-project-dev": "yarn workspace app-project-next run dev",
-    "app-project-start": "yarn workspace app-project-expo run start",
-    "app-project-pwa": "yarn workspace app-project-expo run web",
-    "app-project-ios": "yarn workspace app-project-expo run ios",
-    "app-project-android": "yarn workspace app-project-expo run android",
-    "app-project-web": "yarn app-project-dev",
-    "app-project-uncache": "yarn workspace app-project-expo run uncache"
+    "dev-web": "yarn turbo run app-next#dev",
+    "dev-mobile": "yarn turbo run app-next#dev app-expo#web",
+    "app-next": "yarn workspace app-next",
+    "app-expo": "yarn workspace app-expo",
+    "app-dev": "yarn turbo run app-next#dev",
+    "app-start": "yarn turbo run app-expo#start",
+    "app-pwa": "yarn turbo run app-expo#web",
+    "app-ios": "yarn turbo run app-expo#ios",
+    "app-android": "yarn turbo run app-expo#android",
+    "app-web": "yarn app-dev",
+    "app-uncache": "yarn turbo run app-expo#uncache"
+  },
+  "devDependencies": {
+    "turbo": "^1.0.6"
   }
 }

@@ -1,4 +1,4 @@
-import AuthorScreen from 'app-project/screens/AuthorScreen';
+import AuthorScreen from 'app/screens/AuthorScreen';
 
 /* --- <AuthorPage/> ----------------------------------------------------------------------------- */
 

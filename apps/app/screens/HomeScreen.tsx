@@ -22,7 +22,7 @@ const HomeScreen = () => {
             <StatusBar style="auto" />
             <Text style={{ color: 'green', fontSize: 16, paddingBottom: 20, fontWeight: 'bold' }}>Hello GREEN stack ✅</Text>
             <Text style={{ fontSize: 12, paddingHorizontal: 40, textAlign: 'center' }}>
-                Open up apps/app-project/screens/HomeScreen.tsx to start working on your app
+                Open up apps/app/screens/HomeScreen.tsx to start working on your app
             </Text>
             <Text style={{ color: 'grey', fontSize: 10, paddingTop: 15, textAlign: 'center' }}>
                 (Tap below to test navigation)

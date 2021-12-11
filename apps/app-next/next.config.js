@@ -6,7 +6,7 @@ const withFonts = require('next-fonts');
 const withTM = require('next-transpile-modules')([
     // - Workspaces -
     'aetherspace',
-    'app-project',
+    'app',
     // - Modules -
     'expo-next-react-navigation',
 ]);

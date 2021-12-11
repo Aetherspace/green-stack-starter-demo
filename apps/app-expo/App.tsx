@@ -2,8 +2,8 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // Screens
-import HomeScreen from 'app-project/screens/HomeScreen';
-import AuthorScreen from 'app-project/screens/AuthorScreen';
+import HomeScreen from 'app/screens/HomeScreen';
+import AuthorScreen from 'app/screens/AuthorScreen';
 
 /* --- Navigation ------------------------------------------------------------------------------ */
 

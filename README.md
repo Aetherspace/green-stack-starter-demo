@@ -51,7 +51,7 @@ Run on desktop: `yarn dev-desktop` (⚠️ WIP, coming soon)
 ### Table of contents
 💚 - [What is the GREEN stack?](#what-is-the-green-stack)  
 🚀 - [What is Aetherspace?](#what-is-aetherspace)  
-🤖 - [Why start with a monorepo?](#why-monorepo)  
+🤖 - [Why start with a turbo/monorepo?](#why-turborepo)  
 📁 - [File structure and installing new packages.](#package-management)  
 👾 - [Benefits and next steps.](#benefits-next-steps)  
 🤷‍♂️ - [When *not* to use the GREEN stack.](#when-not-to-use-green-stack)  
@@ -91,13 +91,13 @@ While the stack itself is very powerfull, figuring out how to get set up and do 
 
 More on Aetherspace in the **[👾 Benefits and Next steps](#benefits-next-steps)** section or `AETHERSPACE.md` and `CODEGEN.md`.
 
-## But why start with a monorepo? 🤖 <a name="why-monorepo"></a>
+## But why start with a turbo/monorepo? 🤖 <a name="why-turborepo"></a>
 
 One very annoying thing about figuring stuff out on your own is when packages you're using require custom configuration for webpack, babel or otherwise. It often happens that updating e.g. a single `babel.config.js` used for both React-Native and Next.js will fix usage on either, but then break the other.
 
 Using a monorepo with different entry points for Next.js and Expo allows us to keep configs more seperate, and therefore allow more confident updating of packages and configs without accidentally breaking other platforms.
 
-In this starter template, we've opted to use yarn workspaces. We'll list some basics in the next section, but for a deeper understanding please refer to their documentation for more info.
+In this starter template, we've opted to use turborepo with yarn workspaces. We'll list some basics in the next section, but for a deeper understanding please refer to their documentation for more info.
 
 ## 📁 File structure and package management 📦 <a name="package-management"></a>
 
@@ -127,6 +127,8 @@ This starter monorepo has two types of workspaces:
 │
 │   └── {app-name}-next/ 👉 Where all Next.js, Server & API config for {app-name} lives
 │       └── public/ ➡️ favicon & other static assets (e.g. fonts)
+│       └── scripts/
+│           └── healthChecker.js ➡️ Node script to check whether the next.js app {app-name} is running
 │       └── src/
 │           └── pages/ ➡️ directory based routes (using '{app-name}/screens/')
 │               └── api/ ➡️ directory based api routes (using '{app-name}/resolvers/')
@@ -155,26 +157,26 @@ This starter monorepo has two types of workspaces:
 
 For every app you're building in this monorepo, you'll need a few folders:
 
-- `/apps/app-project` - Where most of your app's UI, logic and Screens will live.
+- `/apps/app` - Where most of your app's UI, logic and Screens will live.
     Shouldn't have any dependencies.
-- `/apps/app-project-next` - Entry for web where only next.js related config/setup for an app should live.
+- `/apps/app-next` - Entry for web where only next.js related config/setup for an app should live.
     Should list only next.js related dependencies & polyfills.
-- `/apps/app-project-expo` - Entry for mobile where only expo related config/setup for an app should live.
+- `/apps/app-expo` - Entry for mobile where only expo related config/setup for an app should live.
     Should list all react(-native) and non next.js related dependencies.
 
 In each of these folders own `package.json` file, a `name` property should be specified to identify that workspace. This name can then be referenced during installs via e.g.
 
 ```bash
-yarn workspace app-project-next add next-images
+yarn workspace app-next add next-images
 ```
 
 ```bash
-yarn workspace app-project-expo add moti
+yarn workspace app-expo add moti
 ```
 
 > It's also advised to see app workspaces as fully seperate from other apps:
 
-> For example, `/apps/app-project` should not import or reference anything from `/apps/some-other-app`. If you do need to embed a certain screen or component from one app in another, it's best to extract it to its own shared library workspace instead (toggle below for info 👇)
+> For example, `/apps/app` should not import or reference anything from `/apps/some-other-app`. If you do need to embed a certain screen or component from one app in another, it's best to extract it to its own shared library workspace instead (toggle below for info 👇)
 
 <details>
 <summary>💡 `/packages/*` workspaces for e.g. component libraries</summary>

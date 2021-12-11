@@ -1,4 +1,4 @@
-import HomeScreen from 'app-project/screens/HomeScreen';
+import HomeScreen from 'app/screens/HomeScreen';
 
 /* --- <HomePage/> ----------------------------------------------------------------------------- */
 
