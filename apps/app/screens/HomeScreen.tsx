@@ -1,9 +1,8 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Text } from 'react-native';
 import { Link } from 'expo-next-react-navigation';
 // Primitives
-import { AetherView } from 'aetherspace/primitives';
+import { AetherView, AetherText } from 'aetherspace/primitives';
 
 /* --- <HomeScreen/> --------------------------------------------------------------------------- */
 
@@ -11,13 +10,13 @@ const HomeScreen = () => {
     return (
         <AetherView tw="flex-1 bg-white items-center justify-center">
             <StatusBar style="auto" />
-            <Text style={{ color: 'green', fontSize: 16, paddingBottom: 20, fontWeight: 'bold' }}>Hello GREEN stack ✅</Text>
-            <Text style={{ fontSize: 12, paddingHorizontal: 40, textAlign: 'center' }}>
+            <AetherText tw="color-green pb-5 font-bold text-base">Hello GREEN stack ✅</AetherText>
+            <AetherText tw="px-5 text-center text-sm">
                 Open up apps/app/screens/HomeScreen.tsx to start working on your app
-            </Text>
-            <Text style={{ color: 'grey', fontSize: 10, paddingTop: 15, textAlign: 'center' }}>
+            </AetherText>
+            <AetherText tw="text-gray-500 pt-5 text-center text-xs">
                 (Tap below to test navigation)
-            </Text>
+            </AetherText>
             <Link style={{ margin: 20 }} routeName="author">{'{ ...💚 }'}</Link>
         </AetherView>
     );
