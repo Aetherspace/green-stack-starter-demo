@@ -1,17 +1,12 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { Link, useRouting } from 'expo-next-react-navigation';
+// Primitives
+import { AetherView } from 'aetherspace/primitives'; 
 
 /* --- Styles ---------------------------------------------------------------------------------- */
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     button: {
         paddingVertical: 10,
         paddingHorizontal: 20,
@@ -26,16 +21,16 @@ const styles = StyleSheet.create({
 const AuthorScreen = () => {
     const { goBack } = useRouting();
     return (
-        <View style={styles.container}>
-            <View style={{ alignItems: 'center' }}>
+        <AetherView tw="flex-1 bg-white items-center justify-center">
+            <AetherView tw="items-center">
                 <Text>About the Author:</Text>
                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>thorr@codinsonn.dev</Text>
-            </View>
-            <View style={{ flexDirection: 'row' }}>
+            </AetherView>
+            <AetherView tw="flex-row">
                 <Text style={styles.button} onPress={goBack}>👈  Go Back</Text>
                 <Link style={styles.button} routeName="/">🏡  Home</Link>
-            </View>
-        </View>
+            </AetherView>
+        </AetherView>
     );
 };
 

@@ -10,7 +10,13 @@ const createAetherWebpackConfig = async function (env, argv) {
       ...env,
       babel: {
         // -!- Add modules that need to be transpiled, ** including used workspaces **
-        dangerouslyAddModulePathsToTranspile: ['app'],
+        dangerouslyAddModulePathsToTranspile: [
+          // - Workspaces -
+          'aetherspace',
+          'app',
+          // - Modules -
+          'expo-next-react-navigation',
+        ],
       },
     },
     argv,

@@ -6,7 +6,7 @@ const healthCheck = (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(200).json({
         alive: true,
         kicking: true,
-        data: { ...req.body, ...req.query },
+        args: { ...req.body, ...req.query },
     });
 };
 

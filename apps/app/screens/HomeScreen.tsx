@@ -1,24 +1,15 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text } from 'react-native';
 import { Link } from 'expo-next-react-navigation';
-
-/* --- Styles ---------------------------------------------------------------------------------- */
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
+// Primitives
+import { AetherView } from 'aetherspace/primitives';
 
 /* --- <HomeScreen/> --------------------------------------------------------------------------- */
 
 const HomeScreen = () => {
     return (
-        <View style={styles.container}>
+        <AetherView tw="flex-1 bg-white items-center justify-center">
             <StatusBar style="auto" />
             <Text style={{ color: 'green', fontSize: 16, paddingBottom: 20, fontWeight: 'bold' }}>Hello GREEN stack ✅</Text>
             <Text style={{ fontSize: 12, paddingHorizontal: 40, textAlign: 'center' }}>
@@ -28,7 +19,7 @@ const HomeScreen = () => {
                 (Tap below to test navigation)
             </Text>
             <Link style={{ margin: 20 }} routeName="author">{'{ ...💚 }'}</Link>
-        </View>
+        </AetherView>
     );
 };
 

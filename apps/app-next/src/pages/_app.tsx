@@ -1,9 +1,11 @@
 import Head from 'next/head';
 import { AppProps } from 'next/app';
+// Context
+import { AetherContextManager } from 'aetherspace/context';
 
-/* --- <NextApp/> ---------------------------------------------------------------------------------- */
+/* --- <AppLayout/> ---------------------------------------------------------------------------------- */
 
-const NextApp = (props: AppProps) => {
+const AppLayout = (props: AppProps) => {
     // Props
     const { Component, pageProps } = props;
     const { pageTitle = 'example' } = pageProps;
@@ -21,11 +23,13 @@ const NextApp = (props: AppProps) => {
                     name="viewport"
                 />
             </Head>
-            <Component {...pageProps} />
+            <AetherContextManager assets={{}} icons={{}} isNextJS>
+                <Component {...pageProps} />
+            </AetherContextManager>
         </>
     );
 };
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default NextApp;
+export default AppLayout;
