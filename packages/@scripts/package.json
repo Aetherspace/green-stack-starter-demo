@@ -1,0 +1,9 @@
+{
+    "name": "scripts",
+    "main": "index.js",
+    "version": "1.0.0",
+    "license": "MIT",
+    "scripts": {
+        "dev-health-check": "node dev-health-check.js"
+    }
+}

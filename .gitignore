@@ -1,4 +1,5 @@
 node_modules/
+.env
 
 # Expo
 .expo/
@@ -19,5 +20,5 @@ node_modules/
 **/public/sw.js.map
 **/public/fallback-*.js
 
+# Vercel
 .vercel
-.env

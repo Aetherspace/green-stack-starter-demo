@@ -1,5 +1,3 @@
-require('dotenv').config({ path: '../app-next/.env' });
-
 /* --- Helpers ------------------------------------------------------------------------------------ */
 
 const getPublicEnvVars = () => {

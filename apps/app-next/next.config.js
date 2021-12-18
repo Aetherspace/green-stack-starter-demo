@@ -3,6 +3,7 @@ const { withExpo } = require('@expo/next-adapter');
 const withPlugins = require('next-compose-plugins');
 const withPWA = require('next-pwa');
 const withFonts = require('next-fonts');
+const withImages = require('next-images');
 const transpiledModules = require('config/transpiledModules');
 const withTM = require('next-transpile-modules')(transpiledModules);
 
@@ -12,16 +13,16 @@ const projectRoot = __dirname;
 const workspaceRoot = `${projectRoot}/../..`;
 
 const config = withPlugins(
-    [withTM, withFonts, withPWA, [withExpo, { projectRoot: workspaceRoot }]],
+    [withTM, withFonts, withImages, withPWA, [withExpo, { projectRoot: workspaceRoot }]],
     // -i- Next specific config, e.g. https://nextjs.org/docs/api-reference/next.config.js/introduction
     {
         typescript: {
             ignoreBuildErrors: true,
         },
         pwa: {
-            dest: 'public',
             // https://github.com/shadowwalker/next-pwa#available-options
-            // disable: process.env.NODE_ENV === 'development',
+            dest: 'public',
+            disable: process.env.NODE_ENV === 'development',
             // register: true,
             // scope: '/app',
             // sw: 'service-worker.js',

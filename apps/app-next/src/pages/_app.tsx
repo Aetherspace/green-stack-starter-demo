@@ -1,7 +1,22 @@
+import 'setimmediate';
+import { useEffect } from 'react';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
 // Context
 import { AetherContextManager } from 'aetherspace/context';
+// Utils
+import { setPublicEnvVars } from 'aetherspace/utils';
+
+/* --- Public Env Vars ------------------------------------------------------------------------------- */
+
+// -i- This ensures that public env vars can be retrieved via the getEnvVar() util
+// -i- @expo/next-adapter rewrites process.env to {}, but does inject statically known env vars
+// -i- Meaning utils for getting env vars cross platform would not work, since they don't know the keys beforehand
+// -!- Use only for public env vars (client-side any process.env.SOME_KEY without NEXT_PUBLIC_ would be undefined)
+setPublicEnvVars({
+    ENV_TEST: process.env.NEXT_PUBLIC_ENV_TEST,
+    AETHER_TEST: process.env.NEXT_PUBLIC_AETHER_TEST,
+});
 
 /* --- <AppLayout/> ---------------------------------------------------------------------------------- */
 
