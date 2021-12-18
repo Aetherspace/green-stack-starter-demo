@@ -52,7 +52,7 @@ body {
 export const getInitialProps = (ctx: DocumentContext) => {
     // React Native Styling
     AppRegistry.registerComponent('Main', () => Main);
-    const initialProps = ctx.defaultGetInitialProps(ctx); // NextDocument.getInitialProps(ctx); // @ts-ignore
+    const initialProps = ctx.defaultGetInitialProps(ctx); // @ts-ignore
     const { getStyleElement } = AppRegistry.getApplication('Main');
     // Render to HTML & collect styles
     const page = ctx.renderPage();

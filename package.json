@@ -14,6 +14,7 @@
     "pipeline": {
       "app-next#dev": {},
       "app-next#dev-health-check": {},
+      "app-expo#create-next-manifest": {},
       "app-expo#web": {
         "dependsOn": ["app-next#dev-health-check"]
       },
@@ -22,7 +23,7 @@
       },
       "build": {
         "outputs": [".expo/**", ".expo-shared/**", ".next/**"],
-        "dependsOn": ["^build"]
+        "dependsOn": ["^build", "app-expo#create-next-manifest"]
       },
       "lint": {},
       "test": {

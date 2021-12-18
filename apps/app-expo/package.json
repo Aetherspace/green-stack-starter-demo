@@ -9,6 +9,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
+    "pwa-utils": "expo-pwa",
+    "create-next-manifest": "expo-pwa manifest --output ../app-next/public",
     "uncache": "rm -f yarn.lock && rm -rf node_modules && yarn install && yarn start -c && rm -rf /tmp/metro-*"
   },
   "jest": {
@@ -36,6 +38,7 @@
     "@expo/webpack-config": "^0.16.6",
     "@types/react": "~17.0.21",
     "@types/react-native": "~0.64.12",
+    "expo-pwa": "^0.0.109",
     "typescript": "~4.3.5"
   },
   "private": true

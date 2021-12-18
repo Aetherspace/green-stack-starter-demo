@@ -1,0 +1,8 @@
+{
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "lang": "en",
+  "name": "app",
+  "short_name": "app",
+  "start_url": "/?utm_source=web_app_manifest"
+}
