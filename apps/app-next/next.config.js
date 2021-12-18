@@ -4,7 +4,6 @@ const withPlugins = require('next-compose-plugins');
 const withPWA = require('next-pwa');
 const withFonts = require('next-fonts');
 const transpiledModules = require('config/transpiledModules');
-// -!- Add modules that need to be transpiled, ** including used workspaces **
 const withTM = require('next-transpile-modules')(transpiledModules);
 
 /* --- Build Next Config ----------------------------------------------------------------------- */

@@ -1,3 +1,5 @@
+import Constants from 'expo-constants';
+
 /* --- getEnvVar() ----------------------------------------------------------------------------- */
 // -i- Get expo / public env var
 export const getEnvVar = (key: string) => {

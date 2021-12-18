@@ -25,6 +25,9 @@
         "outputs": [".expo/**", ".expo-shared/**", ".next/**"],
         "dependsOn": ["^build", "app-expo#create-next-manifest"]
       },
+      "deploy": {
+        "dependsOn": ["build"]
+      },
       "lint": {},
       "test": {
         "outputs": [],
@@ -34,7 +37,7 @@
     }
   },
   "scripts": {
-    "build": "cd apps/app-next && yarn build",
+    "build": "yarn turbo run build",
     "deploy": "vercel --prod --no-clipboard",
     "dev-web": "yarn turbo run app-next#dev",
     "dev-mobile": "yarn turbo run app-next#dev app-expo#start",
