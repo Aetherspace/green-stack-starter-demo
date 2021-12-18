@@ -1,9 +1,5 @@
 {
-  "compilerOptions": {
-    "strict": true,
-    "noImplicitAny": false,
-  },
+  "extends": "config/tsconfig.base",
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"],
-  "extends": "expo/tsconfig.base",
+  "exclude": ["node_modules"]
 }

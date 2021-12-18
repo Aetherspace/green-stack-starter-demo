@@ -1,5 +1,6 @@
 // -i- Based on: https://moti.fyi/web
 const createExpoWebpackConfigAsync = require('@expo/webpack-config');
+const transpiledModules = require('config/transpiledModules');
 
 /* --- createAetherWebpackConfig() ------------------------------------------------------------- */
 
@@ -10,13 +11,7 @@ const createAetherWebpackConfig = async function (env, argv) {
       ...env,
       babel: {
         // -!- Add modules that need to be transpiled, ** including used workspaces **
-        dangerouslyAddModulePathsToTranspile: [
-          // - Workspaces -
-          'aetherspace',
-          'app',
-          // - Modules -
-          'expo-next-react-navigation',
-        ],
+        dangerouslyAddModulePathsToTranspile: transpiledModules,
       },
     },
     argv,

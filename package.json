@@ -36,7 +36,7 @@
     "build": "cd apps/app-next && yarn build",
     "deploy": "vercel --prod --no-clipboard",
     "dev-web": "yarn turbo run app-next#dev",
-    "dev-mobile": "yarn turbo run app-next#dev app-expo#web",
+    "dev-mobile": "yarn turbo run app-next#dev app-expo#start",
     "app-next": "yarn workspace app-next",
     "app-expo": "yarn workspace app-expo",
     "app-dev": "yarn turbo run app-next#dev",

@@ -2,14 +2,9 @@
 const { withExpo } = require('@expo/next-adapter');
 const withPlugins = require('next-compose-plugins');
 const withFonts = require('next-fonts');
+const transpiledModules = require('config/transpiledModules');
 // -!- Add modules that need to be transpiled, ** including used workspaces **
-const withTM = require('next-transpile-modules')([
-    // - Workspaces -
-    'aetherspace',
-    'app',
-    // - Modules -
-    'expo-next-react-navigation',
-]);
+const withTM = require('next-transpile-modules')(transpiledModules);
 
 /* --- Build Next Config ----------------------------------------------------------------------- */
 

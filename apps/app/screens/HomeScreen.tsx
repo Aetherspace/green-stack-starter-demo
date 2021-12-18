@@ -10,7 +10,7 @@ const HomeScreen = () => {
     return (
         <AetherView tw="flex-1 bg-white items-center justify-center">
             <StatusBar style="auto" />
-            <AetherText tw="color-green pb-5 font-bold text-base">Hello GREEN stack ✅</AetherText>
+            <AetherText tw="text-green-500 pb-5 font-bold text-base">Hello GREEN stack ✅</AetherText>
             <AetherText tw="px-5 text-center text-sm">
                 Open up apps/app/screens/HomeScreen.tsx to start working on your app
             </AetherText>
