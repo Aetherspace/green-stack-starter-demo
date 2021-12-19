@@ -1,12 +1,3 @@
-// Utils
-import { uppercaseFirstChar } from './stringUtils';
-
-/* --- getAssetKey() --------------------------------------------------------------------------- */
-// -i- normalizes asset key
-export const getAssetKey = (srcAttrPath: string) => {
-    const parts = srcAttrPath.split('.')[0].split('/');
-    return parts.reduce((acc, part) => `${acc}${uppercaseFirstChar(part)}`, '');
-};
 
 /* --- isEmpty() ------------------------------------------------------------------------------- */
 // -i- checks for null, undefined & empty strings, objects or arrays

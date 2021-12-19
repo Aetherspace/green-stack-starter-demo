@@ -10,3 +10,13 @@ export const camelToDash = (str: string) => str.replace(/[\w]([A-Z])/g, m => `${
 /* --- uppercaseFirstChar() -------------------------------------------------------------------- */
 // -i- Uppercase the first character of a string
 export const uppercaseFirstChar = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+
+/* --- getAssetKey() --------------------------------------------------------------------------- */
+// -i- Transform a file path like '/imgs/someImage.png' into an object key like 'ImgsSomeImagePng'
+export const getAssetKey = (srcAttrPath: string) => {
+    const [src, ext] = srcAttrPath.split('.');
+    const srcParts = src.split('/');
+    const key = [...srcParts, ext].reduce((acc, part) => `${acc}${uppercaseFirstChar(part)}`, '');
+    console.warn([...srcParts, ext], key);
+    return key;
+};
