@@ -78,12 +78,14 @@ The core idea this tech stack enables you to achieve boils down to writing your 
 Aetherspace is an opinionated framework I've made that fills in the gaps of working and building with the GREEN stack:
 
 - How should I handle responsive design?
-- How do I avoid layout shift when react-native styling does not support media queries or classnames?
+- How do I avoid SSR layout shift when react-native styling does not support media queries or classnames?
+- How can I expose / read public env vars across multiple platforms?
+- Wait, how do I take advantage of next/image on the web when that's not available in React-Native?
 - What's the best way to style and animate my UI elements for both web and mobile?
 
 Just to name a few.
 
-While the stack itself is very powerfull, figuring out how to get set up and do certain things can be frustrating and time consuming. To save you time figuring it all out on your own, *Aetherspace* contains a bunch of packages, utils and best-practices to set you up for a free and easy ride to cross-platform success.
+While the stack itself is very powerful, figuring out how to get set up and do certain things in a write-once way can be frustrating and time consuming. To save you time figuring it all out on your own, *Aetherspace* contains a bunch of packages, utils and best-practices to set you up for a free and easy ride to cross-platform success.
 
 > Aetherspace is also fully optional. Usage of the UI primitives, React hooks and JS utils provided by `packages/aetherspace` is recommended but not required.
 
@@ -115,7 +117,6 @@ This starter monorepo has two types of workspaces:
 │       └── package.json ➡️ config required by yarn-workspaces, no dependencies
 │
 │   └── {app-name}-expo/ 👉 Where all Expo & mobile specific config for {app-name} lives
-│       └── assets/ ➡️ app icons & other static assets (e.g. fonts)
 │       └── app.json ➡️ Expo app config (e.g. landscape / tablet support)
 │       └── App.tsx ➡️ Mobile Entrypoint & Navigation Setup (using '{app-name}/screens/')
 │       └── babel.config.js ➡️ Babel transpilation config for Expo
@@ -126,9 +127,7 @@ This starter monorepo has two types of workspaces:
 │       └── webpack.config.js ➡️ Enables PWA browser testing with Expo (no SSR)
 │
 │   └── {app-name}-next/ 👉 Where all Next.js, Server & API config for {app-name} lives
-│       └── public/ ➡️ favicon & other static assets (e.g. fonts)
-│       └── scripts/
-│           └── healthChecker.js ➡️ Node script to check whether the next.js app {app-name} is running
+│       └── public/ ➡️ favicon, app icons & other static assets (e.g. images & fonts)
 │       └── src/
 │           └── pages/ ➡️ directory based routes (using '{app-name}/screens/')
 │               └── api/ ➡️ directory based api routes (using '{app-name}/resolvers/')
@@ -142,6 +141,9 @@ This starter monorepo has two types of workspaces:
 │       └── tsconfig.json ➡️ Typescript config for Next.js
 │
 ├── packages/
+│   └── @aetherspace/ ➡️ Primitives, utils & helpers for working with the GREEN stack
+│   └── @config/ ➡️ list of ts & other configs to use / extend from in next or expo apps
+│   └── @scripts/ ➡️ scripts that help streamline things like codegen & managing assets
 │   └── {comp-lib}/ 👉 Code shared across apps, ideally same structure as 'apps/{app-name}'
 │       └── package.json ➡️ yarn-workspace config, doesn't need deps unless published
 │
@@ -301,6 +303,7 @@ If your project has required dependencies / SDKs / libraries that are either not
 ## 📚 Relevant docs: <a name="relevant-docs"></a>
 
 - [Yan Workspaces Docs](https://classic.yarnpkg.com/lang/en/docs/workspaces/)
+- [Turborepo Docs](https://turborepo.org/docs)
 - [Expo Docs](https://docs.expo.dev/)
 - [Next.js Docs](https://nextjs.org/docs/getting-started)
 - [React Native Docs](https://reactnative.dev/docs/getting-started)
