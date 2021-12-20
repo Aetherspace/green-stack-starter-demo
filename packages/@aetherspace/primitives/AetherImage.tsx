@@ -32,7 +32,6 @@ const AetherImage = (props: AetherImageType) => {
     const source = useMemo(() => {
         if (!props.src) return props.source;
         if (props.src.includes('http')) return { uri: props.src };
-        console.warn(getAssetKey(props.src));
         return assets[getAssetKey(props.src)] as unknown as ImageRequireSource;
     }, [props.source, props.src]);
 

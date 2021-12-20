@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Library",
+  "extends": "./tsconfig.base",
+  "compilerOptions": {
+    "incremental": true,                      /* Enable incremental compilation */
+    "target": "es5",                          /* Specify ECMAScript target version: */
+    "module": "commonjs",                     /* 'none', 'commonjs', 'amd', 'system', etc */
+    "declaration": true,                      /* Concatenate & emit output to single file.*/
+    "esModuleInterop": true,                  /* Enables intero between CommonJS and ES */
+    "skipLibCheck": true,                     /* Skip type checking of declaration files. */
+    "forceConsistentCasingInFileNames": true  /* Disallow inconsistently */
+  }
+}

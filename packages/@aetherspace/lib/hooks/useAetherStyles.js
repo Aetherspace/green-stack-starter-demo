@@ -1,0 +1,70 @@
+"use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_1 = require("react");
+var tailwind_rn_1 = __importDefault(require("tailwind-rn"));
+// Context
+var AetherContextManager_1 = require("../context/AetherContextManager");
+// Styles
+var styles_1 = require("../styles");
+/* --- useAetherStyles() ----------------------------------------------------------------------- */
+var useAetherStyles = function (props) {
+    // Props
+    var style = props.style, twStyles = props.tw, nativeProps = __rest(props, ["style", "tw"]);
+    // Context
+    var _a = AetherContextManager_1.useAetherContext(), isWeb = _a.isWeb, _b = _a.breakpoints, breakpoints = _b === void 0 ? {} : _b, _c = _a.twPrefixes, twPrefixes = _c === void 0 ? [] : _c, _d = _a.mediaPrefixes, mediaPrefixes = _d === void 0 ? [] : _d;
+    // -- Styles --
+    var _e = react_1.useMemo(function () {
+        var breakpointIds = '';
+        if (!style && !twStyles)
+            return [null, breakpointIds];
+        if (!twStyles)
+            return [style, breakpointIds];
+        // Determine tailwind styles to be used
+        var twClasses = twStyles.split(' ').sort((function (a) { return a.includes(':') ? 1 : -1; }));
+        var usedClasses = twClasses.reduce(function (classes, twClass, i) {
+            if (!twClass.includes(':'))
+                return "" + classes + (i === 0 ? '' : ' ') + twClass;
+            var _a = twClass.split(':'), twPrefix = _a[0], className = _a[1];
+            if (isWeb && mediaPrefixes.includes(twPrefix)) {
+                var breakpointStyles = tailwind_rn_1.default(className) || {};
+                var breakpointId = styles_1.addMediaQuery(breakpoints[twPrefix], breakpointStyles);
+                breakpointIds = "" + breakpointIds + (!breakpointIds ? '' : ' ') + breakpointId;
+            }
+            return twPrefixes.includes(twPrefix) ? "" + classes + (i === 0 ? '' : ' ') + className : classes;
+        }, '');
+        // @ts-ignore
+        var memoStyles = __assign(__assign({}, tailwind_rn_1.default(usedClasses)), style);
+        return [memoStyles, breakpointIds];
+    }, [style, twStyles, twPrefixes.join()]), styles = _e[0], mediaIds = _e[1];
+    // -- bindStyles --
+    var bindStyles = __assign(__assign({ style: styles }, nativeProps), (mediaIds ? { nativeID: mediaIds } : {}));
+    // -- Return --
+    return bindStyles;
+};
+/* --- Exports --------------------------------------------------------------------------------- */
+exports.default = useAetherStyles;

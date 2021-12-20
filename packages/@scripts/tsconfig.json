@@ -1,6 +1,6 @@
 {
   "extends": "config/tsconfig.lib",
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["*.ts", "aetherspace"],
   "exclude": ["node_modules", "lib"],
   "compilerOptions": {
     "outDir": "lib",

@@ -7,7 +7,7 @@ import AetherContextManager from '../../packages/@aetherspace/context/AetherCont
 import HomeScreen from 'app/screens/HomeScreen';
 import AuthorScreen from 'app/screens/AuthorScreen';
 // Assets
-import * as assets from './src/assets';
+import * as assets from 'app/assets';
 
 /* --- Navigation ------------------------------------------------------------------------------ */
 
@@ -16,7 +16,7 @@ const Stack = createNativeStackNavigator();
 const AppNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="/">
         <Stack.Screen
           name="/"
           navigationKey="/"
@@ -37,7 +37,6 @@ const AppNavigator = () => {
 /* --- <App/> ---------------------------------------------------------------------------------- */
 
 const App = () => {
-  console.warn(Object.keys(assets));
   return (
     <AetherContextManager assets={assets} icons={{}}>
       <AppNavigator />

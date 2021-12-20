@@ -17,6 +17,5 @@ export const getAssetKey = (srcAttrPath: string) => {
     const [src, ext] = srcAttrPath.split('.');
     const srcParts = src.split('/');
     const key = [...srcParts, ext].reduce((acc, part) => `${acc}${uppercaseFirstChar(part)}`, '');
-    console.warn([...srcParts, ext], key);
-    return key;
+    return dashToCamel(key);
 };

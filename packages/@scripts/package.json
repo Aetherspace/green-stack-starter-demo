@@ -4,6 +4,11 @@
     "version": "1.0.0",
     "license": "MIT",
     "scripts": {
-        "dev-health-check": "node dev-health-check.js"
+        "build": "tsc --project .",
+        "collect-assets": "node lib/collect-assets.js",
+        "dev-health-check": "node lib/dev-health-check.js"
+    },
+    "dependencies": {
+        "aetherspace": "*"
     }
 }

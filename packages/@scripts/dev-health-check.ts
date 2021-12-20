@@ -1,12 +1,14 @@
-var axios = require('axios');
+import axios from 'axios';
 
-var ENDPOINT = process.env.ENDPOINT || 'http://localhost:3000/api/health';
-var TIME_INCREMENT = process.env.TIME_INCREMENT || 1000;
-var MAX_TRIES = process.env.MAX_TRIES || 10;
+const ENDPOINT = process.env.ENDPOINT || 'http://localhost:3000/api/health';
+const TIME_INCREMENT = +(process.env.TIME_INCREMENT || 1000);
+const MAX_TRIES = +(process.env.MAX_TRIES || 10);
 
-var timesTried = 0;
+let timesTried = 0;
 
-var checkHealth = async () => {
+/* --- checkHealth ----------------------------------------------------------------------------- */
+
+const checkHealth = async () => {
     // Increment times we tried to contact the api
     timesTried += 1;
     // Exit with error when max amount of tries exceeded
@@ -16,16 +18,18 @@ var checkHealth = async () => {
     }
     // Attempt to reach the API
     try {
-        var res = await axios.post(ENDPOINT, { test: 'Hello World' });
+        const res = await axios.post(ENDPOINT, { test: 'Hello World' });
         if (res.data.alive && res.data.kicking) {
             console.log(`Health check #${timesTried} succeeded. Abort script with success message.`);
             process.exit(0);
         }
     } catch(err) {
-        var retryMs = timesTried * TIME_INCREMENT;
+        const retryMs = timesTried * TIME_INCREMENT;
         console.log(`Failed health check #${timesTried}, retrying in ${retryMs} ms.`);
         setTimeout(checkHealth, retryMs);
     }
 };
+
+/* --- init ------------------------------------------------------------------------------------ */
 
 setTimeout(checkHealth, TIME_INCREMENT);

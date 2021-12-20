@@ -12,18 +12,30 @@
   "turbo": {
     "baseBranch": "origin/main",
     "pipeline": {
+      "aetherspace#build": {
+        "outputs": ["lib"]
+      },
+      "scripts#build": {},
+      "scripts#collect-assets": {
+        "dependsOn": ["aetherspace#build", "scripts#build"],
+        "outputs": ["../../apps/app/assets.js", "../../apps/app-next/public"]
+      },
+      "scripts#dev-health-check": {
+        "dependsOn": ["scripts#build"]
+      },
       "app-next#dev": {},
-      "scripts#dev-health-check": {},
-      "app-expo#create-next-manifest": {},
+      "app-expo#create-next-manifest": {
+        "outputs": ["../app-next/public"]
+      },
       "app-expo#web": {
-        "dependsOn": ["scripts#dev-health-check"]
+        "dependsOn": ["scripts#collect-assets", "scripts#dev-health-check"]
       },
       "app-expo#start": {
-        "dependsOn": ["scripts#dev-health-check"]
+        "dependsOn": ["scripts#collect-assets", "scripts#dev-health-check"]
       },
       "build": {
         "outputs": [".expo/**", ".expo-shared/**", ".next/**"],
-        "dependsOn": ["^build", "app-expo#create-next-manifest"]
+        "dependsOn": ["scripts#collect-assets", "^build"]
       },
       "deploy": {
         "dependsOn": ["build"]
@@ -37,8 +49,10 @@
     }
   },
   "scripts": {
-    "build": "yarn turbo run build",
+    "build": "yarn app-expo run create-next-manifest && yarn turbo run scripts#collect-assets build",
     "deploy": "vercel --prod --no-clipboard",
+    "collect-assets": "yarn turbo run scripts#collect-assets",
+    "create-next-manifest": "yarn turbo run app-expo#create-next-manifest",
     "dev-web": "yarn turbo run app-next#dev",
     "dev-mobile": "yarn turbo run app-next#dev app-expo#start",
     "app-next": "yarn workspace app-next",
