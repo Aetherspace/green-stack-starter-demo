@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { TextStyle } from 'react-native';
 import { Link, useRouting } from 'expo-next-react-navigation';
-// Context
-import { useAetherContext } from '../context';
+import * as Linking from 'expo-linking';
+import * as WebBrowser from 'expo-web-browser';
 // Primitives
 import { AetherView, AetherText } from '../primitives';
 // Utils
@@ -32,11 +32,8 @@ type AetherLinkType = AetherLinkToType | AetherLinkHrefType | AetherLinkRouteTyp
 const AetherLink = (props: AetherLinkType) => {
     // Props
     const { children, href, to, routeName, style, tw, twID, asText, ...restProps } = props;
-    const route = (href || to || routeName)!;
     const bindStyles = { style, tw, twID, ...restProps };
-
-    // Context
-    const { isExpo, isNextJS } = useAetherContext();
+    let route = (href || to || routeName)!;
 
     // Hooks
     const { navigate } = useRouting();
@@ -47,14 +44,19 @@ const AetherLink = (props: AetherLinkType) => {
 
     // Vars
     const APP_LINKS: string[] = useMemo(() => getEnvVar('APP_LINKS')?.split('|') || [], []);
-    const isInternalLink = !route.includes('://') || APP_LINKS.some(appUrl => route.includes(appUrl));
-    const isBlank = props.target === '_blank' || (props.isBlank ?? !isInternalLink);
+    const internalDomainMatch = APP_LINKS.find(appUrl => route.includes(appUrl));
+    if (internalDomainMatch) route = route.replace(`${internalDomainMatch}/`, '');
+    const isRelativePath = !route.includes('://');
+    const isInternalLink = isRelativePath || !!internalDomainMatch;
+    const isBlank = props.target === '_blank' || props.isBlank;
     const isText = asText || props.isText || typeof children === 'string';
 
     // -- Handler --
 
     const onLinkPress = () => {
-        navigate({ routeName: route });
+        if (isInternalLink) return navigate({ routeName: route });
+        if (isBlank) return Linking.openURL(route); // "open in a new tab" or mobile browser
+        WebBrowser.openBrowserAsync(route); // Open external links in internal browser?
     };
 
     // -- Render as Text --
@@ -64,7 +66,7 @@ const AetherLink = (props: AetherLinkType) => {
     // -- Render as View --
 
     return (
-        <Link {...props} routeName={route}>
+        <Link {...props} routeName={route} touchableOpacityProps={{ onPressIn: onLinkPress }}>
             <ViewComponent {...bindStyles}>
                 {children}
             </ViewComponent>

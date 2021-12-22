@@ -43,8 +43,8 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
 var expo_next_react_navigation_1 = require("expo-next-react-navigation");
-// Context
-var context_1 = require("../context");
+var Linking = __importStar(require("expo-linking"));
+var WebBrowser = __importStar(require("expo-web-browser"));
 // Primitives
 var primitives_1 = require("../primitives");
 // Utils
@@ -61,7 +61,7 @@ var AetherLink = function (props) {
     var route = (href || to || routeName);
     var bindStyles = __assign({ style: style, tw: tw, twID: twID }, restProps);
     // Context
-    var _b = context_1.useAetherContext(), isExpo = _b.isExpo, isNextJS = _b.isNextJS;
+    // const { isExpo, isNextJS } = useAetherContext();
     // Hooks
     var navigate = expo_next_react_navigation_1.useRouting().navigate;
     // Memos
@@ -74,13 +74,17 @@ var AetherLink = function (props) {
     var isText = asText || props.isText || typeof children === 'string';
     // -- Handler --
     var onLinkPress = function () {
-        navigate({ routeName: route });
+        if (isInternalLink)
+            navigate({ routeName: route });
+        if (isBlank)
+            Linking.openURL(route);
+        WebBrowser.openBrowserAsync(route);
     };
     // -- Render as Text --
     if (isText)
         return <TextComponent {...bindStyles} onPress={onLinkPress}>{children}</TextComponent>;
     // -- Render as View --
-    return (<expo_next_react_navigation_1.Link {...props} routeName={route}>
+    return (<expo_next_react_navigation_1.Link {...props} routeName={route} touchableOpacityProps={{ onPressIn: onLinkPress }}>
             <ViewComponent {...bindStyles}>
                 {children}
             </ViewComponent>

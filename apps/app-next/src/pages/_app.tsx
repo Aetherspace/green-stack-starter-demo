@@ -14,8 +14,7 @@ import { setPublicEnvVars } from 'aetherspace/utils';
 // -i- Meaning utils for getting env vars cross platform would not work, since they don't know the keys beforehand
 // -!- Use only for public env vars (client-side any process.env.SOME_KEY without NEXT_PUBLIC_ would be undefined)
 setPublicEnvVars({
-    ENV_TEST: process.env.NEXT_PUBLIC_ENV_TEST,
-    AETHER_TEST: process.env.NEXT_PUBLIC_AETHER_TEST,
+    APP_LINKS: process.env.NEXT_PUBLIC_APP_LINKS,
 });
 
 /* --- <AppLayout/> ---------------------------------------------------------------------------------- */
