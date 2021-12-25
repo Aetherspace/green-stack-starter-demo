@@ -5,5 +5,8 @@
     "license": "MIT",
     "scripts": {
         "build": "tsc --project ."
+    },
+    "dependencies": {
+        "superstruct": "^0.15.3"
     }
 }

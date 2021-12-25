@@ -15,13 +15,20 @@
       "aetherspace#build": {
         "outputs": ["lib"]
       },
-      "scripts#build": {},
+      "scripts#build": {
+        "dependsOn": ["aetherspace#build"],
+        "outputs": ["lib"]
+      },
       "scripts#collect-assets": {
-        "dependsOn": ["aetherspace#build", "scripts#build"],
+        "dependsOn": ["scripts#build"],
         "outputs": ["../../apps/app/assets.js", "../../apps/app-next/public"]
       },
       "scripts#dev-health-check": {
         "dependsOn": ["scripts#build"]
+      },
+      "scripts#schema-test": {
+        "dependsOn": ["scripts#build"],
+        "outputs": []
       },
       "app-next#dev": {},
       "app-expo#create-next-manifest": {

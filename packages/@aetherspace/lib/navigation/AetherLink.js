@@ -55,13 +55,10 @@ var utils_1 = require("../utils");
 ;
 /* --- <AetherLink/> --------------------------------------------------------------------------- */
 var AetherLink = function (props) {
-    var _a;
     // Props
     var children = props.children, href = props.href, to = props.to, routeName = props.routeName, style = props.style, tw = props.tw, twID = props.twID, asText = props.asText, restProps = __rest(props, ["children", "href", "to", "routeName", "style", "tw", "twID", "asText"]);
-    var route = (href || to || routeName);
     var bindStyles = __assign({ style: style, tw: tw, twID: twID }, restProps);
-    // Context
-    // const { isExpo, isNextJS } = useAetherContext();
+    var route = (href || to || routeName);
     // Hooks
     var navigate = expo_next_react_navigation_1.useRouting().navigate;
     // Memos
@@ -69,16 +66,20 @@ var AetherLink = function (props) {
     var ViewComponent = react_1.useMemo(function () { return primitives_1.AetherView; }, []);
     // Vars
     var APP_LINKS = react_1.useMemo(function () { var _a; return ((_a = utils_1.getEnvVar('APP_LINKS')) === null || _a === void 0 ? void 0 : _a.split('|')) || []; }, []);
-    var isInternalLink = !route.includes('://') || APP_LINKS.some(function (appUrl) { return route.includes(appUrl); });
-    var isBlank = props.target === '_blank' || ((_a = props.isBlank) !== null && _a !== void 0 ? _a : !isInternalLink);
+    var internalDomainMatch = APP_LINKS.find(function (appUrl) { return route.includes(appUrl); });
+    if (internalDomainMatch)
+        route = route.replace(internalDomainMatch + "/", '');
+    var isRelativePath = !route.includes('://');
+    var isInternalLink = isRelativePath || !!internalDomainMatch;
+    var isBlank = props.target === '_blank' || props.isBlank;
     var isText = asText || props.isText || typeof children === 'string';
     // -- Handler --
     var onLinkPress = function () {
         if (isInternalLink)
-            navigate({ routeName: route });
+            return navigate({ routeName: route });
         if (isBlank)
-            Linking.openURL(route);
-        WebBrowser.openBrowserAsync(route);
+            return Linking.openURL(route); // "open in a new tab" or mobile browser
+        WebBrowser.openBrowserAsync(route); // Open external links in internal browser?
     };
     // -- Render as Text --
     if (isText)

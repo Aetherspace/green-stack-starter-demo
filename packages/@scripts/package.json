@@ -6,7 +6,8 @@
     "scripts": {
         "build": "tsc --project .",
         "collect-assets": "node lib/collect-assets.js",
-        "dev-health-check": "node lib/dev-health-check.js"
+        "dev-health-check": "node lib/dev-health-check.js",
+        "schema-test": "node lib/schema-test"
     },
     "dependencies": {
         "aetherspace": "*"
