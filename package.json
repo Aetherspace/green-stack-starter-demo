@@ -27,8 +27,7 @@
         "dependsOn": ["scripts#build"]
       },
       "scripts#schema-test": {
-        "dependsOn": ["scripts#build"],
-        "outputs": []
+        "dependsOn": ["scripts#build"]
       },
       "app-next#dev": {},
       "app-expo#create-next-manifest": {
