@@ -68,9 +68,13 @@ var aetherEnum = function (values) {
     return makeOptionalable(schema, 'AetherEnum');
 };
 exports.aetherEnum = aetherEnum;
-exports.aetherSchema = ss.object; // aetherWrapper(s.object);
-exports.aetherObject = ss.object;
-exports.aetherArray = ss.array; // aetherWrapper(s.array);
+var aetherSchema = function (objSchema) {
+    var aetherSchema = assignDescriptors(ss.object(objSchema), 'aetherSchema');
+    return makeOptionalable(aetherSchema, 'AetherSchema');
+};
+exports.aetherSchema = aetherSchema;
+exports.aetherObject = exports.aetherSchema;
+exports.aetherArray = ss.array;
 var aetherCollection = function () {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {

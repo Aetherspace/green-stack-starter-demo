@@ -1,4 +1,5 @@
 import * as ss from 'superstruct';
+import { ObjectSchema, ObjectType } from 'superstruct/lib/utils';
 
 const assignDescriptors = <R extends unknown>(schema: R, aetherType: string) => Object.assign(schema, {
     docs: (example, description?: string) => Object.assign(schema, { example, description }),
@@ -39,10 +40,20 @@ export const aetherEnum = <T extends string = string>(values: readonly T[]) => {
     return makeOptionalable<T, (typeof schema)['schema'], typeof schema>(schema, 'AetherEnum');
 };
 
-export const aetherSchema = ss.object; // aetherWrapper(s.object);
-export const aetherObject = ss.object;
+export const aetherSchema = <S extends ObjectSchema>(objSchema: S) => {
+    const aetherSchema = assignDescriptors(ss.object(objSchema), 'aetherSchema');
+    return makeOptionalable<
+        ObjectType<S>,
+        (typeof aetherSchema)['schema'],
+        typeof aetherSchema
+    >(
+        aetherSchema,
+        'AetherSchema',
+    );
+};
+export const aetherObject = aetherSchema;
 
-export const aetherArray = ss.array; // aetherWrapper(s.array);
+export const aetherArray = ss.array;
 
 export const aetherCollection = (...args: Parameters<typeof aetherSchema>) => {
     const schema = aetherSchema(...args);

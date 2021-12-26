@@ -33,7 +33,6 @@ var day = schemas_1.ats.date().optional().docs('01/01/2022', 'The start of the y
 var num = schemas_1.ats.number().docs(5);
 var bln = schemas_1.ats.boolean().optional();
 var opt = schemas_1.ats.enum(Object.values(TEST_ENUM));
-var opt2 = ss.enums(Object.values(TEST_ENUM));
 var obj = schemas_1.ats.object({ str: str });
 var col = schemas_1.ats.collection({ id: id });
 var coll = ss.array(ss.object({ bln: bln }));
