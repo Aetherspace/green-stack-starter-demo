@@ -59,7 +59,17 @@ export const aetherSchema = <S extends ObjectSchema>(schemaName: string, objSche
 };
 export const aetherObject = <S extends ObjectSchema>(objSchema: S) => aetherSchema('', objSchema);
 
-export const aetherArray = ss.array;
+export const aetherArray = <T extends ss.Struct<any>>(Element: T) => {
+    const arraySchema = assignDescriptors(ss.array<T>(Element), 'AetherArray');
+    return makeOptionalable<
+        ss.Infer<T>[],
+        (typeof arraySchema)['schema'],
+        typeof arraySchema
+    >(
+        arraySchema,
+        'AetherSchema',
+    );
+};
 
 // export const aetherCollection = (...args: Parameters<typeof aetherSchema>) => {
 //     const schema = aetherSchema(...args);

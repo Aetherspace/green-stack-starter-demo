@@ -75,7 +75,11 @@ var aetherSchema = function (schemaName, objSchema) {
 exports.aetherSchema = aetherSchema;
 var aetherObject = function (objSchema) { return exports.aetherSchema('', objSchema); };
 exports.aetherObject = aetherObject;
-exports.aetherArray = ss.array;
+var aetherArray = function (Element) {
+    var arraySchema = assignDescriptors(ss.array(Element), 'AetherArray');
+    return makeOptionalable(arraySchema, 'AetherSchema');
+};
+exports.aetherArray = aetherArray;
 // export const aetherCollection = (...args: Parameters<typeof aetherSchema>) => {
 //     const schema = aetherSchema(...args);
 //     return ss.array(schema);

@@ -490,7 +490,76 @@ export declare const aetherObject: <S extends ObjectSchema>(objSchema: S) => ss.
         aetherType: string;
     });
 };
-export declare const aetherArray: typeof ss.array;
+export declare const aetherArray: <T extends ss.Struct<any, unknown>>(Element: T) => ss.Struct<ss.Infer<T>[], T> & {
+    schemaName?: string | undefined;
+    docs: (example: any, description?: string | undefined) => ss.Struct<ss.Infer<T>[], T> & {
+        example: any;
+        description: string | undefined;
+    };
+    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<ss.Infer<T>[], T> & {
+        description?: string | undefined;
+        example?: any;
+        default: any;
+    };
+    aetherType: string;
+} & {
+    nullable: () => ss.Struct<ss.Infer<T>[] | null, T> & {
+        nullable: boolean;
+    } & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<ss.Infer<T>[] | null, T> & {
+            nullable: boolean;
+        } & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<ss.Infer<T>[] | null, T> & {
+            nullable: boolean;
+        } & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    };
+    optional: (nullable?: boolean | undefined) => (ss.Struct<ss.Infer<T>[] | undefined, T> & {
+        optional: boolean;
+    } & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<ss.Infer<T>[] | undefined, T> & {
+            optional: boolean;
+        } & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<ss.Infer<T>[] | undefined, T> & {
+            optional: boolean;
+        } & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    }) | (ss.Struct<ss.Infer<T>[] | null | undefined, T> & {
+        nullable: boolean;
+    } & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<ss.Infer<T>[] | null | undefined, T> & {
+            nullable: boolean;
+        } & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<ss.Infer<T>[] | null | undefined, T> & {
+            nullable: boolean;
+        } & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    });
+};
 export declare const ats: {
     string: () => ss.Struct<string, null> & {
         schemaName?: string | undefined;
@@ -982,7 +1051,76 @@ export declare const ats: {
             aetherType: string;
         });
     };
-    array: typeof ss.array;
+    array: <T_1 extends ss.Struct<any, unknown>>(Element: T_1) => ss.Struct<ss.Infer<T_1>[], T_1> & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<ss.Infer<T_1>[], T_1> & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<ss.Infer<T_1>[], T_1> & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    } & {
+        nullable: () => ss.Struct<ss.Infer<T_1>[] | null, T_1> & {
+            nullable: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<ss.Infer<T_1>[] | null, T_1> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<ss.Infer<T_1>[] | null, T_1> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        };
+        optional: (nullable?: boolean | undefined) => (ss.Struct<ss.Infer<T_1>[] | undefined, T_1> & {
+            optional: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<ss.Infer<T_1>[] | undefined, T_1> & {
+                optional: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<ss.Infer<T_1>[] | undefined, T_1> & {
+                optional: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        }) | (ss.Struct<ss.Infer<T_1>[] | null | undefined, T_1> & {
+            nullable: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<ss.Infer<T_1>[] | null | undefined, T_1> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<ss.Infer<T_1>[] | null | undefined, T_1> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        });
+    };
     is: typeof ss.is;
     validate: typeof ss.validate;
     assert: typeof ss.assert;
