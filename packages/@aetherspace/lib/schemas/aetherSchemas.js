@@ -30,7 +30,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ats = exports.aetherArray = exports.aetherObject = exports.aetherSchema = exports.aetherEnum = exports.aetherDate = exports.aetherBoolean = exports.aetherNumber = exports.aetherString = void 0;
+exports.ats = exports.aetherCollection = exports.aetherArray = exports.aetherObject = exports.aetherSchema = exports.aetherEnum = exports.aetherDate = exports.aetherBoolean = exports.aetherNumber = exports.aetherString = void 0;
 var ss = __importStar(require("superstruct"));
 var assignDescriptors = function (schema, aetherType, schemaName) {
     return Object.assign(schema, __assign({ docs: function (example, description) { return Object.assign(schema, { example: example, description: description }); }, default: function (defaultVal, example, description) { return Object.assign(schema, __assign(__assign({ default: defaultVal }, (example ? { example: example } : null)), (description ? { description: description } : null))); }, aetherType: aetherType }, (schemaName ? { schemaName: schemaName } : null)));
@@ -80,10 +80,11 @@ var aetherArray = function (Element) {
     return makeOptionalable(arraySchema, 'AetherSchema');
 };
 exports.aetherArray = aetherArray;
-// export const aetherCollection = (...args: Parameters<typeof aetherSchema>) => {
-//     const schema = aetherSchema(...args);
-//     return ss.array(schema);
-// };
+var aetherCollection = function (objSchema) {
+    var entrySchema = exports.aetherObject(objSchema);
+    return exports.aetherArray(entrySchema);
+};
+exports.aetherCollection = aetherCollection;
 exports.ats = {
     string: exports.aetherString,
     number: exports.aetherNumber,
@@ -93,7 +94,7 @@ exports.ats = {
     schema: exports.aetherSchema,
     object: exports.aetherObject,
     array: exports.aetherArray,
-    // collection: aetherCollection,
+    collection: exports.aetherCollection,
     // -- SuperStruct Validators --
     is: ss.is,
     validate: ss.validate,

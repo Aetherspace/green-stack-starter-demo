@@ -560,6 +560,904 @@ export declare const aetherArray: <T extends ss.Struct<any, unknown>>(Element: T
         aetherType: string;
     });
 };
+export declare const aetherCollection: <S extends ObjectSchema>(objSchema: S) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>[], ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+    schemaName?: string | undefined;
+    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+        example: any;
+        description: string | undefined;
+    };
+    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+        description?: string | undefined;
+        example?: any;
+        default: any;
+    };
+    aetherType: string;
+} & {
+    nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+        nullable: boolean;
+    } & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+            nullable: boolean;
+        } & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+            nullable: boolean;
+        } & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    };
+    optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+        optional: boolean;
+    } & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+            optional: boolean;
+        } & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+            optional: boolean;
+        } & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+        nullable: boolean;
+    } & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+            nullable: boolean;
+        } & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+            nullable: boolean;
+        } & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    });
+}> & {
+    schemaName?: string | undefined;
+    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>[], ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    } & {
+        nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+            nullable: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        };
+        optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+            optional: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                optional: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                optional: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+            nullable: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        });
+    }> & {
+        example: any;
+        description: string | undefined;
+    };
+    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>[], ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    } & {
+        nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+            nullable: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        };
+        optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+            optional: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                optional: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                optional: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+            nullable: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        });
+    }> & {
+        description?: string | undefined;
+        example?: any;
+        default: any;
+    };
+    aetherType: string;
+} & {
+    nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>[] | null, ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    } & {
+        nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+            nullable: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        };
+        optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+            optional: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                optional: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                optional: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+            nullable: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        });
+    }> & {
+        nullable: boolean;
+    } & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>[] | null, ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        } & {
+            nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            };
+            optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                optional: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                    optional: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                    optional: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            });
+        }> & {
+            nullable: boolean;
+        } & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>[] | null, ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        } & {
+            nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            };
+            optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                optional: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                    optional: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                    optional: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            });
+        }> & {
+            nullable: boolean;
+        } & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    };
+    optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>[] | undefined, ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    } & {
+        nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+            nullable: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        };
+        optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+            optional: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                optional: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                optional: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+            nullable: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        });
+    }> & {
+        optional: boolean;
+    } & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>[] | undefined, ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        } & {
+            nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            };
+            optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                optional: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                    optional: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                    optional: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            });
+        }> & {
+            optional: boolean;
+        } & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>[] | undefined, ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        } & {
+            nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            };
+            optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                optional: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                    optional: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                    optional: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            });
+        }> & {
+            optional: boolean;
+        } & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>[] | null | undefined, ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    } & {
+        nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+            nullable: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        };
+        optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+            optional: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                optional: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                optional: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+            nullable: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        });
+    }> & {
+        nullable: boolean;
+    } & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>[] | null | undefined, ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        } & {
+            nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            };
+            optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                optional: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                    optional: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                    optional: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            });
+        }> & {
+            nullable: boolean;
+        } & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>[] | null | undefined, ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        } & {
+            nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            };
+            optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                optional: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                    optional: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
+                    optional: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            });
+        }> & {
+            nullable: boolean;
+        } & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    });
+};
 export declare const ats: {
     string: () => ss.Struct<string, null> & {
         schemaName?: string | undefined;
@@ -1112,6 +2010,904 @@ export declare const ats: {
                 description: string | undefined;
             };
             default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<ss.Infer<T_1>[] | null | undefined, T_1> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        });
+    };
+    collection: <S_2 extends ObjectSchema>(objSchema: S_2) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>[], ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    } & {
+        nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+            nullable: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        };
+        optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+            optional: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                optional: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                optional: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+            nullable: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        });
+    }> & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>[], ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        } & {
+            nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            };
+            optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                optional: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                    optional: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                    optional: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            });
+        }> & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>[], ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        } & {
+            nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            };
+            optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                optional: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                    optional: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                    optional: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            });
+        }> & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    } & {
+        nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>[] | null, ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        } & {
+            nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            };
+            optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                optional: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                    optional: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                    optional: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            });
+        }> & {
+            nullable: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>[] | null, ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            } & {
+                nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                    nullable: boolean;
+                } & {
+                    schemaName?: string | undefined;
+                    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        example: any;
+                        description: string | undefined;
+                    };
+                    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        description?: string | undefined;
+                        example?: any;
+                        default: any;
+                    };
+                    aetherType: string;
+                };
+                optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                    optional: boolean;
+                } & {
+                    schemaName?: string | undefined;
+                    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                        optional: boolean;
+                    } & {
+                        example: any;
+                        description: string | undefined;
+                    };
+                    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                        optional: boolean;
+                    } & {
+                        description?: string | undefined;
+                        example?: any;
+                        default: any;
+                    };
+                    aetherType: string;
+                }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                    nullable: boolean;
+                } & {
+                    schemaName?: string | undefined;
+                    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        example: any;
+                        description: string | undefined;
+                    };
+                    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        description?: string | undefined;
+                        example?: any;
+                        default: any;
+                    };
+                    aetherType: string;
+                });
+            }> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>[] | null, ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            } & {
+                nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                    nullable: boolean;
+                } & {
+                    schemaName?: string | undefined;
+                    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        example: any;
+                        description: string | undefined;
+                    };
+                    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        description?: string | undefined;
+                        example?: any;
+                        default: any;
+                    };
+                    aetherType: string;
+                };
+                optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                    optional: boolean;
+                } & {
+                    schemaName?: string | undefined;
+                    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                        optional: boolean;
+                    } & {
+                        example: any;
+                        description: string | undefined;
+                    };
+                    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                        optional: boolean;
+                    } & {
+                        description?: string | undefined;
+                        example?: any;
+                        default: any;
+                    };
+                    aetherType: string;
+                }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                    nullable: boolean;
+                } & {
+                    schemaName?: string | undefined;
+                    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        example: any;
+                        description: string | undefined;
+                    };
+                    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        description?: string | undefined;
+                        example?: any;
+                        default: any;
+                    };
+                    aetherType: string;
+                });
+            }> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        };
+        optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>[] | undefined, ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        } & {
+            nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            };
+            optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                optional: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                    optional: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                    optional: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            });
+        }> & {
+            optional: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>[] | undefined, ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            } & {
+                nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                    nullable: boolean;
+                } & {
+                    schemaName?: string | undefined;
+                    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        example: any;
+                        description: string | undefined;
+                    };
+                    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        description?: string | undefined;
+                        example?: any;
+                        default: any;
+                    };
+                    aetherType: string;
+                };
+                optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                    optional: boolean;
+                } & {
+                    schemaName?: string | undefined;
+                    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                        optional: boolean;
+                    } & {
+                        example: any;
+                        description: string | undefined;
+                    };
+                    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                        optional: boolean;
+                    } & {
+                        description?: string | undefined;
+                        example?: any;
+                        default: any;
+                    };
+                    aetherType: string;
+                }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                    nullable: boolean;
+                } & {
+                    schemaName?: string | undefined;
+                    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        example: any;
+                        description: string | undefined;
+                    };
+                    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        description?: string | undefined;
+                        example?: any;
+                        default: any;
+                    };
+                    aetherType: string;
+                });
+            }> & {
+                optional: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>[] | undefined, ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            } & {
+                nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                    nullable: boolean;
+                } & {
+                    schemaName?: string | undefined;
+                    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        example: any;
+                        description: string | undefined;
+                    };
+                    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        description?: string | undefined;
+                        example?: any;
+                        default: any;
+                    };
+                    aetherType: string;
+                };
+                optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                    optional: boolean;
+                } & {
+                    schemaName?: string | undefined;
+                    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                        optional: boolean;
+                    } & {
+                        example: any;
+                        description: string | undefined;
+                    };
+                    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                        optional: boolean;
+                    } & {
+                        description?: string | undefined;
+                        example?: any;
+                        default: any;
+                    };
+                    aetherType: string;
+                }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                    nullable: boolean;
+                } & {
+                    schemaName?: string | undefined;
+                    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        example: any;
+                        description: string | undefined;
+                    };
+                    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        description?: string | undefined;
+                        example?: any;
+                        default: any;
+                    };
+                    aetherType: string;
+                });
+            }> & {
+                optional: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>[] | null | undefined, ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        } & {
+            nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            };
+            optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                optional: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                    optional: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                    optional: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                nullable: boolean;
+            } & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                    nullable: boolean;
+                } & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                    nullable: boolean;
+                } & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            });
+        }> & {
+            nullable: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>[] | null | undefined, ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            } & {
+                nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                    nullable: boolean;
+                } & {
+                    schemaName?: string | undefined;
+                    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        example: any;
+                        description: string | undefined;
+                    };
+                    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        description?: string | undefined;
+                        example?: any;
+                        default: any;
+                    };
+                    aetherType: string;
+                };
+                optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                    optional: boolean;
+                } & {
+                    schemaName?: string | undefined;
+                    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                        optional: boolean;
+                    } & {
+                        example: any;
+                        description: string | undefined;
+                    };
+                    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                        optional: boolean;
+                    } & {
+                        description?: string | undefined;
+                        example?: any;
+                        default: any;
+                    };
+                    aetherType: string;
+                }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                    nullable: boolean;
+                } & {
+                    schemaName?: string | undefined;
+                    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        example: any;
+                        description: string | undefined;
+                    };
+                    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        description?: string | undefined;
+                        example?: any;
+                        default: any;
+                    };
+                    aetherType: string;
+                });
+            }> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>[] | null | undefined, ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                schemaName?: string | undefined;
+                docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                    example: any;
+                    description: string | undefined;
+                };
+                default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>>, S_2> & {
+                    description?: string | undefined;
+                    example?: any;
+                    default: any;
+                };
+                aetherType: string;
+            } & {
+                nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                    nullable: boolean;
+                } & {
+                    schemaName?: string | undefined;
+                    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        example: any;
+                        description: string | undefined;
+                    };
+                    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        description?: string | undefined;
+                        example?: any;
+                        default: any;
+                    };
+                    aetherType: string;
+                };
+                optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                    optional: boolean;
+                } & {
+                    schemaName?: string | undefined;
+                    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                        optional: boolean;
+                    } & {
+                        example: any;
+                        description: string | undefined;
+                    };
+                    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | undefined, S_2> & {
+                        optional: boolean;
+                    } & {
+                        description?: string | undefined;
+                        example?: any;
+                        default: any;
+                    };
+                    aetherType: string;
+                }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                    nullable: boolean;
+                } & {
+                    schemaName?: string | undefined;
+                    docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        example: any;
+                        description: string | undefined;
+                    };
+                    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_3 in keyof S_2]: ss.Infer<S_2[K_3]>; }>> | null | undefined, S_2> & {
+                        nullable: boolean;
+                    } & {
+                        description?: string | undefined;
+                        example?: any;
+                        default: any;
+                    };
+                    aetherType: string;
+                });
+            }> & {
                 nullable: boolean;
             } & {
                 description?: string | undefined;

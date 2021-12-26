@@ -39,7 +39,6 @@ export const aetherString = aetherWrapper(ss.string, 'AetherString');
 export const aetherNumber = aetherWrapper(ss.number, 'AetherNumber');
 export const aetherBoolean = aetherWrapper(ss.boolean, 'AetherBoolean');
 export const aetherDate = aetherWrapper(ss.date, 'AetherDate');
-
 export const aetherEnum = <T extends string = string>(values: readonly T[]) => {
     const schema = assignDescriptors(ss.enums<T>(values), 'AetherEnum');
     return makeOptionalable<T, (typeof schema)['schema'], typeof schema>(schema, 'AetherEnum');
@@ -58,7 +57,6 @@ export const aetherSchema = <S extends ObjectSchema>(schemaName: string, objSche
     );
 };
 export const aetherObject = <S extends ObjectSchema>(objSchema: S) => aetherSchema('', objSchema);
-
 export const aetherArray = <T extends ss.Struct<any>>(Element: T) => {
     const arraySchema = assignDescriptors(ss.array<T>(Element), 'AetherArray');
     return makeOptionalable<
@@ -70,11 +68,10 @@ export const aetherArray = <T extends ss.Struct<any>>(Element: T) => {
         'AetherSchema',
     );
 };
-
-// export const aetherCollection = (...args: Parameters<typeof aetherSchema>) => {
-//     const schema = aetherSchema(...args);
-//     return ss.array(schema);
-// };
+export const aetherCollection = <S extends ObjectSchema>(objSchema: S) => {
+    const entrySchema = aetherObject(objSchema);
+    return aetherArray(entrySchema);
+};
 
 export const ats = {
     string: aetherString,
@@ -85,7 +82,7 @@ export const ats = {
     schema: aetherSchema,
     object: aetherObject,
     array: aetherArray,
-    // collection: aetherCollection,
+    collection: aetherCollection,
     // -- SuperStruct Validators --
     is: ss.is,
     validate: ss.validate,

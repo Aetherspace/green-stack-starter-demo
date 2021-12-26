@@ -34,8 +34,8 @@ var num = schemas_1.ats.number().docs(5);
 var bln = schemas_1.ats.boolean().optional();
 var opt = schemas_1.ats.enum(Object.values(TEST_ENUM));
 var obj = schemas_1.ats.object({ str: str });
-// const col = ats.collection({ id });
-var coll = ss.array(ss.object({ bln: bln }));
+var col = schemas_1.ats.array(schemas_1.ats.object({ id: id }));
+var coll = schemas_1.ats.collection({ id: id });
 var superSchema = schemas_1.ats.schema('MySchema', {
     id: id,
     ids: ids,
@@ -45,7 +45,7 @@ var superSchema = schemas_1.ats.schema('MySchema', {
     bln: bln,
     opt: opt,
     obj: obj,
-    // col,
+    col: col,
     coll: coll,
 });
 var propTest = superSchema.schema.bln;
@@ -60,38 +60,53 @@ else
 //         "id": {
 //             "type": "string",
 //             "schema": null,
-//             "default": "a"
+//             "default": "a",
+//             "aetherType": "AetherString"
 //         },
 //         "ids": {
 //             "type": "array",
 //             "schema": {
 //                 "type": "string",
-//                 "schema": null
-//             }
+//                 "schema": null,
+//                 "aetherType": "AetherString"
+//             },
+//             "aetherType": "AetherArray"
 //         },
 //         "str": {
 //             "type": "string",
 //             "schema": null,
 //             "nullable": true,
+//             "aetherType": "AetherString",
 //             "example": "example",
 //             "description": "description"
+//         },
+//         "day": {
+//             "type": "date",
+//             "schema": null,
+//             "optional": true,
+//             "aetherType": "AetherDate",
+//             "example": "01/01/2022",
+//             "description": "The start of the year"
 //         },
 //         "num": {
 //             "type": "number",
 //             "schema": null,
-//             "nullable": true
+//             "aetherType": "AetherNumber",
+//             "example": 5
 //         },
 //         "bln": {
 //             "type": "boolean",
 //             "schema": null,
-//             "optional": true
+//             "optional": true,
+//             "aetherType": "AetherBoolean"
 //         },
 //         "opt": {
 //             "type": "enums",
 //             "schema": {
 //                 "A": "A",
 //                 "B": "B"
-//             }
+//             },
+//             "aetherType": "AetherEnum"
 //         },
 //         "obj": {
 //             "type": "object",
@@ -100,10 +115,12 @@ else
 //                     "type": "string",
 //                     "schema": null,
 //                     "nullable": true,
+//                     "aetherType": "AetherString",
 //                     "example": "example",
 //                     "description": "description"
 //                 }
-//             }
+//             },
+//             "aetherType": "aetherSchema"
 //         },
 //         "col": {
 //             "type": "array",
@@ -113,23 +130,31 @@ else
 //                     "id": {
 //                         "type": "string",
 //                         "schema": null,
-//                         "default": "a"
+//                         "default": "a",
+//                         "aetherType": "AetherString"
 //                     }
-//                 }
-//             }
+//                 },
+//                 "aetherType": "aetherSchema"
+//             },
+//             "aetherType": "AetherArray"
 //         },
 //         "coll": {
 //             "type": "array",
 //             "schema": {
 //                 "type": "object",
 //                 "schema": {
-//                     "bln": {
-//                         "type": "boolean",
+//                     "id": {
+//                         "type": "string",
 //                         "schema": null,
-//                         "optional": true
+//                         "default": "a",
+//                         "aetherType": "AetherString"
 //                     }
-//                 }
-//             }
+//                 },
+//                 "aetherType": "aetherSchema"
+//             },
+//             "aetherType": "AetherArray"
 //         }
-//     }
+//     },
+//     "aetherType": "aetherSchema",
+//     "schemaName": "MySchema"
 // }
