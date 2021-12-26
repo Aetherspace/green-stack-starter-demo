@@ -263,7 +263,72 @@ export declare const aetherDate: () => ss.Struct<Date, null> & {
         aetherType: string;
     });
 };
-export declare const aetherEnum: typeof ss.enums;
+export declare const aetherEnum: <T extends string = string>(values: readonly T[]) => ss.Struct<T, { [K in T]: K; }> & {
+    docs: (example: any, description?: string | undefined) => ss.Struct<T, { [K in T]: K; }> & {
+        example: any;
+        description: string | undefined;
+    };
+    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<T, { [K in T]: K; }> & {
+        description?: string | undefined;
+        example?: any;
+        default: any;
+    };
+    aetherType: string;
+} & {
+    nullable: () => ss.Struct<T | null, { [K in T]: K; }> & {
+        nullable: boolean;
+    } & {
+        docs: (example: any, description?: string | undefined) => ss.Struct<T | null, { [K in T]: K; }> & {
+            nullable: boolean;
+        } & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<T | null, { [K in T]: K; }> & {
+            nullable: boolean;
+        } & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    };
+    optional: (nullable?: boolean | undefined) => (ss.Struct<T | undefined, { [K in T]: K; }> & {
+        optional: boolean;
+    } & {
+        docs: (example: any, description?: string | undefined) => ss.Struct<T | undefined, { [K in T]: K; }> & {
+            optional: boolean;
+        } & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<T | undefined, { [K in T]: K; }> & {
+            optional: boolean;
+        } & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    }) | (ss.Struct<T | null | undefined, { [K in T]: K; }> & {
+        nullable: boolean;
+    } & {
+        docs: (example: any, description?: string | undefined) => ss.Struct<T | null | undefined, { [K in T]: K; }> & {
+            nullable: boolean;
+        } & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<T | null | undefined, { [K in T]: K; }> & {
+            nullable: boolean;
+        } & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    });
+};
 export declare const aetherSchema: typeof ss.object;
 export declare const aetherObject: typeof ss.object;
 export declare const aetherArray: typeof ss.array;
@@ -537,7 +602,72 @@ export declare const ats: {
             aetherType: string;
         });
     };
-    enum: typeof ss.enums;
+    enum: <T extends string = string>(values: readonly T[]) => ss.Struct<T, { [K in T]: K; }> & {
+        docs: (example: any, description?: string | undefined) => ss.Struct<T, { [K in T]: K; }> & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<T, { [K in T]: K; }> & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    } & {
+        nullable: () => ss.Struct<T | null, { [K in T]: K; }> & {
+            nullable: boolean;
+        } & {
+            docs: (example: any, description?: string | undefined) => ss.Struct<T | null, { [K in T]: K; }> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<T | null, { [K in T]: K; }> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        };
+        optional: (nullable?: boolean | undefined) => (ss.Struct<T | undefined, { [K in T]: K; }> & {
+            optional: boolean;
+        } & {
+            docs: (example: any, description?: string | undefined) => ss.Struct<T | undefined, { [K in T]: K; }> & {
+                optional: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<T | undefined, { [K in T]: K; }> & {
+                optional: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        }) | (ss.Struct<T | null | undefined, { [K in T]: K; }> & {
+            nullable: boolean;
+        } & {
+            docs: (example: any, description?: string | undefined) => ss.Struct<T | null | undefined, { [K in T]: K; }> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<T | null | undefined, { [K in T]: K; }> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        });
+    };
     schema: typeof ss.object;
     object: typeof ss.object;
     array: typeof ss.array;

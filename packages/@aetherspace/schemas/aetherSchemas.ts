@@ -34,7 +34,10 @@ export const aetherNumber = aetherWrapper(ss.number, 'AetherNumber');
 export const aetherBoolean = aetherWrapper(ss.boolean, 'AetherBoolean');
 export const aetherDate = aetherWrapper(ss.date, 'AetherDate');
 
-export const aetherEnum = ss.enums; // aetherWrapper(s.enums);
+export const aetherEnum = <T extends string = string>(values: readonly T[]) => {
+    const schema = assignDescriptors(ss.enums<T>(values), 'AetherEnum');
+    return makeOptionalable<T, (typeof schema)['schema'], typeof schema>(schema, 'AetherEnum');
+};
 
 export const aetherSchema = ss.object; // aetherWrapper(s.object);
 export const aetherObject = ss.object;

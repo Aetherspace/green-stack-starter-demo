@@ -63,7 +63,11 @@ exports.aetherString = aetherWrapper(ss.string, 'AetherString');
 exports.aetherNumber = aetherWrapper(ss.number, 'AetherNumber');
 exports.aetherBoolean = aetherWrapper(ss.boolean, 'AetherBoolean');
 exports.aetherDate = aetherWrapper(ss.date, 'AetherDate');
-exports.aetherEnum = ss.enums; // aetherWrapper(s.enums);
+var aetherEnum = function (values) {
+    var schema = assignDescriptors(ss.enums(values), 'AetherEnum');
+    return makeOptionalable(schema, 'AetherEnum');
+};
+exports.aetherEnum = aetherEnum;
 exports.aetherSchema = ss.object; // aetherWrapper(s.object);
 exports.aetherObject = ss.object;
 exports.aetherArray = ss.array; // aetherWrapper(s.array);

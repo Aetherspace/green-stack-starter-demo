@@ -13,7 +13,6 @@ const day = ats.date().optional().docs('01/01/2022', 'The start of the year');
 const num = ats.number().docs(5);
 const bln = ats.boolean().optional();
 const opt = ats.enum<TEST_ENUM>(Object.values(TEST_ENUM));
-const opt2 = ss.enums<TEST_ENUM>(Object.values(TEST_ENUM));
 const obj = ats.object({ str });
 const col = ats.collection({ id });
 const coll = ss.array(ss.object({ bln }));
