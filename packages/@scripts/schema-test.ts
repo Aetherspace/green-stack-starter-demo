@@ -1,4 +1,4 @@
-import * as s from 'superstruct';
+import * as ss from 'superstruct';
 import { ats } from 'aetherspace/lib/schemas';
 
 enum TEST_ENUM {
@@ -9,17 +9,20 @@ enum TEST_ENUM {
 const id = ats.string().default('a');
 const ids = ats.array(ats.string());
 const str = ats.string().nullable().docs('example', 'description');
-const num = ats.number().nullable();
+const day = ats.date().optional().docs('01/01/2022', 'The start of the year');
+const num = ats.number().docs(5);
 const bln = ats.boolean().optional();
 const opt = ats.enum<TEST_ENUM>(Object.values(TEST_ENUM));
+const opt2 = ss.enums<TEST_ENUM>(Object.values(TEST_ENUM));
 const obj = ats.object({ str });
 const col = ats.collection({ id });
-const coll = s.array(s.object({ bln }));
+const coll = ss.array(ss.object({ bln }));
 
 const superSchema = ats.schema({
     id,
     ids,
     str,
+    day,
     num,
     bln,
     opt,
@@ -33,7 +36,7 @@ type typeTest = typeof superSchema['TYPE'];
 const propTest = superSchema.schema.bln;
 
 const test = {};
-if (s.is(test, superSchema)) console.log(JSON.stringify(superSchema, null, 4));
+if (ss.is(test, superSchema)) console.log(JSON.stringify(superSchema, null, 4));
 else console.log(JSON.stringify(superSchema, null, 4));
 
 // {

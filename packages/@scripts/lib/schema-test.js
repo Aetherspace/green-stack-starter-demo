@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var s = __importStar(require("superstruct"));
+var ss = __importStar(require("superstruct"));
 var schemas_1 = require("aetherspace/lib/schemas");
 var TEST_ENUM;
 (function (TEST_ENUM) {
@@ -29,16 +29,19 @@ var TEST_ENUM;
 var id = schemas_1.ats.string().default('a');
 var ids = schemas_1.ats.array(schemas_1.ats.string());
 var str = schemas_1.ats.string().nullable().docs('example', 'description');
-var num = schemas_1.ats.number().nullable();
+var day = schemas_1.ats.date().optional().docs('01/01/2022', 'The start of the year');
+var num = schemas_1.ats.number().docs(5);
 var bln = schemas_1.ats.boolean().optional();
 var opt = schemas_1.ats.enum(Object.values(TEST_ENUM));
+var opt2 = ss.enums(Object.values(TEST_ENUM));
 var obj = schemas_1.ats.object({ str: str });
 var col = schemas_1.ats.collection({ id: id });
-var coll = s.array(s.object({ bln: bln }));
+var coll = ss.array(ss.object({ bln: bln }));
 var superSchema = schemas_1.ats.schema({
     id: id,
     ids: ids,
     str: str,
+    day: day,
     num: num,
     bln: bln,
     opt: opt,
@@ -48,7 +51,7 @@ var superSchema = schemas_1.ats.schema({
 });
 var propTest = superSchema.schema.bln;
 var test = {};
-if (s.is(test, superSchema))
+if (ss.is(test, superSchema))
     console.log(JSON.stringify(superSchema, null, 4));
 else
     console.log(JSON.stringify(superSchema, null, 4));

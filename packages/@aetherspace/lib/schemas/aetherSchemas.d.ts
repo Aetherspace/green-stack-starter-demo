@@ -9,6 +9,7 @@ export declare const aetherString: () => ss.Struct<string, null> & {
         example?: any;
         default: any;
     };
+    aetherType: string;
 } & {
     nullable: () => ss.Struct<string | null, null> & {
         nullable: boolean;
@@ -26,6 +27,7 @@ export declare const aetherString: () => ss.Struct<string, null> & {
             example?: any;
             default: any;
         };
+        aetherType: string;
     };
     optional: (nullable?: boolean | undefined) => (ss.Struct<string | undefined, null> & {
         optional: boolean;
@@ -43,6 +45,7 @@ export declare const aetherString: () => ss.Struct<string, null> & {
             example?: any;
             default: any;
         };
+        aetherType: string;
     }) | (ss.Struct<string | null | undefined, null> & {
         nullable: boolean;
     } & {
@@ -59,6 +62,7 @@ export declare const aetherString: () => ss.Struct<string, null> & {
             example?: any;
             default: any;
         };
+        aetherType: string;
     });
 };
 export declare const aetherNumber: () => ss.Struct<number, null> & {
@@ -71,6 +75,7 @@ export declare const aetherNumber: () => ss.Struct<number, null> & {
         example?: any;
         default: any;
     };
+    aetherType: string;
 } & {
     nullable: () => ss.Struct<number | null, null> & {
         nullable: boolean;
@@ -88,6 +93,7 @@ export declare const aetherNumber: () => ss.Struct<number, null> & {
             example?: any;
             default: any;
         };
+        aetherType: string;
     };
     optional: (nullable?: boolean | undefined) => (ss.Struct<number | undefined, null> & {
         optional: boolean;
@@ -105,6 +111,7 @@ export declare const aetherNumber: () => ss.Struct<number, null> & {
             example?: any;
             default: any;
         };
+        aetherType: string;
     }) | (ss.Struct<number | null | undefined, null> & {
         nullable: boolean;
     } & {
@@ -121,6 +128,7 @@ export declare const aetherNumber: () => ss.Struct<number, null> & {
             example?: any;
             default: any;
         };
+        aetherType: string;
     });
 };
 export declare const aetherBoolean: () => ss.Struct<boolean, null> & {
@@ -133,6 +141,7 @@ export declare const aetherBoolean: () => ss.Struct<boolean, null> & {
         example?: any;
         default: any;
     };
+    aetherType: string;
 } & {
     nullable: () => ss.Struct<boolean | null, null> & {
         nullable: boolean;
@@ -150,6 +159,7 @@ export declare const aetherBoolean: () => ss.Struct<boolean, null> & {
             example?: any;
             default: any;
         };
+        aetherType: string;
     };
     optional: (nullable?: boolean | undefined) => (ss.Struct<boolean | undefined, null> & {
         optional: boolean;
@@ -167,6 +177,7 @@ export declare const aetherBoolean: () => ss.Struct<boolean, null> & {
             example?: any;
             default: any;
         };
+        aetherType: string;
     }) | (ss.Struct<boolean | null | undefined, null> & {
         nullable: boolean;
     } & {
@@ -183,6 +194,73 @@ export declare const aetherBoolean: () => ss.Struct<boolean, null> & {
             example?: any;
             default: any;
         };
+        aetherType: string;
+    });
+};
+export declare const aetherDate: () => ss.Struct<Date, null> & {
+    docs: (example: any, description?: string | undefined) => ss.Struct<Date, null> & {
+        example: any;
+        description: string | undefined;
+    };
+    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<Date, null> & {
+        description?: string | undefined;
+        example?: any;
+        default: any;
+    };
+    aetherType: string;
+} & {
+    nullable: () => ss.Struct<Date | null, null> & {
+        nullable: boolean;
+    } & {
+        docs: (example: any, description?: string | undefined) => ss.Struct<Date | null, null> & {
+            nullable: boolean;
+        } & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<Date | null, null> & {
+            nullable: boolean;
+        } & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    };
+    optional: (nullable?: boolean | undefined) => (ss.Struct<Date | undefined, null> & {
+        optional: boolean;
+    } & {
+        docs: (example: any, description?: string | undefined) => ss.Struct<Date | undefined, null> & {
+            optional: boolean;
+        } & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<Date | undefined, null> & {
+            optional: boolean;
+        } & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    }) | (ss.Struct<Date | null | undefined, null> & {
+        nullable: boolean;
+    } & {
+        docs: (example: any, description?: string | undefined) => ss.Struct<Date | null | undefined, null> & {
+            nullable: boolean;
+        } & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<Date | null | undefined, null> & {
+            nullable: boolean;
+        } & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
     });
 };
 export declare const aetherEnum: typeof ss.enums;
@@ -205,6 +283,7 @@ export declare const ats: {
             example?: any;
             default: any;
         };
+        aetherType: string;
     } & {
         nullable: () => ss.Struct<string | null, null> & {
             nullable: boolean;
@@ -222,6 +301,7 @@ export declare const ats: {
                 example?: any;
                 default: any;
             };
+            aetherType: string;
         };
         optional: (nullable?: boolean | undefined) => (ss.Struct<string | undefined, null> & {
             optional: boolean;
@@ -239,6 +319,7 @@ export declare const ats: {
                 example?: any;
                 default: any;
             };
+            aetherType: string;
         }) | (ss.Struct<string | null | undefined, null> & {
             nullable: boolean;
         } & {
@@ -255,6 +336,7 @@ export declare const ats: {
                 example?: any;
                 default: any;
             };
+            aetherType: string;
         });
     };
     number: () => ss.Struct<number, null> & {
@@ -267,6 +349,7 @@ export declare const ats: {
             example?: any;
             default: any;
         };
+        aetherType: string;
     } & {
         nullable: () => ss.Struct<number | null, null> & {
             nullable: boolean;
@@ -284,6 +367,7 @@ export declare const ats: {
                 example?: any;
                 default: any;
             };
+            aetherType: string;
         };
         optional: (nullable?: boolean | undefined) => (ss.Struct<number | undefined, null> & {
             optional: boolean;
@@ -301,6 +385,7 @@ export declare const ats: {
                 example?: any;
                 default: any;
             };
+            aetherType: string;
         }) | (ss.Struct<number | null | undefined, null> & {
             nullable: boolean;
         } & {
@@ -317,6 +402,7 @@ export declare const ats: {
                 example?: any;
                 default: any;
             };
+            aetherType: string;
         });
     };
     boolean: () => ss.Struct<boolean, null> & {
@@ -329,6 +415,7 @@ export declare const ats: {
             example?: any;
             default: any;
         };
+        aetherType: string;
     } & {
         nullable: () => ss.Struct<boolean | null, null> & {
             nullable: boolean;
@@ -346,6 +433,7 @@ export declare const ats: {
                 example?: any;
                 default: any;
             };
+            aetherType: string;
         };
         optional: (nullable?: boolean | undefined) => (ss.Struct<boolean | undefined, null> & {
             optional: boolean;
@@ -363,6 +451,7 @@ export declare const ats: {
                 example?: any;
                 default: any;
             };
+            aetherType: string;
         }) | (ss.Struct<boolean | null | undefined, null> & {
             nullable: boolean;
         } & {
@@ -379,6 +468,73 @@ export declare const ats: {
                 example?: any;
                 default: any;
             };
+            aetherType: string;
+        });
+    };
+    date: () => ss.Struct<Date, null> & {
+        docs: (example: any, description?: string | undefined) => ss.Struct<Date, null> & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<Date, null> & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    } & {
+        nullable: () => ss.Struct<Date | null, null> & {
+            nullable: boolean;
+        } & {
+            docs: (example: any, description?: string | undefined) => ss.Struct<Date | null, null> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<Date | null, null> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        };
+        optional: (nullable?: boolean | undefined) => (ss.Struct<Date | undefined, null> & {
+            optional: boolean;
+        } & {
+            docs: (example: any, description?: string | undefined) => ss.Struct<Date | undefined, null> & {
+                optional: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<Date | undefined, null> & {
+                optional: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        }) | (ss.Struct<Date | null | undefined, null> & {
+            nullable: boolean;
+        } & {
+            docs: (example: any, description?: string | undefined) => ss.Struct<Date | null | undefined, null> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<Date | null | undefined, null> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
         });
     };
     enum: typeof ss.enums;

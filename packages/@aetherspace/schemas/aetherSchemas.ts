@@ -1,33 +1,38 @@
 import * as ss from 'superstruct';
 
-const aetherWrapper = <A extends any[], T, S>(struct: (...args: A) => ss.Struct<T, S>) => {
-    const assignDescriptors = <R extends unknown>(schema: R) => Object.assign(schema, {
-        docs: (example, description?: string) => Object.assign(schema, { example, description }),
-        default: (defaultVal, example?: any, description?: string) => Object.assign(schema, {
-            default: defaultVal,
-            ...(example ? { example } : null),
-            ...(description ? { description } : null),
-        }),
-    });
+const assignDescriptors = <R extends unknown>(schema: R, aetherType: string) => Object.assign(schema, {
+    docs: (example, description?: string) => Object.assign(schema, { example, description }),
+    default: (defaultVal, example?: any, description?: string) => Object.assign(schema, {
+        default: defaultVal,
+        ...(example ? { example } : null),
+        ...(description ? { description } : null),
+    }),
+    aetherType,
+});
+
+const makeOptionalable = <T, S, ST extends ss.Struct<T, S>>(schema: ST, aetherType: string) => Object.assign(schema, {
+    nullable: () => {
+        const newSchema = Object.assign(ss.nullable(schema), { nullable: true });
+        return assignDescriptors(newSchema, aetherType);
+    },
+    optional: (nullable?: boolean) => {
+        const newSchema = Object.assign(ss.optional(schema), { optional: true });
+        if (!nullable) return assignDescriptors(newSchema, aetherType);
+        return assignDescriptors(Object.assign(ss.nullable(newSchema), { nullable: true }), aetherType); 
+    },
+});
+
+const aetherWrapper = <A extends any[], T, S>(struct: (...args: A) => ss.Struct<T, S>, aetherType: string) => {
     return (...args: A) => {
-        const schema = assignDescriptors(struct(...args));
-        return Object.assign(schema, {
-            nullable: () => {
-                const newSchema = Object.assign(ss.nullable(schema), { nullable: true });
-                return assignDescriptors(newSchema);
-            },
-            optional: (nullable?: boolean) => {
-                const newSchema = Object.assign(ss.optional(schema), { optional: true });
-                if (!nullable) return assignDescriptors(newSchema);
-                return assignDescriptors(Object.assign(ss.nullable(newSchema), { nullable: true })); 
-            },
-        });
+        const schema = assignDescriptors(struct(...args), aetherType);
+        return makeOptionalable<T, S, typeof schema>(schema, aetherType);
     };
 };
 
-export const aetherString = aetherWrapper(ss.string);
-export const aetherNumber = aetherWrapper(ss.number);
-export const aetherBoolean = aetherWrapper(ss.boolean);
+export const aetherString = aetherWrapper(ss.string, 'AetherString');
+export const aetherNumber = aetherWrapper(ss.number, 'AetherNumber');
+export const aetherBoolean = aetherWrapper(ss.boolean, 'AetherBoolean');
+export const aetherDate = aetherWrapper(ss.date, 'AetherDate');
 
 export const aetherEnum = ss.enums; // aetherWrapper(s.enums);
 
@@ -45,6 +50,7 @@ export const ats = {
     string: aetherString,
     number: aetherNumber,
     boolean: aetherBoolean,
+    date: aetherDate,
     enum: aetherEnum,
     schema: aetherSchema,
     object: aetherObject,
