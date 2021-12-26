@@ -1,6 +1,7 @@
 import * as ss from 'superstruct';
 import { ObjectSchema } from 'superstruct/lib/utils';
 export declare const aetherString: () => ss.Struct<string, null> & {
+    schemaName?: string | undefined;
     docs: (example: any, description?: string | undefined) => ss.Struct<string, null> & {
         example: any;
         description: string | undefined;
@@ -15,6 +16,7 @@ export declare const aetherString: () => ss.Struct<string, null> & {
     nullable: () => ss.Struct<string | null, null> & {
         nullable: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<string | null, null> & {
             nullable: boolean;
         } & {
@@ -33,6 +35,7 @@ export declare const aetherString: () => ss.Struct<string, null> & {
     optional: (nullable?: boolean | undefined) => (ss.Struct<string | undefined, null> & {
         optional: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<string | undefined, null> & {
             optional: boolean;
         } & {
@@ -50,6 +53,7 @@ export declare const aetherString: () => ss.Struct<string, null> & {
     }) | (ss.Struct<string | null | undefined, null> & {
         nullable: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<string | null | undefined, null> & {
             nullable: boolean;
         } & {
@@ -67,6 +71,7 @@ export declare const aetherString: () => ss.Struct<string, null> & {
     });
 };
 export declare const aetherNumber: () => ss.Struct<number, null> & {
+    schemaName?: string | undefined;
     docs: (example: any, description?: string | undefined) => ss.Struct<number, null> & {
         example: any;
         description: string | undefined;
@@ -81,6 +86,7 @@ export declare const aetherNumber: () => ss.Struct<number, null> & {
     nullable: () => ss.Struct<number | null, null> & {
         nullable: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<number | null, null> & {
             nullable: boolean;
         } & {
@@ -99,6 +105,7 @@ export declare const aetherNumber: () => ss.Struct<number, null> & {
     optional: (nullable?: boolean | undefined) => (ss.Struct<number | undefined, null> & {
         optional: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<number | undefined, null> & {
             optional: boolean;
         } & {
@@ -116,6 +123,7 @@ export declare const aetherNumber: () => ss.Struct<number, null> & {
     }) | (ss.Struct<number | null | undefined, null> & {
         nullable: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<number | null | undefined, null> & {
             nullable: boolean;
         } & {
@@ -133,6 +141,7 @@ export declare const aetherNumber: () => ss.Struct<number, null> & {
     });
 };
 export declare const aetherBoolean: () => ss.Struct<boolean, null> & {
+    schemaName?: string | undefined;
     docs: (example: any, description?: string | undefined) => ss.Struct<boolean, null> & {
         example: any;
         description: string | undefined;
@@ -147,6 +156,7 @@ export declare const aetherBoolean: () => ss.Struct<boolean, null> & {
     nullable: () => ss.Struct<boolean | null, null> & {
         nullable: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<boolean | null, null> & {
             nullable: boolean;
         } & {
@@ -165,6 +175,7 @@ export declare const aetherBoolean: () => ss.Struct<boolean, null> & {
     optional: (nullable?: boolean | undefined) => (ss.Struct<boolean | undefined, null> & {
         optional: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<boolean | undefined, null> & {
             optional: boolean;
         } & {
@@ -182,6 +193,7 @@ export declare const aetherBoolean: () => ss.Struct<boolean, null> & {
     }) | (ss.Struct<boolean | null | undefined, null> & {
         nullable: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<boolean | null | undefined, null> & {
             nullable: boolean;
         } & {
@@ -199,6 +211,7 @@ export declare const aetherBoolean: () => ss.Struct<boolean, null> & {
     });
 };
 export declare const aetherDate: () => ss.Struct<Date, null> & {
+    schemaName?: string | undefined;
     docs: (example: any, description?: string | undefined) => ss.Struct<Date, null> & {
         example: any;
         description: string | undefined;
@@ -213,6 +226,7 @@ export declare const aetherDate: () => ss.Struct<Date, null> & {
     nullable: () => ss.Struct<Date | null, null> & {
         nullable: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<Date | null, null> & {
             nullable: boolean;
         } & {
@@ -231,6 +245,7 @@ export declare const aetherDate: () => ss.Struct<Date, null> & {
     optional: (nullable?: boolean | undefined) => (ss.Struct<Date | undefined, null> & {
         optional: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<Date | undefined, null> & {
             optional: boolean;
         } & {
@@ -248,6 +263,7 @@ export declare const aetherDate: () => ss.Struct<Date, null> & {
     }) | (ss.Struct<Date | null | undefined, null> & {
         nullable: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<Date | null | undefined, null> & {
             nullable: boolean;
         } & {
@@ -265,6 +281,7 @@ export declare const aetherDate: () => ss.Struct<Date, null> & {
     });
 };
 export declare const aetherEnum: <T extends string = string>(values: readonly T[]) => ss.Struct<T, { [K in T]: K; }> & {
+    schemaName?: string | undefined;
     docs: (example: any, description?: string | undefined) => ss.Struct<T, { [K in T]: K; }> & {
         example: any;
         description: string | undefined;
@@ -279,6 +296,7 @@ export declare const aetherEnum: <T extends string = string>(values: readonly T[
     nullable: () => ss.Struct<T | null, { [K in T]: K; }> & {
         nullable: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<T | null, { [K in T]: K; }> & {
             nullable: boolean;
         } & {
@@ -297,6 +315,7 @@ export declare const aetherEnum: <T extends string = string>(values: readonly T[
     optional: (nullable?: boolean | undefined) => (ss.Struct<T | undefined, { [K in T]: K; }> & {
         optional: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<T | undefined, { [K in T]: K; }> & {
             optional: boolean;
         } & {
@@ -314,6 +333,7 @@ export declare const aetherEnum: <T extends string = string>(values: readonly T[
     }) | (ss.Struct<T | null | undefined, { [K in T]: K; }> & {
         nullable: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<T | null | undefined, { [K in T]: K; }> & {
             nullable: boolean;
         } & {
@@ -330,7 +350,8 @@ export declare const aetherEnum: <T extends string = string>(values: readonly T[
         aetherType: string;
     });
 };
-export declare const aetherSchema: <S extends ObjectSchema>(objSchema: S) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+export declare const aetherSchema: <S extends ObjectSchema>(schemaName: string, objSchema: S) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+    schemaName?: string | undefined;
     docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
         example: any;
         description: string | undefined;
@@ -345,6 +366,7 @@ export declare const aetherSchema: <S extends ObjectSchema>(objSchema: S) => ss.
     nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
         nullable: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
             nullable: boolean;
         } & {
@@ -363,6 +385,7 @@ export declare const aetherSchema: <S extends ObjectSchema>(objSchema: S) => ss.
     optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
         optional: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
             optional: boolean;
         } & {
@@ -380,6 +403,7 @@ export declare const aetherSchema: <S extends ObjectSchema>(objSchema: S) => ss.
     }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
         nullable: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
             nullable: boolean;
         } & {
@@ -397,6 +421,7 @@ export declare const aetherSchema: <S extends ObjectSchema>(objSchema: S) => ss.
     });
 };
 export declare const aetherObject: <S extends ObjectSchema>(objSchema: S) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
+    schemaName?: string | undefined;
     docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>>, S> & {
         example: any;
         description: string | undefined;
@@ -411,6 +436,7 @@ export declare const aetherObject: <S extends ObjectSchema>(objSchema: S) => ss.
     nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
         nullable: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null, S> & {
             nullable: boolean;
         } & {
@@ -429,6 +455,7 @@ export declare const aetherObject: <S extends ObjectSchema>(objSchema: S) => ss.
     optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
         optional: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | undefined, S> & {
             optional: boolean;
         } & {
@@ -446,6 +473,7 @@ export declare const aetherObject: <S extends ObjectSchema>(objSchema: S) => ss.
     }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
         nullable: boolean;
     } & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K in keyof S]: ss.Infer<S[K]>; }>> | null | undefined, S> & {
             nullable: boolean;
         } & {
@@ -463,100 +491,9 @@ export declare const aetherObject: <S extends ObjectSchema>(objSchema: S) => ss.
     });
 };
 export declare const aetherArray: typeof ss.array;
-export declare const aetherCollection: (objSchema: ObjectSchema) => ss.Struct<{
-    [x: string]: any;
-}[], ss.Struct<{
-    [x: string]: any;
-}, ObjectSchema> & {
-    docs: (example: any, description?: string | undefined) => ss.Struct<{
-        [x: string]: any;
-    }, ObjectSchema> & {
-        example: any;
-        description: string | undefined;
-    };
-    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<{
-        [x: string]: any;
-    }, ObjectSchema> & {
-        description?: string | undefined;
-        example?: any;
-        default: any;
-    };
-    aetherType: string;
-} & {
-    nullable: () => ss.Struct<{
-        [x: string]: any;
-    } | null, ObjectSchema> & {
-        nullable: boolean;
-    } & {
-        docs: (example: any, description?: string | undefined) => ss.Struct<{
-            [x: string]: any;
-        } | null, ObjectSchema> & {
-            nullable: boolean;
-        } & {
-            example: any;
-            description: string | undefined;
-        };
-        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<{
-            [x: string]: any;
-        } | null, ObjectSchema> & {
-            nullable: boolean;
-        } & {
-            description?: string | undefined;
-            example?: any;
-            default: any;
-        };
-        aetherType: string;
-    };
-    optional: (nullable?: boolean | undefined) => (ss.Struct<{
-        [x: string]: any;
-    } | undefined, ObjectSchema> & {
-        optional: boolean;
-    } & {
-        docs: (example: any, description?: string | undefined) => ss.Struct<{
-            [x: string]: any;
-        } | undefined, ObjectSchema> & {
-            optional: boolean;
-        } & {
-            example: any;
-            description: string | undefined;
-        };
-        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<{
-            [x: string]: any;
-        } | undefined, ObjectSchema> & {
-            optional: boolean;
-        } & {
-            description?: string | undefined;
-            example?: any;
-            default: any;
-        };
-        aetherType: string;
-    }) | (ss.Struct<{
-        [x: string]: any;
-    } | null | undefined, ObjectSchema> & {
-        nullable: boolean;
-    } & {
-        docs: (example: any, description?: string | undefined) => ss.Struct<{
-            [x: string]: any;
-        } | null | undefined, ObjectSchema> & {
-            nullable: boolean;
-        } & {
-            example: any;
-            description: string | undefined;
-        };
-        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<{
-            [x: string]: any;
-        } | null | undefined, ObjectSchema> & {
-            nullable: boolean;
-        } & {
-            description?: string | undefined;
-            example?: any;
-            default: any;
-        };
-        aetherType: string;
-    });
-}>;
 export declare const ats: {
     string: () => ss.Struct<string, null> & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<string, null> & {
             example: any;
             description: string | undefined;
@@ -571,6 +508,7 @@ export declare const ats: {
         nullable: () => ss.Struct<string | null, null> & {
             nullable: boolean;
         } & {
+            schemaName?: string | undefined;
             docs: (example: any, description?: string | undefined) => ss.Struct<string | null, null> & {
                 nullable: boolean;
             } & {
@@ -589,6 +527,7 @@ export declare const ats: {
         optional: (nullable?: boolean | undefined) => (ss.Struct<string | undefined, null> & {
             optional: boolean;
         } & {
+            schemaName?: string | undefined;
             docs: (example: any, description?: string | undefined) => ss.Struct<string | undefined, null> & {
                 optional: boolean;
             } & {
@@ -606,6 +545,7 @@ export declare const ats: {
         }) | (ss.Struct<string | null | undefined, null> & {
             nullable: boolean;
         } & {
+            schemaName?: string | undefined;
             docs: (example: any, description?: string | undefined) => ss.Struct<string | null | undefined, null> & {
                 nullable: boolean;
             } & {
@@ -623,6 +563,7 @@ export declare const ats: {
         });
     };
     number: () => ss.Struct<number, null> & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<number, null> & {
             example: any;
             description: string | undefined;
@@ -637,6 +578,7 @@ export declare const ats: {
         nullable: () => ss.Struct<number | null, null> & {
             nullable: boolean;
         } & {
+            schemaName?: string | undefined;
             docs: (example: any, description?: string | undefined) => ss.Struct<number | null, null> & {
                 nullable: boolean;
             } & {
@@ -655,6 +597,7 @@ export declare const ats: {
         optional: (nullable?: boolean | undefined) => (ss.Struct<number | undefined, null> & {
             optional: boolean;
         } & {
+            schemaName?: string | undefined;
             docs: (example: any, description?: string | undefined) => ss.Struct<number | undefined, null> & {
                 optional: boolean;
             } & {
@@ -672,6 +615,7 @@ export declare const ats: {
         }) | (ss.Struct<number | null | undefined, null> & {
             nullable: boolean;
         } & {
+            schemaName?: string | undefined;
             docs: (example: any, description?: string | undefined) => ss.Struct<number | null | undefined, null> & {
                 nullable: boolean;
             } & {
@@ -689,6 +633,7 @@ export declare const ats: {
         });
     };
     boolean: () => ss.Struct<boolean, null> & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<boolean, null> & {
             example: any;
             description: string | undefined;
@@ -703,6 +648,7 @@ export declare const ats: {
         nullable: () => ss.Struct<boolean | null, null> & {
             nullable: boolean;
         } & {
+            schemaName?: string | undefined;
             docs: (example: any, description?: string | undefined) => ss.Struct<boolean | null, null> & {
                 nullable: boolean;
             } & {
@@ -721,6 +667,7 @@ export declare const ats: {
         optional: (nullable?: boolean | undefined) => (ss.Struct<boolean | undefined, null> & {
             optional: boolean;
         } & {
+            schemaName?: string | undefined;
             docs: (example: any, description?: string | undefined) => ss.Struct<boolean | undefined, null> & {
                 optional: boolean;
             } & {
@@ -738,6 +685,7 @@ export declare const ats: {
         }) | (ss.Struct<boolean | null | undefined, null> & {
             nullable: boolean;
         } & {
+            schemaName?: string | undefined;
             docs: (example: any, description?: string | undefined) => ss.Struct<boolean | null | undefined, null> & {
                 nullable: boolean;
             } & {
@@ -755,6 +703,7 @@ export declare const ats: {
         });
     };
     date: () => ss.Struct<Date, null> & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<Date, null> & {
             example: any;
             description: string | undefined;
@@ -769,6 +718,7 @@ export declare const ats: {
         nullable: () => ss.Struct<Date | null, null> & {
             nullable: boolean;
         } & {
+            schemaName?: string | undefined;
             docs: (example: any, description?: string | undefined) => ss.Struct<Date | null, null> & {
                 nullable: boolean;
             } & {
@@ -787,6 +737,7 @@ export declare const ats: {
         optional: (nullable?: boolean | undefined) => (ss.Struct<Date | undefined, null> & {
             optional: boolean;
         } & {
+            schemaName?: string | undefined;
             docs: (example: any, description?: string | undefined) => ss.Struct<Date | undefined, null> & {
                 optional: boolean;
             } & {
@@ -804,6 +755,7 @@ export declare const ats: {
         }) | (ss.Struct<Date | null | undefined, null> & {
             nullable: boolean;
         } & {
+            schemaName?: string | undefined;
             docs: (example: any, description?: string | undefined) => ss.Struct<Date | null | undefined, null> & {
                 nullable: boolean;
             } & {
@@ -821,6 +773,7 @@ export declare const ats: {
         });
     };
     enum: <T extends string = string>(values: readonly T[]) => ss.Struct<T, { [K in T]: K; }> & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<T, { [K in T]: K; }> & {
             example: any;
             description: string | undefined;
@@ -835,6 +788,7 @@ export declare const ats: {
         nullable: () => ss.Struct<T | null, { [K in T]: K; }> & {
             nullable: boolean;
         } & {
+            schemaName?: string | undefined;
             docs: (example: any, description?: string | undefined) => ss.Struct<T | null, { [K in T]: K; }> & {
                 nullable: boolean;
             } & {
@@ -853,6 +807,7 @@ export declare const ats: {
         optional: (nullable?: boolean | undefined) => (ss.Struct<T | undefined, { [K in T]: K; }> & {
             optional: boolean;
         } & {
+            schemaName?: string | undefined;
             docs: (example: any, description?: string | undefined) => ss.Struct<T | undefined, { [K in T]: K; }> & {
                 optional: boolean;
             } & {
@@ -870,6 +825,7 @@ export declare const ats: {
         }) | (ss.Struct<T | null | undefined, { [K in T]: K; }> & {
             nullable: boolean;
         } & {
+            schemaName?: string | undefined;
             docs: (example: any, description?: string | undefined) => ss.Struct<T | null | undefined, { [K in T]: K; }> & {
                 nullable: boolean;
             } & {
@@ -886,7 +842,8 @@ export declare const ats: {
             aetherType: string;
         });
     };
-    schema: <S extends ObjectSchema>(objSchema: S) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>>, S> & {
+    schema: <S extends ObjectSchema>(schemaName: string, objSchema: S) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>>, S> & {
+        schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>>, S> & {
             example: any;
             description: string | undefined;
@@ -901,6 +858,7 @@ export declare const ats: {
         nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>> | null, S> & {
             nullable: boolean;
         } & {
+            schemaName?: string | undefined;
             docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>> | null, S> & {
                 nullable: boolean;
             } & {
@@ -919,6 +877,7 @@ export declare const ats: {
         optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>> | undefined, S> & {
             optional: boolean;
         } & {
+            schemaName?: string | undefined;
             docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>> | undefined, S> & {
                 optional: boolean;
             } & {
@@ -936,6 +895,7 @@ export declare const ats: {
         }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>> | null | undefined, S> & {
             nullable: boolean;
         } & {
+            schemaName?: string | undefined;
             docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>> | null | undefined, S> & {
                 nullable: boolean;
             } & {
@@ -952,28 +912,30 @@ export declare const ats: {
             aetherType: string;
         });
     };
-    object: <S extends ObjectSchema>(objSchema: S) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>>, S> & {
-        docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>>, S> & {
+    object: <S_1 extends ObjectSchema>(objSchema: S_1) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_2 in keyof S_1]: ss.Infer<S_1[K_2]>; }>>, S_1> & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_2 in keyof S_1]: ss.Infer<S_1[K_2]>; }>>, S_1> & {
             example: any;
             description: string | undefined;
         };
-        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>>, S> & {
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_2 in keyof S_1]: ss.Infer<S_1[K_2]>; }>>, S_1> & {
             description?: string | undefined;
             example?: any;
             default: any;
         };
         aetherType: string;
     } & {
-        nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>> | null, S> & {
+        nullable: () => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_2 in keyof S_1]: ss.Infer<S_1[K_2]>; }>> | null, S_1> & {
             nullable: boolean;
         } & {
-            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>> | null, S> & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_2 in keyof S_1]: ss.Infer<S_1[K_2]>; }>> | null, S_1> & {
                 nullable: boolean;
             } & {
                 example: any;
                 description: string | undefined;
             };
-            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>> | null, S> & {
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_2 in keyof S_1]: ss.Infer<S_1[K_2]>; }>> | null, S_1> & {
                 nullable: boolean;
             } & {
                 description?: string | undefined;
@@ -982,16 +944,17 @@ export declare const ats: {
             };
             aetherType: string;
         };
-        optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>> | undefined, S> & {
+        optional: (nullable?: boolean | undefined) => (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_2 in keyof S_1]: ss.Infer<S_1[K_2]>; }>> | undefined, S_1> & {
             optional: boolean;
         } & {
-            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>> | undefined, S> & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_2 in keyof S_1]: ss.Infer<S_1[K_2]>; }>> | undefined, S_1> & {
                 optional: boolean;
             } & {
                 example: any;
                 description: string | undefined;
             };
-            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>> | undefined, S> & {
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_2 in keyof S_1]: ss.Infer<S_1[K_2]>; }>> | undefined, S_1> & {
                 optional: boolean;
             } & {
                 description?: string | undefined;
@@ -999,16 +962,17 @@ export declare const ats: {
                 default: any;
             };
             aetherType: string;
-        }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>> | null | undefined, S> & {
+        }) | (ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_2 in keyof S_1]: ss.Infer<S_1[K_2]>; }>> | null | undefined, S_1> & {
             nullable: boolean;
         } & {
-            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>> | null | undefined, S> & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_2 in keyof S_1]: ss.Infer<S_1[K_2]>; }>> | null | undefined, S_1> & {
                 nullable: boolean;
             } & {
                 example: any;
                 description: string | undefined;
             };
-            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_1 in keyof S]: ss.Infer<S[K_1]>; }>> | null | undefined, S> & {
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<import("superstruct/lib/utils").Simplify<import("superstruct/lib/utils").Optionalize<{ [K_2 in keyof S_1]: ss.Infer<S_1[K_2]>; }>> | null | undefined, S_1> & {
                 nullable: boolean;
             } & {
                 description?: string | undefined;
@@ -1019,98 +983,6 @@ export declare const ats: {
         });
     };
     array: typeof ss.array;
-    collection: (objSchema: ObjectSchema) => ss.Struct<{
-        [x: string]: any;
-    }[], ss.Struct<{
-        [x: string]: any;
-    }, ObjectSchema> & {
-        docs: (example: any, description?: string | undefined) => ss.Struct<{
-            [x: string]: any;
-        }, ObjectSchema> & {
-            example: any;
-            description: string | undefined;
-        };
-        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<{
-            [x: string]: any;
-        }, ObjectSchema> & {
-            description?: string | undefined;
-            example?: any;
-            default: any;
-        };
-        aetherType: string;
-    } & {
-        nullable: () => ss.Struct<{
-            [x: string]: any;
-        } | null, ObjectSchema> & {
-            nullable: boolean;
-        } & {
-            docs: (example: any, description?: string | undefined) => ss.Struct<{
-                [x: string]: any;
-            } | null, ObjectSchema> & {
-                nullable: boolean;
-            } & {
-                example: any;
-                description: string | undefined;
-            };
-            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<{
-                [x: string]: any;
-            } | null, ObjectSchema> & {
-                nullable: boolean;
-            } & {
-                description?: string | undefined;
-                example?: any;
-                default: any;
-            };
-            aetherType: string;
-        };
-        optional: (nullable?: boolean | undefined) => (ss.Struct<{
-            [x: string]: any;
-        } | undefined, ObjectSchema> & {
-            optional: boolean;
-        } & {
-            docs: (example: any, description?: string | undefined) => ss.Struct<{
-                [x: string]: any;
-            } | undefined, ObjectSchema> & {
-                optional: boolean;
-            } & {
-                example: any;
-                description: string | undefined;
-            };
-            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<{
-                [x: string]: any;
-            } | undefined, ObjectSchema> & {
-                optional: boolean;
-            } & {
-                description?: string | undefined;
-                example?: any;
-                default: any;
-            };
-            aetherType: string;
-        }) | (ss.Struct<{
-            [x: string]: any;
-        } | null | undefined, ObjectSchema> & {
-            nullable: boolean;
-        } & {
-            docs: (example: any, description?: string | undefined) => ss.Struct<{
-                [x: string]: any;
-            } | null | undefined, ObjectSchema> & {
-                nullable: boolean;
-            } & {
-                example: any;
-                description: string | undefined;
-            };
-            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<{
-                [x: string]: any;
-            } | null | undefined, ObjectSchema> & {
-                nullable: boolean;
-            } & {
-                description?: string | undefined;
-                example?: any;
-                default: any;
-            };
-            aetherType: string;
-        });
-    }>;
     is: typeof ss.is;
     validate: typeof ss.validate;
     assert: typeof ss.assert;

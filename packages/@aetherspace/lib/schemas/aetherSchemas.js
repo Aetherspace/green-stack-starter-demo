@@ -30,25 +30,25 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ats = exports.aetherCollection = exports.aetherArray = exports.aetherObject = exports.aetherSchema = exports.aetherEnum = exports.aetherDate = exports.aetherBoolean = exports.aetherNumber = exports.aetherString = void 0;
+exports.ats = exports.aetherArray = exports.aetherObject = exports.aetherSchema = exports.aetherEnum = exports.aetherDate = exports.aetherBoolean = exports.aetherNumber = exports.aetherString = void 0;
 var ss = __importStar(require("superstruct"));
-var assignDescriptors = function (schema, aetherType) { return Object.assign(schema, {
-    docs: function (example, description) { return Object.assign(schema, { example: example, description: description }); },
-    default: function (defaultVal, example, description) { return Object.assign(schema, __assign(__assign({ default: defaultVal }, (example ? { example: example } : null)), (description ? { description: description } : null))); },
-    aetherType: aetherType,
-}); };
-var makeOptionalable = function (schema, aetherType) { return Object.assign(schema, {
-    nullable: function () {
-        var newSchema = Object.assign(ss.nullable(schema), { nullable: true });
-        return assignDescriptors(newSchema, aetherType);
-    },
-    optional: function (nullable) {
-        var newSchema = Object.assign(ss.optional(schema), { optional: true });
-        if (!nullable)
-            return assignDescriptors(newSchema, aetherType);
-        return assignDescriptors(Object.assign(ss.nullable(newSchema), { nullable: true }), aetherType);
-    },
-}); };
+var assignDescriptors = function (schema, aetherType, schemaName) {
+    return Object.assign(schema, __assign({ docs: function (example, description) { return Object.assign(schema, { example: example, description: description }); }, default: function (defaultVal, example, description) { return Object.assign(schema, __assign(__assign({ default: defaultVal }, (example ? { example: example } : null)), (description ? { description: description } : null))); }, aetherType: aetherType }, (schemaName ? { schemaName: schemaName } : null)));
+};
+var makeOptionalable = function (schema, aetherType, schemaName) {
+    return Object.assign(schema, {
+        nullable: function () {
+            var newSchema = Object.assign(ss.nullable(schema), { nullable: true });
+            return assignDescriptors(newSchema, aetherType, schemaName);
+        },
+        optional: function (nullable) {
+            var newSchema = Object.assign(ss.optional(schema), { optional: true });
+            if (!nullable)
+                return assignDescriptors(newSchema, aetherType, schemaName);
+            return assignDescriptors(Object.assign(ss.nullable(newSchema), { nullable: true }), aetherType, schemaName);
+        },
+    });
+};
 var aetherWrapper = function (struct, aetherType) {
     return function () {
         var args = [];
@@ -68,22 +68,18 @@ var aetherEnum = function (values) {
     return makeOptionalable(schema, 'AetherEnum');
 };
 exports.aetherEnum = aetherEnum;
-var aetherSchema = function (objSchema) {
-    var aetherSchema = assignDescriptors(ss.object(objSchema), 'aetherSchema');
-    return makeOptionalable(aetherSchema, 'AetherSchema');
+var aetherSchema = function (schemaName, objSchema) {
+    var aetherSchema = assignDescriptors(ss.object(objSchema), 'aetherSchema', schemaName);
+    return makeOptionalable(aetherSchema, 'AetherSchema', schemaName);
 };
 exports.aetherSchema = aetherSchema;
-exports.aetherObject = exports.aetherSchema;
+var aetherObject = function (objSchema) { return exports.aetherSchema('', objSchema); };
+exports.aetherObject = aetherObject;
 exports.aetherArray = ss.array;
-var aetherCollection = function () {
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-    }
-    var schema = exports.aetherSchema.apply(void 0, args);
-    return ss.array(schema);
-};
-exports.aetherCollection = aetherCollection;
+// export const aetherCollection = (...args: Parameters<typeof aetherSchema>) => {
+//     const schema = aetherSchema(...args);
+//     return ss.array(schema);
+// };
 exports.ats = {
     string: exports.aetherString,
     number: exports.aetherNumber,
@@ -93,7 +89,7 @@ exports.ats = {
     schema: exports.aetherSchema,
     object: exports.aetherObject,
     array: exports.aetherArray,
-    collection: exports.aetherCollection,
+    // collection: aetherCollection,
     // -- SuperStruct Validators --
     is: ss.is,
     validate: ss.validate,

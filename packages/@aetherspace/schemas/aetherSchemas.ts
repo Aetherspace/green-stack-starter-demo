@@ -1,27 +1,32 @@
 import * as ss from 'superstruct';
 import { ObjectSchema, ObjectType } from 'superstruct/lib/utils';
 
-const assignDescriptors = <R extends unknown>(schema: R, aetherType: string) => Object.assign(schema, {
-    docs: (example, description?: string) => Object.assign(schema, { example, description }),
-    default: (defaultVal, example?: any, description?: string) => Object.assign(schema, {
-        default: defaultVal,
-        ...(example ? { example } : null),
-        ...(description ? { description } : null),
-    }),
-    aetherType,
-});
+const assignDescriptors = <R extends unknown>(schema: R, aetherType: string, schemaName?: string) => {
+    return Object.assign(schema, {
+        docs: (example, description?: string) => Object.assign(schema, { example, description }),
+        default: (defaultVal, example?: any, description?: string) => Object.assign(schema, {
+            default: defaultVal,
+            ...(example ? { example } : null),
+            ...(description ? { description } : null),
+        }),
+        aetherType,
+        ...(schemaName ? { schemaName } : null),
+    });
+};
 
-const makeOptionalable = <T, S, ST extends ss.Struct<T, S>>(schema: ST, aetherType: string) => Object.assign(schema, {
-    nullable: () => {
-        const newSchema = Object.assign(ss.nullable(schema), { nullable: true });
-        return assignDescriptors(newSchema, aetherType);
-    },
-    optional: (nullable?: boolean) => {
-        const newSchema = Object.assign(ss.optional(schema), { optional: true });
-        if (!nullable) return assignDescriptors(newSchema, aetherType);
-        return assignDescriptors(Object.assign(ss.nullable(newSchema), { nullable: true }), aetherType); 
-    },
-});
+const makeOptionalable = <T, S, ST extends ss.Struct<T, S>>(schema: ST, aetherType: string, schemaName?: string) => {
+    return Object.assign(schema, {
+        nullable: () => {
+            const newSchema = Object.assign(ss.nullable(schema), { nullable: true });
+            return assignDescriptors(newSchema, aetherType, schemaName);
+        },
+        optional: (nullable?: boolean) => {
+            const newSchema = Object.assign(ss.optional(schema), { optional: true });
+            if (!nullable) return assignDescriptors(newSchema, aetherType, schemaName);
+            return assignDescriptors(Object.assign(ss.nullable(newSchema), { nullable: true }), aetherType, schemaName);
+        },
+    });
+};
 
 const aetherWrapper = <A extends any[], T, S>(struct: (...args: A) => ss.Struct<T, S>, aetherType: string) => {
     return (...args: A) => {
@@ -40,8 +45,8 @@ export const aetherEnum = <T extends string = string>(values: readonly T[]) => {
     return makeOptionalable<T, (typeof schema)['schema'], typeof schema>(schema, 'AetherEnum');
 };
 
-export const aetherSchema = <S extends ObjectSchema>(objSchema: S) => {
-    const aetherSchema = assignDescriptors(ss.object(objSchema), 'aetherSchema');
+export const aetherSchema = <S extends ObjectSchema>(schemaName: string, objSchema: S) => {
+    const aetherSchema = assignDescriptors(ss.object(objSchema), 'aetherSchema', schemaName);
     return makeOptionalable<
         ObjectType<S>,
         (typeof aetherSchema)['schema'],
@@ -49,16 +54,17 @@ export const aetherSchema = <S extends ObjectSchema>(objSchema: S) => {
     >(
         aetherSchema,
         'AetherSchema',
+        schemaName,
     );
 };
-export const aetherObject = aetherSchema;
+export const aetherObject = <S extends ObjectSchema>(objSchema: S) => aetherSchema('', objSchema);
 
 export const aetherArray = ss.array;
 
-export const aetherCollection = (...args: Parameters<typeof aetherSchema>) => {
-    const schema = aetherSchema(...args);
-    return ss.array(schema);
-};
+// export const aetherCollection = (...args: Parameters<typeof aetherSchema>) => {
+//     const schema = aetherSchema(...args);
+//     return ss.array(schema);
+// };
 
 export const ats = {
     string: aetherString,
@@ -69,7 +75,7 @@ export const ats = {
     schema: aetherSchema,
     object: aetherObject,
     array: aetherArray,
-    collection: aetherCollection,
+    // collection: aetherCollection,
     // -- SuperStruct Validators --
     is: ss.is,
     validate: ss.validate,

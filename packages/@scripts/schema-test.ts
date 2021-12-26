@@ -14,10 +14,10 @@ const num = ats.number().docs(5);
 const bln = ats.boolean().optional();
 const opt = ats.enum<TEST_ENUM>(Object.values(TEST_ENUM));
 const obj = ats.object({ str });
-const col = ats.collection({ id });
+// const col = ats.collection({ id });
 const coll = ss.array(ss.object({ bln }));
 
-const superSchema = ats.schema({
+const superSchema = ats.schema('MySchema', {
     id,
     ids,
     str,
@@ -26,7 +26,7 @@ const superSchema = ats.schema({
     bln,
     opt,
     obj,
-    col,
+    // col,
     coll,
 });
 

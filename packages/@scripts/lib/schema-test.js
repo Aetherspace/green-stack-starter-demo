@@ -34,9 +34,9 @@ var num = schemas_1.ats.number().docs(5);
 var bln = schemas_1.ats.boolean().optional();
 var opt = schemas_1.ats.enum(Object.values(TEST_ENUM));
 var obj = schemas_1.ats.object({ str: str });
-var col = schemas_1.ats.collection({ id: id });
+// const col = ats.collection({ id });
 var coll = ss.array(ss.object({ bln: bln }));
-var superSchema = schemas_1.ats.schema({
+var superSchema = schemas_1.ats.schema('MySchema', {
     id: id,
     ids: ids,
     str: str,
@@ -45,7 +45,7 @@ var superSchema = schemas_1.ats.schema({
     bln: bln,
     opt: opt,
     obj: obj,
-    col: col,
+    // col,
     coll: coll,
 });
 var propTest = superSchema.schema.bln;
