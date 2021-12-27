@@ -32,6 +32,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ats = exports.aetherCollection = exports.aetherArray = exports.aetherObject = exports.aetherSchema = exports.aetherEnum = exports.aetherDate = exports.aetherBoolean = exports.aetherNumber = exports.aetherString = exports.aetherID = void 0;
 var ss = __importStar(require("superstruct"));
+/* --- Helpers --------------------------------------------------------------------------------- */
 var assignDescriptors = function (schema, aetherType, schemaName) {
     return Object.assign(schema, __assign({ docs: function (example, description) { return Object.assign(schema, { example: example, description: description }); }, default: function (defaultVal, example, description) { return Object.assign(schema, __assign(__assign({ default: defaultVal }, (example ? { example: example } : null)), (description ? { description: description } : null))); }, aetherType: aetherType }, (schemaName ? { schemaName: schemaName } : null)));
 };
@@ -59,6 +60,7 @@ var aetherWrapper = function (struct, aetherType) {
         return makeOptionalable(schema, aetherType);
     };
 };
+/* --- Primitive Schema Types ------------------------------------------------------------------ */
 exports.aetherID = aetherWrapper(ss.string, 'AetherID');
 exports.aetherString = aetherWrapper(ss.string, 'AetherString');
 exports.aetherNumber = aetherWrapper(ss.number, 'AetherNumber');
@@ -69,6 +71,7 @@ var aetherEnum = function (values) {
     return makeOptionalable(schema, 'AetherEnum');
 };
 exports.aetherEnum = aetherEnum;
+/* --- Advanced Schema Types ------------------------------------------------------------------- */
 var aetherSchema = function (schemaName, objSchema) {
     var aetherSchema = assignDescriptors(ss.object(objSchema), 'aetherSchema', schemaName);
     return makeOptionalable(aetherSchema, 'AetherSchema', schemaName);
@@ -97,7 +100,7 @@ exports.ats = {
     object: exports.aetherObject,
     array: exports.aetherArray,
     collection: exports.aetherCollection,
-    // -- SuperStruct Validators --
+    // -- superstruct --
     is: ss.is,
     validate: ss.validate,
     assert: ss.assert,

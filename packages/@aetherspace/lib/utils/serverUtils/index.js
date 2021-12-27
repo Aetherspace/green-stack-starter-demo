@@ -12,3 +12,4 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("../index"), exports);
 __exportStar(require("./apiUtils"), exports);
+__exportStar(require("./aetherResolver"), exports);

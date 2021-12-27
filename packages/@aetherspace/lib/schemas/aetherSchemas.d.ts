@@ -1,5 +1,5 @@
 import * as ss from 'superstruct';
-import { ObjectSchema } from 'superstruct/lib/utils';
+import { ObjectSchema, StructSchema } from 'superstruct/lib/utils';
 export declare const aetherID: () => ss.Struct<string, null> & {
     schemaName?: string | undefined;
     docs: (example: any, description?: string | undefined) => ss.Struct<string, null> & {
@@ -1528,6 +1528,9 @@ export declare const aetherCollection: <S extends ObjectSchema>(objSchema: S) =>
         aetherType: string;
     });
 };
+export declare type AetherSchemaType = ss.Struct<any, any>;
+export declare type Infer<T extends AetherSchemaType> = T["TYPE"];
+export declare type Describe<T> = ss.Struct<T, StructSchema<T>>;
 export declare const ats: {
     id: () => ss.Struct<string, null> & {
         schemaName?: string | undefined;

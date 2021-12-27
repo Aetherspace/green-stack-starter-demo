@@ -1,5 +1,7 @@
 import * as ss from 'superstruct';
-import { ObjectSchema, ObjectType } from 'superstruct/lib/utils';
+import { ObjectSchema, ObjectType, StructSchema } from 'superstruct/lib/utils';
+
+/* --- Helpers --------------------------------------------------------------------------------- */
 
 const assignDescriptors = <R extends unknown>(schema: R, aetherType: string, schemaName?: string) => {
     return Object.assign(schema, {
@@ -35,15 +37,20 @@ const aetherWrapper = <A extends any[], T, S>(struct: (...args: A) => ss.Struct<
     };
 };
 
+/* --- Primitive Schema Types ------------------------------------------------------------------ */
+
 export const aetherID = aetherWrapper(ss.string, 'AetherID');
 export const aetherString = aetherWrapper(ss.string, 'AetherString');
 export const aetherNumber = aetherWrapper(ss.number, 'AetherNumber');
 export const aetherBoolean = aetherWrapper(ss.boolean, 'AetherBoolean');
 export const aetherDate = aetherWrapper(ss.date, 'AetherDate');
+
 export const aetherEnum = <T extends string = string>(values: readonly T[]) => {
     const schema = assignDescriptors(ss.enums<T>(values), 'AetherEnum');
     return makeOptionalable<T, (typeof schema)['schema'], typeof schema>(schema, 'AetherEnum');
 };
+
+/* --- Advanced Schema Types ------------------------------------------------------------------- */
 
 export const aetherSchema = <S extends ObjectSchema>(schemaName: string, objSchema: S) => {
     const aetherSchema = assignDescriptors(ss.object(objSchema), 'aetherSchema', schemaName);
@@ -57,7 +64,9 @@ export const aetherSchema = <S extends ObjectSchema>(schemaName: string, objSche
         schemaName,
     );
 };
+
 export const aetherObject = <S extends ObjectSchema>(objSchema: S) => aetherSchema('', objSchema);
+
 export const aetherArray = <T extends ss.Struct<any>>(Element: T) => {
     const arraySchema = assignDescriptors(ss.array<T>(Element), 'AetherArray');
     return makeOptionalable<
@@ -69,10 +78,17 @@ export const aetherArray = <T extends ss.Struct<any>>(Element: T) => {
         'AetherSchema',
     );
 };
+
 export const aetherCollection = <S extends ObjectSchema>(objSchema: S) => {
     const entrySchema = aetherObject(objSchema);
     return aetherArray(entrySchema);
 };
+
+/* --- Exports --------------------------------------------------------------------------------- */
+
+export type AetherSchemaType = ss.Struct<any, any>;
+export type Infer<T extends AetherSchemaType> = T["TYPE"]; // Same as superstruct's Infer type
+export type Describe<T> = ss.Struct<T, StructSchema<T>>; // Same as superstruct's Describe type
 
 export const ats = {
     id: aetherID,
@@ -85,7 +101,7 @@ export const ats = {
     object: aetherObject,
     array: aetherArray,
     collection: aetherCollection,
-    // -- SuperStruct Validators --
+    // -- superstruct --
     is: ss.is,
     validate: ss.validate,
     assert: ss.assert,
