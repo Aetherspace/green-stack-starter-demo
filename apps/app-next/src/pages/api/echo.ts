@@ -30,10 +30,6 @@ export const echoArgsResolver = aetherResolver(
     echoArgsResolversResponseSchema,
 );
 
-const test = async () => {
-    const { args } = await echoArgsResolver({ kdkd: 'test' });
-};
-
 /* --- Types ----------------------------------------------------------------------------------- */
 
 export type echoArgsResolverArgsType = AetherArgs<typeof echoArgsResolver>;

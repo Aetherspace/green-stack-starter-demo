@@ -4,6 +4,8 @@ import { useRouting } from 'expo-next-react-navigation';
 import { AetherLink } from 'aetherspace/navigation';
 // Primitives
 import { AetherView, AetherText } from 'aetherspace/primitives';
+// Icons
+import { BackIcon, HomeIcon } from '../icons';
 
 /* --- <AuthorScreen/> --------------------------------------------------------------------------- */
 
@@ -15,9 +17,15 @@ const AuthorScreen = () => {
                 <AetherText>About the Author:</AetherText>
                 <AetherText tw="font-bold text-lg">thorr@codinsonn.dev</AetherText>
             </AetherView>
-            <AetherView tw="flex-row">
-                <AetherText tw="py-2.5 px-5 bg-black text-white m-5" onPress={goBack}>👈  Go Back</AetherText>
-                <AetherLink tw="py-2.5 px-5 bg-black text-white m-5" routeName="/">🏡  Home</AetherLink>
+            <AetherView tw="flex-row items-center content-center justify-items-center mt-5">
+                <AetherView tw="flex-row py-2.5 px-5 mx-3 bg-black items-center">
+                    <BackIcon width={16} height={16} />
+                    <AetherText tw="text-white" onPress={goBack}> Go Back</AetherText>
+                </AetherView>
+                <AetherLink tw="flex-row py-2.5 px-5 mx-3 bg-black items-center" routeName="/">
+                    <HomeIcon width={15} height={15} />
+                    <AetherText tw="text-white"> Home</AetherText>
+                </AetherLink>
             </AetherView>
         </AetherView>
     );
