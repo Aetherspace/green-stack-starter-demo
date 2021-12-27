@@ -30,7 +30,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ats = exports.aetherCollection = exports.aetherArray = exports.aetherObject = exports.aetherSchema = exports.aetherEnum = exports.aetherDate = exports.aetherBoolean = exports.aetherNumber = exports.aetherString = void 0;
+exports.ats = exports.aetherCollection = exports.aetherArray = exports.aetherObject = exports.aetherSchema = exports.aetherEnum = exports.aetherDate = exports.aetherBoolean = exports.aetherNumber = exports.aetherString = exports.aetherID = void 0;
 var ss = __importStar(require("superstruct"));
 var assignDescriptors = function (schema, aetherType, schemaName) {
     return Object.assign(schema, __assign({ docs: function (example, description) { return Object.assign(schema, { example: example, description: description }); }, default: function (defaultVal, example, description) { return Object.assign(schema, __assign(__assign({ default: defaultVal }, (example ? { example: example } : null)), (description ? { description: description } : null))); }, aetherType: aetherType }, (schemaName ? { schemaName: schemaName } : null)));
@@ -59,6 +59,7 @@ var aetherWrapper = function (struct, aetherType) {
         return makeOptionalable(schema, aetherType);
     };
 };
+exports.aetherID = aetherWrapper(ss.string, 'AetherID');
 exports.aetherString = aetherWrapper(ss.string, 'AetherString');
 exports.aetherNumber = aetherWrapper(ss.number, 'AetherNumber');
 exports.aetherBoolean = aetherWrapper(ss.boolean, 'AetherBoolean');
@@ -86,6 +87,7 @@ var aetherCollection = function (objSchema) {
 };
 exports.aetherCollection = aetherCollection;
 exports.ats = {
+    id: exports.aetherID,
     string: exports.aetherString,
     number: exports.aetherNumber,
     boolean: exports.aetherBoolean,

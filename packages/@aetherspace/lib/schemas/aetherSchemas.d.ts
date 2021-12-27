@@ -1,5 +1,75 @@
 import * as ss from 'superstruct';
 import { ObjectSchema } from 'superstruct/lib/utils';
+export declare const aetherID: () => ss.Struct<string, null> & {
+    schemaName?: string | undefined;
+    docs: (example: any, description?: string | undefined) => ss.Struct<string, null> & {
+        example: any;
+        description: string | undefined;
+    };
+    default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<string, null> & {
+        description?: string | undefined;
+        example?: any;
+        default: any;
+    };
+    aetherType: string;
+} & {
+    nullable: () => ss.Struct<string | null, null> & {
+        nullable: boolean;
+    } & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<string | null, null> & {
+            nullable: boolean;
+        } & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<string | null, null> & {
+            nullable: boolean;
+        } & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    };
+    optional: (nullable?: boolean | undefined) => (ss.Struct<string | undefined, null> & {
+        optional: boolean;
+    } & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<string | undefined, null> & {
+            optional: boolean;
+        } & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<string | undefined, null> & {
+            optional: boolean;
+        } & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    }) | (ss.Struct<string | null | undefined, null> & {
+        nullable: boolean;
+    } & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<string | null | undefined, null> & {
+            nullable: boolean;
+        } & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<string | null | undefined, null> & {
+            nullable: boolean;
+        } & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    });
+};
 export declare const aetherString: () => ss.Struct<string, null> & {
     schemaName?: string | undefined;
     docs: (example: any, description?: string | undefined) => ss.Struct<string, null> & {
@@ -1459,6 +1529,76 @@ export declare const aetherCollection: <S extends ObjectSchema>(objSchema: S) =>
     });
 };
 export declare const ats: {
+    id: () => ss.Struct<string, null> & {
+        schemaName?: string | undefined;
+        docs: (example: any, description?: string | undefined) => ss.Struct<string, null> & {
+            example: any;
+            description: string | undefined;
+        };
+        default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<string, null> & {
+            description?: string | undefined;
+            example?: any;
+            default: any;
+        };
+        aetherType: string;
+    } & {
+        nullable: () => ss.Struct<string | null, null> & {
+            nullable: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<string | null, null> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<string | null, null> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        };
+        optional: (nullable?: boolean | undefined) => (ss.Struct<string | undefined, null> & {
+            optional: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<string | undefined, null> & {
+                optional: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<string | undefined, null> & {
+                optional: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        }) | (ss.Struct<string | null | undefined, null> & {
+            nullable: boolean;
+        } & {
+            schemaName?: string | undefined;
+            docs: (example: any, description?: string | undefined) => ss.Struct<string | null | undefined, null> & {
+                nullable: boolean;
+            } & {
+                example: any;
+                description: string | undefined;
+            };
+            default: (defaultVal: any, example?: any, description?: string | undefined) => ss.Struct<string | null | undefined, null> & {
+                nullable: boolean;
+            } & {
+                description?: string | undefined;
+                example?: any;
+                default: any;
+            };
+            aetherType: string;
+        });
+    };
     string: () => ss.Struct<string, null> & {
         schemaName?: string | undefined;
         docs: (example: any, description?: string | undefined) => ss.Struct<string, null> & {

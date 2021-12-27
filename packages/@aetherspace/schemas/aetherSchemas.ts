@@ -35,6 +35,7 @@ const aetherWrapper = <A extends any[], T, S>(struct: (...args: A) => ss.Struct<
     };
 };
 
+export const aetherID = aetherWrapper(ss.string, 'AetherID');
 export const aetherString = aetherWrapper(ss.string, 'AetherString');
 export const aetherNumber = aetherWrapper(ss.number, 'AetherNumber');
 export const aetherBoolean = aetherWrapper(ss.boolean, 'AetherBoolean');
@@ -74,6 +75,7 @@ export const aetherCollection = <S extends ObjectSchema>(objSchema: S) => {
 };
 
 export const ats = {
+    id: aetherID,
     string: aetherString,
     number: aetherNumber,
     boolean: aetherBoolean,
