@@ -128,8 +128,8 @@ var aetherResolver = function (resolverFn, apiParamKeys, apiArgSchema, apiResSch
     };
     // Return Resolver
     return Object.assign(resolverWrapper, {
-        apiArgSchema: apiArgSchema || {},
-        apiResSchema: apiResSchema || {},
+        argSchema: apiArgSchema || {},
+        resSchema: apiResSchema || {},
         ARGS_TYPE: undefined,
         RESP_TYPE: undefined,
     });

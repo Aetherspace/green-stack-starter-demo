@@ -20,7 +20,7 @@ const collectAssets = () => {
                 return `${acc}${exportLine}\n`;
             }, '// -i- Auto generated with "yarn collect-assets"\n');
             const appPath = nextAppPath.replace('-next', '');
-            fs.writeFileSync(`${appPath}/assets.ts`, assetRegistry);
+            fs.writeFileSync(`${appPath}/assets.generated.ts`, assetRegistry);
         });
         const appPaths = nextAppPaths.map((nextAppPath) => nextAppPath.replace('../../', '../'));
         const resultLogs = appPaths.map((appPath) => `✅ ${appPath.replace('-next', '')}/assets.ts`);

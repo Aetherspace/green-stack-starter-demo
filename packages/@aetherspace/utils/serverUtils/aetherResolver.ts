@@ -117,8 +117,8 @@ export const aetherResolver = <
     };
     // Return Resolver
     return Object.assign(resolverWrapper, {
-        apiArgSchema: apiArgSchema || {},
-        apiResSchema: apiResSchema || {},
+        argSchema: apiArgSchema || {},
+        resSchema: apiResSchema || {},
         ARGS_TYPE: undefined as AT,
         RESP_TYPE: undefined as RT,
     });

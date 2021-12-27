@@ -23,7 +23,7 @@ var collectAssets = function () {
                 return "" + acc + exportLine + "\n";
             }, '// -i- Auto generated with "yarn collect-assets"\n');
             var appPath = nextAppPath.replace('-next', '');
-            fs_1.default.writeFileSync(appPath + "/assets.ts", assetRegistry);
+            fs_1.default.writeFileSync(appPath + "/assets.generated.ts", assetRegistry);
         });
         var appPaths = nextAppPaths.map(function (nextAppPath) { return nextAppPath.replace('../../', '../'); });
         var resultLogs = appPaths.map(function (appPath) { return "\u2705 " + appPath.replace('-next', '') + "/assets.ts"; });

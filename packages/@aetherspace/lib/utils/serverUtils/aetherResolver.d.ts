@@ -42,8 +42,8 @@ export declare type AetherResolverExecutionParamsType<AT extends unknown = any> 
     res?: NextApiResponse | GetServerSidePropsContext['res'];
 };
 export declare const aetherResolver: <TSAT extends unknown = null, TSRT extends unknown = null, AST extends AetherSchemaType = any, RST extends AetherSchemaType = any, AT extends unknown = TSAT extends null ? Infer<AST> : TSAT, RT extends unknown = TSRT extends null ? Infer<RST> : TSRT>(resolverFn: (ctx: AetherResolverExecutionParamsType<AT>) => Promise<unknown>, apiParamKeys?: string | undefined, apiArgSchema?: AST | undefined, apiResSchema?: RST | undefined) => ((ctx?: AetherResolverInputType<AT> | undefined) => Promise<RT>) & {
-    apiArgSchema: {};
-    apiResSchema: {};
+    argSchema: {};
+    resSchema: {};
     ARGS_TYPE: AT;
     RESP_TYPE: RT;
 };

@@ -7,7 +7,7 @@ import AetherContextManager from '../../packages/@aetherspace/context/AetherCont
 import HomeScreen from 'app/screens/HomeScreen';
 import AuthorScreen from 'app/screens/AuthorScreen';
 // Assets
-import * as assets from 'app/assets';
+import * as assets from 'app/assets.generated';
 
 /* --- Navigation ------------------------------------------------------------------------------ */
 
