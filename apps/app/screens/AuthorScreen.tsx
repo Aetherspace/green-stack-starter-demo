@@ -19,11 +19,11 @@ const AuthorScreen = () => {
                 <AetherText>About the Author:</AetherText>
                 <AetherText tw="font-bold text-lg">thorr@codinsonn.dev</AetherText>
             </AetherPressable>
-            <AetherView tw="flex-row items-center content-center justify-items-center mt-5">
-                <AetherView tw="flex-row py-2.5 px-5 mx-3 bg-black items-center">
+            <AetherView tw="flex-row items-center content-center justify-center mt-5">
+                <AetherPressable tw="flex-row py-2.5 px-5 mx-3 bg-black items-center" onPress={goBack}>
                     <BackIcon width={16} height={16} />
-                    <AetherText tw="text-white" onPress={goBack}> Go Back</AetherText>
-                </AetherView>
+                    <AetherText tw="text-white"> Go Back</AetherText>
+                </AetherPressable>
                 <AetherLink tw="flex-row py-2.5 px-5 mx-3 bg-black items-center" routeName="/">
                     <HomeIcon width={15} height={15} />
                     <AetherText tw="text-white"> Home</AetherText>

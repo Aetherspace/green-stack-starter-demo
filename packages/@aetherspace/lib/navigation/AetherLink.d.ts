@@ -52,8 +52,9 @@ export declare const useAetherNav: () => {
             screen?: string | undefined;
         } | undefined;
     }>(route: To) => void;
+    webDomain: string;
     getDestination: (path: string) => string;
-    openLink: (path: string, isBlank?: boolean) => void | Promise<true>;
+    openLink: (path: string, isBlank?: boolean) => void | Window | Promise<true> | null;
     getParam: <Param>(param: string, fallback?: unknown) => Param;
     push: <To_1 extends {
         routeName: string;

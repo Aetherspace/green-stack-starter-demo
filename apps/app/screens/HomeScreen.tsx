@@ -18,10 +18,10 @@ const HomeScreen = () => {
             <AetherText tw="px-5 text-center text-sm">
                 Open up apps/app/screens/HomeScreen.tsx to start working on your app
             </AetherText>
-            <AetherLink href="author" tw="text-gray-500 pt-5 text-center text-xs" asText>
+            <AetherLink href="/author" tw="text-gray-500 pt-5 text-center text-xs" asText>
                 (Tap here or below to test navigation)
             </AetherLink>
-            <AetherLink to="author" tw="m-8">
+            <AetherLink to="/author" tw="m-8">
                 {'{ ...💚 }'}
             </AetherLink>
         </AetherView>

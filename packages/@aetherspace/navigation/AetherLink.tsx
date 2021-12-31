@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { TextStyle } from 'react-native';
+import { TextStyle, Platform } from 'react-native';
 import { Link, useRouting } from 'expo-next-react-navigation';
 import * as Linking from 'expo-linking';
 import * as WebBrowser from 'expo-web-browser';
@@ -35,21 +35,28 @@ export const useAetherNav = () => {
 
     // Vars
     const APP_LINKS: string[] = useMemo(() => getEnvVar('APP_LINKS')?.split('|') || [], []);
+    const [webDomain] = APP_LINKS.filter((link) => link.includes('://')); 
 
     // -- Handlers --
 
     const getDestination = (path: string) => {
+        // Convert to relative path?
         const internalDomainMatch = APP_LINKS.find(appUrl => path.includes(appUrl));
         if (internalDomainMatch) return path.replace(`${internalDomainMatch}/`, '');
-        return path;
+        // Remove leading slash?
+        const hasLeadingSlash = path !== '/' && path[0] === '/';
+        return hasLeadingSlash ? path.slice(1) : path;
     };
 
     const openLink = (path: string, isBlank: boolean = false) => {
         const destination = getDestination(path);
         const isInternalLink = !destination.includes('://');
-        if (isInternalLink) return navigate({ routeName: destination });
-        if (isBlank) return Linking.openURL(destination); // "open in a new tab" or mobile browser
-        WebBrowser.openBrowserAsync(destination); // Open external links in internal browser?
+        const webDestination = (isInternalLink && Platform.OS !== 'web') ? `${webDomain}${destination}` : path;
+        const isBrowserEnv = Platform.OS === 'web' && typeof window !== 'undefined' && !!window.open;
+        const openURL = isBrowserEnv ? (url: string) => window.open(url, '_blank') : Linking.openURL;
+        if (isInternalLink && !isBlank) return navigate({ routeName: destination });
+        if (isBlank || isBrowserEnv) return openURL(webDestination); // "open in a new tab" or mobile browser
+        WebBrowser.openBrowserAsync(webDestination); // Open external links in internal browser?
     };
 
     // -- Return --
@@ -57,6 +64,7 @@ export const useAetherNav = () => {
     return {
         ...expoNextReactNavRoutingResources,
         navigate,
+        webDomain,
         getDestination,
         openLink,
     };
