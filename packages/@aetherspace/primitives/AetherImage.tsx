@@ -1,3 +1,5 @@
+// https://docs.expo.dev/versions/latest/react-native/image/
+// https://necolas.github.io/react-native-web/docs/image/
 import React, { useMemo } from 'react';
 import { Image, ImageProps, StyleProp, ImageStyle, ImageRequireSource } from 'react-native';
 // Context

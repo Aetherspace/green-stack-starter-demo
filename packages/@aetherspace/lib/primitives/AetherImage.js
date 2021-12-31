@@ -30,6 +30,8 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+// https://docs.expo.dev/versions/latest/react-native/image/
+// https://necolas.github.io/react-native-web/docs/image/
 var react_1 = __importStar(require("react"));
 var react_native_1 = require("react-native");
 // Context

@@ -1,11 +1,13 @@
+// https://necolas.github.io/react-native-web/docs/image/
+// https://nextjs.org/docs/api-reference/next/image
 import React, { useMemo } from 'react';
 import { ImageProps, StyleProp, ImageStyle, ImageURISource } from 'react-native';
 import Image from 'next/image';
 // Context
 import { useAetherContext } from '../context/AetherContextManager';
-// @ts-ignore (Components)
+// Components
+import AetherView from './AetherView'; // @ts-ignore
 import AetherImageExpo from './AetherImage.tsx';
-import AetherView from './AetherView';
 
 /* --- Types ----------------------------------------------------------------------------------- */
 

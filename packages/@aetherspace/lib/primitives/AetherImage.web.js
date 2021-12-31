@@ -22,13 +22,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+// https://necolas.github.io/react-native-web/docs/image/
+// https://nextjs.org/docs/api-reference/next/image
 var react_1 = __importStar(require("react"));
 var image_1 = __importDefault(require("next/image"));
 // Context
 var AetherContextManager_1 = require("../context/AetherContextManager");
-// @ts-ignore (Components)
+// Components
+var AetherView_1 = __importDefault(require("./AetherView")); // @ts-ignore
 var AetherImage_tsx_1 = __importDefault(require("./AetherImage.tsx"));
-var AetherView_1 = __importDefault(require("./AetherView"));
 ;
 /* --- <AetherImage/> -------------------------------------------------------------------------- */
 var AetherImage = function (props) {

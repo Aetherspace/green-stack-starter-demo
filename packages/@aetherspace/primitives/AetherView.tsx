@@ -1,3 +1,5 @@
+// https://docs.expo.dev/versions/latest/react-native/view/
+// https://necolas.github.io/react-native-web/docs/view/
 import React from 'react';
 import { View, ViewProps, StyleProp, ViewStyle } from 'react-native';
 // Hooks

@@ -8,7 +8,7 @@ import { addMediaQuery } from '../styles';
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-type StylePropsType<K, S=K> = {
+type StylePropsType<K, S = K> = {
     style?: StyleProp<S>;
     tw?: string;
     twID?: string;

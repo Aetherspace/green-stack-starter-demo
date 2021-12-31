@@ -27,37 +27,63 @@ interface AetherLinkRouteType extends AetherLinkBaseType { routeName: string, to
 
 type AetherLinkType = AetherLinkToType | AetherLinkHrefType | AetherLinkRouteType;
 
+/* --- useAetherNav() -------------------------------------------------------------------------- */
+
+export const useAetherNav = () => {
+    // Hooks
+    const { navigate, ...expoNextReactNavRoutingResources } = useRouting();
+
+    // Vars
+    const APP_LINKS: string[] = useMemo(() => getEnvVar('APP_LINKS')?.split('|') || [], []);
+
+    // -- Handlers --
+
+    const getDestination = (path: string) => {
+        const internalDomainMatch = APP_LINKS.find(appUrl => path.includes(appUrl));
+        if (internalDomainMatch) return path.replace(`${internalDomainMatch}/`, '');
+        return path;
+    };
+
+    const openLink = (path: string, isBlank: boolean = false) => {
+        const destination = getDestination(path);
+        const isInternalLink = !destination.includes('://');
+        if (isInternalLink) return navigate({ routeName: destination });
+        if (isBlank) return Linking.openURL(destination); // "open in a new tab" or mobile browser
+        WebBrowser.openBrowserAsync(destination); // Open external links in internal browser?
+    };
+
+    // -- Return --
+
+    return {
+        ...expoNextReactNavRoutingResources,
+        navigate,
+        getDestination,
+        openLink,
+    };
+};
+
 /* --- <AetherLink/> --------------------------------------------------------------------------- */
 
 const AetherLink = (props: AetherLinkType) => {
     // Props
     const { children, href, to, routeName, style, tw, twID, asText, ...restProps } = props;
     const bindStyles = { style, tw, twID, ...restProps };
-    let route = (href || to || routeName)!;
 
     // Hooks
-    const { navigate } = useRouting();
+    const { openLink, getDestination } = useAetherNav();
+    const destination = getDestination((href || to || routeName)!);
 
     // Memos
     const TextComponent = useMemo(() => AetherText, []);
     const ViewComponent = useMemo(() => AetherView, []);
 
     // Vars
-    const APP_LINKS: string[] = useMemo(() => getEnvVar('APP_LINKS')?.split('|') || [], []);
-    const internalDomainMatch = APP_LINKS.find(appUrl => route.includes(appUrl));
-    if (internalDomainMatch) route = route.replace(`${internalDomainMatch}/`, '');
-    const isRelativePath = !route.includes('://');
-    const isInternalLink = isRelativePath || !!internalDomainMatch;
     const isBlank = props.target === '_blank' || props.isBlank;
     const isText = asText || props.isText || typeof children === 'string';
 
     // -- Handler --
 
-    const onLinkPress = () => {
-        if (isInternalLink) return navigate({ routeName: route });
-        if (isBlank) return Linking.openURL(route); // "open in a new tab" or mobile browser
-        WebBrowser.openBrowserAsync(route); // Open external links in internal browser?
-    };
+    const onLinkPress = () => openLink(destination, isBlank);
 
     // -- Render as Text --
 
@@ -66,7 +92,7 @@ const AetherLink = (props: AetherLinkType) => {
     // -- Render as View --
 
     return (
-        <Link {...props} routeName={route} touchableOpacityProps={{ onPressIn: onLinkPress }}>
+        <Link {...props} routeName={destination} touchableOpacityProps={{ onPressIn: onLinkPress }}>
             <ViewComponent {...bindStyles}>
                 {children}
             </ViewComponent>

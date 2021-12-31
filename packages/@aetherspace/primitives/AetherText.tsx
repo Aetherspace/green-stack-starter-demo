@@ -1,3 +1,5 @@
+// https://docs.expo.dev/versions/latest/react-native/text/
+// https://necolas.github.io/react-native-web/docs/text/
 import React, { createContext, useContext } from 'react';
 import { Text, TextProps, StyleProp, TextStyle } from 'react-native';
 // Hooks

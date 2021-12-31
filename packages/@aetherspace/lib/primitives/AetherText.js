@@ -31,6 +31,8 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.useTextContext = void 0;
+// https://docs.expo.dev/versions/latest/react-native/text/
+// https://necolas.github.io/react-native-web/docs/text/
 var react_1 = __importStar(require("react"));
 var react_native_1 = require("react-native");
 // Hooks

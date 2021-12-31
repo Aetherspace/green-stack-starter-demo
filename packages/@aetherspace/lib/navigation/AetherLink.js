@@ -41,6 +41,7 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.useAetherNav = void 0;
 var react_1 = __importStar(require("react"));
 var expo_next_react_navigation_1 = require("expo-next-react-navigation");
 var Linking = __importStar(require("expo-linking"));
@@ -53,39 +54,65 @@ var utils_1 = require("../utils");
 ;
 ;
 ;
+/* --- useAetherNav() -------------------------------------------------------------------------- */
+var useAetherNav = function () {
+    // Hooks
+    var _a = expo_next_react_navigation_1.useRouting(), navigate = _a.navigate, expoNextReactNavRoutingResources = __rest(_a, ["navigate"]);
+    // Vars
+    var APP_LINKS = react_1.useMemo(function () { var _a; return ((_a = utils_1.getEnvVar('APP_LINKS')) === null || _a === void 0 ? void 0 : _a.split('|')) || []; }, []);
+    // -- Handlers --
+    var getDestination = function (path) {
+        var internalDomainMatch = APP_LINKS.find(function (appUrl) { return path.includes(appUrl); });
+        if (internalDomainMatch)
+            return path.replace(internalDomainMatch + "/", '');
+        return path;
+    };
+    var openLink = function (path, isBlank) {
+        if (isBlank === void 0) { isBlank = false; }
+        var destination = getDestination(path);
+        var isInternalLink = !destination.includes('://');
+        if (isInternalLink)
+            return navigate({ routeName: destination });
+        if (isBlank)
+            return Linking.openURL(destination); // "open in a new tab" or mobile browser
+        WebBrowser.openBrowserAsync(destination); // Open external links in internal browser?
+    };
+    // -- Return --
+    return __assign(__assign({}, expoNextReactNavRoutingResources), { navigate: navigate, getDestination: getDestination, openLink: openLink });
+};
+exports.useAetherNav = useAetherNav;
 /* --- <AetherLink/> --------------------------------------------------------------------------- */
 var AetherLink = function (props) {
     // Props
     var children = props.children, href = props.href, to = props.to, routeName = props.routeName, style = props.style, tw = props.tw, twID = props.twID, asText = props.asText, restProps = __rest(props, ["children", "href", "to", "routeName", "style", "tw", "twID", "asText"]);
     var bindStyles = __assign({ style: style, tw: tw, twID: twID }, restProps);
-    var route = (href || to || routeName);
     // Hooks
-    var navigate = expo_next_react_navigation_1.useRouting().navigate;
+    // const { navigate } = useRouting();
+    var _a = exports.useAetherNav(), openLink = _a.openLink, getDestination = _a.getDestination;
+    var destination = getDestination((href || to || routeName));
     // Memos
     var TextComponent = react_1.useMemo(function () { return primitives_1.AetherText; }, []);
     var ViewComponent = react_1.useMemo(function () { return primitives_1.AetherView; }, []);
     // Vars
-    var APP_LINKS = react_1.useMemo(function () { var _a; return ((_a = utils_1.getEnvVar('APP_LINKS')) === null || _a === void 0 ? void 0 : _a.split('|')) || []; }, []);
-    var internalDomainMatch = APP_LINKS.find(function (appUrl) { return route.includes(appUrl); });
-    if (internalDomainMatch)
-        route = route.replace(internalDomainMatch + "/", '');
-    var isRelativePath = !route.includes('://');
-    var isInternalLink = isRelativePath || !!internalDomainMatch;
+    // const APP_LINKS: string[] = useMemo(() => getEnvVar('APP_LINKS')?.split('|') || [], []);
+    // const internalDomainMatch = APP_LINKS.find(appUrl => route.includes(appUrl));
+    // if (internalDomainMatch) route = route.replace(`${internalDomainMatch}/`, '');
+    // const isRelativePath = !route.includes('://');
+    // const isInternalLink = isRelativePath || !!internalDomainMatch;
     var isBlank = props.target === '_blank' || props.isBlank;
     var isText = asText || props.isText || typeof children === 'string';
     // -- Handler --
     var onLinkPress = function () {
-        if (isInternalLink)
-            return navigate({ routeName: route });
-        if (isBlank)
-            return Linking.openURL(route); // "open in a new tab" or mobile browser
-        WebBrowser.openBrowserAsync(route); // Open external links in internal browser?
+        openLink(destination, isBlank);
+        // if (isInternalLink) return navigate({ routeName: route });
+        // if (isBlank) return Linking.openURL(route); // "open in a new tab" or mobile browser
+        // WebBrowser.openBrowserAsync(route); // Open external links in internal browser?
     };
     // -- Render as Text --
     if (isText)
         return <TextComponent {...bindStyles} onPress={onLinkPress}>{children}</TextComponent>;
     // -- Render as View --
-    return (<expo_next_react_navigation_1.Link {...props} routeName={route} touchableOpacityProps={{ onPressIn: onLinkPress }}>
+    return (<expo_next_react_navigation_1.Link {...props} routeName={destination} touchableOpacityProps={{ onPressIn: onLinkPress }}>
             <ViewComponent {...bindStyles}>
                 {children}
             </ViewComponent>
