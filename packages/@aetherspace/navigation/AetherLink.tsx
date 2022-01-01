@@ -12,7 +12,7 @@ import { getEnvVar } from '../utils';
 
 interface AetherLinkBaseType {
     children?: React.ReactNode;
-    tw?: string;
+    tw?: string | (string | null | undefined | false | 0)[];
     twID?: string;
     style?: TextStyle;
     asText?: boolean;
@@ -81,10 +81,6 @@ const AetherLink = (props: AetherLinkType) => {
     const { openLink, getDestination } = useAetherNav();
     const destination = getDestination((href || to || routeName)!);
 
-    // Memos
-    const TextComponent = useMemo(() => AetherText, []);
-    const ViewComponent = useMemo(() => AetherView, []);
-
     // Vars
     const isBlank = props.target === '_blank' || props.isBlank;
     const isText = asText || props.isText || typeof children === 'string';
@@ -95,15 +91,15 @@ const AetherLink = (props: AetherLinkType) => {
 
     // -- Render as Text --
 
-    if (isText) return <TextComponent {...bindStyles} onPress={onLinkPress}>{children}</TextComponent>;
+    if (isText) return <AetherText {...bindStyles} onPress={onLinkPress}>{children}</AetherText>;
 
     // -- Render as View --
 
     return (
         <Link {...props} routeName={destination} touchableOpacityProps={{ onPressIn: onLinkPress }}>
-            <ViewComponent {...bindStyles}>
+            <AetherView {...bindStyles}>
                 {children}
-            </ViewComponent>
+            </AetherView>
         </Link>
     );
 };

@@ -64,10 +64,13 @@ var useAetherNav = function () {
     var webDomain = APP_LINKS.filter(function (link) { return link.includes('://'); })[0];
     // -- Handlers --
     var getDestination = function (path) {
+        // Convert to relative path?
         var internalDomainMatch = APP_LINKS.find(function (appUrl) { return path.includes(appUrl); });
         if (internalDomainMatch)
             return path.replace(internalDomainMatch + "/", '');
-        return path;
+        // Remove leading slash?
+        var hasLeadingSlash = path !== '/' && path[0] === '/';
+        return hasLeadingSlash ? path.slice(1) : path;
     };
     var openLink = function (path, isBlank) {
         if (isBlank === void 0) { isBlank = false; }
@@ -94,9 +97,6 @@ var AetherLink = function (props) {
     // Hooks
     var _a = exports.useAetherNav(), openLink = _a.openLink, getDestination = _a.getDestination;
     var destination = getDestination((href || to || routeName));
-    // Memos
-    var TextComponent = react_1.useMemo(function () { return primitives_1.AetherText; }, []);
-    var ViewComponent = react_1.useMemo(function () { return primitives_1.AetherView; }, []);
     // Vars
     var isBlank = props.target === '_blank' || props.isBlank;
     var isText = asText || props.isText || typeof children === 'string';
@@ -104,12 +104,12 @@ var AetherLink = function (props) {
     var onLinkPress = function () { return openLink(destination, isBlank); };
     // -- Render as Text --
     if (isText)
-        return <TextComponent {...bindStyles} onPress={onLinkPress}>{children}</TextComponent>;
+        return <primitives_1.AetherText {...bindStyles} onPress={onLinkPress}>{children}</primitives_1.AetherText>;
     // -- Render as View --
     return (<expo_next_react_navigation_1.Link {...props} routeName={destination} touchableOpacityProps={{ onPressIn: onLinkPress }}>
-            <ViewComponent {...bindStyles}>
+            <primitives_1.AetherView {...bindStyles}>
                 {children}
-            </ViewComponent>
+            </primitives_1.AetherView>
         </expo_next_react_navigation_1.Link>);
 };
 /* --- Exports --------------------------------------------------------------------------------- */

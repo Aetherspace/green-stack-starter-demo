@@ -14,7 +14,7 @@ import { getAssetKey } from '../utils';
 interface AetherImageType extends Partial<ImageProps> {
     style?: StyleProp<ImageStyle>,
     src?: string;
-    tw?: string;
+    tw?: string | (string | null | undefined | false | 0)[];
     twID?: string;
     width?: number;
     height?: number;

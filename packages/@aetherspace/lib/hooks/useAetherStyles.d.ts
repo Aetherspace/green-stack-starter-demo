@@ -2,7 +2,7 @@ import { ComponentClass } from 'react';
 import { StyleProp } from 'react-native';
 declare type StylePropsType<K, S = K> = {
     style?: StyleProp<S>;
-    tw?: string;
+    tw?: string | (string | null | undefined | false | 0)[];
     twID?: string;
     nativeID?: string;
     children?: any;

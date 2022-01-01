@@ -2,7 +2,7 @@ import React from 'react';
 import { TextProps, StyleProp, TextStyle } from 'react-native';
 interface AetherTextType extends TextProps {
     style?: StyleProp<TextStyle>;
-    tw?: string;
+    tw?: string | (string | null | undefined | false | 0)[];
     twID?: string;
     children?: string | string[] | React.ReactNode | React.ReactNode[];
 }

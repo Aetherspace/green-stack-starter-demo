@@ -10,7 +10,7 @@ import { addMediaQuery } from '../styles';
 
 type StylePropsType<K, S = K> = {
     style?: StyleProp<S>;
-    tw?: string;
+    tw?: string | (string | null | undefined | false | 0)[];
     twID?: string;
     nativeID?: string;
     children?: any;
@@ -20,7 +20,8 @@ type StylePropsType<K, S = K> = {
 
 const useAetherStyles = <T extends StylePropsType<K, S>, K extends ComponentClass, S = K>(props: T) => {
     // Props
-    const { style, tw: twStyles, ...nativeProps } = props;
+    const { style, tw, ...nativeProps } = props;
+    const twStrings = Array.isArray(tw) ? tw.filter(Boolean).join(' ') : tw;
 
     // Context
     const { isWeb, breakpoints = {}, twPrefixes = [], mediaPrefixes = [] } = useAetherContext();
@@ -29,10 +30,12 @@ const useAetherStyles = <T extends StylePropsType<K, S>, K extends ComponentClas
 
     const [styles, mediaIds] = useMemo(() => {
         let breakpointIds = '';
-        if (!style && !twStyles) return [null, breakpointIds];
-        if (!twStyles) return [style as unknown as StylePropsType<T>, breakpointIds];
+        // Return nothing when no style related props were set
+        if (!style && !twStrings) return [null, breakpointIds];
+        // Return regular styles when no tailwind classes were passed
+        if (!twStrings) return [style as unknown as StylePropsType<T>, breakpointIds];
         // Determine tailwind styles to be used
-        const twClasses = twStyles.split(' ').sort(((a) => a.includes(':') ? 1 : -1));
+        const twClasses = twStrings!.split(' ').sort(((a) => a.includes(':') ? 1 : -1));
         const usedClasses = twClasses.reduce((classes, twClass, i) => {
             if (!twClass.includes(':')) return `${classes}${i === 0 ? '' : ' '}${twClass}`;
             const [twPrefix, className] = twClass.split(':');
@@ -46,7 +49,7 @@ const useAetherStyles = <T extends StylePropsType<K, S>, K extends ComponentClas
         // @ts-ignore
         const memoStyles = { ...tailwind(usedClasses), ...style } as unknown as StylePropsType<T>;
         return [memoStyles, breakpointIds] as [StylePropsType<T>, string];
-    }, [style, twStyles, twPrefixes.join()]);
+    }, [style, twStrings, twPrefixes.join()]);
 
     // -- bindStyles --
 

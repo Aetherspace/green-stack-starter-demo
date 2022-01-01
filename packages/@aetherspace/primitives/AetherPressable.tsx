@@ -9,7 +9,7 @@ import { useAetherStyles } from '../hooks';
 
 interface AetherPressableType extends PressableProps {
     style?: StyleProp<ViewStyle>;
-    tw?: string;
+    tw?: string | (string | null | undefined | false | 0)[];
     twID?: string;
     children?: any | any[];
 };

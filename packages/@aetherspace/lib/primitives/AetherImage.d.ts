@@ -3,7 +3,7 @@ import { ImageProps, StyleProp, ImageStyle } from 'react-native';
 interface AetherImageType extends Partial<ImageProps> {
     style?: StyleProp<ImageStyle>;
     src?: string;
-    tw?: string;
+    tw?: string | (string | null | undefined | false | 0)[];
     twID?: string;
     width?: number;
     height?: number;

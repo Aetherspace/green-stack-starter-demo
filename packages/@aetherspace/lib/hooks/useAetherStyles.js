@@ -34,18 +34,21 @@ var styles_1 = require("../styles");
 /* --- useAetherStyles() ----------------------------------------------------------------------- */
 var useAetherStyles = function (props) {
     // Props
-    var style = props.style, twStyles = props.tw, nativeProps = __rest(props, ["style", "tw"]);
+    var style = props.style, tw = props.tw, nativeProps = __rest(props, ["style", "tw"]);
+    var twStrings = Array.isArray(tw) ? tw.filter(Boolean).join(' ') : tw;
     // Context
     var _a = AetherContextManager_1.useAetherContext(), isWeb = _a.isWeb, _b = _a.breakpoints, breakpoints = _b === void 0 ? {} : _b, _c = _a.twPrefixes, twPrefixes = _c === void 0 ? [] : _c, _d = _a.mediaPrefixes, mediaPrefixes = _d === void 0 ? [] : _d;
     // -- Styles --
     var _e = react_1.useMemo(function () {
         var breakpointIds = '';
-        if (!style && !twStyles)
+        // Return nothing when no style related props were set
+        if (!style && !twStrings)
             return [null, breakpointIds];
-        if (!twStyles)
+        // Return regular styles when no tailwind classes were passed
+        if (!twStrings)
             return [style, breakpointIds];
         // Determine tailwind styles to be used
-        var twClasses = twStyles.split(' ').sort((function (a) { return a.includes(':') ? 1 : -1; }));
+        var twClasses = twStrings.split(' ').sort((function (a) { return a.includes(':') ? 1 : -1; }));
         var usedClasses = twClasses.reduce(function (classes, twClass, i) {
             if (!twClass.includes(':'))
                 return "" + classes + (i === 0 ? '' : ' ') + twClass;
@@ -60,7 +63,7 @@ var useAetherStyles = function (props) {
         // @ts-ignore
         var memoStyles = __assign(__assign({}, tailwind_rn_1.default(usedClasses)), style);
         return [memoStyles, breakpointIds];
-    }, [style, twStyles, twPrefixes.join()]), styles = _e[0], mediaIds = _e[1];
+    }, [style, twStrings, twPrefixes.join()]), styles = _e[0], mediaIds = _e[1];
     // -- bindStyles --
     var bindStyles = __assign(__assign({ style: styles }, nativeProps), (mediaIds ? { nativeID: mediaIds } : {}));
     // -- Return --

@@ -2,7 +2,7 @@ import React from 'react';
 import { TextStyle } from 'react-native';
 interface AetherLinkBaseType {
     children?: React.ReactNode;
-    tw?: string;
+    tw?: string | (string | null | undefined | false | 0)[];
     twID?: string;
     style?: TextStyle;
     asText?: boolean;
