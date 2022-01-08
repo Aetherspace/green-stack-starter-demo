@@ -1,9 +1,9 @@
 {
   "extends": "config/tsconfig.lib",
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "lib"],
+  "exclude": ["node_modules", "**/*.d.ts"],
   "compilerOptions": {
-    "outDir": "lib",
+    "outDir": ".",
     "noEmit": false
   }
 }

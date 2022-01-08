@@ -1,7 +1,7 @@
 import glob from 'glob';
 import fs from 'fs';
 // Utils
-import { getAssetKey } from 'aetherspace/lib/utils/stringUtils';
+import { getAssetKey } from 'aetherspace/utils/stringUtils';
 
 /* --- collectAssets --------------------------------------------------------------------------- */
 

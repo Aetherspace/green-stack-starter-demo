@@ -64,4 +64,6 @@ var AetherText = function (props) {
         </TextContext.Provider>) : (<react_native_1.Text {...bindStyles}>{textContent}</react_native_1.Text>);
 };
 /* --- Exports --------------------------------------------------------------------------------- */
-exports.default = AetherText;
+exports.default = Object.assign(AetherText, {
+    TYPE: undefined,
+});

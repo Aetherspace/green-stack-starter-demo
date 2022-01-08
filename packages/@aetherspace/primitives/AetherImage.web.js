@@ -55,4 +55,6 @@ var AetherImage = function (props) {
         </AetherView_1.default>);
 };
 /* --- Exports --------------------------------------------------------------------------------- */
-exports.default = AetherImage;
+exports.default = Object.assign(AetherImage, {
+    TYPE: undefined,
+});

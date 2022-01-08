@@ -25,4 +25,6 @@ const AetherView = (props: AetherViewType) => {
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default AetherView;
+export default Object.assign(AetherView, {
+    TYPE: undefined as unknown as AetherViewType,
+});

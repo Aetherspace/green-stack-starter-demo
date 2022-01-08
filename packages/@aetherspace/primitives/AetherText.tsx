@@ -52,4 +52,6 @@ const AetherText = (props: AetherTextType) => {
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default AetherText;
+export default Object.assign(AetherText, {
+    TYPE: undefined as unknown as AetherTextType,
+});

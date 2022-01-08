@@ -61,4 +61,6 @@ var AetherImage = function (props) {
     return <react_native_1.Image {...componentProps} source={source}/>;
 };
 /* --- Exports --------------------------------------------------------------------------------- */
-exports.default = AetherImage;
+exports.default = Object.assign(AetherImage, {
+    TYPE: undefined,
+});

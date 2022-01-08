@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 // import * as ss from 'superstruct';
-var schemas_1 = require("aetherspace/lib/schemas");
+var schemas_1 = require("aetherspace/schemas");
 var TEST_ENUM;
 (function (TEST_ENUM) {
     TEST_ENUM["A"] = "A";

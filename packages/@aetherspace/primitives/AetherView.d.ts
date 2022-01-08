@@ -6,5 +6,7 @@ interface AetherViewType extends ViewProps {
     twID?: string;
     children?: any | any[];
 }
-declare const AetherView: (props: AetherViewType) => JSX.Element;
-export default AetherView;
+declare const _default: ((props: AetherViewType) => JSX.Element) & {
+    TYPE: AetherViewType;
+};
+export default _default;

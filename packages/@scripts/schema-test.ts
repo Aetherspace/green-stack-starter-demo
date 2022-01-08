@@ -1,5 +1,5 @@
 // import * as ss from 'superstruct';
-import { ats } from 'aetherspace/lib/schemas';
+import { ats } from 'aetherspace/schemas';
 
 enum TEST_ENUM {
     A = 'A',

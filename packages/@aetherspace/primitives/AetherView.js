@@ -18,4 +18,6 @@ var AetherView = function (props) {
     return <react_native_1.View {...bindStyles}/>;
 };
 /* --- Exports --------------------------------------------------------------------------------- */
-exports.default = AetherView;
+exports.default = Object.assign(AetherView, {
+    TYPE: undefined,
+});

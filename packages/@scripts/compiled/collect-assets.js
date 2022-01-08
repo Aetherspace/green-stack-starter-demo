@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var glob_1 = __importDefault(require("glob"));
 var fs_1 = __importDefault(require("fs"));
 // Utils
-var stringUtils_1 = require("aetherspace/lib/utils/stringUtils");
+var stringUtils_1 = require("aetherspace/utils/stringUtils");
 /* --- collectAssets --------------------------------------------------------------------------- */
 var collectAssets = function () {
     try {

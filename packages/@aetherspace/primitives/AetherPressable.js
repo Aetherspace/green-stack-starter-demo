@@ -18,4 +18,6 @@ var AetherPressable = function (props) {
     return <react_native_1.Pressable {...bindStyles}/>;
 };
 /* --- Exports --------------------------------------------------------------------------------- */
-exports.default = AetherPressable;
+exports.default = Object.assign(AetherPressable, {
+    TYPE: undefined,
+});

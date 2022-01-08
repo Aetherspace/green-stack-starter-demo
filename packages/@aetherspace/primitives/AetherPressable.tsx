@@ -25,4 +25,6 @@ const AetherPressable = (props: AetherPressableType) => {
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default AetherPressable;
+export default Object.assign(AetherPressable, {
+    TYPE: undefined as unknown as AetherPressableType,
+});

@@ -9,5 +9,7 @@ interface AetherTextType extends TextProps {
 export declare const useTextContext: () => {
     color: string | null;
 };
-declare const AetherText: (props: AetherTextType) => JSX.Element;
-export default AetherText;
+declare const _default: ((props: AetherTextType) => JSX.Element) & {
+    TYPE: AetherTextType;
+};
+export default _default;

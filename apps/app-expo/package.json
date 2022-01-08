@@ -9,6 +9,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
+    "publish": "expo publish",
     "pwa-utils": "expo-pwa",
     "create-next-manifest": "expo-pwa manifest --output ../app-next/public",
     "uncache": "rm -f yarn.lock && rm -rf node_modules && yarn install && yarn start -c && rm -rf /tmp/metro-*"

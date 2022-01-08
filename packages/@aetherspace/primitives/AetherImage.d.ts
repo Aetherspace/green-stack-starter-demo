@@ -12,5 +12,7 @@ interface AetherImageType extends Partial<ImageProps> {
     loading?: 'lazy' | 'eager';
     children?: any | any[];
 }
-declare const AetherImage: (props: AetherImageType) => JSX.Element;
-export default AetherImage;
+declare const _default: ((props: AetherImageType) => JSX.Element) & {
+    TYPE: AetherImageType;
+};
+export default _default;

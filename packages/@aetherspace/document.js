@@ -44,10 +44,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getInitialProps = exports.style = void 0;
 // Based on https://github.com/expo/expo-cli/blob/master/packages/next-adapter/document.js
-var React = __importStar(require("react"));
+var react_1 = __importDefault(require("react"));
 var react_native_1 = require("react-native");
 var document_1 = __importStar(require("next/document"));
 // Styles

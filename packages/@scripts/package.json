@@ -5,9 +5,9 @@
     "license": "MIT",
     "scripts": {
         "build": "tsc --project .",
-        "collect-assets": "node lib/collect-assets.js",
-        "dev-health-check": "node lib/dev-health-check.js",
-        "schema-test": "node lib/schema-test"
+        "collect-assets": "node compiled/collect-assets.js",
+        "dev-health-check": "node compiled/dev-health-check.js",
+        "schema-test": "node compiled/schema-test"
     },
     "dependencies": {
         "aetherspace": "*"

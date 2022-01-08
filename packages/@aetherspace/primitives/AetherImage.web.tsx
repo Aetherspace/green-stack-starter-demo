@@ -59,4 +59,6 @@ const AetherImage = (props: AetherImageType) => {
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default AetherImage;
+export default Object.assign(AetherImage, {
+    TYPE: undefined as unknown as AetherImageType,
+});

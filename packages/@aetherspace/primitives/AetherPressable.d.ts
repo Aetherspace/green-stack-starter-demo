@@ -6,5 +6,7 @@ interface AetherPressableType extends PressableProps {
     twID?: string;
     children?: any | any[];
 }
-declare const AetherPressable: (props: AetherPressableType) => JSX.Element;
-export default AetherPressable;
+declare const _default: ((props: AetherPressableType) => JSX.Element) & {
+    TYPE: AetherPressableType;
+};
+export default _default;
