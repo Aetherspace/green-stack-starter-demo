@@ -46,7 +46,7 @@ var AetherContextManager = function (props) {
     // Props
     var children = props.children, isNextJS = props.isNextJS, isExpo = props.isExpo, isDesktop = props.isDesktop;
     // Layout
-    var _c = hooks_1.useLayoutInfo(), layoutInfo = _c.layoutInfo, measureView = _c.measureView;
+    var _c = hooks_1.useLayoutInfo(), layoutInfo = _c.layoutInfo, measureOnLayout = _c.measureOnLayout;
     // Assets
     var assets = react_1.useMemo(function () { return props.assets || exports.DEFAULT_AETHER_CONTEXT.assets; }, []);
     // Icons
@@ -113,7 +113,7 @@ var AetherContextManager = function (props) {
     }, [react_native_1.Platform.OS, appWidth, typeof window === 'undefined']);
     // -- Render --
     return (<exports.AetherContext.Provider value={contextValue}>
-            <primitives_1.AetherView tw={['w-full h-full', props.tw].filter(Boolean).join(' ')} style={props.style} onLayout={measureView('app')}>
+            <primitives_1.AetherView tw={['w-full h-full', props.tw].filter(Boolean).join(' ')} style={props.style} onLayout={measureOnLayout('app')}>
                 {children}
             </primitives_1.AetherView>
         </exports.AetherContext.Provider>);

@@ -89,7 +89,7 @@ const AetherContextManager = (props: AetherContextType) => {
     const { children, isNextJS, isExpo, isDesktop } = props;
 
     // Layout
-    const { layoutInfo, measureView } = useLayoutInfo();
+    const { layoutInfo, measureOnLayout } = useLayoutInfo();
 
     // Assets
     const assets = useMemo(() => props.assets || DEFAULT_AETHER_CONTEXT.assets, []);
@@ -187,7 +187,7 @@ const AetherContextManager = (props: AetherContextType) => {
             <AetherView
                 tw={['w-full h-full', props.tw].filter(Boolean).join(' ')}
                 style={props.style}
-                onLayout={measureView('app')}
+                onLayout={measureOnLayout('app')}
             >
                 {children}
             </AetherView>
