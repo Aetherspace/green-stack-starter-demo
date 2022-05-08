@@ -9,6 +9,26 @@
     "apps/*",
     "packages/*"
   ],
+  "devDependencies": {
+    "turbo": "^1.0.24"
+  },
+  "scripts": {
+    "build": "yarn app-expo run create-next-manifest && yarn turbo run scripts#collect-assets build",
+    "deploy": "vercel --prod --no-clipboard",
+    "collect-assets": "yarn turbo run scripts#collect-assets",
+    "dev-web": "yarn turbo run app-next#dev",
+    "dev-mobile": "yarn turbo run app-next#dev app-expo#start",
+    "app-next": "yarn workspace app-next",
+    "app-expo": "yarn workspace app-expo",
+    "app-dev": "yarn turbo run app-next#dev",
+    "app-start": "yarn turbo run app-expo#start",
+    "app-pwa": "yarn turbo run app-expo#web",
+    "app-ios": "yarn turbo run app-expo#ios",
+    "app-android": "yarn turbo run app-expo#android",
+    "app-web": "yarn app-dev",
+    "app-uncache": "yarn turbo run app-expo#uncache",
+    "doppler-sync": "doppler secrets download --no-file --format env > apps/app-next/.env"
+  },
   "turbo": {
     "baseBranch": "origin/main",
     "pipeline": {
@@ -87,24 +107,5 @@
       },
       "dev": {}
     }
-  },
-  "scripts": {
-    "build": "yarn app-expo run create-next-manifest && yarn turbo run scripts#collect-assets build",
-    "deploy": "vercel --prod --no-clipboard",
-    "collect-assets": "yarn turbo run scripts#collect-assets",
-    "dev-web": "yarn turbo run app-next#dev",
-    "dev-mobile": "yarn turbo run app-next#dev app-expo#start",
-    "app-next": "yarn workspace app-next",
-    "app-expo": "yarn workspace app-expo",
-    "app-dev": "yarn turbo run app-next#dev",
-    "app-start": "yarn turbo run app-expo#start",
-    "app-pwa": "yarn turbo run app-expo#web",
-    "app-ios": "yarn turbo run app-expo#ios",
-    "app-android": "yarn turbo run app-expo#android",
-    "app-web": "yarn app-dev",
-    "app-uncache": "yarn turbo run app-expo#uncache"
-  },
-  "devDependencies": {
-    "turbo": "^1.0.24"
   }
 }
