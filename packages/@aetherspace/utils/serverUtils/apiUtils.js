@@ -54,6 +54,7 @@ var runMiddleWare = function (req, res, fn) {
 };
 exports.runMiddleWare = runMiddleWare;
 /* --- fireGetAndForget() ----------------------------------------------------------------------- */
+// -i- Fires a GET request & ignores whether it succeeds or not
 // -i- https://stackoverflow.com/a/63594903/8789673
 var fireGetAndForget = function (url, config) {
     try {
@@ -68,6 +69,7 @@ var fireGetAndForget = function (url, config) {
 };
 exports.fireGetAndForget = fireGetAndForget;
 /* --- firePostAndForget() --------------------------------------------------------------------- */
+// -i- Fires a POST request & ignores whether it succeeds or not
 // -i- https://stackoverflow.com/a/63594903/8789673
 var firePostAndForget = function (url, data, config) {
     try {

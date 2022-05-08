@@ -52,6 +52,7 @@ export const runMiddleWare = (req: NextApiRequest, res: NextApiResponse, fn: Mid
 };
 
 /* --- fireGetAndForget() ----------------------------------------------------------------------- */
+// -i- Fires a GET request & ignores whether it succeeds or not
 // -i- https://stackoverflow.com/a/63594903/8789673
 export const fireGetAndForget = (url: string, config?: AxiosRequestConfig) => {
     try {
@@ -65,6 +66,7 @@ export const fireGetAndForget = (url: string, config?: AxiosRequestConfig) => {
 };
 
 /* --- firePostAndForget() --------------------------------------------------------------------- */
+// -i- Fires a POST request & ignores whether it succeeds or not
 // -i- https://stackoverflow.com/a/63594903/8789673
 export const firePostAndForget = (url: string, data: unknown, config?: AxiosRequestConfig) => {
     try {

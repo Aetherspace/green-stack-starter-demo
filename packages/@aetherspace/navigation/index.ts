@@ -1,1 +1,1 @@
-export { default as AetherLink, useAetherNav } from './AetherLink';
+export * from './AetherLink';

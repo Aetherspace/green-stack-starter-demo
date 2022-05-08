@@ -1,5 +1,5 @@
 // Types
-export type { NamedIconType, IconProps, IconsType } from './AetherContextManager';
+export type { NamedIconType, IconProps, IconsType } from './AetherContextManager/AetherContextManager';
 
-// Defaults
-export { default as AetherContextManager, AetherContext, useAetherContext } from './AetherContextManager';
+// Exports
+export * from './AetherContextManager';
