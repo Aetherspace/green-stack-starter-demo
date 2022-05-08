@@ -25,9 +25,10 @@ export const echoArgsResolver = aetherResolver(
     async ({ args }) => {
         return { args } as typeof echoArgsResolversResponseSchema['TYPE'];
     },
-    '',
-    echoArgsResolverArgsSchema,
-    echoArgsResolversResponseSchema,
+    {
+        argsSchema: echoArgsResolverArgsSchema,
+        responseSchema: echoArgsResolversResponseSchema,
+    }
 );
 
 /* --- Types ----------------------------------------------------------------------------------- */

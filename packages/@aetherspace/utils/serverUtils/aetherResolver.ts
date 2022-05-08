@@ -5,15 +5,15 @@ import type {
     GetServerSidePropsContext,
     GetStaticPathsContext,
     GetStaticPropsContext,
-} from 'next';
-import type { AetherSchemaType, Infer } from '../../schemas';
+} from 'next'
+import type { AetherSchemaType, Infer } from '../../schemas'
 // Utils
-import { getApiParams, runMiddleWare, MiddlewareFnType } from './apiUtils';
-import { normalizeObjectProps, isEmpty } from '../index';
+import { getApiParams, runMiddleWare, MiddlewareFnType } from './apiUtils'
+import { normalizeObjectProps, isEmpty } from '../index'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-export type AetherResolverInputType<AT extends unknown = any> = {
+export type ResolverInputType<AT extends unknown = any> = {
     req?: NextApiRequest | GetServerSidePropsContext['req'],
     res?: NextApiResponse | GetServerSidePropsContext['res'],
     nextSsrContext?: GetServerSidePropsContext,
@@ -36,7 +36,7 @@ export type AetherResolverInputType<AT extends unknown = any> = {
     [key: string]: AT[keyof AT] | unknown,
 };
 
-export type AetherResolverExecutionParamsType<AT extends unknown = any> = {
+export type ResolverExecutionParamsType<AT extends unknown = any> = {
     args: AT,
     logs: string[],
     addLog: (log: string) => void,
@@ -51,7 +51,10 @@ export type AetherResolverExecutionParamsType<AT extends unknown = any> = {
         [key: string]: any,
     },
     res?: NextApiResponse | GetServerSidePropsContext['res'],
-};
+}
+
+export type AetherArgs<T extends (unknown & { ARGS_TYPE: unknown })> = T['ARGS_TYPE']
+export type AetherResp<T extends (unknown & { RESP_TYPE: unknown })> = T['RESP_TYPE']
 
 /* --- aetherResolver() ------------------------------------------------------------------------ */
 // -i- Wrap a server side resolver function for easy use in both graphQL & rest endpoints + provide error handling
@@ -63,27 +66,31 @@ export const aetherResolver = <
     AT extends unknown = TSAT extends null ? Infer<AST> : TSAT, // Args Type (Use override?)
     RT extends unknown = TSRT extends null ? Infer<RST> : TSRT, // Resp Type (Use override?)
 >(
-    resolverFn: (ctx: AetherResolverExecutionParamsType<AT>) => Promise<RT | unknown>,
-    apiParamKeys?: string,
-    apiArgSchema?: AST,
-    apiResSchema?: RST,
+    resolverFn: (ctx: ResolverExecutionParamsType<AT>) => Promise<RT | unknown>,
+    options?: {
+        paramKeys?: string,
+        argsSchema?: AST,
+        responseSchema?: RST,
+    }
 ) => {
+    // Extract options
+    const { paramKeys, argsSchema, responseSchema } = options || {}
     // Build Resolver
-    const resolverWrapper = (ctx?: AetherResolverInputType<AT>): Promise<RT> => {
-        const { req, res, nextSsrContext, parent, args, context, info, cookies: _, ...resolverContext } = ctx || {};
-        const { logErrors, respondErrors, allowFail, onError, ...restParams } = resolverContext;
+    const resolverWrapper = (ctx?: ResolverInputType<AT>): Promise<RT> => {
+        const { req, res, nextSsrContext, parent, args, context, info, cookies: _, ...resolverContext } = ctx || {}
+        const { logErrors, respondErrors, allowFail, onError, ...restParams } = resolverContext
         // Collect params from all possible sources
-        const { body, method } = (req as NextApiRequest) || {};
-        const schemaParamKeys = Object.keys(apiArgSchema?.schema ?? {});
-        const paramKeys = [ctx?.apiParams, apiParamKeys || schemaParamKeys].flat().filter(Boolean).join(' ');
-        const query = { ...nextSsrContext?.query, ...(req as NextApiRequest)?.query };
-        const params = { ...restParams, ...nextSsrContext?.params, ...context, ...ctx?.params };
-        const cookies = nextSsrContext?.req?.cookies || req?.cookies || ctx?.cookies;
-        const relatedArgs = paramKeys ? getApiParams(paramKeys, { query, params, body, args, context }) : {};
-        const normalizedArgs = normalizeObjectProps(relatedArgs);
+        const { body, method } = (req as NextApiRequest) || {}
+        const schemaParamKeys = Object.keys(argsSchema?.schema ?? {})
+        const apiParamKeys = [ctx?.paramKeys, paramKeys || schemaParamKeys].flat().filter(Boolean).join(' ')
+        const query = { ...nextSsrContext?.query, ...(req as NextApiRequest)?.query }
+        const params = { ...restParams, ...nextSsrContext?.params, ...context, ...ctx?.params }
+        const cookies = nextSsrContext?.req?.cookies || req?.cookies || ctx?.cookies
+        const relatedArgs = apiParamKeys ? getApiParams(apiParamKeys, { query, params, body, args, context }) : {}
+        const normalizedArgs = normalizeObjectProps(relatedArgs)
         // Build config
-        const errorConfig = { logErrors, respondErrors, onError, allowFail };
-        const config = { ...restParams, ...context, ...errorConfig, cookies, method, parent, info, ...ctx?.config };
+        const errorConfig = { logErrors, respondErrors, onError, allowFail }
+        const config = { ...restParams, ...context, ...errorConfig, cookies, method, parent, info, ...ctx?.config }
         // Log handling
         const logs = [] as string[];
         const addLog = (log: string) => {
@@ -93,16 +100,15 @@ export const aetherResolver = <
         const saveLogs = async (logHandler) => await (logHandler?.(logs) ?? ctx?.config?.logHandler?.(logs));
         // Error handling
         const handleError = (err, sendResponse = false) => {
-            const isRichError = typeof err === 'object' && !!err.errors;
-            const errorObj = isRichError ? err : { errors: [err] };
-            const { code = 500 } = errorObj;
-            console.error(errorObj);
-            if (config?.logErrors) console.error(errorObj);
-            if (typeof config?.onError === 'function' && config.allowFail) config.onError(errorObj);
-            else if (typeof config?.onError === 'function') return config.onError(errorObj);
-            if (config.allowFail || config.onError === 'return') return { success: false, ...errorObj };
-            if (!!res && sendResponse && !config.allowFail) return (res as NextApiResponse).status(code).json(errorObj);
-            else throw new Error(isRichError ? errorObj : err);
+            const isRichError = typeof err === 'object' && !!err.errors
+            const errorObj = isRichError ? err : { errors: [err] }
+            const { code = 500 } = errorObj
+            if (config?.logErrors) console.error(errorObj)
+            if (typeof config?.onError === 'function' && config.allowFail) config.onError(errorObj)
+            else if (typeof config?.onError === 'function') return config.onError(errorObj)
+            if (config.allowFail || config.onError === 'return') return { success: false, ...errorObj }
+            if (!!res && sendResponse && !config.allowFail) return (res as NextApiResponse).status(code).json(errorObj)
+            else throw new Error(isRichError ? errorObj : err)
         };
         // Return resolver
         return resolverFn({
@@ -113,12 +119,12 @@ export const aetherResolver = <
             addLog,
             saveLogs,
             handleError,
-        })  as unknown as Promise<RT>;
+        })  as unknown as Promise<RT>
     };
     // Return Resolver
     return Object.assign(resolverWrapper, {
-        argSchema: apiArgSchema || {},
-        resSchema: apiResSchema || {},
+        argSchema: argsSchema || {},
+        resSchema: responseSchema || {},
         ARGS_TYPE: undefined as AT,
         RESP_TYPE: undefined as RT,
     });
@@ -127,29 +133,30 @@ export const aetherResolver = <
 /* --- makeNextApiHandler() -------------------------------------------------------------------- */
 // -i- Codegen: Build next.js api request from an aether resolver
 export const makeNextApiHandler = <AT, RT>(
-    resolver: (ctx?: AetherResolverInputType<AT>) => Promise<RT>,
-    middleware: MiddlewareFnType[] = [],
-    config: AetherResolverInputType['config'] = {},
+    resolver: (ctx?: ResolverInputType<AT>) => Promise<RT>,
+    options?: {
+        middleware?: MiddlewareFnType[],
+        config?: ResolverInputType['config'],
+    },
 ) => async (req: NextApiRequest, res: NextApiResponse) => {
+    const middleware = options?.middleware || []
+    const config = options?.config || {}
     try {
-        let middlewareArgs = {};
+        let middlewareArgs = {}
         if (!isEmpty(middleware)) {
-            const middlewareResults = await Promise.all(middleware.map(mw => runMiddleWare(req, res, mw)));
+            const middlewareResults = await Promise.all(middleware.map(mw => runMiddleWare(req, res, mw)))
             middlewareResults.filter(Boolean).map(middlewareResult => {
-                if (typeof middlewareResult === 'object') middlewareArgs = { ...middlewareArgs, ...middlewareResult };
-            });
+                if (typeof middlewareResult === 'object') middlewareArgs = { ...middlewareArgs, ...middlewareResult }
+            })
         }
-        const responseData = await resolver({ ...middlewareArgs, req, res, config });
-        return res.status(200).json(responseData);
+        const responseData = await resolver({ ...middlewareArgs, req, res, config })
+        return res.status(200).json(responseData)
     } catch(err) {
-        console.error(err);
-        return res.status(500).json({ success: false, errors: [err] });
+        console.error(err)
+        return res.status(500).json({ success: false, errors: [err] })
     }
 };
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export type AetherArgs<T extends (unknown & { ARGS_TYPE: unknown })> = T['ARGS_TYPE'];
-export type AetherResp<T extends (unknown & { RESP_TYPE: unknown })> = T['RESP_TYPE'];
-
-export default aetherResolver;
+export default aetherResolver

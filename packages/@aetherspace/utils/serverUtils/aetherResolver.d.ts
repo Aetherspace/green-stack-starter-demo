@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse, GetServerSidePropsContext, GetStaticPathsContext, GetStaticPropsContext } from 'next';
 import type { AetherSchemaType, Infer } from '../../schemas';
 import { MiddlewareFnType } from './apiUtils';
-export declare type AetherResolverInputType<AT extends unknown = any> = {
+export declare type ResolverInputType<AT extends unknown = any> = {
     req?: NextApiRequest | GetServerSidePropsContext['req'];
     res?: NextApiResponse | GetServerSidePropsContext['res'];
     nextSsrContext?: GetServerSidePropsContext;
@@ -25,7 +25,7 @@ export declare type AetherResolverInputType<AT extends unknown = any> = {
     };
     [key: string]: AT[keyof AT] | unknown;
 };
-export declare type AetherResolverExecutionParamsType<AT extends unknown = any> = {
+export declare type ResolverExecutionParamsType<AT extends unknown = any> = {
     args: AT;
     logs: string[];
     addLog: (log: string) => void;
@@ -41,13 +41,13 @@ export declare type AetherResolverExecutionParamsType<AT extends unknown = any> 
     };
     res?: NextApiResponse | GetServerSidePropsContext['res'];
 };
-export declare const aetherResolver: <TSAT extends unknown = null, TSRT extends unknown = null, AST extends AetherSchemaType = any, RST extends AetherSchemaType = any, AT extends unknown = TSAT extends null ? Infer<AST> : TSAT, RT extends unknown = TSRT extends null ? Infer<RST> : TSRT>(resolverFn: (ctx: AetherResolverExecutionParamsType<AT>) => Promise<unknown>, apiParamKeys?: string | undefined, apiArgSchema?: AST | undefined, apiResSchema?: RST | undefined) => ((ctx?: AetherResolverInputType<AT> | undefined) => Promise<RT>) & {
+export declare const aetherResolver: <TSAT extends unknown = null, TSRT extends unknown = null, AST extends AetherSchemaType = any, RST extends AetherSchemaType = any, AT extends unknown = TSAT extends null ? Infer<AST> : TSAT, RT extends unknown = TSRT extends null ? Infer<RST> : TSRT>(resolverFn: (ctx: ResolverExecutionParamsType<AT>) => Promise<unknown>, apiParamKeys?: string | undefined, apiArgSchema?: AST | undefined, apiResSchema?: RST | undefined) => ((ctx?: ResolverInputType<AT> | undefined) => Promise<RT>) & {
     argSchema: {};
     resSchema: {};
     ARGS_TYPE: AT;
     RESP_TYPE: RT;
 };
-export declare const makeNextApiHandler: <AT, RT>(resolver: (ctx?: AetherResolverInputType<AT> | undefined) => Promise<RT>, middleware?: MiddlewareFnType[], config?: AetherResolverInputType['config']) => (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
+export declare const makeNextApiHandler: <AT, RT>(resolver: (ctx?: ResolverInputType<AT> | undefined) => Promise<RT>, middleware?: MiddlewareFnType[], config?: ResolverInputType['config']) => (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
 export declare type AetherArgs<T extends (unknown & {
     ARGS_TYPE: unknown;
 })> = T['ARGS_TYPE'];
