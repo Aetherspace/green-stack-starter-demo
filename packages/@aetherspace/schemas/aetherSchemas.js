@@ -46,7 +46,7 @@ var makeOptionalable = function (schema, aetherType, schemaName) {
             var newSchema = Object.assign(ss.optional(schema), { optional: true });
             if (!nullable)
                 return assignDescriptors(newSchema, aetherType, schemaName);
-            return assignDescriptors(Object.assign(ss.nullable(newSchema), { nullable: true }), aetherType, schemaName);
+            return assignDescriptors(Object.assign(ss.nullable(newSchema), { nullable: true }), aetherType, schemaName); // prettier-ignore
         },
     });
 };

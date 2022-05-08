@@ -25,7 +25,7 @@ const makeOptionalable = <T, S, ST extends ss.Struct<T, S>>(schema: ST, aetherTy
         optional: (nullable?: boolean) => {
             const newSchema = Object.assign(ss.optional(schema), { optional: true });
             if (!nullable) return assignDescriptors(newSchema, aetherType, schemaName);
-            return assignDescriptors(Object.assign(ss.nullable(newSchema), { nullable: true }), aetherType, schemaName);
+            return assignDescriptors(Object.assign(ss.nullable(newSchema), { nullable: true }), aetherType, schemaName); // prettier-ignore
         },
     });
 };

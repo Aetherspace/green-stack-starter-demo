@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { AetherLink } from 'aetherspace/navigation';
 // Primitives
 import { AetherView, AetherText, AetherImage } from 'aetherspace/primitives';
+import { H1 } from 'aetherspace/html-elements'
 
 /* --- <HomeScreen/> --------------------------------------------------------------------------- */
 
@@ -17,7 +18,7 @@ const HomeScreen = () => {
                     tw={["w-20 h-20 mt-0 mb-3 overflow-hidden", true && "rounded-full"]} // Assign conditional classes with an array
                 />
             </AetherLink>
-            <AetherText tw="text-green-500 pb-5 font-bold text-base">Hello GREEN stack ✅</AetherText>
+            <H1 tw="text-green-500 pb-5 font-bold text-base">Hello GREEN stack ✅</H1>
             <AetherText tw="px-5 text-center text-sm">
                 Open up <AetherText tw="text-gray-500">apps/app/screens/HomeScreen.tsx</AetherText> to start working on your app
             </AetherText>

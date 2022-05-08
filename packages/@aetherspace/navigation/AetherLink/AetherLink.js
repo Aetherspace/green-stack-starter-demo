@@ -66,7 +66,6 @@ var useAetherNav = function () {
     var getDestination = function (path) {
         // Convert to relative path?
         var internalDomainMatch = APP_LINKS.find(function (appUrl) { return path.includes(appUrl); });
-        console.warn(JSON.stringify({ internalDomainMatch: internalDomainMatch, APP_LINKS: APP_LINKS }, null, 4));
         if (internalDomainMatch)
             return path.replace(internalDomainMatch + "/", '');
         // Remove leading slash?

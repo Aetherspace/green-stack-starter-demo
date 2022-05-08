@@ -42,7 +42,6 @@ export const useAetherNav = () => {
     const getDestination = (path: string) => {
         // Convert to relative path?
         const internalDomainMatch = APP_LINKS.find(appUrl => path.includes(appUrl));
-        console.warn(JSON.stringify({ internalDomainMatch, APP_LINKS }, null, 4));
         if (internalDomainMatch) return path.replace(`${internalDomainMatch}/`, '');
         // Remove leading slash?
         const hasLeadingSlash = path !== '/' && path[0] === '/';
