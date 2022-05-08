@@ -1,6 +1,6 @@
 import { useMemo, ComponentClass } from 'react';
 import { StyleProp } from 'react-native';
-import tailwind from 'tailwind-rn';
+import tailwind from 'twrnc';
 // Context
 import { BreakPointsType, useAetherContext } from '../../context/AetherContextManager/AetherContextManager';
 // Styles
@@ -40,14 +40,14 @@ const useAetherStyles = <T extends StylePropsType<K, S>, K extends ComponentClas
             if (!twClass.includes(':')) return `${classes}${i === 0 ? '' : ' '}${twClass}`;
             const [twPrefix, className] = twClass.split(':');
             if (isWeb && mediaPrefixes.includes(twPrefix)) {
-                const breakpointStyles = tailwind(className) || {};
+                const breakpointStyles = tailwind`${className}` || {};
                 const breakpointId = addMediaQuery(breakpoints[twPrefix as keyof BreakPointsType]!, breakpointStyles);
                 breakpointIds = `${breakpointIds}${!breakpointIds ? '' : ' '}${breakpointId}`;
             }
             return twPrefixes.includes(twPrefix) ? `${classes}${i === 0 ? '' : ' '}${className}` : classes;
         }, '');
         // @ts-ignore
-        const memoStyles = { ...tailwind(usedClasses), ...style } as unknown as StylePropsType<T>;
+        const memoStyles = { ...tailwind`${usedClasses}`, ...style } as unknown as StylePropsType<T>;
         return [memoStyles, breakpointIds] as [StylePropsType<T>, string];
     }, [style, twStrings, twPrefixes.join()]);
 

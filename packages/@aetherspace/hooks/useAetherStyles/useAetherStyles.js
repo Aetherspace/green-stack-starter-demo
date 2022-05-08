@@ -1,4 +1,8 @@
 "use strict";
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -26,7 +30,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = require("react");
-var tailwind_rn_1 = __importDefault(require("tailwind-rn"));
+var twrnc_1 = __importDefault(require("twrnc"));
 // Context
 var AetherContextManager_1 = require("../../context/AetherContextManager/AetherContextManager");
 // Styles
@@ -54,14 +58,14 @@ var useAetherStyles = function (props) {
                 return "" + classes + (i === 0 ? '' : ' ') + twClass;
             var _a = twClass.split(':'), twPrefix = _a[0], className = _a[1];
             if (isWeb && mediaPrefixes.includes(twPrefix)) {
-                var breakpointStyles = tailwind_rn_1.default(className) || {};
+                var breakpointStyles = twrnc_1.default(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", ""], ["", ""])), className) || {};
                 var breakpointId = styles_1.addMediaQuery(breakpoints[twPrefix], breakpointStyles);
                 breakpointIds = "" + breakpointIds + (!breakpointIds ? '' : ' ') + breakpointId;
             }
             return twPrefixes.includes(twPrefix) ? "" + classes + (i === 0 ? '' : ' ') + className : classes;
         }, '');
         // @ts-ignore
-        var memoStyles = __assign(__assign({}, tailwind_rn_1.default(usedClasses)), style);
+        var memoStyles = __assign(__assign({}, twrnc_1.default(templateObject_2 || (templateObject_2 = __makeTemplateObject(["", ""], ["", ""])), usedClasses)), style);
         return [memoStyles, breakpointIds];
     }, [style, twStrings, twPrefixes.join()]), styles = _e[0], mediaIds = _e[1];
     // -- bindStyles --
@@ -71,3 +75,4 @@ var useAetherStyles = function (props) {
 };
 /* --- Exports --------------------------------------------------------------------------------- */
 exports.default = useAetherStyles;
+var templateObject_1, templateObject_2;

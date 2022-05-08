@@ -4,4 +4,5 @@ module.exports = [
     'app',
     // - Modules -
     'expo-next-react-navigation',
+    'twrnc',
 ];
