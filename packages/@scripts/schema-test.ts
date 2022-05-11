@@ -1,21 +1,21 @@
-// import * as ss from 'superstruct';
-import { ats } from 'aetherspace/schemas';
+// import * as ss from 'superstruct'
+import { ats } from 'aetherspace/schemas'
 
 enum TEST_ENUM {
     A = 'A',
     B = 'B',
 }
 
-const id = ats.id().default('a');
-const ids = ats.array(ats.id());
-const str = ats.string().nullable().docs('example', 'description');
-const day = ats.date().optional().docs('01/01/2022', 'The start of the year');
-const num = ats.number().docs(5);
-const bln = ats.boolean().optional();
-const opt = ats.enum<TEST_ENUM>(Object.values(TEST_ENUM));
-const obj = ats.object({ str });
-const col = ats.array(ats.object({ id }));
-const coll = ats.collection({ id });
+const id = ats.id().default('a')
+const ids = ats.array(ats.id())
+const str = ats.string().nullable().docs('example', 'description')
+const day = ats.date().optional().docs('01/01/2022', 'The start of the year')
+const num = ats.number().docs(5)
+const bln = ats.boolean().optional()
+const opt = ats.enum<TEST_ENUM>(Object.values(TEST_ENUM))
+const obj = ats.object({ str })
+const col = ats.array(ats.object({ id }))
+const coll = ats.collection({ id })
 
 const superSchema = ats.schema('MySchema', {
     id,
@@ -28,11 +28,11 @@ const superSchema = ats.schema('MySchema', {
     obj,
     col,
     coll,
-});
+})
 
-type typeTest = typeof superSchema['TYPE'];
+type typeTest = typeof superSchema['TYPE']
 
-console.log(JSON.stringify(superSchema, null, 4));
+console.log(JSON.stringify(superSchema, null, 4))
 
 // {
 //     "type": "object",

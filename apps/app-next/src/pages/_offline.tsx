@@ -1,5 +1,5 @@
 // Primitives
-import { AetherView, AetherText } from "aetherspace/primitives";
+import { AetherView, AetherText } from "aetherspace/primitives"
 
 /* --- <OfflineScreen/> ------------------------------------------------------------------------ */
 
@@ -10,8 +10,8 @@ const OfflineScreen = () => (
             You seem to be offline
         </AetherText>
     </AetherView>
-);
+)
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default OfflineScreen;
+export default OfflineScreen

@@ -1,17 +1,17 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react'
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 // Context
-import AetherContextManager from '../../packages/@aetherspace/context/AetherContextManager';
+import AetherContextManager from '../../packages/@aetherspace/context/AetherContextManager'
 // Screens
-import HomeScreen from 'app/screens/HomeScreen';
-import AuthorScreen from 'app/screens/AuthorScreen';
+import HomeScreen from 'app/screens/HomeScreen'
+import AuthorScreen from 'app/screens/AuthorScreen'
 // Assets
-import * as assets from 'app/assets.generated';
+import * as assets from 'app/assets.generated'
 
 /* --- Navigation ------------------------------------------------------------------------------ */
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator()
 
 const AppNavigator = () => {
   return (
@@ -31,8 +31,8 @@ const AppNavigator = () => {
         />
       </Stack.Navigator>
     </NavigationContainer>
-  );
-};
+  )
+}
 
 /* --- <App/> ---------------------------------------------------------------------------------- */
 
@@ -41,9 +41,9 @@ const App = () => {
     <AetherContextManager assets={assets} icons={{}}>
       <AppNavigator />
     </AetherContextManager>
-  );
-};
+  )
+}
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default App;
+export default App

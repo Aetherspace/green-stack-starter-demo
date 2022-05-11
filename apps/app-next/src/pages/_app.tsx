@@ -1,11 +1,11 @@
-import 'setimmediate';
-import { useEffect } from 'react';
-import Head from 'next/head';
-import { AppProps } from 'next/app';
+import 'setimmediate'
+import { useEffect } from 'react'
+import Head from 'next/head'
+import { AppProps } from 'next/app'
 // Context
-import { AetherContextManager } from 'aetherspace/context';
+import { AetherContextManager } from 'aetherspace/context'
 // Utils
-import { setPublicEnvVars } from 'aetherspace/utils';
+import { setPublicEnvVars } from 'aetherspace/utils'
 
 /* --- Public Env Vars ------------------------------------------------------------------------------- */
 
@@ -15,14 +15,14 @@ import { setPublicEnvVars } from 'aetherspace/utils';
 // -!- Use only for public env vars (client-side any process.env.SOME_KEY without NEXT_PUBLIC_ would be undefined)
 setPublicEnvVars({
     APP_LINKS: process.env.NEXT_PUBLIC_APP_LINKS,
-});
+})
 
 /* --- <AppLayout/> ---------------------------------------------------------------------------------- */
 
 const AppLayout = (props: AppProps) => {
     // Props
-    const { Component, pageProps } = props;
-    const { pageTitle = 'My GREEN stack App' } = pageProps;
+    const { Component, pageProps } = props
+    const { pageTitle = 'My GREEN stack App' } = pageProps
 
     // -- Render --
 
@@ -42,9 +42,9 @@ const AppLayout = (props: AppProps) => {
                 <Component {...pageProps} />
             </AetherContextManager>
         </>
-    );
-};
+    )
+}
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default AppLayout;
+export default AppLayout

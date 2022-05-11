@@ -41,17 +41,24 @@ export declare type ResolverExecutionParamsType<AT extends unknown = any> = {
     };
     res?: NextApiResponse | GetServerSidePropsContext['res'];
 };
-export declare const aetherResolver: <TSAT extends unknown = null, TSRT extends unknown = null, AST extends AetherSchemaType = any, RST extends AetherSchemaType = any, AT extends unknown = TSAT extends null ? Infer<AST> : TSAT, RT extends unknown = TSRT extends null ? Infer<RST> : TSRT>(resolverFn: (ctx: ResolverExecutionParamsType<AT>) => Promise<unknown>, apiParamKeys?: string | undefined, apiArgSchema?: AST | undefined, apiResSchema?: RST | undefined) => ((ctx?: ResolverInputType<AT> | undefined) => Promise<RT>) & {
-    argSchema: {};
-    resSchema: {};
-    ARGS_TYPE: AT;
-    RESP_TYPE: RT;
-};
-export declare const makeNextApiHandler: <AT, RT>(resolver: (ctx?: ResolverInputType<AT> | undefined) => Promise<RT>, middleware?: MiddlewareFnType[], config?: ResolverInputType['config']) => (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
 export declare type AetherArgs<T extends (unknown & {
     ARGS_TYPE: unknown;
 })> = T['ARGS_TYPE'];
 export declare type AetherResp<T extends (unknown & {
     RESP_TYPE: unknown;
 })> = T['RESP_TYPE'];
+export declare const aetherResolver: <TSAT extends unknown = null, TSRT extends unknown = null, AST extends AetherSchemaType = any, RST extends AetherSchemaType = any, AT extends unknown = TSAT extends null ? Infer<AST> : TSAT, RT extends unknown = TSRT extends null ? Infer<RST> : TSRT>(resolverFn: (ctx: ResolverExecutionParamsType<AT>) => Promise<unknown>, options?: {
+    paramKeys?: string | undefined;
+    argsSchema?: AST | undefined;
+    responseSchema?: RST | undefined;
+} | undefined) => ((ctx?: ResolverInputType<AT> | undefined) => Promise<RT>) & {
+    argSchema: {};
+    resSchema: {};
+    ARGS_TYPE: AT;
+    RESP_TYPE: RT;
+};
+export declare const makeNextApiHandler: <AT, RT>(resolver: (ctx?: ResolverInputType<AT> | undefined) => Promise<RT>, options?: {
+    middleware?: MiddlewareFnType[] | undefined;
+    config?: ResolverInputType['config'];
+} | undefined) => (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
 export default aetherResolver;

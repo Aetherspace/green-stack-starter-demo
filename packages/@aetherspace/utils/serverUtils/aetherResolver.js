@@ -64,20 +64,24 @@ var apiUtils_1 = require("./apiUtils");
 var index_1 = require("../index");
 /* --- aetherResolver() ------------------------------------------------------------------------ */
 // -i- Wrap a server side resolver function for easy use in both graphQL & rest endpoints + provide error handling
-var aetherResolver = function (resolverFn, apiParamKeys, apiArgSchema, apiResSchema) {
+var aetherResolver = function (resolverFn, options) {
+    // Extract options
+    var _a = options || {}, paramKeys = _a.paramKeys, argsSchema = _a.argsSchema, responseSchema = _a.responseSchema;
     // Build Resolver
     var resolverWrapper = function (ctx) {
         var _a, _b, _c;
         var _d = ctx || {}, req = _d.req, res = _d.res, nextSsrContext = _d.nextSsrContext, parent = _d.parent, args = _d.args, context = _d.context, info = _d.info, _ = _d.cookies, resolverContext = __rest(_d, ["req", "res", "nextSsrContext", "parent", "args", "context", "info", "cookies"]);
-        var logErrors = resolverContext.logErrors, respondErrors = resolverContext.respondErrors, allowFail = resolverContext.allowFail, onError = resolverContext.onError, restParams = __rest(resolverContext, ["logErrors", "respondErrors", "allowFail", "onError"]);
+        var logErrors = resolverContext.logErrors, respondErrors = resolverContext.respondErrors, allowFail = resolverContext.allowFail, onError = resolverContext.onError, restParams = __rest(resolverContext
+        // Collect params from all possible sources
+        , ["logErrors", "respondErrors", "allowFail", "onError"]);
         // Collect params from all possible sources
         var _e = req || {}, body = _e.body, method = _e.method;
-        var schemaParamKeys = Object.keys((_a = apiArgSchema === null || apiArgSchema === void 0 ? void 0 : apiArgSchema.schema) !== null && _a !== void 0 ? _a : {});
-        var paramKeys = [ctx === null || ctx === void 0 ? void 0 : ctx.apiParams, apiParamKeys || schemaParamKeys].flat().filter(Boolean).join(' ');
+        var schemaParamKeys = Object.keys((_a = argsSchema === null || argsSchema === void 0 ? void 0 : argsSchema.schema) !== null && _a !== void 0 ? _a : {});
+        var apiParamKeys = [ctx === null || ctx === void 0 ? void 0 : ctx.paramKeys, paramKeys || schemaParamKeys].flat().filter(Boolean).join(' ');
         var query = __assign(__assign({}, nextSsrContext === null || nextSsrContext === void 0 ? void 0 : nextSsrContext.query), (_b = req) === null || _b === void 0 ? void 0 : _b.query);
         var params = __assign(__assign(__assign(__assign({}, restParams), nextSsrContext === null || nextSsrContext === void 0 ? void 0 : nextSsrContext.params), context), ctx === null || ctx === void 0 ? void 0 : ctx.params);
         var cookies = ((_c = nextSsrContext === null || nextSsrContext === void 0 ? void 0 : nextSsrContext.req) === null || _c === void 0 ? void 0 : _c.cookies) || (req === null || req === void 0 ? void 0 : req.cookies) || (ctx === null || ctx === void 0 ? void 0 : ctx.cookies);
-        var relatedArgs = paramKeys ? apiUtils_1.getApiParams(paramKeys, { query: query, params: params, body: body, args: args, context: context }) : {};
+        var relatedArgs = apiParamKeys ? apiUtils_1.getApiParams(apiParamKeys, { query: query, params: params, body: body, args: args, context: context }) : {};
         var normalizedArgs = index_1.normalizeObjectProps(relatedArgs);
         // Build config
         var errorConfig = { logErrors: logErrors, respondErrors: respondErrors, onError: onError, allowFail: allowFail };
@@ -91,8 +95,12 @@ var aetherResolver = function (resolverFn, apiParamKeys, apiArgSchema, apiResSch
         };
         var saveLogs = function (logHandler) { return __awaiter(void 0, void 0, void 0, function () { var _a, _b, _c; return __generator(this, function (_d) {
             switch (_d.label) {
-                case 0: return [4 /*yield*/, ((_a = logHandler === null || logHandler === void 0 ? void 0 : logHandler(logs)) !== null && _a !== void 0 ? _a : (_c = (_b = ctx === null || ctx === void 0 ? void 0 : ctx.config) === null || _b === void 0 ? void 0 : _b.logHandler) === null || _c === void 0 ? void 0 : _c.call(_b, logs))];
-                case 1: return [2 /*return*/, _d.sent()];
+                case 0: return [4 /*yield*/, ((_a = logHandler === null || logHandler === void 0 ? void 0 : logHandler(logs)) !== null && _a !== void 0 ? _a : (_c = (_b = ctx === null || ctx === void 0 ? void 0 : ctx.config) === null || _b === void 0 ? void 0 : _b.logHandler) === null || _c === void 0 ? void 0 : _c.call(_b, logs))
+                    // Error handling
+                ];
+                case 1: return [2 /*return*/, _d.sent()
+                    // Error handling
+                ];
             }
         }); }); };
         // Error handling
@@ -101,7 +109,6 @@ var aetherResolver = function (resolverFn, apiParamKeys, apiArgSchema, apiResSch
             var isRichError = typeof err === 'object' && !!err.errors;
             var errorObj = isRichError ? err : { errors: [err] };
             var _a = errorObj.code, code = _a === void 0 ? 500 : _a;
-            console.error(errorObj);
             if (config === null || config === void 0 ? void 0 : config.logErrors)
                 console.error(errorObj);
             if (typeof (config === null || config === void 0 ? void 0 : config.onError) === 'function' && config.allowFail)
@@ -128,8 +135,8 @@ var aetherResolver = function (resolverFn, apiParamKeys, apiArgSchema, apiResSch
     };
     // Return Resolver
     return Object.assign(resolverWrapper, {
-        argSchema: apiArgSchema || {},
-        resSchema: apiResSchema || {},
+        argSchema: argsSchema || {},
+        resSchema: responseSchema || {},
         ARGS_TYPE: undefined,
         RESP_TYPE: undefined,
     });
@@ -137,37 +144,38 @@ var aetherResolver = function (resolverFn, apiParamKeys, apiArgSchema, apiResSch
 exports.aetherResolver = aetherResolver;
 /* --- makeNextApiHandler() -------------------------------------------------------------------- */
 // -i- Codegen: Build next.js api request from an aether resolver
-var makeNextApiHandler = function (resolver, middleware, config) {
-    if (middleware === void 0) { middleware = []; }
-    if (config === void 0) { config = {}; }
-    return function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var middlewareArgs_1, middlewareResults, responseData, err_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 4, , 5]);
-                    middlewareArgs_1 = {};
-                    if (!!index_1.isEmpty(middleware)) return [3 /*break*/, 2];
-                    return [4 /*yield*/, Promise.all(middleware.map(function (mw) { return apiUtils_1.runMiddleWare(req, res, mw); }))];
-                case 1:
-                    middlewareResults = _a.sent();
-                    middlewareResults.filter(Boolean).map(function (middlewareResult) {
-                        if (typeof middlewareResult === 'object')
-                            middlewareArgs_1 = __assign(__assign({}, middlewareArgs_1), middlewareResult);
-                    });
-                    _a.label = 2;
-                case 2: return [4 /*yield*/, resolver(__assign(__assign({}, middlewareArgs_1), { req: req, res: res, config: config }))];
-                case 3:
-                    responseData = _a.sent();
-                    return [2 /*return*/, res.status(200).json(responseData)];
-                case 4:
-                    err_1 = _a.sent();
-                    console.error(err_1);
-                    return [2 /*return*/, res.status(500).json({ success: false, errors: [err_1] })];
-                case 5: return [2 /*return*/];
-            }
-        });
-    }); };
-};
+var makeNextApiHandler = function (resolver, options) { return function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var middleware, config, middlewareArgs_1, middlewareResults, responseData, err_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                middleware = (options === null || options === void 0 ? void 0 : options.middleware) || [];
+                config = (options === null || options === void 0 ? void 0 : options.config) || {};
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 5, , 6]);
+                middlewareArgs_1 = {};
+                if (!!index_1.isEmpty(middleware)) return [3 /*break*/, 3];
+                return [4 /*yield*/, Promise.all(middleware.map(function (mw) { return apiUtils_1.runMiddleWare(req, res, mw); }))];
+            case 2:
+                middlewareResults = _a.sent();
+                middlewareResults.filter(Boolean).map(function (middlewareResult) {
+                    if (typeof middlewareResult === 'object')
+                        middlewareArgs_1 = __assign(__assign({}, middlewareArgs_1), middlewareResult);
+                });
+                _a.label = 3;
+            case 3: return [4 /*yield*/, resolver(__assign(__assign({}, middlewareArgs_1), { req: req, res: res, config: config }))];
+            case 4:
+                responseData = _a.sent();
+                return [2 /*return*/, res.status(200).json(responseData)];
+            case 5:
+                err_1 = _a.sent();
+                console.error(err_1);
+                return [2 /*return*/, res.status(500).json({ success: false, errors: [err_1] })];
+            case 6: return [2 /*return*/];
+        }
+    });
+}); }; };
 exports.makeNextApiHandler = makeNextApiHandler;
+/* --- Exports --------------------------------------------------------------------------------- */
 exports.default = exports.aetherResolver;

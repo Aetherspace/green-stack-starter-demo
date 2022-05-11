@@ -1,17 +1,17 @@
-import React from 'react';
-import { useRouting } from 'expo-next-react-navigation';
+import React from 'react'
+import { useRouting } from 'expo-next-react-navigation'
 // Navigation
-import { AetherLink, useAetherNav } from 'aetherspace/navigation';
+import { AetherLink, useAetherNav } from 'aetherspace/navigation'
 // Primitives
-import { AetherView, AetherPressable, AetherText } from 'aetherspace/primitives';
+import { AetherView, AetherPressable, AetherText } from 'aetherspace/primitives'
 // Icons
-import { BackIcon, HomeIcon } from '../icons';
+import { BackIcon, HomeIcon } from '../icons'
 
 /* --- <AuthorScreen/> --------------------------------------------------------------------------- */
 
 const AuthorScreen = () => {
     // Hooks
-    const { goBack, openLink } = useAetherNav();
+    const { goBack, openLink } = useAetherNav()
     // Render
     return (
         <AetherView tw="flex-1 bg-white items-center justify-center">
@@ -30,9 +30,9 @@ const AuthorScreen = () => {
                 </AetherLink>
             </AetherView>
         </AetherView>
-    );
-};
+    )
+}
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default AuthorScreen;
+export default AuthorScreen

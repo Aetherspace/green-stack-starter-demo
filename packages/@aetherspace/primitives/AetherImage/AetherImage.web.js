@@ -31,7 +31,6 @@ var AetherContextManager_1 = require("../../context/AetherContextManager");
 // Components
 var AetherView_1 = __importDefault(require("../AetherView")); // @ts-ignore
 var AetherImage_tsx_1 = __importDefault(require("./AetherImage.tsx"));
-;
 /* --- <AetherImage/> -------------------------------------------------------------------------- */
 var AetherImage = function (props) {
     // Props

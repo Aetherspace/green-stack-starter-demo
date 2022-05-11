@@ -1,9 +1,9 @@
-import React from 'react';
-import { StatusBar } from 'expo-status-bar';
+import React from 'react'
+import { StatusBar } from 'expo-status-bar'
 // Navigation
-import { AetherLink } from 'aetherspace/navigation';
+import { AetherLink } from 'aetherspace/navigation'
 // Primitives
-import { AetherView, AetherText, AetherImage } from 'aetherspace/primitives';
+import { AetherView, AetherText, AetherImage } from 'aetherspace/primitives'
 import { H1 } from 'aetherspace/html-elements'
 
 /* --- <HomeScreen/> --------------------------------------------------------------------------- */
@@ -29,9 +29,9 @@ const HomeScreen = () => {
                 {'{ ...💚 }'}
             </AetherLink>
         </AetherView>
-    );
-};
+    )
+}
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default HomeScreen;
+export default HomeScreen

@@ -37,7 +37,6 @@ var react_1 = __importStar(require("react"));
 var react_native_1 = require("react-native");
 // Hooks
 var hooks_1 = require("../../hooks");
-;
 /* --- Context --------------------------------------------------------------------------------- */
 var DEFAULT_TEXT_CONTEXT = { color: null };
 var TextContext = react_1.createContext(DEFAULT_TEXT_CONTEXT);

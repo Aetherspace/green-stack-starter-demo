@@ -40,7 +40,6 @@ var AetherContextManager_1 = require("../../context/AetherContextManager");
 var hooks_1 = require("../../hooks");
 // Utils
 var utils_1 = require("../../utils");
-;
 /* --- <AetherImage/> -------------------------------------------------------------------------- */
 var AetherImage = function (props) {
     // Context

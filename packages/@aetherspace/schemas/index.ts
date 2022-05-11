@@ -1,1 +1,1 @@
-export * from './aetherSchemas';
+export * from './aetherSchemas'

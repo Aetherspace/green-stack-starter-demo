@@ -34,7 +34,7 @@ export type ResolverInputType<AT extends unknown = any> = {
         [key: string]: any,
     },
     [key: string]: AT[keyof AT] | unknown,
-};
+}
 
 export type ResolverExecutionParamsType<AT extends unknown = any> = {
     args: AT,
@@ -92,12 +92,12 @@ export const aetherResolver = <
         const errorConfig = { logErrors, respondErrors, onError, allowFail }
         const config = { ...restParams, ...context, ...errorConfig, cookies, method, parent, info, ...ctx?.config }
         // Log handling
-        const logs = [] as string[];
+        const logs = [] as string[]
         const addLog = (log: string) => {
             if (normalizedArgs.shouldSaveLogs) console.log(log); // Save log in server logfile as well
-            logs.push(log);
-        };
-        const saveLogs = async (logHandler) => await (logHandler?.(logs) ?? ctx?.config?.logHandler?.(logs));
+            logs.push(log)
+        }
+        const saveLogs = async (logHandler) => await (logHandler?.(logs) ?? ctx?.config?.logHandler?.(logs))
         // Error handling
         const handleError = (err, sendResponse = false) => {
             const isRichError = typeof err === 'object' && !!err.errors
@@ -109,7 +109,7 @@ export const aetherResolver = <
             if (config.allowFail || config.onError === 'return') return { success: false, ...errorObj }
             if (!!res && sendResponse && !config.allowFail) return (res as NextApiResponse).status(code).json(errorObj)
             else throw new Error(isRichError ? errorObj : err)
-        };
+        }
         // Return resolver
         return resolverFn({
             res,
@@ -120,15 +120,15 @@ export const aetherResolver = <
             saveLogs,
             handleError,
         })  as unknown as Promise<RT>
-    };
+    }
     // Return Resolver
     return Object.assign(resolverWrapper, {
         argSchema: argsSchema || {},
         resSchema: responseSchema || {},
         ARGS_TYPE: undefined as AT,
         RESP_TYPE: undefined as RT,
-    });
-};
+    })
+}
 
 /* --- makeNextApiHandler() -------------------------------------------------------------------- */
 // -i- Codegen: Build next.js api request from an aether resolver
@@ -155,7 +155,7 @@ export const makeNextApiHandler = <AT, RT>(
         console.error(err)
         return res.status(500).json({ success: false, errors: [err] })
     }
-};
+}
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

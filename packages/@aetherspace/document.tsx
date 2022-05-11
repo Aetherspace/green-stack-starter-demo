@@ -1,9 +1,9 @@
 // Based on https://github.com/expo/expo-cli/blob/master/packages/next-adapter/document.js
-import React from 'react';
-import { AppRegistry } from 'react-native';
-import NextDocument, { Head, Html, Main, NextScript, DocumentContext } from 'next/document';
+import React from 'react'
+import { AppRegistry } from 'react-native'
+import NextDocument, { Head, Html, Main, NextScript, DocumentContext } from 'next/document'
 // Styles
-import { getInjectables } from './styles';
+import { getInjectables } from './styles'
 
 /* --- Styles ---------------------------------------------------------------------------------- */
 
@@ -45,19 +45,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -ms-overflow-style: scrollbar;
 }
-`;
+`
 
 /* --- Initial Props --------------------------------------------------------------------------- */
 
 export const getInitialProps = (ctx: DocumentContext) => {
     // React Native Styling
-    AppRegistry.registerComponent('Main', () => Main);
-    const initialProps = ctx.defaultGetInitialProps(ctx); // @ts-ignore
-    const { getStyleElement } = AppRegistry.getApplication('Main');
+    AppRegistry.registerComponent('Main', () => Main)
+    const initialProps = ctx.defaultGetInitialProps(ctx) // @ts-ignore
+    const { getStyleElement } = AppRegistry.getApplication('Main')
     // Render to HTML & collect styles
-    const page = ctx.renderPage();
+    const page = ctx.renderPage()
     // Aetherspace SSR Media Queries
-    const aetherQueries = getInjectables();
+    const aetherQueries = getInjectables()
     // List all styles
     const styles = (
         <>
@@ -65,9 +65,9 @@ export const getInitialProps = (ctx: DocumentContext) => {
             <style type="text/css" dangerouslySetInnerHTML={{ __html: aetherQueries.css }} />
             {getStyleElement()}
         </>
-    );
+    )
     // Return initialProps + Styles
-    return { ...page, ...initialProps, styles };
+    return { ...page, ...initialProps, styles }
 }
 
 /* --- <Document/> ----------------------------------------------------------------------------- */
@@ -84,12 +84,12 @@ class Document extends NextDocument {
                     <NextScript />
                 </body>
             </Html>
-        );
+        )
     }
 }
 
-Document.getInitialProps = getInitialProps;
+Document.getInitialProps = getInitialProps
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default Document;
+export default Document

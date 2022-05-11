@@ -10,8 +10,8 @@ import {
     Table, TBody, TD, TFoot, TH, THead, TR,
     Time, UL, LI,
 } from '@expo/html-elements'
-import { aetherify } from "../core";
-import { AetherLink } from "../navigation";
+import { aetherify } from "../core"
+import { AetherLink } from "../navigation"
 
 /* --- HTML Elements --------------------------------------------------------------------------- */
 // -i- Superset of @expo/html-elements for SEO, aetherspace & web friendly alternative primitives

@@ -1,9 +1,9 @@
-import React, { useState, useMemo, createContext, useContext, FC } from 'react';
-import { Platform, Dimensions, TextProps } from 'react-native';
+import React, { useState, useMemo, createContext, useContext, FC } from 'react'
+import { Platform, Dimensions, TextProps } from 'react-native'
 // Primitives
-import { AetherView } from '../../primitives';
+import { AetherView } from '../../primitives'
 // Hooks
-import { useLayoutInfo } from '../../hooks';
+import { useLayoutInfo } from '../../hooks'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -13,12 +13,12 @@ export interface NamedIconType extends TextProps {
      *
      * @default 12
      */
-    size?: number;
+    size?: number
     /**
      * Color of the icon
      *
      */
-    color?: string;
+    color?: string
 }
 
 export interface IconProps<GLYPHS extends string> extends NamedIconType {
@@ -28,7 +28,7 @@ export interface IconProps<GLYPHS extends string> extends NamedIconType {
      * See Icon Explorer app
      * {@link https://expo.github.io/vector-icons/}
      */
-    name: GLYPHS;
+    name: GLYPHS
 }
 
 export interface LinkContextType {
@@ -36,81 +36,81 @@ export interface LinkContextType {
 }
 
 export interface AssetsType {
-    [assetKey: string]: NodeRequire;
+    [assetKey: string]: NodeRequire
 }
 
 export interface IconsType {
-    [iconKey: string]: FC<NamedIconType> | FC<IconProps<string>>;
+    [iconKey: string]: FC<NamedIconType> | FC<IconProps<string>>
 }
 
 export type BreakPointsType = {
-    xs?: number;
-    sm?: number;
-    md?: number;
-    lg?: number;
-    xl?: number;
-    xxl?: number;
-};
+    xs?: number
+    sm?: number
+    md?: number
+    lg?: number
+    xl?: number
+    xxl?: number
+}
 
 export interface AetherContextType {
-    assets: AssetsType;
-    icons: IconsType;
+    assets: AssetsType
+    icons: IconsType
     linkContext?: LinkContextType,
     tw?: string,
     style?: any,
-    isWeb?: boolean;
-    isExpo?: boolean;
-    isNextJS?: boolean;
-    isServer?: boolean;
-    isDesktop?: boolean;
-    isMobile?: boolean;
-    isAndroid?: boolean;
-    isIOS?: boolean;
-    isMobileWeb?: boolean;
-    isTabletWeb?: boolean;
-    isPhoneSize?: boolean;
-    isTabletSize?: boolean;
-    isLaptopSize?: boolean;
-    breakpoints?: BreakPointsType;
-    twPrefixes?: string[];
-    mediaPrefixes?: string[];
-    children?: any | any[];
+    isWeb?: boolean
+    isExpo?: boolean
+    isNextJS?: boolean
+    isServer?: boolean
+    isDesktop?: boolean
+    isMobile?: boolean
+    isAndroid?: boolean
+    isIOS?: boolean
+    isMobileWeb?: boolean
+    isTabletWeb?: boolean
+    isPhoneSize?: boolean
+    isTabletSize?: boolean
+    isLaptopSize?: boolean
+    breakpoints?: BreakPointsType
+    twPrefixes?: string[]
+    mediaPrefixes?: string[]
+    children?: any | any[]
 }
 
 /* --- AetherContext --------------------------------------------------------------------------- */
 
-export const DEFAULT_AETHER_CONTEXT = { assets: {}, icons: {}, linkContext: {} };
-export const AetherContext = createContext<AetherContextType>(DEFAULT_AETHER_CONTEXT);
+export const DEFAULT_AETHER_CONTEXT = { assets: {}, icons: {}, linkContext: {} }
+export const AetherContext = createContext<AetherContextType>(DEFAULT_AETHER_CONTEXT)
 
 /* --- <AetherContextManager/> ----------------------------------------------------------------- */
 
 const AetherContextManager = (props: AetherContextType) => {
     // Props
-    const { children, isNextJS, isExpo, isDesktop } = props;
+    const { children, isNextJS, isExpo, isDesktop } = props
 
     // Layout
-    const { layoutInfo, measureOnLayout } = useLayoutInfo();
+    const { layoutInfo, measureOnLayout } = useLayoutInfo()
 
     // Assets
-    const assets = useMemo(() => props.assets || DEFAULT_AETHER_CONTEXT.assets, []);
+    const assets = useMemo(() => props.assets || DEFAULT_AETHER_CONTEXT.assets, [])
 
     // Icons
-    const icons = useMemo(() => props.icons || DEFAULT_AETHER_CONTEXT.icons, []);
+    const icons = useMemo(() => props.icons || DEFAULT_AETHER_CONTEXT.icons, [])
 
     // Links (used for mobile navigation only)
-    const linkContext = useMemo(() => props.linkContext || DEFAULT_AETHER_CONTEXT.linkContext, []);
+    const linkContext = useMemo(() => props.linkContext || DEFAULT_AETHER_CONTEXT.linkContext, [])
 
     // Styles
-    const [globalStyles, setGlobalStyles] = useState({});
+    const [globalStyles, setGlobalStyles] = useState({})
 
     // -- Handlers --
 
-    const registerStyles = (newStyles: Object) => setGlobalStyles(currStyles => ({ ...newStyles, ...currStyles }));
+    const registerStyles = (newStyles: Object) => setGlobalStyles(currStyles => ({ ...newStyles, ...currStyles }))
 
     // -- ContextValue --
 
-    const appWidth = layoutInfo.app?.width || Dimensions.get('window').width;
-    const appHeight = layoutInfo.app?.width || Dimensions.get('window').height;
+    const appWidth = layoutInfo.app?.width || Dimensions.get('window').width
+    const appHeight = layoutInfo.app?.width || Dimensions.get('window').height
 
     const contextValue = useMemo(() => {
         const breakpoints = {
@@ -122,7 +122,7 @@ const AetherContextManager = (props: AetherContextType) => {
             phones: 1,
             tablets: props.breakpoints?.md || 768,
             laptops: props.breakpoints?.lg || 1024,
-        };
+        }
         const flags = {
             isWeb: Platform.OS === 'web',
             isMobile: Platform.OS !== 'web' && !isDesktop,
@@ -140,7 +140,7 @@ const AetherContextManager = (props: AetherContextType) => {
             isPhoneSize: !!appWidth && appWidth < breakpoints.sm,
             isTabletSize: !!appWidth && appWidth >= breakpoints.sm && appWidth <= breakpoints.lg,
             isLaptopSize: !!appWidth && appWidth >= breakpoints.md,
-        };
+        }
         const mediaPrefixObj = {
             sm: !!appWidth && appWidth >= breakpoints.sm,
             md: !!appWidth && appWidth >= breakpoints.md,
@@ -150,7 +150,7 @@ const AetherContextManager = (props: AetherContextType) => {
             phones: flags.isPhoneSize || flags.isMobileWeb,
             tablets: flags.isTabletSize || flags.isTabletWeb,
             laptops: flags.isLaptopSize,
-        };
+        }
         const twPrefixObj = {
             ...mediaPrefixObj,
             web: flags.isWeb,
@@ -161,9 +161,9 @@ const AetherContextManager = (props: AetherContextType) => {
             next: isNextJS,
             expo: isExpo,
             desktop: isDesktop,
-        };
-        const twPrefixes = Object.entries(twPrefixObj).filter(([, val]) => !!val).map(([k]) => k);
-        const mediaPrefixes = Object.keys(mediaPrefixObj);
+        }
+        const twPrefixes = Object.entries(twPrefixObj).filter(([, val]) => !!val).map(([k]) => k)
+        const mediaPrefixes = Object.keys(mediaPrefixObj)
         return {
             ...flags,
             assets,
@@ -177,8 +177,8 @@ const AetherContextManager = (props: AetherContextType) => {
             mediaPrefixes,
             styles: globalStyles,
             registerStyles,
-        };
-    }, [Platform.OS, appWidth, typeof window === 'undefined']);
+        }
+    }, [Platform.OS, appWidth, typeof window === 'undefined'])
     
     // -- Render --
 
@@ -192,13 +192,13 @@ const AetherContextManager = (props: AetherContextType) => {
                 {children}
             </AetherView>
         </AetherContext.Provider>
-    );
-};
+    )
+}
 
 /* --- useAetherContext() ---------------------------------------------------------------------- */
 
-export const useAetherContext = () => useContext(AetherContext);
+export const useAetherContext = () => useContext(AetherContext)
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default AetherContextManager;
+export default AetherContextManager

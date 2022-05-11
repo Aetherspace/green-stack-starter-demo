@@ -4,8 +4,8 @@ import { useAetherStyles } from '../hooks'
 /* --- Types ----------------------------------------------------------------------------------- */
 
 type AetherPropsType = {
-    tw?: string | (string | null | undefined | false | 0)[];
-    twID?: string;
+    tw?: string | (string | null | undefined | false | 0)[]
+    twID?: string
 }
 
 /* --- aetherify() ----------------------------------------------------------------------------- */

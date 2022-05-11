@@ -51,10 +51,6 @@ var WebBrowser = __importStar(require("expo-web-browser"));
 var primitives_1 = require("../../primitives");
 // Utils
 var utils_1 = require("../../utils");
-;
-;
-;
-;
 /* --- useAetherNav() -------------------------------------------------------------------------- */
 var useAetherNav = function () {
     // Hooks

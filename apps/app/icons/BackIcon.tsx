@@ -1,5 +1,5 @@
-import * as React from "react";
-import Svg, { Path } from "react-native-svg";
+import * as React from "react"
+import Svg, { Path } from "react-native-svg"
 
 const BackIcon = (props) => (
     <Svg
@@ -12,6 +12,6 @@ const BackIcon = (props) => (
     >
         <Path d="M16 4V20L8 12L16 4Z" />
     </Svg>
-);
+)
 
-export default BackIcon;
+export default BackIcon
