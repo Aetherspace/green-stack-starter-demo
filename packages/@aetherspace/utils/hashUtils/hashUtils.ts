@@ -5,7 +5,7 @@ export const hashCode = (str: string) => Array.from(str).reduce((s, c) => Math.i
 /* --- createKey() ----------------------------------------------------------------------------- */
 // -i- Creates a react key by strigifying an object
 // -i- Used for invalidating keys (creating new component instance) when needing to synch state & props
-export const createKey = (obj: any, hash: boolean = true): any => {
+export const createKey = (obj: any, hash = true) => {
     const keyString = JSON.stringify(obj).replace(/([\s.*+?^=!:$,<>{}()|[\]/\\"])/g, '')
     return hash ? hashCode(keyString) : keyString
 }

@@ -1,0 +1,5 @@
+node_modules
+**/*test.ts
+**/*.generated.*
+**/*.d.ts
+**/*.js

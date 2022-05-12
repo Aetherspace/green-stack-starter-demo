@@ -13,7 +13,7 @@ import { normalizeObjectProps, isEmpty } from '../index'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-export type ResolverInputType<AT extends unknown = any> = {
+export type ResolverInputType<AT = any> = {
     req?: NextApiRequest | GetServerSidePropsContext['req'],
     res?: NextApiResponse | GetServerSidePropsContext['res'],
     nextSsrContext?: GetServerSidePropsContext,
@@ -36,7 +36,7 @@ export type ResolverInputType<AT extends unknown = any> = {
     [key: string]: AT[keyof AT] | unknown,
 }
 
-export type ResolverExecutionParamsType<AT extends unknown = any> = {
+export type ResolverExecutionParamsType<AT = any> = {
     args: AT,
     logs: string[],
     addLog: (log: string) => void,
@@ -59,12 +59,12 @@ export type AetherResp<T extends (unknown & { RESP_TYPE: unknown })> = T['RESP_T
 /* --- aetherResolver() ------------------------------------------------------------------------ */
 // -i- Wrap a server side resolver function for easy use in both graphQL & rest endpoints + provide error handling
 export const aetherResolver = <
-    TSAT extends unknown = null, // Args type override
-    TSRT extends unknown = null, // Response type override
+    TSAT = null, // Args type override
+    TSRT = null, // Response type override
     AST extends AetherSchemaType = any, // Args schema
     RST extends AetherSchemaType = any, // Response schema
-    AT extends unknown = TSAT extends null ? Infer<AST> : TSAT, // Args Type (Use override?)
-    RT extends unknown = TSRT extends null ? Infer<RST> : TSRT, // Resp Type (Use override?)
+    AT = TSAT extends null ? Infer<AST> : TSAT, // Args Type (Use override?)
+    RT = TSRT extends null ? Infer<RST> : TSRT, // Resp Type (Use override?)
 >(
     resolverFn: (ctx: ResolverExecutionParamsType<AT>) => Promise<RT | unknown>,
     options?: {
@@ -124,8 +124,8 @@ export const aetherResolver = <
     // Return Resolver
     return Object.assign(resolverWrapper, {
         argSchema: argsSchema || {},
-        resSchema: responseSchema || {},
-        ARGS_TYPE: undefined as AT,
+        resSchema: responseSchema || {}, // @ts-ignore
+        ARGS_TYPE: undefined as AT, // @ts-ignore
         RESP_TYPE: undefined as RT,
     })
 }

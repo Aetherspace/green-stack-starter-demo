@@ -3,11 +3,11 @@ import React from 'react'
 import { AppRegistry } from 'react-native'
 import NextDocument, { Head, Html, Main, NextScript, DocumentContext } from 'next/document'
 // Styles
-import { getInjectables } from './styles'
+import { getInjectableMediaQueries } from './styles'
 
 /* --- Styles ---------------------------------------------------------------------------------- */
 
-export const style = `
+export const cssReset = `
 /**
  * Building on the RNWeb reset:
  * https://github.com/necolas/react-native-web/blob/master/packages/react-native-web/src/exports/StyleSheet/initialRules.js
@@ -57,11 +57,11 @@ export const getInitialProps = (ctx: DocumentContext) => {
     // Render to HTML & collect styles
     const page = ctx.renderPage()
     // Aetherspace SSR Media Queries
-    const aetherQueries = getInjectables()
+    const aetherQueries = getInjectableMediaQueries()
     // List all styles
     const styles = (
         <>
-            <style dangerouslySetInnerHTML={{ __html: style }} />
+            <style dangerouslySetInnerHTML={{ __html: cssReset }} />
             <style type="text/css" dangerouslySetInnerHTML={{ __html: aetherQueries.css }} />
             {getStyleElement()}
         </>

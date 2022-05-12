@@ -105,7 +105,9 @@ const AetherContextManager = (props: AetherContextType) => {
 
     // -- Handlers --
 
-    const registerStyles = (newStyles: Object) => setGlobalStyles(currStyles => ({ ...newStyles, ...currStyles }))
+    const registerStyles = (newStyles: Record<string, unknown>) => {
+        return setGlobalStyles(currStyles => ({ ...newStyles, ...currStyles }))
+    }
 
     // -- ContextValue --
 
@@ -177,6 +179,8 @@ const AetherContextManager = (props: AetherContextType) => {
             mediaPrefixes,
             styles: globalStyles,
             registerStyles,
+            appWidth,
+            appHeight,
         }
     }, [Platform.OS, appWidth, typeof window === 'undefined'])
     

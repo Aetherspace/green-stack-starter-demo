@@ -3,12 +3,12 @@ const { round, ceil, floor } = Math
 
 /* --- roundTo() ------------------------------------------------------------------------------- */
 // -i- Uses scientific string notation to round numbers (up or down) to specific decimals
-export const roundTo = (value: number | string, decimals: number = 0, roundFn: any = round) => {
+export const roundTo = (value: number | string, decimals = 0, roundFn: any = round) => {
     return +`${roundFn(`${value}e+${decimals}`)}e-${decimals}`
 }
 
-export const roundUpTo = (value: number | string, decimals: number = 0) => roundTo(value, decimals, ceil)
-export const roundDownTo = (value: number | string, decimals: number = 0) => roundTo(value, decimals, floor)
+export const roundUpTo = (value: number | string, decimals = 0) => roundTo(value, decimals, ceil)
+export const roundDownTo = (value: number | string, decimals = 0) => roundTo(value, decimals, floor)
 
 /* --- roundPrice() ---------------------------------------------------------------------------- */
 // -i- Round for USD / EUR / GBP price formatting

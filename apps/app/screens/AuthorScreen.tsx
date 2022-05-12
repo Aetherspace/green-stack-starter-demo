@@ -1,5 +1,4 @@
 import React from 'react'
-import { useRouting } from 'expo-next-react-navigation'
 // Navigation
 import { AetherLink, useAetherNav } from 'aetherspace/navigation'
 // Primitives

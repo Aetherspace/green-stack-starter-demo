@@ -2,7 +2,6 @@
 import { camelToDash, createKey } from '../utils'
 
 /* --- SSR Media Queries ----------------------------------------------------------------------- */
-
 // -i- Loosely based on: https://gist.github.com/EyMaddis/35ae3b269e4658527a1f8e374bd434ac#file-lib_cssinjection-ts
 const mediaQueries: { [id: string]: string } = {}
 const AETHER_QUERIES = 'AetherQueries'
@@ -17,7 +16,7 @@ const getUnit = (classKey: string) => {
 
 /* --- addMediaQuery() ------------------------------------------------------------------------- */
 
-export const addMediaQuery = (breakpoint: number, styles: Object): string => {
+export const addMediaQuery = (breakpoint: number, styles: Record<string, unknown>): string => {
     const styleId = `${breakpoint}-${createKey(styles)}`; // @ts-ignore
     // Build CSS rules from style object
     const breakpointSelector = `@media only screen and (min-width: ${breakpoint}px)`
@@ -31,9 +30,9 @@ export const addMediaQuery = (breakpoint: number, styles: Object): string => {
     return styleId
 }
 
-/* --- getInjectables() ------------------------------------------------------------------------ */
+/* --- getInjectableMediaQueries() ------------------------------------------------------------- */
 
-export const getInjectables = () => ({
+export const getInjectableMediaQueries = () => ({
     id: AETHER_QUERIES,
     css: Object.values(mediaQueries).join('\n'),
 })

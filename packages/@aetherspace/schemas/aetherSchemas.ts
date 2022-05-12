@@ -3,7 +3,7 @@ import { ObjectSchema, ObjectType, StructSchema } from 'superstruct/lib/utils'
 
 /* --- Helpers --------------------------------------------------------------------------------- */
 
-const assignDescriptors = <R extends unknown>(schema: R, aetherType: string, schemaName?: string) => {
+const assignDescriptors = <R>(schema: R, aetherType: string, schemaName?: string) => {
     return Object.assign(schema, {
         docs: (example, description?: string) => Object.assign(schema, { example, description }),
         default: (defaultVal, example?: any, description?: string) => Object.assign(schema, {

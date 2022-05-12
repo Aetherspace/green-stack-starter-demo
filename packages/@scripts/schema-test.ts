@@ -30,6 +30,7 @@ const superSchema = ats.schema('MySchema', {
     coll,
 })
 
+// @ts-ignore
 type typeTest = typeof superSchema['TYPE']
 
 console.log(JSON.stringify(superSchema, null, 4))

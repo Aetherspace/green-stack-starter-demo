@@ -48,7 +48,7 @@ export const useAetherNav = () => {
         return hasLeadingSlash ? path.slice(1) : path
     }
 
-    const openLink = (path: string, isBlank: boolean = false) => {
+    const openLink = (path: string, isBlank = false) => {
         const destination = getDestination(path)
         const isInternalLink = !destination.includes('://')
         const webDestination = (isInternalLink && Platform.OS !== 'web') ? `${webDomain}${destination}` : path
