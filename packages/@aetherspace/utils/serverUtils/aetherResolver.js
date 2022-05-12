@@ -144,38 +144,40 @@ var aetherResolver = function (resolverFn, options) {
 exports.aetherResolver = aetherResolver;
 /* --- makeNextApiHandler() -------------------------------------------------------------------- */
 // -i- Codegen: Build next.js api request from an aether resolver
-var makeNextApiHandler = function (resolver, options) { return function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var middleware, config, middlewareArgs_1, middlewareResults, responseData, err_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                middleware = (options === null || options === void 0 ? void 0 : options.middleware) || [];
-                config = (options === null || options === void 0 ? void 0 : options.config) || {};
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 5, , 6]);
-                middlewareArgs_1 = {};
-                if (!!index_1.isEmpty(middleware)) return [3 /*break*/, 3];
-                return [4 /*yield*/, Promise.all(middleware.map(function (mw) { return apiUtils_1.runMiddleWare(req, res, mw); }))];
-            case 2:
-                middlewareResults = _a.sent();
-                middlewareResults.filter(Boolean).map(function (middlewareResult) {
-                    if (typeof middlewareResult === 'object')
-                        middlewareArgs_1 = __assign(__assign({}, middlewareArgs_1), middlewareResult);
-                });
-                _a.label = 3;
-            case 3: return [4 /*yield*/, resolver(__assign(__assign({}, middlewareArgs_1), { req: req, res: res, config: config }))];
-            case 4:
-                responseData = _a.sent();
-                return [2 /*return*/, res.status(200).json(responseData)];
-            case 5:
-                err_1 = _a.sent();
-                console.error(err_1);
-                return [2 /*return*/, res.status(500).json({ success: false, errors: [err_1] })];
-            case 6: return [2 /*return*/];
-        }
-    });
-}); }; };
+var makeNextApiHandler = function (resolver, options) {
+    return function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var middleware, config, middlewareArgs_1, middlewareResults, responseData, err_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    middleware = (options === null || options === void 0 ? void 0 : options.middleware) || [];
+                    config = (options === null || options === void 0 ? void 0 : options.config) || {};
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 5, , 6]);
+                    middlewareArgs_1 = {};
+                    if (!!index_1.isEmpty(middleware)) return [3 /*break*/, 3];
+                    return [4 /*yield*/, Promise.all(middleware.map(function (mw) { return apiUtils_1.runMiddleWare(req, res, mw); }))];
+                case 2:
+                    middlewareResults = _a.sent();
+                    middlewareResults.filter(Boolean).map(function (middlewareResult) {
+                        if (typeof middlewareResult === 'object')
+                            middlewareArgs_1 = __assign(__assign({}, middlewareArgs_1), middlewareResult);
+                    });
+                    _a.label = 3;
+                case 3: return [4 /*yield*/, resolver(__assign(__assign({}, middlewareArgs_1), { req: req, res: res, config: config }))];
+                case 4:
+                    responseData = _a.sent();
+                    return [2 /*return*/, res.status(200).json(responseData)];
+                case 5:
+                    err_1 = _a.sent();
+                    console.error(err_1);
+                    return [2 /*return*/, res.status(500).json({ success: false, errors: [err_1] })];
+                case 6: return [2 /*return*/];
+            }
+        });
+    }); };
+};
 exports.makeNextApiHandler = makeNextApiHandler;
 /* --- Exports --------------------------------------------------------------------------------- */
 exports.default = exports.aetherResolver;

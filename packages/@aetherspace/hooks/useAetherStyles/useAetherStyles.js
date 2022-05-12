@@ -52,7 +52,7 @@ var useAetherStyles = function (props) {
         if (!twStrings)
             return [style, breakpointIds];
         // Determine tailwind styles to be used
-        var twClasses = twStrings.split(' ').sort((function (a) { return a.includes(':') ? 1 : -1; }));
+        var twClasses = twStrings.split(' ').sort(function (a) { return (a.includes(':') ? 1 : -1); });
         var usedClasses = twClasses.reduce(function (classes, twClass, i) {
             if (!twClass.includes(':'))
                 return "" + classes + (i === 0 ? '' : ' ') + twClass;

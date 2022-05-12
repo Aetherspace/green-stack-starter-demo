@@ -3,7 +3,7 @@ import AuthorScreen from 'app/screens/AuthorScreen'
 /* --- <AuthorPage/> ----------------------------------------------------------------------------- */
 
 const AuthorPage = () => {
-    return <AuthorScreen />
+  return <AuthorScreen />
 }
 
 /* --- Exports --------------------------------------------------------------------------------- */

@@ -17,7 +17,7 @@ var objectifier = function (contextTree, parts, create) {
         try {
             // Skip null & undefined + check if the next branch actually exists
             var propExists = typeof (branch === null || branch === void 0 ? void 0 : branch[current]) !== 'undefined';
-            branch = branch && propExists ? branch[current] : (branch && create) ? (branch[current] = {}) : undefined;
+            branch = branch && propExists ? branch[current] : branch && create ? (branch[current] = {}) : undefined;
         }
         catch (err) {
             branch = undefined;

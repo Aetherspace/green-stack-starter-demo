@@ -72,7 +72,7 @@ var useAetherNav = function () {
         if (isBlank === void 0) { isBlank = false; }
         var destination = getDestination(path);
         var isInternalLink = !destination.includes('://');
-        var webDestination = (isInternalLink && react_native_1.Platform.OS !== 'web') ? "" + webDomain + destination : path;
+        var webDestination = isInternalLink && react_native_1.Platform.OS !== 'web' ? "" + webDomain + destination : path;
         var isBrowserEnv = react_native_1.Platform.OS === 'web' && typeof window !== 'undefined' && !!window.open;
         var openURL = isBrowserEnv ? function (url) { return window.open(url, '_blank'); } : Linking.openURL;
         if (isInternalLink && !isBlank)
@@ -100,13 +100,13 @@ var AetherLink = function (props) {
     var onLinkPress = function () { return openLink(destination, isBlank); };
     // -- Render as Text --
     if (isText)
-        return <primitives_1.AetherText {...bindStyles} onPress={onLinkPress}>{children}</primitives_1.AetherText>;
+        return (<primitives_1.AetherText {...bindStyles} onPress={onLinkPress}>
+        {children}
+      </primitives_1.AetherText>);
     // -- Render as View --
     return (<expo_next_react_navigation_1.Link {...props} routeName={destination} touchableOpacityProps={{ onPressIn: onLinkPress }}>
-            <primitives_1.AetherView {...bindStyles}>
-                {children}
-            </primitives_1.AetherView>
-        </expo_next_react_navigation_1.Link>);
+      <primitives_1.AetherView {...bindStyles}>{children}</primitives_1.AetherView>
+    </expo_next_react_navigation_1.Link>);
 };
 /* --- Exports --------------------------------------------------------------------------------- */
 exports.default = AetherLink;

@@ -59,8 +59,8 @@ var AetherText = function (props) {
     var _a = useAetherText(props), textColor = _a.textColor, textContent = _a.textContent, bindStyles = _a.bindStyles;
     // Render
     return textColor ? (<TextContext.Provider value={{ color: textColor }}>
-            <react_native_1.Text {...bindStyles}>{textContent}</react_native_1.Text>
-        </TextContext.Provider>) : (<react_native_1.Text {...bindStyles}>{textContent}</react_native_1.Text>);
+      <react_native_1.Text {...bindStyles}>{textContent}</react_native_1.Text>
+    </TextContext.Provider>) : (<react_native_1.Text {...bindStyles}>{textContent}</react_native_1.Text>);
 };
 /* --- Exports --------------------------------------------------------------------------------- */
 exports.default = Object.assign(AetherText, {

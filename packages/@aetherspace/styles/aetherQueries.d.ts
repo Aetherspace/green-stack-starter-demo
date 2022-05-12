@@ -1,5 +1,5 @@
-export declare const addMediaQuery: (breakpoint: number, styles: Object) => string;
-export declare const getInjectables: () => {
+export declare const addMediaQuery: (breakpoint: number, styles: Record<string, unknown>) => string;
+export declare const getInjectableMediaQueries: () => {
     id: string;
     css: string;
 };

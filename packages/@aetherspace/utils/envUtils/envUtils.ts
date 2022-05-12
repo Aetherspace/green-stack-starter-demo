@@ -3,7 +3,7 @@ import Constants from 'expo-constants'
 /* --- setGlobal() ----------------------------------------------------------------------------- */
 // -i- Set a global variable on the "globalThis" object
 const setGlobal = (key: any, val: any) => {
-    globalThis[key] = val
+  globalThis[key] = val
 }
 
 /* --- getGlobal() ----------------------------------------------------------------------------- */
@@ -15,13 +15,13 @@ const getGlobal = (key: any) => globalThis[key]
 // -i- You may want to do this in any _app.tsx / _app.js files due to @expo/next-adapter clearing process.env
 const __PUBLIC_ENV = '__PUBLIC_ENV'
 export const setPublicEnvVars = (publicEnvVars: { [key: string]: any }) => {
-    setGlobal(__PUBLIC_ENV, { ...getGlobal(__PUBLIC_ENV), ...publicEnvVars })
+  setGlobal(__PUBLIC_ENV, { ...getGlobal(__PUBLIC_ENV), ...publicEnvVars })
 }
 
 /* --- getEnvVar() ----------------------------------------------------------------------------- */
 // -i- Get expo / public env var
 export const getEnvVar = (key: string) => {
-    const possibleKeys = [key, `NEXT_PUBLIC_${key}`, `EXPO_PUBLIC_${key}`, `EXPO_${key}`, `REACT_NATIVE_${key}`]; // @ts-ignore
-    const checkEnv = (k) => process.env[k] || Constants.manifest?.extra?.[k] || getGlobal(__PUBLIC_ENV)?.[k]
-    return possibleKeys.map(checkEnv).find(envVar => typeof envVar !== 'undefined')
+  const possibleKeys = [key, `NEXT_PUBLIC_${key}`, `EXPO_PUBLIC_${key}`, `EXPO_${key}`, `REACT_NATIVE_${key}`] // @ts-ignore
+  const checkEnv = (k) => process.env[k] || Constants.manifest?.extra?.[k] || getGlobal(__PUBLIC_ENV)?.[k]
+  return possibleKeys.map(checkEnv).find((envVar) => typeof envVar !== 'undefined')
 }

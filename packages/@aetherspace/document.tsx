@@ -50,42 +50,42 @@ body {
 /* --- Initial Props --------------------------------------------------------------------------- */
 
 export const getInitialProps = (ctx: DocumentContext) => {
-    // React Native Styling
-    AppRegistry.registerComponent('Main', () => Main)
-    const initialProps = ctx.defaultGetInitialProps(ctx) // @ts-ignore
-    const { getStyleElement } = AppRegistry.getApplication('Main')
-    // Render to HTML & collect styles
-    const page = ctx.renderPage()
-    // Aetherspace SSR Media Queries
-    const aetherQueries = getInjectableMediaQueries()
-    // List all styles
-    const styles = (
-        <>
-            <style dangerouslySetInnerHTML={{ __html: cssReset }} />
-            <style type="text/css" dangerouslySetInnerHTML={{ __html: aetherQueries.css }} />
-            {getStyleElement()}
-        </>
-    )
-    // Return initialProps + Styles
-    return { ...page, ...initialProps, styles }
+  // React Native Styling
+  AppRegistry.registerComponent('Main', () => Main)
+  const initialProps = ctx.defaultGetInitialProps(ctx) // @ts-ignore
+  const { getStyleElement } = AppRegistry.getApplication('Main')
+  // Render to HTML & collect styles
+  const page = ctx.renderPage()
+  // Aetherspace SSR Media Queries
+  const aetherQueries = getInjectableMediaQueries()
+  // List all styles
+  const styles = (
+    <>
+      <style dangerouslySetInnerHTML={{ __html: cssReset }} />
+      <style type="text/css" dangerouslySetInnerHTML={{ __html: aetherQueries.css }} />
+      {getStyleElement()}
+    </>
+  )
+  // Return initialProps + Styles
+  return { ...page, ...initialProps, styles }
 }
 
 /* --- <Document/> ----------------------------------------------------------------------------- */
 
 class Document extends NextDocument {
-    render() {
-        return (
-            <Html>
-                <Head>
-                    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-                </Head>
-                <body>
-                    <Main />
-                    <NextScript />
-                </body>
-            </Html>
-        )
-    }
+  render() {
+    return (
+      <Html>
+        <Head>
+          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    )
+  }
 }
 
 Document.getInitialProps = getInitialProps

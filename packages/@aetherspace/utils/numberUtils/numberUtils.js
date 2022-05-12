@@ -36,8 +36,10 @@ exports.hasLeadingZeroes = hasLeadingZeroes;
 // -i- Allowed: numbers & number strings "0", "1", "250", "0.123"
 // -i- Catches: non numbers & leading zeroes "0568"
 // -i- JavaScript ¯\_(ツ)_/¯
-var isValidNumber = function (numCandidate) { return (![true, false, null].includes(numCandidate) &&
-    !Array.isArray(numCandidate) &&
-    !Number.isNaN(+numCandidate) &&
-    !exports.hasLeadingZeroes(numCandidate)); };
+var isValidNumber = function (numCandidate) {
+    return ![true, false, null].includes(numCandidate) &&
+        !Array.isArray(numCandidate) &&
+        !Number.isNaN(+numCandidate) &&
+        !exports.hasLeadingZeroes(numCandidate);
+};
 exports.isValidNumber = isValidNumber;

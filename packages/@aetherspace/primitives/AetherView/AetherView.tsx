@@ -8,23 +8,23 @@ import { useAetherStyles } from '../../hooks'
 /* --- Types ----------------------------------------------------------------------------------- */
 
 interface AetherViewType extends ViewProps {
-    style?: StyleProp<ViewStyle>
-    tw?: string | (string | null | undefined | false | 0)[]
-    twID?: string
-    children?: any | any[]
+  style?: StyleProp<ViewStyle>
+  tw?: string | (string | null | undefined | false | 0)[]
+  twID?: string
+  children?: any | any[]
 }
 
 /* --- <AetherView/> --------------------------------------------------------------------------- */
 
 const AetherView = (props: AetherViewType) => {
-    // Styles
-    const bindStyles = useAetherStyles<AetherViewType, typeof View, ViewStyle>(props)
-    // Render
-    return <View {...bindStyles} />
+  // Styles
+  const bindStyles = useAetherStyles<AetherViewType, typeof View, ViewStyle>(props)
+  // Render
+  return <View {...bindStyles} />
 }
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
 export default Object.assign(AetherView, {
-    TYPE: undefined as unknown as AetherViewType,
+  TYPE: undefined as unknown as AetherViewType,
 })

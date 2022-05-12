@@ -8,23 +8,23 @@ import { useAetherStyles } from '../../hooks'
 /* --- Types ----------------------------------------------------------------------------------- */
 
 interface AetherPressableType extends PressableProps {
-    style?: StyleProp<ViewStyle>
-    tw?: string | (string | null | undefined | false | 0)[]
-    twID?: string
-    children?: any | any[]
+  style?: StyleProp<ViewStyle>
+  tw?: string | (string | null | undefined | false | 0)[]
+  twID?: string
+  children?: any | any[]
 }
 
 /* --- <AetherPressable/> ---------------------------------------------------------------------- */
 
 const AetherPressable = (props: AetherPressableType) => {
-    // Styles
-    const bindStyles = useAetherStyles<AetherPressableType, typeof View, ViewStyle>(props)
-    // Render
-    return <Pressable {...bindStyles} />
+  // Styles
+  const bindStyles = useAetherStyles<AetherPressableType, typeof View, ViewStyle>(props)
+  // Render
+  return <Pressable {...bindStyles} />
 }
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
 export default Object.assign(AetherPressable, {
-    TYPE: undefined as unknown as AetherPressableType,
+  TYPE: undefined as unknown as AetherPressableType,
 })

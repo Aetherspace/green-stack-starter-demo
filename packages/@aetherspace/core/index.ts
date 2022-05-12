@@ -1,2 +1,2 @@
-import aetherify from "./aetherify"
+import aetherify from './aetherify'
 export { aetherify }

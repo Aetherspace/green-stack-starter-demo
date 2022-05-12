@@ -1529,7 +1529,7 @@ export declare const aetherCollection: <S extends ObjectSchema>(objSchema: S) =>
     });
 };
 export declare type AetherSchemaType = ss.Struct<any, any>;
-export declare type Infer<T extends AetherSchemaType> = T["TYPE"];
+export declare type Infer<T extends AetherSchemaType> = T['TYPE'];
 export declare type Describe<T> = ss.Struct<T, StructSchema<T>>;
 export declare const ats: {
     id: () => ss.Struct<string, null> & {

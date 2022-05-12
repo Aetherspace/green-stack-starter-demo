@@ -48,7 +48,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getInitialProps = exports.style = void 0;
+exports.getInitialProps = exports.cssReset = void 0;
 // Based on https://github.com/expo/expo-cli/blob/master/packages/next-adapter/document.js
 var react_1 = __importDefault(require("react"));
 var react_native_1 = require("react-native");
@@ -56,7 +56,7 @@ var document_1 = __importStar(require("next/document"));
 // Styles
 var styles_1 = require("./styles");
 /* --- Styles ---------------------------------------------------------------------------------- */
-exports.style = "\n/**\n * Building on the RNWeb reset:\n * https://github.com/necolas/react-native-web/blob/master/packages/react-native-web/src/exports/StyleSheet/initialRules.js\n */\nhtml, body, #__next {\n  width: 100%;\n  /* To smooth any scrolling behavior */\n  -webkit-overflow-scrolling: touch;\n  margin: 0px;\n  padding: 0px;\n  /* Allows content to fill the viewport and go beyond the bottom */\n  min-height: 100%;\n}\n#__next {\n  flex-shrink: 0;\n  flex-basis: auto;\n  flex-direction: column;\n  flex-grow: 1;\n  display: flex;\n  flex: 1;\n}\nhtml {\n  scroll-behavior: smooth;\n  /* Prevent text size change on orientation change https://gist.github.com/tfausak/2222823#file-ios-8-web-app-html-L138 */\n  -webkit-text-size-adjust: 100%;\n  height: 100%;\n}\nbody {\n  display: flex;\n  /* Allows you to scroll below the viewport; default value is visible */\n  overflow-y: auto;\n  overscroll-behavior-y: none;\n  text-rendering: optimizeLegibility;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  -ms-overflow-style: scrollbar;\n}\n";
+exports.cssReset = "\n/**\n * Building on the RNWeb reset:\n * https://github.com/necolas/react-native-web/blob/master/packages/react-native-web/src/exports/StyleSheet/initialRules.js\n */\nhtml, body, #__next {\n  width: 100%;\n  /* To smooth any scrolling behavior */\n  -webkit-overflow-scrolling: touch;\n  margin: 0px;\n  padding: 0px;\n  /* Allows content to fill the viewport and go beyond the bottom */\n  min-height: 100%;\n}\n#__next {\n  flex-shrink: 0;\n  flex-basis: auto;\n  flex-direction: column;\n  flex-grow: 1;\n  display: flex;\n  flex: 1;\n}\nhtml {\n  scroll-behavior: smooth;\n  /* Prevent text size change on orientation change https://gist.github.com/tfausak/2222823#file-ios-8-web-app-html-L138 */\n  -webkit-text-size-adjust: 100%;\n  height: 100%;\n}\nbody {\n  display: flex;\n  /* Allows you to scroll below the viewport; default value is visible */\n  overflow-y: auto;\n  overscroll-behavior-y: none;\n  text-rendering: optimizeLegibility;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  -ms-overflow-style: scrollbar;\n}\n";
 /* --- Initial Props --------------------------------------------------------------------------- */
 var getInitialProps = function (ctx) {
     // React Native Styling
@@ -66,13 +66,13 @@ var getInitialProps = function (ctx) {
     // Render to HTML & collect styles
     var page = ctx.renderPage();
     // Aetherspace SSR Media Queries
-    var aetherQueries = styles_1.getInjectables();
+    var aetherQueries = styles_1.getInjectableMediaQueries();
     // List all styles
     var styles = (<>
-            <exports.style dangerouslySetInnerHTML={{ __html: exports.style }}/>
-            <exports.style type="text/css" dangerouslySetInnerHTML={{ __html: aetherQueries.css }}/>
-            {getStyleElement()}
-        </>);
+      <style dangerouslySetInnerHTML={{ __html: exports.cssReset }}/>
+      <style type="text/css" dangerouslySetInnerHTML={{ __html: aetherQueries.css }}/>
+      {getStyleElement()}
+    </>);
     // Return initialProps + Styles
     return __assign(__assign(__assign({}, page), initialProps), { styles: styles });
 };
@@ -85,14 +85,14 @@ var Document = /** @class */ (function (_super) {
     }
     Document.prototype.render = function () {
         return (<document_1.Html>
-                <document_1.Head>
-                    <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
-                </document_1.Head>
-                <body>
-                    <document_1.Main />
-                    <document_1.NextScript />
-                </body>
-            </document_1.Html>);
+        <document_1.Head>
+          <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
+        </document_1.Head>
+        <body>
+          <document_1.Main />
+          <document_1.NextScript />
+        </body>
+      </document_1.Html>);
     };
     return Document;
 }(document_1.default));

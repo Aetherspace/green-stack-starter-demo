@@ -1,5 +1,5 @@
 /// <reference types="react" />
-import { AetherLink } from "../navigation";
+import { AetherLink } from '../navigation';
 declare const AetherArticle: import("react").ForwardRefExoticComponent<Pick<import("@expo/html-elements/build/primitives/View").WebViewProps & Omit<import("react-native").ViewProps & import("react").ClassAttributes<typeof import("react-native").View>, "style" | "accessibilityRole"> & {
     tw?: string | (string | false | 0 | null | undefined)[] | undefined;
     twID?: string | undefined;

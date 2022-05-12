@@ -34,7 +34,9 @@ exports.ats = exports.aetherCollection = exports.aetherArray = exports.aetherObj
 var ss = __importStar(require("superstruct"));
 /* --- Helpers --------------------------------------------------------------------------------- */
 var assignDescriptors = function (schema, aetherType, schemaName) {
-    return Object.assign(schema, __assign({ docs: function (example, description) { return Object.assign(schema, { example: example, description: description }); }, default: function (defaultVal, example, description) { return Object.assign(schema, __assign(__assign({ default: defaultVal }, (example ? { example: example } : null)), (description ? { description: description } : null))); }, aetherType: aetherType }, (schemaName ? { schemaName: schemaName } : null)));
+    return Object.assign(schema, __assign({ docs: function (example, description) { return Object.assign(schema, { example: example, description: description }); }, default: function (defaultVal, example, description) {
+            return Object.assign(schema, __assign(__assign({ default: defaultVal }, (example ? { example: example } : null)), (description ? { description: description } : null)));
+        }, aetherType: aetherType }, (schemaName ? { schemaName: schemaName } : null)));
 };
 var makeOptionalable = function (schema, aetherType, schemaName) {
     return Object.assign(schema, {

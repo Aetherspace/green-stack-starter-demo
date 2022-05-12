@@ -22,6 +22,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable react-native-a11y/has-valid-accessibility-ignores-invert-colors */
 // https://necolas.github.io/react-native-web/docs/image/
 // https://nextjs.org/docs/api-reference/next/image
 var react_1 = __importStar(require("react"));
@@ -50,8 +51,8 @@ var AetherImage = function (props) {
     if (!isNextJS || isExpo)
         return <AetherImage_tsx_1.default {...bindStyles} src={src}/>;
     return (<AetherView_1.default {...bindStyles}>
-            <image_1.default src={src} {...imgProps} quality={quality} priority={priority} loading={loading}/>
-        </AetherView_1.default>);
+      <image_1.default src={src} {...imgProps} quality={quality} priority={priority} loading={loading}/>
+    </AetherView_1.default>);
 };
 /* --- Exports --------------------------------------------------------------------------------- */
 exports.default = Object.assign(AetherImage, {

@@ -57,7 +57,7 @@ var AetherImage = function (props) {
     var bindStyles = hooks_1.useAetherStyles(props);
     var _a = bindStyles, _ = _a.src, componentProps = __rest(_a, ["src"]);
     // -- Render --
-    return <react_native_1.Image {...componentProps} source={source}/>;
+    return <react_native_1.Image {...componentProps} source={source} accessibilityIgnoresInvertColors/>;
 };
 /* --- Exports --------------------------------------------------------------------------------- */
 exports.default = Object.assign(AetherImage, {

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getInjectables = exports.addMediaQuery = void 0;
+exports.getInjectableMediaQueries = exports.addMediaQuery = void 0;
 // Utils
 var utils_1 = require("../utils");
 /* --- SSR Media Queries ----------------------------------------------------------------------- */
@@ -30,9 +30,9 @@ var addMediaQuery = function (breakpoint, styles) {
     return styleId;
 };
 exports.addMediaQuery = addMediaQuery;
-/* --- getInjectables() ------------------------------------------------------------------------ */
-var getInjectables = function () { return ({
+/* --- getInjectableMediaQueries() ------------------------------------------------------------- */
+var getInjectableMediaQueries = function () { return ({
     id: AETHER_QUERIES,
     css: Object.values(mediaQueries).join('\n'),
 }); };
-exports.getInjectables = getInjectables;
+exports.getInjectableMediaQueries = getInjectableMediaQueries;

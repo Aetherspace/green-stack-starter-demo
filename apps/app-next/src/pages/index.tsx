@@ -3,7 +3,7 @@ import HomeScreen from 'app/screens/HomeScreen'
 /* --- <HomePage/> ----------------------------------------------------------------------------- */
 
 const HomePage = () => {
-    return <HomeScreen />
+  return <HomeScreen />
 }
 
 /* --- Exports --------------------------------------------------------------------------------- */

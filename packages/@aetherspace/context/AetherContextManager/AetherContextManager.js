@@ -56,7 +56,9 @@ var AetherContextManager = function (props) {
     // Styles
     var _d = react_1.useState({}), globalStyles = _d[0], setGlobalStyles = _d[1];
     // -- Handlers --
-    var registerStyles = function (newStyles) { return setGlobalStyles(function (currStyles) { return (__assign(__assign({}, newStyles), currStyles)); }); };
+    var registerStyles = function (newStyles) {
+        return setGlobalStyles(function (currStyles) { return (__assign(__assign({}, newStyles), currStyles)); });
+    };
     // -- ContextValue --
     var appWidth = ((_a = layoutInfo.app) === null || _a === void 0 ? void 0 : _a.width) || react_native_1.Dimensions.get('window').width;
     var appHeight = ((_b = layoutInfo.app) === null || _b === void 0 ? void 0 : _b.width) || react_native_1.Dimensions.get('window').height;
@@ -101,22 +103,24 @@ var AetherContextManager = function (props) {
             laptops: flags.isLaptopSize,
         };
         var twPrefixObj = __assign(__assign({}, mediaPrefixObj), { web: flags.isWeb, mobile: flags.isMobile, android: flags.isAndroid, ios: flags.isIOS, server: flags.isServer, next: isNextJS, expo: isExpo, desktop: isDesktop });
-        var twPrefixes = Object.entries(twPrefixObj).filter(function (_a) {
+        var twPrefixes = Object.entries(twPrefixObj)
+            .filter(function (_a) {
             var val = _a[1];
             return !!val;
-        }).map(function (_a) {
+        })
+            .map(function (_a) {
             var k = _a[0];
             return k;
         });
         var mediaPrefixes = Object.keys(mediaPrefixObj);
-        return __assign(__assign({}, flags), { assets: assets, icons: icons, linkContext: linkContext, isNextJS: isNextJS, isExpo: isExpo, isDesktop: isDesktop, breakpoints: breakpoints, twPrefixes: twPrefixes, mediaPrefixes: mediaPrefixes, styles: globalStyles, registerStyles: registerStyles });
+        return __assign(__assign({}, flags), { assets: assets, icons: icons, linkContext: linkContext, isNextJS: isNextJS, isExpo: isExpo, isDesktop: isDesktop, breakpoints: breakpoints, twPrefixes: twPrefixes, mediaPrefixes: mediaPrefixes, styles: globalStyles, registerStyles: registerStyles, appWidth: appWidth, appHeight: appHeight });
     }, [react_native_1.Platform.OS, appWidth, typeof window === 'undefined']);
     // -- Render --
     return (<exports.AetherContext.Provider value={contextValue}>
-            <primitives_1.AetherView tw={['w-full h-full', props.tw].filter(Boolean).join(' ')} style={props.style} onLayout={measureOnLayout('app')}>
-                {children}
-            </primitives_1.AetherView>
-        </exports.AetherContext.Provider>);
+      <primitives_1.AetherView tw={['w-full h-full', props.tw].filter(Boolean).join(' ')} style={props.style} onLayout={measureOnLayout('app')}>
+        {children}
+      </primitives_1.AetherView>
+    </exports.AetherContext.Provider>);
 };
 /* --- useAetherContext() ---------------------------------------------------------------------- */
 var useAetherContext = function () { return react_1.useContext(exports.AetherContext); };

@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse, GetServerSidePropsContext, GetStaticPathsContext, GetStaticPropsContext } from 'next';
 import type { AetherSchemaType, Infer } from '../../schemas';
 import { MiddlewareFnType } from './apiUtils';
-export declare type ResolverInputType<AT extends unknown = any> = {
+export declare type ResolverInputType<AT = any> = {
     req?: NextApiRequest | GetServerSidePropsContext['req'];
     res?: NextApiResponse | GetServerSidePropsContext['res'];
     nextSsrContext?: GetServerSidePropsContext;
@@ -25,7 +25,7 @@ export declare type ResolverInputType<AT extends unknown = any> = {
     };
     [key: string]: AT[keyof AT] | unknown;
 };
-export declare type ResolverExecutionParamsType<AT extends unknown = any> = {
+export declare type ResolverExecutionParamsType<AT = any> = {
     args: AT;
     logs: string[];
     addLog: (log: string) => void;
@@ -41,13 +41,13 @@ export declare type ResolverExecutionParamsType<AT extends unknown = any> = {
     };
     res?: NextApiResponse | GetServerSidePropsContext['res'];
 };
-export declare type AetherArgs<T extends (unknown & {
+export declare type AetherArgs<T extends unknown & {
     ARGS_TYPE: unknown;
-})> = T['ARGS_TYPE'];
-export declare type AetherResp<T extends (unknown & {
+}> = T['ARGS_TYPE'];
+export declare type AetherResp<T extends unknown & {
     RESP_TYPE: unknown;
-})> = T['RESP_TYPE'];
-export declare const aetherResolver: <TSAT extends unknown = null, TSRT extends unknown = null, AST extends AetherSchemaType = any, RST extends AetherSchemaType = any, AT extends unknown = TSAT extends null ? Infer<AST> : TSAT, RT extends unknown = TSRT extends null ? Infer<RST> : TSRT>(resolverFn: (ctx: ResolverExecutionParamsType<AT>) => Promise<unknown>, options?: {
+}> = T['RESP_TYPE'];
+export declare const aetherResolver: <TSAT = null, TSRT = null, AST extends AetherSchemaType = any, RST extends AetherSchemaType = any, AT = TSAT extends null ? Infer<AST> : TSAT, RT = TSRT extends null ? Infer<RST> : TSRT>(resolverFn: (ctx: ResolverExecutionParamsType<AT>) => Promise<unknown>, options?: {
     paramKeys?: string | undefined;
     argsSchema?: AST | undefined;
     responseSchema?: RST | undefined;
