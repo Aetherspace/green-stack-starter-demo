@@ -3,7 +3,7 @@
 import React from 'react'
 import { View, ViewProps, StyleProp, ViewStyle } from 'react-native'
 // Hooks
-import { useAetherStyles } from '../../hooks'
+import { useAetherStyles } from '../../hooks/useAetherStyles'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 

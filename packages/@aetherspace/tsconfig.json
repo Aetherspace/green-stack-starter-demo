@@ -1,7 +1,7 @@
 {
   "extends": "config/tsconfig.lib",
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "**/*.js", "**/*.d.ts"],
+  "exclude": ["node_modules", "**/*.js", "**/*.d.ts", "**/**/tailwind.config.js"],
   "compilerOptions": {
     "outDir": ".",
     "noEmit": false

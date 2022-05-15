@@ -1,8 +1,8 @@
 import { useMemo, ComponentClass } from 'react'
 import { StyleProp } from 'react-native'
-import tailwind from 'twrnc'
 // Context
-import { BreakPointsType, useAetherContext } from '../../context/AetherContextManager/AetherContextManager'
+import { BreakPointsType } from '../../context/AetherContextManager'
+import { useAetherContext } from '../../context/AetherContextManager/useAetherContext'
 // Styles
 import { addMediaQuery } from '../../styles'
 
@@ -24,7 +24,7 @@ const useAetherStyles = <T extends StylePropsType<K, S>, K extends ComponentClas
   const twStrings = Array.isArray(tw) ? tw.filter(Boolean).join(' ') : tw
 
   // Context
-  const { isWeb, breakpoints = {}, twPrefixes = [], mediaPrefixes = [] } = useAetherContext()
+  const { tailwind, isWeb, breakpoints = {}, twPrefixes = [], mediaPrefixes = [] } = useAetherContext()
 
   // -- Styles --
 
@@ -40,7 +40,7 @@ const useAetherStyles = <T extends StylePropsType<K, S>, K extends ComponentClas
       if (!twClass.includes(':')) return `${classes}${i === 0 ? '' : ' '}${twClass}`
       const [twPrefix, className] = twClass.split(':')
       if (isWeb && mediaPrefixes.includes(twPrefix)) {
-        const breakpointStyles = tailwind`${className}` || {}
+        const breakpointStyles = tailwind!`${className}` || {}
         const breakpointId = addMediaQuery(breakpoints[twPrefix as keyof BreakPointsType]!, breakpointStyles)
         breakpointIds = `${breakpointIds}${!breakpointIds ? '' : ' '}${breakpointId}`
       }

@@ -2,6 +2,8 @@ import React from 'react'
 import { LogBox } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+// Config
+import tailwindConfig from '../../tailwind.config'
 // Context
 import AetherContextManager from '../../packages/@aetherspace/context/AetherContextManager'
 // Screens
@@ -53,7 +55,7 @@ const App = () => {
   // -- Render --
 
   return (
-    <AetherContextManager assets={assets} icons={{}}>
+    <AetherContextManager assets={assets} icons={{}} twConfig={tailwindConfig}>
       <AppNavigator />
     </AetherContextManager>
   )

@@ -18,7 +18,7 @@ const HomeScreen = () => {
           tw={['w-20 h-20 mt-0 mb-3 overflow-hidden', true && 'rounded-full']} // Assign conditional classes with an array
         />
       </AetherLink>
-      <H1 tw="text-green-500 pb-5 font-bold text-base">Hello GREEN stack ✅</H1>
+      <H1 tw="text-green-500 pb-5 roboto-bold font-bold text-base">Hello GREEN stack ✅</H1>
       <AetherText tw="px-5 text-center text-sm">
         Open up <AetherText tw="text-gray-500">apps/app/screens/HomeScreen.tsx</AetherText> to start working on your app
       </AetherText>

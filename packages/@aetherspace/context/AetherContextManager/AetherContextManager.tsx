@@ -1,9 +1,8 @@
-import React, { useState, useMemo, createContext, useContext, FC } from 'react'
-import { Platform, Dimensions, TextProps } from 'react-native'
-// Primitives
-import { AetherView } from '../../primitives'
+import React, { useState, useMemo, createContext, FC } from 'react'
+import { View, Platform, Dimensions, TextProps } from 'react-native'
+import tailwind, { create as createTailwindWithConfig, TwConfig, TailwindFn } from 'twrnc'
 // Hooks
-import { useLayoutInfo } from '../../hooks'
+import { useLayoutInfo } from '../../hooks/useLayoutInfo'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -75,6 +74,8 @@ export interface AetherContextType {
   twPrefixes?: string[]
   mediaPrefixes?: string[]
   children?: any | any[]
+  tailwind?: TailwindFn
+  twConfig?: TwConfig
 }
 
 /* --- AetherContext --------------------------------------------------------------------------- */
@@ -86,7 +87,7 @@ export const AetherContext = createContext<AetherContextType>(DEFAULT_AETHER_CON
 
 const AetherContextManager = (props: AetherContextType) => {
   // Props
-  const { children, isNextJS, isExpo, isDesktop } = props
+  const { children, isNextJS, isExpo, isDesktop, twConfig } = props
 
   // Layout
   const { layoutInfo, measureOnLayout } = useLayoutInfo()
@@ -183,6 +184,7 @@ const AetherContextManager = (props: AetherContextType) => {
       registerStyles,
       appWidth,
       appHeight,
+      tailwind: twConfig ? createTailwindWithConfig(twConfig) : tailwind,
     }
   }, [Platform.OS, appWidth, typeof window === 'undefined'])
 
@@ -190,20 +192,15 @@ const AetherContextManager = (props: AetherContextType) => {
 
   return (
     <AetherContext.Provider value={contextValue}>
-      <AetherView
-        tw={['w-full h-full', props.tw].filter(Boolean).join(' ')}
-        style={props.style}
+      <View
+        style={{ ...props.style, ...contextValue.tailwind`${['w-full h-full', props.tw].filter(Boolean).join(' ')}` }}
         onLayout={measureOnLayout('app')}
       >
         {children}
-      </AetherView>
+      </View>
     </AetherContext.Provider>
   )
 }
-
-/* --- useAetherContext() ---------------------------------------------------------------------- */
-
-export const useAetherContext = () => useContext(AetherContext)
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

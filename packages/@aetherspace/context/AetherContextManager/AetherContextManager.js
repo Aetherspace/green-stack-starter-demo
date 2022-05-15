@@ -1,4 +1,8 @@
 "use strict";
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -30,13 +34,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useAetherContext = exports.AetherContext = exports.DEFAULT_AETHER_CONTEXT = void 0;
+exports.AetherContext = exports.DEFAULT_AETHER_CONTEXT = void 0;
 var react_1 = __importStar(require("react"));
 var react_native_1 = require("react-native");
-// Primitives
-var primitives_1 = require("../../primitives");
+var twrnc_1 = __importStar(require("twrnc"));
 // Hooks
-var hooks_1 = require("../../hooks");
+var useLayoutInfo_1 = require("../../hooks/useLayoutInfo");
 /* --- AetherContext --------------------------------------------------------------------------- */
 exports.DEFAULT_AETHER_CONTEXT = { assets: {}, icons: {}, linkContext: {} };
 exports.AetherContext = react_1.createContext(exports.DEFAULT_AETHER_CONTEXT);
@@ -44,9 +47,9 @@ exports.AetherContext = react_1.createContext(exports.DEFAULT_AETHER_CONTEXT);
 var AetherContextManager = function (props) {
     var _a, _b;
     // Props
-    var children = props.children, isNextJS = props.isNextJS, isExpo = props.isExpo, isDesktop = props.isDesktop;
+    var children = props.children, isNextJS = props.isNextJS, isExpo = props.isExpo, isDesktop = props.isDesktop, twConfig = props.twConfig;
     // Layout
-    var _c = hooks_1.useLayoutInfo(), layoutInfo = _c.layoutInfo, measureOnLayout = _c.measureOnLayout;
+    var _c = useLayoutInfo_1.useLayoutInfo(), layoutInfo = _c.layoutInfo, measureOnLayout = _c.measureOnLayout;
     // Assets
     var assets = react_1.useMemo(function () { return props.assets || exports.DEFAULT_AETHER_CONTEXT.assets; }, []);
     // Icons
@@ -113,17 +116,15 @@ var AetherContextManager = function (props) {
             return k;
         });
         var mediaPrefixes = Object.keys(mediaPrefixObj);
-        return __assign(__assign({}, flags), { assets: assets, icons: icons, linkContext: linkContext, isNextJS: isNextJS, isExpo: isExpo, isDesktop: isDesktop, breakpoints: breakpoints, twPrefixes: twPrefixes, mediaPrefixes: mediaPrefixes, styles: globalStyles, registerStyles: registerStyles, appWidth: appWidth, appHeight: appHeight });
+        return __assign(__assign({}, flags), { assets: assets, icons: icons, linkContext: linkContext, isNextJS: isNextJS, isExpo: isExpo, isDesktop: isDesktop, breakpoints: breakpoints, twPrefixes: twPrefixes, mediaPrefixes: mediaPrefixes, styles: globalStyles, registerStyles: registerStyles, appWidth: appWidth, appHeight: appHeight, tailwind: twConfig ? twrnc_1.create(twConfig) : twrnc_1.default });
     }, [react_native_1.Platform.OS, appWidth, typeof window === 'undefined']);
     // -- Render --
     return (<exports.AetherContext.Provider value={contextValue}>
-      <primitives_1.AetherView tw={['w-full h-full', props.tw].filter(Boolean).join(' ')} style={props.style} onLayout={measureOnLayout('app')}>
+      <react_native_1.View style={__assign(__assign({}, props.style), contextValue.tailwind(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", ""], ["", ""])), ['w-full h-full', props.tw].filter(Boolean).join(' ')))} onLayout={measureOnLayout('app')}>
         {children}
-      </primitives_1.AetherView>
+      </react_native_1.View>
     </exports.AetherContext.Provider>);
 };
-/* --- useAetherContext() ---------------------------------------------------------------------- */
-var useAetherContext = function () { return react_1.useContext(exports.AetherContext); };
-exports.useAetherContext = useAetherContext;
 /* --- Exports --------------------------------------------------------------------------------- */
 exports.default = AetherContextManager;
+var templateObject_1;

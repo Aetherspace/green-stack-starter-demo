@@ -2,7 +2,7 @@ const { plugin } = require('twrnc');
 
 module.exports = {
     plugins: [
-        plugin(function({ addUtilities }) {
+        plugin(({ addUtilities }) => {
             addUtilities({
                 'roboto': {
                     fontFamily: 'Roboto',

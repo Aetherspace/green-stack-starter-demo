@@ -1,6 +1,7 @@
 /// <reference types="node" />
 import React, { FC } from 'react';
 import { TextProps } from 'react-native';
+import { TwConfig, TailwindFn } from 'twrnc';
 export interface NamedIconType extends TextProps {
     /**
      * Size of the icon, can also be passed as fontSize in the style object.
@@ -63,6 +64,8 @@ export interface AetherContextType {
     twPrefixes?: string[];
     mediaPrefixes?: string[];
     children?: any | any[];
+    tailwind?: TailwindFn;
+    twConfig?: TwConfig;
 }
 export declare const DEFAULT_AETHER_CONTEXT: {
     assets: {};
@@ -71,5 +74,4 @@ export declare const DEFAULT_AETHER_CONTEXT: {
 };
 export declare const AetherContext: React.Context<AetherContextType>;
 declare const AetherContextManager: (props: AetherContextType) => JSX.Element;
-export declare const useAetherContext: () => AetherContextType;
 export default AetherContextManager;

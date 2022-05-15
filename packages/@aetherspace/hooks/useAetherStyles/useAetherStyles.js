@@ -25,14 +25,9 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = require("react");
-var twrnc_1 = __importDefault(require("twrnc"));
-// Context
-var AetherContextManager_1 = require("../../context/AetherContextManager/AetherContextManager");
+var useAetherContext_1 = require("../../context/AetherContextManager/useAetherContext");
 // Styles
 var styles_1 = require("../../styles");
 /* --- useAetherStyles() ----------------------------------------------------------------------- */
@@ -41,7 +36,7 @@ var useAetherStyles = function (props) {
     var style = props.style, tw = props.tw, nativeProps = __rest(props, ["style", "tw"]);
     var twStrings = Array.isArray(tw) ? tw.filter(Boolean).join(' ') : tw;
     // Context
-    var _a = AetherContextManager_1.useAetherContext(), isWeb = _a.isWeb, _b = _a.breakpoints, breakpoints = _b === void 0 ? {} : _b, _c = _a.twPrefixes, twPrefixes = _c === void 0 ? [] : _c, _d = _a.mediaPrefixes, mediaPrefixes = _d === void 0 ? [] : _d;
+    var _a = useAetherContext_1.useAetherContext(), tailwind = _a.tailwind, isWeb = _a.isWeb, _b = _a.breakpoints, breakpoints = _b === void 0 ? {} : _b, _c = _a.twPrefixes, twPrefixes = _c === void 0 ? [] : _c, _d = _a.mediaPrefixes, mediaPrefixes = _d === void 0 ? [] : _d;
     // -- Styles --
     var _e = react_1.useMemo(function () {
         var breakpointIds = '';
@@ -58,14 +53,14 @@ var useAetherStyles = function (props) {
                 return "" + classes + (i === 0 ? '' : ' ') + twClass;
             var _a = twClass.split(':'), twPrefix = _a[0], className = _a[1];
             if (isWeb && mediaPrefixes.includes(twPrefix)) {
-                var breakpointStyles = twrnc_1.default(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", ""], ["", ""])), className) || {};
+                var breakpointStyles = tailwind(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", ""], ["", ""])), className) || {};
                 var breakpointId = styles_1.addMediaQuery(breakpoints[twPrefix], breakpointStyles);
                 breakpointIds = "" + breakpointIds + (!breakpointIds ? '' : ' ') + breakpointId;
             }
             return twPrefixes.includes(twPrefix) ? "" + classes + (i === 0 ? '' : ' ') + className : classes;
         }, '');
         // @ts-ignore
-        var memoStyles = __assign(__assign({}, twrnc_1.default(templateObject_2 || (templateObject_2 = __makeTemplateObject(["", ""], ["", ""])), usedClasses)), style);
+        var memoStyles = __assign(__assign({}, tailwind(templateObject_2 || (templateObject_2 = __makeTemplateObject(["", ""], ["", ""])), usedClasses)), style);
         return [memoStyles, breakpointIds];
     }, [style, twStrings, twPrefixes.join()]), styles = _e[0], mediaIds = _e[1];
     // -- bindStyles --
