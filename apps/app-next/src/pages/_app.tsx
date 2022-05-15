@@ -3,6 +3,8 @@ import Head from 'next/head'
 import { AppProps } from 'next/app'
 // Context
 import { AetherContextManager } from 'aetherspace/context'
+// Hooks
+import useLoadFonts from 'app/hooks/useLoadFonts'
 // Utils
 import { setPublicEnvVars } from 'aetherspace/utils'
 
@@ -22,6 +24,11 @@ const AppLayout = (props: AppProps) => {
   // Props
   const { Component, pageProps } = props
   const { pageTitle = 'My GREEN stack App' } = pageProps
+
+  // -- Fonts --
+
+  const fontsLoaded = useLoadFonts()
+  console.log({ fontsLoaded })
 
   // -- Render --
 
