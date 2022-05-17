@@ -3,7 +3,7 @@ import { LogBox } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 // Config
-import tailwindConfig from '../../tailwind.config'
+import tailwindConfig from 'app/tailwind.config'
 // Context
 import AetherContextManager from '../../packages/@aetherspace/context/AetherContextManager'
 // Screens

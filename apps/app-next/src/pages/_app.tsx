@@ -2,7 +2,7 @@ import 'setimmediate'
 import Head from 'next/head'
 import { AppProps } from 'next/app'
 // Config
-import tailwindConfig from '../../../../tailwind.config'
+import tailwindConfig from 'app/tailwind.config'
 // Context
 import { AetherContextManager } from 'aetherspace/context'
 // Hooks
