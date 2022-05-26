@@ -3,7 +3,8 @@ const { plugin } = require('twrnc');
 /* --- Custom Tailwind Config ------------------------------------------------------------------ */
 // Docs @ https://github.com/jaredh159/tailwind-react-native-classnames#adding-custom-classes
 // ^ Extend this tailwind.config, import & pass to AetherContextManager in _app.tsx (next) or App.tsx (expo)
-// ^ e.g. import twConfig from 'app/tailwind.config'
+// ^ e.g.   import twConfig from 'app/tailwind.config'
+// ^ e.g.   <AetherContextManager twConfig={twConfig} ...>
 
 module.exports = {
     plugins: [

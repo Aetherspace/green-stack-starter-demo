@@ -2,15 +2,15 @@
 
 <p>
   <!-- Next.js -->
-  <a href="https://aetherspace-green-stack-starter-premium.vercel.app/">
+  <a href="https://aetherspace-green-stack-starter.vercel.app/">
     <img alt="Supports Next.js" longdesc="Supports Next.js" src="https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white" />
   </a>
   <!-- Vercel -->
-  <a href="https://aetherspace-green-stack-starter-premium.vercel.app/">
+  <a href="https://aetherspace-green-stack-starter.vercel.app/">
     <img alt="Supports Vercel Deployments" longdesc="Supports Vercel Deployments" src="https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white" />
   </a>
   <!-- Netlify -->
-  <a href="https://aetherspace-green-stack-starter-premium.netlify.app/">
+  <a href="https://aetherspace-green-stack-starter.netlify.app/">
     <img alt="Supports Netlify Deployments" longdesc="Supports Netlify Deployments" src="https://img.shields.io/badge/netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=#00C7B7" />
   </a>
   <!-- Expo -->
@@ -27,7 +27,7 @@
   </a>
 </p>
 
-> This project was bootstrapped with [Aetherspace](https://github.com/codinsonn/aetherspace-green-stack-starter-premium), the premium GREEN stack repo setup for all your full-stack cross platform app development needs {...💚} Enabling the project to be built for Web, PWA, Static, SSR, iOS, Android, Mac, Linux, Windows, REST and GraphQL all at once 👇
+> This project was bootstrapped with [Aetherspace](https://github.com/codinsonn/aetherspace-green-stack-starter), the Evergreen repo setup for all your full-stack cross platform app development needs {...💚} Enabling the project to be built for Web, PWA, Static, SSR, iOS, Android, Mac, Linux, Windows, REST and GraphQL all at once 👇
 
 ### Getting Started ⚡️
 
@@ -214,8 +214,8 @@ Here's a list of what you can start doing out of the box:
 - Bring the power of GraphQL to JSON or REST apis with `aetherResolver()` and Schemas.
 - Add auth with [AuthSession](https://docs.expo.dev/versions/latest/sdk/auth-session/) ([Expo Examples](https://docs.expo.dev/guides/authentication/))
 - Document your components and APIs with Storybook.
-- Deploy to vercel with `yarn deploy` or `vercel --prod --no-clipboard` ([view live](https://aetherspace-green-stack-starter-premium.vercel.app/))
-- Deploy to netlify [via this guide](https://www.netlify.com/blog/2020/11/30/how-to-deploy-next.js-sites-to-netlify/) ([view live](https://aetherspace-green-stack-starter-premium.netlify.app/))
+- Deploy to vercel with `yarn deploy` or `vercel --prod --no-clipboard` ([view live](https://aetherspace-green-stack-starter.vercel.app/))
+- Deploy to netlify [via this guide](https://www.netlify.com/blog/2020/11/30/how-to-deploy-next.js-sites-to-netlify/) ([view live](https://aetherspace-green-stack-starter.netlify.app/))
 
 If you'd like to continue learning about Aetherspace and the GREEN stack, there are more detailed guides, tips and best-practices in:
 - `AETHERSPACE.md`, `CODEGEN.md`, `NAVIGATION.md` & `API.md` (Aetherspace & Codegen)  
