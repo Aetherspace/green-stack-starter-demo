@@ -15,9 +15,10 @@ export type SayHiResolverRespType = AetherSchema<SayHiResolverRespoType>;
 
 export const sayHiResolver = aetherResolver<SayHiResolverArgsType>(
     ({ args }) => ({ greeting: `Hello ${args.name}` }),
-    SayHiResolverArgsSchema,
-    SayHiResolverRespSchema,
-);
+, {
+    argSchema: SayHiResolverArgsSchema,
+    resSchema: SayHiResolverRespSchema,
+});
 
 export const sayHiNextJSApiHandler = sayHiResolver.buildApiHandler();
 export const sayHiGQLResolver = sayHiResolver.buildGraphQLQuery();
