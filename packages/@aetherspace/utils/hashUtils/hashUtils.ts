@@ -14,6 +14,7 @@ export const createKey = (obj: any, hash = true) => {
 // -i- Create a unique id
 export const uuid = () => {
   let d = new Date().getTime()
+  // @ts-ignore
   if (typeof window !== 'undefined' && window.performance && window.performance.now) d += performance.now()
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
     const r = (d + Math.random() * 16) % 16 | 0 // eslint-disable-line no-bitwise

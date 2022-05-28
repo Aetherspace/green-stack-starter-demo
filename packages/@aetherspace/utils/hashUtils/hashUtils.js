@@ -18,6 +18,7 @@ exports.createKey = createKey;
 // -i- Create a unique id
 var uuid = function () {
     var d = new Date().getTime();
+    // @ts-ignore
     if (typeof window !== 'undefined' && window.performance && window.performance.now)
         d += performance.now();
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {

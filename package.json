@@ -24,7 +24,7 @@
     "patch-package": "^6.4.7",
     "prettier": "^2.6.2",
     "prettier-eslint": "^14.0.3",
-    "turbo": "^1.0.24"
+    "turbo": "^1.2.14"
   },
   "scripts": {
     "build": "yarn app-expo run create-next-manifest && yarn turbo run scripts#collect-assets build",
@@ -43,6 +43,11 @@
     "app-uncache": "yarn turbo run app-expo#uncache",
     "doppler-sync": "doppler secrets download --no-file --format env > apps/app-next/.env",
     "postinstall": "patch-package"
+  },
+  "overrides": {
+    "@babel/core": "~7.17.0",
+    "@babel/types": "~7.17.0",
+    "@babel/plugin-transform-typescript": "~7.17.0"
   },
   "turbo": {
     "baseBranch": "origin/main",
