@@ -1,4 +1,5 @@
 node_modules/
+node_modules
 .env
 
 # Internal Packages
@@ -29,4 +30,3 @@ packages/@scripts/compiled
 .vercel
 tsconfig.tsbuildinfo
 doppler.yaml
-node_modules
