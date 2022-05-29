@@ -22,10 +22,5 @@
     "devDependencies": {
         "@expo/next-adapter": "^4.0.5",
         "next-compose-plugins": "^2.2.1"
-    },
-    "overrides": {
-        "@babel/core": "~7.17.0",
-        "@babel/types": "~7.17.0",
-        "@babel/plugin-transform-typescript": "~7.17.0"
     }
 }

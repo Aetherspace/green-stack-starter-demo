@@ -3,7 +3,8 @@
   "pipeline": {
     "aetherspace#build": {
       "outputs": [
-        "lib"
+        "../../packages/@aetherspace/**/*.d.ts",
+        "../../packages/@aetherspace/**/*.js"
       ]
     },
     "scripts#build": {
@@ -20,7 +21,7 @@
       ],
       "outputs": [
         "../../apps/app/assets.generated.js",
-        "../../apps/app-next/public"
+        "../../apps/app-next/public/**"
       ]
     },
     "scripts#dev-health-check": {
@@ -36,7 +37,7 @@
     "app-next#dev": {},
     "app-expo#create-next-manifest": {
       "outputs": [
-        "../app-next/public"
+        "../app-next/public/**"
       ]
     },
     "app-expo#web": {

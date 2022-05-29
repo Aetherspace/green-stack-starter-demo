@@ -2,6 +2,7 @@
   "name": "app-expo",
   "version": "1.0.0",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "dev": "expo start --web",
     "start": "expo start",
@@ -39,18 +40,13 @@
     "twrnc": "^3.3.1"
   },
   "devDependencies": {
-    "@babel/core": "~7.17.0",
+    "@babel/core": "~7.17.12",
+    "@babel/types": "~7.17.12",
     "@expo/webpack-config": "^0.16.6",
     "@types/react": "~17.0.21",
     "@types/react-native": "~0.64.12",
     "dotenv": "^10.0.0",
     "expo-pwa": "^0.0.109",
     "typescript": "~4.3.5"
-  },
-  "overrides": {
-    "@babel/core": "~7.17.0",
-    "@babel/types": "~7.17.0",
-    "@babel/plugin-transform-typescript": "~7.17.0"
-  },
-  "private": true
+  }
 }
