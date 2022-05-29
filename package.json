@@ -10,9 +10,17 @@
     "packages/*"
   ],
   "devDependencies": {
+    "@expo/webpack-config": "0.16.6",
     "@react-native-community/eslint-config": "^3.0.2",
+    "@storybook/addon-controls": "^6.5.5",
+    "@storybook/addon-docs": "^6.5.5",
+    "@storybook/addon-essentials": "^6.5.5",
+    "@storybook/builder-webpack5": "^6.5.5",
+    "@storybook/manager-webpack5": "^6.5.5",
+    "@storybook/react": "^6.5.5",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
+    "chromatic": "^6.5.4",
     "eslint": "^8.15.0",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-no-secrets": "^0.8.9",
@@ -24,7 +32,8 @@
     "patch-package": "^6.4.7",
     "prettier": "^2.6.2",
     "prettier-eslint": "^14.0.3",
-    "turbo": "^1.2.14"
+    "turbo": "^1.2.14",
+    "webpack": "*"
   },
   "resolutions": {
     "@babel/core": "~7.17.12",
@@ -34,6 +43,7 @@
   "scripts": {
     "build": "yarn app-expo run create-next-manifest && yarn turbo run scripts#collect-assets build",
     "deploy": "vercel --prod --no-clipboard",
+    "storybook": "start-storybook -p 6006",
     "collect-assets": "yarn turbo run scripts#collect-assets",
     "dev-web": "yarn turbo run app-next#dev",
     "dev-mobile": "yarn turbo run app-next#dev app-expo#start",
