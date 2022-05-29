@@ -46,6 +46,7 @@
     "app-android": "yarn turbo run app-expo#android",
     "app-web": "yarn app-dev",
     "app-uncache": "yarn turbo run app-expo#uncache",
+    "doppler-setup": "doppler setup",
     "doppler-sync": "doppler secrets download --no-file --format env > apps/app-next/.env",
     "postinstall": "patch-package"
   }
