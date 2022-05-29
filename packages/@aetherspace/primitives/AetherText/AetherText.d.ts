@@ -1,15 +1,14 @@
-import React from 'react';
-import { TextProps, StyleProp, TextStyle } from 'react-native';
-interface AetherTextType extends TextProps {
-    style?: StyleProp<TextStyle>;
+import React, { ComponentProps } from 'react';
+import { Text } from 'react-native';
+interface AetherTextType extends ComponentProps<typeof Text> {
+    style?: ComponentProps<typeof Text>['style'];
     tw?: string | (string | null | undefined | false | 0)[];
     twID?: string;
-    children?: string | string[] | React.ReactNode | React.ReactNode[];
 }
 export declare const useTextContext: () => {
     color: string | null;
 };
-declare const _default: ((props: AetherTextType) => JSX.Element) & {
+declare const _default: React.ForwardRefExoticComponent<AetherTextType & React.RefAttributes<Text>> & {
     TYPE: AetherTextType;
 };
 export default _default;

@@ -14,17 +14,6 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = require("react");
 var useAetherContext_1 = require("../../context/AetherContextManager/useAetherContext");
@@ -33,7 +22,7 @@ var styles_1 = require("../../styles");
 /* --- useAetherStyles() ----------------------------------------------------------------------- */
 var useAetherStyles = function (props) {
     // Props
-    var style = props.style, tw = props.tw, nativeProps = __rest(props, ["style", "tw"]);
+    var style = props.style, tw = props.tw;
     var twStrings = Array.isArray(tw) ? tw.filter(Boolean).join(' ') : tw;
     // Context
     var _a = useAetherContext_1.useAetherContext(), tailwind = _a.tailwind, isWeb = _a.isWeb, _b = _a.breakpoints, breakpoints = _b === void 0 ? {} : _b, _c = _a.twPrefixes, twPrefixes = _c === void 0 ? [] : _c, _d = _a.mediaPrefixes, mediaPrefixes = _d === void 0 ? [] : _d;
@@ -64,7 +53,7 @@ var useAetherStyles = function (props) {
         return [memoStyles, breakpointIds];
     }, [style, twStrings, twPrefixes.join()]), styles = _e[0], mediaIds = _e[1];
     // -- bindStyles --
-    var bindStyles = __assign(__assign({ style: styles }, nativeProps), (mediaIds ? { nativeID: mediaIds } : {}));
+    var bindStyles = __assign({ style: styles }, (mediaIds ? { nativeID: mediaIds } : {}));
     // -- Return --
     return bindStyles;
 };

@@ -33,7 +33,7 @@ var AetherContextManager_1 = require("../../context/AetherContextManager");
 var AetherView_1 = __importDefault(require("../AetherView")); // @ts-ignore
 var AetherImage_tsx_1 = __importDefault(require("./AetherImage.tsx"));
 /* --- <AetherImage/> -------------------------------------------------------------------------- */
-var AetherImage = function (props) {
+var AetherImage = react_1.forwardRef(function (props, ref) {
     // Props
     var tw = props.tw, style = props.style, width = props.width, height = props.height, quality = props.quality, priority = props.priority, loading = props.loading;
     var bindStyles = { style: style, tw: tw };
@@ -51,9 +51,10 @@ var AetherImage = function (props) {
     if (!isNextJS || isExpo)
         return <AetherImage_tsx_1.default {...bindStyles} src={src}/>;
     return (<AetherView_1.default {...bindStyles}>
-      <image_1.default src={src} {...imgProps} quality={quality} priority={priority} loading={loading}/>
+      {/* @ts-ignore */}
+      <image_1.default src={src} ref={ref} {...imgProps} quality={quality} priority={priority} loading={loading}/>
     </AetherView_1.default>);
-};
+});
 /* --- Exports --------------------------------------------------------------------------------- */
 exports.default = Object.assign(AetherImage, {
     TYPE: undefined,

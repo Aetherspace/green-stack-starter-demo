@@ -41,7 +41,7 @@ var hooks_1 = require("../../hooks");
 // Utils
 var utils_1 = require("../../utils");
 /* --- <AetherImage/> -------------------------------------------------------------------------- */
-var AetherImage = function (props) {
+var AetherImage = react_1.forwardRef(function (props, ref) {
     // Context
     var assets = AetherContextManager_1.useAetherContext().assets;
     // Props
@@ -53,12 +53,11 @@ var AetherImage = function (props) {
         return assets[utils_1.getAssetKey(props.src)];
     }, [props.source, props.src]);
     // -- Styles --
-    // @ts-ignore
+    var _ = props.src, componentProps = __rest(props, ["src"]);
     var bindStyles = hooks_1.useAetherStyles(props);
-    var _a = bindStyles, _ = _a.src, componentProps = __rest(_a, ["src"]);
     // -- Render --
-    return <react_native_1.Image {...componentProps} source={source} accessibilityIgnoresInvertColors/>;
-};
+    return <react_native_1.Image {...componentProps} ref={ref} source={source} {...bindStyles} accessibilityIgnoresInvertColors/>;
+});
 /* --- Exports --------------------------------------------------------------------------------- */
 exports.default = Object.assign(AetherImage, {
     TYPE: undefined,

@@ -1,17 +1,16 @@
 // https://docs.expo.dev/versions/latest/react-native/text/
 // https://necolas.github.io/react-native-web/docs/text/
-import React, { createContext, useContext } from 'react'
-import { Text, TextProps, StyleProp, TextStyle } from 'react-native'
+import React, { createContext, useContext, forwardRef, ComponentProps } from 'react'
+import { Text } from 'react-native'
 // Hooks
 import { useAetherStyles } from '../../hooks'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-interface AetherTextType extends TextProps {
-  style?: StyleProp<TextStyle>
+interface AetherTextType extends ComponentProps<typeof Text> {
+  style?: ComponentProps<typeof Text>['style']
   tw?: string | (string | null | undefined | false | 0)[]
   twID?: string
-  children?: string | string[] | React.ReactNode | React.ReactNode[]
 }
 
 /* --- Context --------------------------------------------------------------------------------- */
@@ -22,22 +21,22 @@ export const useTextContext = () => useContext(TextContext)
 
 /* --- useAetherText --------------------------------------------------------------------------- */
 
-const useAetherText = (props: AetherTextType) => {
+const useAetherText = ({ children, ...props }: AetherTextType) => {
   // Styles
-  const { children, ...bindStyles } = useAetherStyles<AetherTextType, typeof Text, TextStyle>(props)
+  const bindStyles = useAetherStyles<typeof Text>(props)
 
   // Context
   const contextColor = useTextContext() // @ts-ignore
-  const textColor: string | undefined = bindStyles.style?.color || contextColor
+  const textColor: string | undefined = bindStyles.style?.color || contextColor // remember color for children
 
   // -- Return --
 
-  return { textColor, textContent: children, bindStyles }
+  return { ...props, textColor, textContent: children, bindStyles }
 }
 
 /* --- <AetherText/> --------------------------------------------------------------------------- */
 
-const AetherText = (props: AetherTextType) => {
+const AetherText = forwardRef<Text, AetherTextType>((props, ref) => {
   // Hooks
   const { textColor, textContent, bindStyles } = useAetherText(props)
   // Render
@@ -46,9 +45,11 @@ const AetherText = (props: AetherTextType) => {
       <Text {...bindStyles}>{textContent}</Text>
     </TextContext.Provider>
   ) : (
-    <Text {...bindStyles}>{textContent}</Text>
+    <Text {...props} ref={ref} {...bindStyles}>
+      {textContent}
+    </Text>
   )
-}
+})
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

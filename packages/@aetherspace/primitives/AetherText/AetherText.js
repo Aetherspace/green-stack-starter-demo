@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -43,25 +54,28 @@ var TextContext = react_1.createContext(DEFAULT_TEXT_CONTEXT);
 var useTextContext = function () { return react_1.useContext(TextContext); };
 exports.useTextContext = useTextContext;
 /* --- useAetherText --------------------------------------------------------------------------- */
-var useAetherText = function (props) {
-    var _a;
+var useAetherText = function (_a) {
+    var _b;
+    var children = _a.children, props = __rest(_a, ["children"]);
     // Styles
-    var _b = hooks_1.useAetherStyles(props), children = _b.children, bindStyles = __rest(_b, ["children"]);
+    var bindStyles = hooks_1.useAetherStyles(props);
     // Context
     var contextColor = exports.useTextContext(); // @ts-ignore
-    var textColor = ((_a = bindStyles.style) === null || _a === void 0 ? void 0 : _a.color) || contextColor;
+    var textColor = ((_b = bindStyles.style) === null || _b === void 0 ? void 0 : _b.color) || contextColor; // remember color for children
     // -- Return --
-    return { textColor: textColor, textContent: children, bindStyles: bindStyles };
+    return __assign(__assign({}, props), { textColor: textColor, textContent: children, bindStyles: bindStyles });
 };
 /* --- <AetherText/> --------------------------------------------------------------------------- */
-var AetherText = function (props) {
+var AetherText = react_1.forwardRef(function (props, ref) {
     // Hooks
     var _a = useAetherText(props), textColor = _a.textColor, textContent = _a.textContent, bindStyles = _a.bindStyles;
     // Render
     return textColor ? (<TextContext.Provider value={{ color: textColor }}>
       <react_native_1.Text {...bindStyles}>{textContent}</react_native_1.Text>
-    </TextContext.Provider>) : (<react_native_1.Text {...bindStyles}>{textContent}</react_native_1.Text>);
-};
+    </TextContext.Provider>) : (<react_native_1.Text {...props} ref={ref} {...bindStyles}>
+      {textContent}
+    </react_native_1.Text>);
+});
 /* --- Exports --------------------------------------------------------------------------------- */
 exports.default = Object.assign(AetherText, {
     TYPE: undefined,

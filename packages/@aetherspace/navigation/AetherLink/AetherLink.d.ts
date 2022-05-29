@@ -1,14 +1,14 @@
-import React from 'react';
-import { TextStyle } from 'react-native';
-interface AetherLinkBaseType {
-    children?: React.ReactNode;
+import React, { ComponentProps } from 'react';
+import { Link } from 'expo-next-react-navigation';
+interface AetherLinkBaseType extends Partial<ComponentProps<typeof Link>> {
+    style?: ComponentProps<typeof Link>['style'];
     tw?: string | (string | null | undefined | false | 0)[];
     twID?: string;
-    style?: TextStyle;
     asText?: boolean;
     isText?: boolean;
     isBlank?: boolean;
     target?: string;
+    children?: any | any[];
 }
 interface AetherLinkToType extends AetherLinkBaseType {
     to: string;
@@ -25,7 +25,6 @@ interface AetherLinkRouteType extends AetherLinkBaseType {
     to?: never;
     href?: never;
 }
-declare type AetherLinkType = AetherLinkToType | AetherLinkHrefType | AetherLinkRouteType;
 export declare const useAetherNav: () => {
     navigate: <To extends {
         routeName: string;
@@ -114,5 +113,19 @@ export declare const useAetherNav: () => {
     canGoBack: () => boolean;
     pathname: string;
 };
-declare const AetherLink: (props: AetherLinkType) => JSX.Element;
+declare const AetherLink: React.ForwardRefExoticComponent<(Pick<AetherLinkToType, "style" | "tw" | "children" | "twID" | "key" | "touchableOpacityProps" | "routeName" | "params" | "web" | "isText" | "native" | "nextLinkProps" | "to" | "href" | "asText" | "isBlank" | "target"> | Pick<AetherLinkHrefType, "style" | "tw" | "children" | "twID" | "key" | "touchableOpacityProps" | "routeName" | "params" | "web" | "isText" | "native" | "nextLinkProps" | "to" | "href" | "asText" | "isBlank" | "target"> | Pick<AetherLinkRouteType, "style" | "tw" | "children" | "twID" | "key" | "touchableOpacityProps" | "routeName" | "params" | "web" | "isText" | "native" | "nextLinkProps" | "to" | "href" | "asText" | "isBlank" | "target">) & React.RefAttributes<React.ForwardRefExoticComponent<{
+    children: React.ReactNode;
+    touchableOpacityProps?: import("react-native").TouchableOpacityProps | undefined;
+    style?: import("react-native").TextStyle | undefined;
+    routeName: string;
+    params?: {} | undefined;
+    web?: import("expo-next-react-navigation/build/components/Link/types").Web | undefined;
+    isText?: boolean | undefined;
+    native?: {
+        screen?: string | undefined;
+    } | undefined;
+} & import("expo-next-react-navigation/build/components/Link/types").NextProps & React.RefAttributes<import("react-native").Text>> | {
+    new (data?: string | undefined): Text;
+    prototype: Text;
+}>>;
 export default AetherLink;

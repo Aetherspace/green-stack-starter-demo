@@ -26,8 +26,8 @@ const aetherify = <
     const Aetherified = forwardRef<Ref, Props & ExtraProps & AetherPropsType & { children?: React.ReactNode }>(
       function Aether({ tw, twID, style, ...props }, ref) {
         // -i- useAetherStyles() will add server-side media query support to avoid layout shift on web
-        const bindStyles = useAetherStyles({ tw, twID, style: style as any, ...props })
-        return <Component {...(bindStyles as any)} ref={ref as any} />
+        const bindStyles = useAetherStyles({ tw, twID, style: style as any, ...props }) // @ts-ignore
+        return <Component {...props} {...(bindStyles as any)} ref={ref as any} />
       }
     )
     // Apply updated display name

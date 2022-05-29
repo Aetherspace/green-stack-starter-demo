@@ -1,18 +1,17 @@
-/// <reference types="react" />
-import { ImageProps, StyleProp, ImageStyle } from 'react-native';
-interface AetherImageType extends Partial<ImageProps> {
-    style?: StyleProp<ImageStyle>;
-    src?: string;
+import React, { ComponentProps } from 'react';
+import { Image } from 'react-native';
+interface AetherImageType extends Partial<ComponentProps<typeof Image>> {
+    style?: ComponentProps<typeof Image>['style'];
     tw?: string | (string | null | undefined | false | 0)[];
     twID?: string;
+    src?: string;
     width?: number;
     height?: number;
     quality?: number | string;
     priority?: boolean;
     loading?: 'lazy' | 'eager';
-    children?: any | any[];
 }
-declare const _default: ((props: AetherImageType) => JSX.Element) & {
+declare const _default: React.ForwardRefExoticComponent<AetherImageType & React.RefAttributes<Image>> & {
     TYPE: AetherImageType;
 };
 export default _default;

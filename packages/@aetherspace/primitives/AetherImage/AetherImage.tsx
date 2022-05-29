@@ -1,7 +1,7 @@
 // https://docs.expo.dev/versions/latest/react-native/image/
 // https://necolas.github.io/react-native-web/docs/image/
-import React, { useMemo } from 'react'
-import { Image, ImageProps, StyleProp, ImageStyle, ImageRequireSource } from 'react-native'
+import React, { useMemo, ComponentProps, forwardRef } from 'react'
+import { Image, ImageRequireSource } from 'react-native'
 // Context
 import { useAetherContext } from '../../context/AetherContextManager'
 // Hooks
@@ -11,22 +11,21 @@ import { getAssetKey } from '../../utils'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-interface AetherImageType extends Partial<ImageProps> {
-  style?: StyleProp<ImageStyle>
-  src?: string
+interface AetherImageType extends Partial<ComponentProps<typeof Image>> {
+  style?: ComponentProps<typeof Image>['style']
   tw?: string | (string | null | undefined | false | 0)[]
   twID?: string
+  src?: string
   width?: number
   height?: number
   quality?: number | string
   priority?: boolean
   loading?: 'lazy' | 'eager'
-  children?: any | any[]
 }
 
 /* --- <AetherImage/> -------------------------------------------------------------------------- */
 
-const AetherImage = (props: AetherImageType) => {
+const AetherImage = forwardRef<Image, AetherImageType>((props, ref) => {
   // Context
   const { assets } = useAetherContext()
 
@@ -39,14 +38,13 @@ const AetherImage = (props: AetherImageType) => {
 
   // -- Styles --
 
-  // @ts-ignore
-  const bindStyles = useAetherStyles<AetherImageType, typeof Image, ImageStyle>(props)
-  const { src: _, ...componentProps } = bindStyles as typeof bindStyles & { src?: string }
+  const { src: _, ...componentProps } = props
+  const bindStyles = useAetherStyles<typeof Image>(props)
 
   // -- Render --
 
-  return <Image {...componentProps} source={source!} accessibilityIgnoresInvertColors />
-}
+  return <Image {...componentProps} ref={ref} source={source!} {...bindStyles} accessibilityIgnoresInvertColors />
+})
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

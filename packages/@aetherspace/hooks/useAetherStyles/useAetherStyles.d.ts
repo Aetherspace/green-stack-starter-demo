@@ -1,15 +1,13 @@
-import { ComponentClass } from 'react';
-import { StyleProp } from 'react-native';
-declare type StylePropsType<K, S = K> = {
-    style?: StyleProp<S>;
+import { ComponentProps, JSXElementConstructor } from 'react';
+declare type StylePropsType<C extends JSXElementConstructor<any>> = {
+    style?: ComponentProps<C>['style'];
     tw?: string | (string | null | undefined | false | 0)[];
     twID?: string;
     nativeID?: string;
     children?: any;
 };
-declare const useAetherStyles: <T extends StylePropsType<K, S>, K extends ComponentClass<{}, any>, S = K>(props: T) => K & {
-    style: StyleProp<S>;
+declare const useAetherStyles: <C extends JSXElementConstructor<any>, P extends StylePropsType<C> = StylePropsType<C>>(props: P) => {
     nativeID?: string | undefined;
-    children?: any;
+    style: ComponentProps<C>["style"] | null;
 };
 export default useAetherStyles;

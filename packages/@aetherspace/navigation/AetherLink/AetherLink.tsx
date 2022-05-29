@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react'
-import { TextStyle, Platform } from 'react-native'
+import React, { useMemo, forwardRef, ComponentProps } from 'react'
+import { Platform } from 'react-native'
 import { Link, useRouting } from 'expo-next-react-navigation'
 import * as Linking from 'expo-linking'
 import * as WebBrowser from 'expo-web-browser'
@@ -10,15 +10,15 @@ import { getEnvVar } from '../../utils'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-interface AetherLinkBaseType {
-  children?: React.ReactNode
+interface AetherLinkBaseType extends Partial<ComponentProps<typeof Link>> {
+  style?: ComponentProps<typeof Link>['style']
   tw?: string | (string | null | undefined | false | 0)[]
   twID?: string
-  style?: TextStyle
   asText?: boolean
   isText?: boolean
   isBlank?: boolean
   target?: string
+  children?: any | any[] // TODO: Fix this
 }
 
 interface AetherLinkToType extends AetherLinkBaseType {
@@ -38,6 +38,7 @@ interface AetherLinkRouteType extends AetherLinkBaseType {
 }
 
 type AetherLinkType = AetherLinkToType | AetherLinkHrefType | AetherLinkRouteType
+type any$Todo = any
 
 /* --- useAetherNav() -------------------------------------------------------------------------- */
 
@@ -84,7 +85,7 @@ export const useAetherNav = () => {
 
 /* --- <AetherLink/> --------------------------------------------------------------------------- */
 
-const AetherLink = (props: AetherLinkType) => {
+const AetherLink = forwardRef<typeof Link | typeof Text, AetherLinkType>((props, ref) => {
   // Props
   const { children, href, to, routeName, style, tw, twID, asText, ...restProps } = props
   const bindStyles = { style, tw, twID, ...restProps }
@@ -105,7 +106,7 @@ const AetherLink = (props: AetherLinkType) => {
 
   if (isText)
     return (
-      <AetherText {...bindStyles} onPress={onLinkPress}>
+      <AetherText {...bindStyles} ref={ref as any$Todo} onPress={onLinkPress}>
         {children}
       </AetherText>
     )
@@ -113,11 +114,11 @@ const AetherLink = (props: AetherLinkType) => {
   // -- Render as View --
 
   return (
-    <Link {...props} routeName={destination} touchableOpacityProps={{ onPressIn: onLinkPress }}>
+    <Link {...props} routeName={destination} ref={ref as any$Todo} touchableOpacityProps={{ onPressIn: onLinkPress }}>
       <AetherView {...bindStyles}>{children}</AetherView>
     </Link>
   )
-}
+})
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

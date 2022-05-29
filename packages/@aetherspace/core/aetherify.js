@@ -53,8 +53,8 @@ var aetherify = function (Component) {
         var Aetherified = react_1.forwardRef(function Aether(_a, ref) {
             var tw = _a.tw, twID = _a.twID, style = _a.style, props = __rest(_a, ["tw", "twID", "style"]);
             // -i- useAetherStyles() will add server-side media query support to avoid layout shift on web
-            var bindStyles = hooks_1.useAetherStyles(__assign({ tw: tw, twID: twID, style: style }, props));
-            return <Component {...bindStyles} ref={ref}/>;
+            var bindStyles = hooks_1.useAetherStyles(__assign({ tw: tw, twID: twID, style: style }, props)); // @ts-ignore
+            return <Component {...props} {...bindStyles} ref={ref}/>;
         });
         // Apply updated display name
         Aetherified.displayName = "Aether." + (Component.displayName || Component.name || 'NoName');

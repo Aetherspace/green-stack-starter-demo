@@ -1,27 +1,26 @@
 // https://docs.expo.dev/versions/latest/react-native/pressable/
 // https://necolas.github.io/react-native-web/docs/pressable/
-import React from 'react'
-import { View, Pressable, PressableProps, StyleProp, ViewStyle } from 'react-native'
+import React, { ComponentProps, forwardRef } from 'react'
+import { View, Pressable } from 'react-native'
 // Hooks
 import { useAetherStyles } from '../../hooks'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-interface AetherPressableType extends PressableProps {
-  style?: StyleProp<ViewStyle>
+interface AetherPressableType extends ComponentProps<typeof Pressable> {
+  style?: ComponentProps<typeof Pressable>['style']
   tw?: string | (string | null | undefined | false | 0)[]
   twID?: string
-  children?: any | any[]
 }
 
 /* --- <AetherPressable/> ---------------------------------------------------------------------- */
 
-const AetherPressable = (props: AetherPressableType) => {
+const AetherPressable = forwardRef<View, AetherPressableType>((props, ref) => {
   // Styles
-  const bindStyles = useAetherStyles<AetherPressableType, typeof View, ViewStyle>(props)
+  const bindStyles = useAetherStyles<typeof Pressable>(props)
   // Render
-  return <Pressable {...bindStyles} />
-}
+  return <Pressable {...props} ref={ref} {...bindStyles} />
+})
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

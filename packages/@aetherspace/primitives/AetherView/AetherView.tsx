@@ -1,27 +1,26 @@
 // https://docs.expo.dev/versions/latest/react-native/view/
 // https://necolas.github.io/react-native-web/docs/view/
-import React from 'react'
-import { View, ViewProps, StyleProp, ViewStyle } from 'react-native'
+import React, { ComponentProps, forwardRef } from 'react'
+import { View } from 'react-native'
 // Hooks
 import { useAetherStyles } from '../../hooks/useAetherStyles'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-interface AetherViewType extends ViewProps {
-  style?: StyleProp<ViewStyle>
+interface AetherViewType extends ComponentProps<typeof View> {
+  style?: ComponentProps<typeof View>['style']
   tw?: string | (string | null | undefined | false | 0)[]
   twID?: string
-  children?: any | any[]
 }
 
 /* --- <AetherView/> --------------------------------------------------------------------------- */
 
-const AetherView = (props: AetherViewType) => {
+const AetherView = forwardRef<View, AetherViewType>((props, ref) => {
   // Styles
-  const bindStyles = useAetherStyles<AetherViewType, typeof View, ViewStyle>(props)
+  const bindStyles = useAetherStyles<typeof View>(props)
   // Render
-  return <View {...bindStyles} />
-}
+  return <View {...props} ref={ref} {...bindStyles} />
+})
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

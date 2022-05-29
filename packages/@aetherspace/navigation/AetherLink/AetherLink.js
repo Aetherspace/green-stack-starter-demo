@@ -86,7 +86,7 @@ var useAetherNav = function () {
 };
 exports.useAetherNav = useAetherNav;
 /* --- <AetherLink/> --------------------------------------------------------------------------- */
-var AetherLink = function (props) {
+var AetherLink = react_1.forwardRef(function (props, ref) {
     // Props
     var children = props.children, href = props.href, to = props.to, routeName = props.routeName, style = props.style, tw = props.tw, twID = props.twID, asText = props.asText, restProps = __rest(props, ["children", "href", "to", "routeName", "style", "tw", "twID", "asText"]);
     var bindStyles = __assign({ style: style, tw: tw, twID: twID }, restProps);
@@ -100,13 +100,13 @@ var AetherLink = function (props) {
     var onLinkPress = function () { return openLink(destination, isBlank); };
     // -- Render as Text --
     if (isText)
-        return (<primitives_1.AetherText {...bindStyles} onPress={onLinkPress}>
+        return (<primitives_1.AetherText {...bindStyles} ref={ref} onPress={onLinkPress}>
         {children}
       </primitives_1.AetherText>);
     // -- Render as View --
-    return (<expo_next_react_navigation_1.Link {...props} routeName={destination} touchableOpacityProps={{ onPressIn: onLinkPress }}>
+    return (<expo_next_react_navigation_1.Link {...props} routeName={destination} ref={ref} touchableOpacityProps={{ onPressIn: onLinkPress }}>
       <primitives_1.AetherView {...bindStyles}>{children}</primitives_1.AetherView>
     </expo_next_react_navigation_1.Link>);
-};
+});
 /* --- Exports --------------------------------------------------------------------------------- */
 exports.default = AetherLink;
