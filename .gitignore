@@ -1,6 +1,11 @@
 node_modules/
 .env
 
+# Internal Packages
+packages/@aetherspace/**/*.d.ts
+packages/@aetherspace/**/*.js
+packages/@scripts/compiled
+
 # Expo
 .expo/
 
@@ -24,3 +29,4 @@ node_modules/
 .vercel
 tsconfig.tsbuildinfo
 doppler.yaml
+node_modules
