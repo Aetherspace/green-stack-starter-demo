@@ -104,17 +104,23 @@ const AetherLink = forwardRef<typeof Link | typeof Text, AetherLinkType>((props,
 
   // -- Render as Text --
 
-  if (isText)
+  if (isText) {
     return (
-      <AetherText {...bindStyles} ref={ref as any$Todo} onPress={onLinkPress}>
+      <AetherText {...restProps} {...bindStyles} ref={ref as any$Todo} onPress={onLinkPress}>
         {children}
       </AetherText>
     )
+  }
 
   // -- Render as View --
 
   return (
-    <Link {...props} routeName={destination} ref={ref as any$Todo} touchableOpacityProps={{ onPressIn: onLinkPress }}>
+    <Link
+      {...restProps}
+      routeName={destination}
+      ref={ref as any$Todo}
+      touchableOpacityProps={{ onPressIn: onLinkPress }}
+    >
       <AetherView {...bindStyles}>{children}</AetherView>
     </Link>
   )

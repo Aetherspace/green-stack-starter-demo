@@ -42,7 +42,9 @@ const AetherText = forwardRef<Text, AetherTextType>((props, ref) => {
   // Render
   return textColor ? (
     <TextContext.Provider value={{ color: textColor }}>
-      <Text {...bindStyles}>{textContent}</Text>
+      <Text {...props} {...bindStyles}>
+        {textContent}
+      </Text>
     </TextContext.Provider>
   ) : (
     <Text {...props} ref={ref} {...bindStyles}>
