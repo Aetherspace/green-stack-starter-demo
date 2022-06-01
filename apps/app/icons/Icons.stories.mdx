@@ -1,5 +1,5 @@
 import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs'
-import { getStorybookDocConfig } from 'aetherspace/schemas'
+import { aetherStoryDocs } from 'aetherspace/schemas'
 import BackIcon from './BackIcon'
 import HomeIcon from './HomeIcon'
 
@@ -19,17 +19,16 @@ Thanks to yarn workspaces can also import them from other packages or apps via
 
 ## HomeIcon
 
-export const HomeIconDocs = createDocs(HomeIcon)
+export const homeIconDocs = createDocs(HomeIcon)
+export const homeIconConfig = aetherStoryDocs({ HomeIcon })
 
 <Canvas>
     <Story
         name="HomeIcon"
-        args={{ fill: "#000000" }}
-        argTypes={{
-            fill: { control: { type: 'color' } }
-        }}
+        args={homeIconConfig.args}
+        argTypes={homeIconConfig.argTypes}
     >
-        {HomeIconDocs.bind({})}
+        {homeIconDocs.bind({})}
     </Story>
 </Canvas>
 
@@ -37,15 +36,16 @@ export const HomeIconDocs = createDocs(HomeIcon)
 
 ## BackIcon
 
-export const backIconDocs = getStorybookDocConfig({ BackIcon }, { fill: '#000000' })
+export const backIconDocs = createDocs(BackIcon)
+export const backIconConfig = aetherStoryDocs({ BackIcon })
 
 <Canvas>
     <Story
         name="BackIcon"
-        args={backIconDocs.args}
-        argTypes={backIconDocs.argTypes}
+        args={backIconConfig.args}
+        argTypes={backIconConfig.argTypes}
     >
-        {BackIcon.bind({})}
+        {backIconDocs.bind({})}
     </Story>
 </Canvas>
 

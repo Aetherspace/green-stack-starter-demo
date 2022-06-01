@@ -1,2 +1,3 @@
 export * from './aetherSchemas'
-export * from './createStorybookDocs'
+export * from './aetherSchemaPlugin'
+export * from './aetherStoryDocs'

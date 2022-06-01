@@ -122,7 +122,7 @@ export const aetherCollection = <S extends ObjectSchema>(objSchema: S) => {
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export const ats = {
+export const AetherSchemaTypes = {
   // -- Primitives --
   string: aetherString,
   number: aetherNumber,
@@ -138,7 +138,10 @@ export const ats = {
   // -- Arraylikes --
   array: aetherArray,
   collection: aetherCollection,
-  // -- Methods --
+}
+
+export const ats = {
+  ...AetherSchemaTypes,
   is: ss.is,
   validate: ss.validate,
   assert: ss.assert,

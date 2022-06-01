@@ -1,27 +1,35 @@
-import React, { ComponentType } from 'react'
-import { Canvas, Story } from '@storybook/addon-docs'
-import { AetherSchemaType, SchemaPluginMap } from './aetherSchemas'
+import { ComponentType } from 'react'
+import type {} from '@storybook/addon-controls'
+import { aetherSchemaPlugin } from './aetherSchemaPlugin'
+import { AetherSchemaType } from './aetherSchemas'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-type AetherComponentType = ComponentType & { propSchema: unknown }
+type AetherComponentType = ComponentType & { propSchema: AetherSchemaType }
 
-/* --- mapSchemaToPlugin() --------------------------------------------------------------------- */
-
-const mapSchemaToPlugin = (aetherSchema: AetherSchemaType, schemaMap: SchemaPluginMap) => {
-  return Object.entries(aetherSchema.schema).reduce((result, [schemaKey, schemaEntry]) => {
-    // @ts-ignore
-    const mappedSchemaFn = schemaMap[schemaEntry?.aetherType]
-    if (typeof mappedSchemaFn !== 'function') return result
-    return { ...result, [schemaKey]: mappedSchemaFn?.(schemaKey, schemaEntry) }
-  }, {})
+type StorybookArgType = {
+  name
+  type: {
+    name: string
+    required?: boolean
+  }
+  defaultValue?: unknown
+  description?: string
+  table: {
+    type: { summary?: string }
+    defaultValue: { summary?: string }
+  }
+  control: {
+    type: string
+    // TODO: options
+  }
 }
 
-/* --- getStorybookArgTypes() ---------------------------------------------------------------------- */
+/* --- aetherSchemaArgTypes() ------------------------------------------------------------------ */
 // -i- https://storybook.js.org/docs/react/api/argtypes
 // -i- https://storybook.js.org/docs/react/essentials/controls
 
-const getStorybookArgTypes = (aetherSchema) => {
+const aetherSchemaArgTypes = (aetherSchema) => {
   // Error & return early if prop schema is not known
   if (!aetherSchema) {
     console.warn(`Component passed to createStorybookDocs() did not have a propSchema attached to it. Skipping.`)
@@ -34,7 +42,6 @@ const getStorybookArgTypes = (aetherSchema) => {
       name: dataType,
       required: !schemaConfig.optional && !schemaConfig.nullable,
     },
-    defaultValue: schemaConfig.default,
     description: schemaConfig.description,
     table: {
       type: { summary: schemaConfig.description || dataType },
@@ -46,7 +53,7 @@ const getStorybookArgTypes = (aetherSchema) => {
     },
   })
   // Schema is known, build storybook controls from them
-  return mapSchemaToPlugin(aetherSchema, {
+  return aetherSchemaPlugin<StorybookArgType>(aetherSchema, {
     // -- Primitives --
     AetherString: createArgType('string', 'text'),
     AetherNumber: createArgType('number', 'number'),
@@ -65,29 +72,28 @@ const getStorybookArgTypes = (aetherSchema) => {
   })
 }
 
-/* --- getStorybookDocConfig() ---------------------------------------------------------- */
+/* --- aetherStoryDocs() ---------------------------------------------------------- */
 
-const getStorybookDocConfig = (forComponent, args = {}) => {
+const aetherStoryDocs = (forComponent, args = {}) => {
   // Extract config
   const [componentName, Component] = Object.entries(forComponent)[0] as [string, AetherComponentType]
-  const argTypes = getStorybookArgTypes(Component.propSchema)
+  const argTypes = aetherSchemaArgTypes(Component.propSchema)
+  // Figure out story args
+  const storyArgs = Object.entries(argTypes).reduce((acc, [propKey, argType]) => {
+    const defaultValue = argType.table.defaultValue.summary
+    const exampleValue = Component.propSchema?.schema?.[propKey]?.example
+    const storyValue = args[propKey] ?? exampleValue ?? defaultValue
+    return typeof storyValue !== 'undefined' ? { ...acc, [propKey]: storyValue } : acc
+  }, {})
   // Return
   return {
     componentName,
     argTypes,
-    args,
+    args: storyArgs,
   }
-}
-
-/* --- StorybookDocs() ------------------------------------------------------------------- */
-
-const StorybookDocs = ({ forComponent, args = {} }) => {
-  // Extract config
-  const [componentName, Component] = Object.entries(forComponent)[0] as [string, AetherComponentType]
-  const argTypes = getStorybookArgTypes(Component.propSchema)
-  console.log(componentName, argTypes)
 }
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export { StorybookDocs, getStorybookDocConfig, getStorybookArgTypes }
+export { aetherStoryDocs, aetherSchemaArgTypes }
+export default aetherStoryDocs
