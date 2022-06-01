@@ -12,7 +12,7 @@ const HomeScreen = () => {
   return (
     <AetherView tw="flex-1 bg-white items-center justify-center">
       <StatusBar style="auto" />
-      <AetherLink to="https://aetherspace-green-stack-starter-premium.vercel.app/author">
+      <AetherLink to="https://aetherspace-green-stack-starter.vercel.app/author">
         <AetherImage
           src="/img/icon.png"
           tw={['w-20 h-20 mt-0 mb-3 overflow-hidden', true && 'rounded-full']} // Assign conditional classes with an array

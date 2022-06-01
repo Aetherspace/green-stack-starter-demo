@@ -1,0 +1,52 @@
+import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs'
+import { aetherStoryDocs } from 'aetherspace/schemas'
+import BackIcon from './BackIcon'
+import HomeIcon from './HomeIcon'
+
+<Meta title="App / Icons" />
+
+export const createDocs = (Component) => (args) => {
+    return <Component {...args} />
+}
+
+# App Icons
+
+App icons can be found at `apps/app/icons/`
+
+Thanks to yarn workspaces can also import them from other packages or apps via
+
+`import { HomeIcon } from 'app/icons'`
+
+## HomeIcon
+
+export const homeIconDocs = createDocs(HomeIcon)
+export const homeIconConfig = aetherStoryDocs({ HomeIcon })
+
+<Canvas>
+    <Story
+        name="HomeIcon"
+        args={homeIconConfig.args}
+        argTypes={homeIconConfig.argTypes}
+    >
+        {homeIconDocs.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="HomeIcon" />
+
+## BackIcon
+
+export const backIconDocs = createDocs(BackIcon)
+export const backIconConfig = aetherStoryDocs({ BackIcon })
+
+<Canvas>
+    <Story
+        name="BackIcon"
+        args={backIconConfig.args}
+        argTypes={backIconConfig.argTypes}
+    >
+        {backIconDocs.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="BackIcon" />
