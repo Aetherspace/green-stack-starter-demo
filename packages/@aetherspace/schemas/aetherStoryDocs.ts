@@ -1,5 +1,4 @@
 import { ComponentType } from 'react'
-import type {} from '@storybook/addon-controls'
 import { aetherSchemaPlugin } from './aetherSchemaPlugin'
 import { AetherSchemaType } from './aetherSchemas'
 
@@ -9,20 +8,20 @@ type AetherComponentType = ComponentType & { propSchema: AetherSchemaType }
 
 type StorybookArgType = {
   name
+  description?: string
+  defaultValue?: unknown
   type: {
     name: string
     required?: boolean
   }
-  defaultValue?: unknown
-  description?: string
   table: {
     type: { summary?: string }
-    defaultValue: { summary?: string }
+    defaultValue?: { summary?: string }
   }
   control: {
     type: string
-    // TODO: options
   }
+  options?: any[]
 }
 
 /* --- aetherSchemaArgTypes() ------------------------------------------------------------------ */
@@ -35,23 +34,26 @@ const aetherSchemaArgTypes = (aetherSchema) => {
     console.warn(`Component passed to createStorybookDocs() did not have a propSchema attached to it. Skipping.`)
     return {}
   }
-  // Helper
-  const createArgType = (dataType, controlType) => (name, schemaConfig) => ({
-    name,
-    type: {
-      name: dataType,
-      required: !schemaConfig.optional && !schemaConfig.nullable,
-    },
-    description: schemaConfig.description,
-    table: {
-      type: { summary: schemaConfig.description || dataType },
-      defaultValue: { summary: schemaConfig.default },
-    },
-    control: {
-      type: controlType,
-      // ...(dataType === 'enum' ? { options:  })
-    },
-  })
+  // Storybook ArgTypes factory
+  const createArgType = (dataType, controlType) => (name, schemaConfig) => {
+    const argType: StorybookArgType = {
+      name,
+      description: schemaConfig.description,
+      type: {
+        name: dataType,
+        required: !schemaConfig.optional && !schemaConfig.nullable,
+      },
+      table: {
+        type: { summary: dataType },
+      },
+      control: { type: controlType },
+    }
+    // Fill in extra table values
+    if (dataType === 'enum') argType.options = Object.values(schemaConfig.schema)
+    if (typeof schemaConfig?.default !== 'function') argType.table.defaultValue = { summary: schemaConfig.default }
+    // Return final result
+    return argType
+  }
   // Schema is known, build storybook controls from them
   return aetherSchemaPlugin<StorybookArgType>(aetherSchema, {
     // -- Primitives --
@@ -72,7 +74,7 @@ const aetherSchemaArgTypes = (aetherSchema) => {
   })
 }
 
-/* --- aetherStoryDocs() ---------------------------------------------------------- */
+/* --- aetherStoryDocs() ----------------------------------------------------------------------- */
 
 const aetherStoryDocs = (forComponent, args = {}) => {
   // Extract config
@@ -80,9 +82,9 @@ const aetherStoryDocs = (forComponent, args = {}) => {
   const argTypes = aetherSchemaArgTypes(Component.propSchema)
   // Figure out story args
   const storyArgs = Object.entries(argTypes).reduce((acc, [propKey, argType]) => {
-    const defaultValue = argType.table.defaultValue.summary
+    const defaultValue = argType.table.defaultValue?.summary
     const exampleValue = Component.propSchema?.schema?.[propKey]?.example
-    const storyValue = args[propKey] ?? exampleValue ?? defaultValue
+    const storyValue = args[propKey] ?? exampleValue ?? defaultValue ?? argType.options?.[0]
     return typeof storyValue !== 'undefined' ? { ...acc, [propKey]: storyValue } : acc
   }, {})
   // Return

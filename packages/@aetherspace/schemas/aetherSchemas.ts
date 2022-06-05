@@ -12,29 +12,30 @@ export type SchemaEntry<T extends AetherSchemaType> = {
   type: string
   aetherType: string
   schema: T['schema'] | null
-  optional: boolean
-  nullable: boolean
-  default: unknown
-  example: T['TYPE']
-  description: string
+  optional?: boolean
+  nullable?: boolean
+  default?: unknown
+  example?: T['TYPE']
+  description?: string
+  schemaName?: string
 }
 
 export type SchemaPluginMap = {
   // -- Primitives --
-  AetherString: (name: string, schema: SchemaEntry<ReturnType<typeof aetherString>>) => unknown
-  AetherNumber: (name: string, schema: SchemaEntry<ReturnType<typeof aetherNumber>>) => unknown
-  AetherBoolean: (name: string, schema: SchemaEntry<ReturnType<typeof aetherBoolean>>) => unknown
+  AetherString: (name: string, schema: SchemaEntry<ReturnType<typeof AetherString>>) => unknown
+  AetherNumber: (name: string, schema: SchemaEntry<ReturnType<typeof AetherNumber>>) => unknown
+  AetherBoolean: (name: string, schema: SchemaEntry<ReturnType<typeof AetherBoolean>>) => unknown
   // -- Single values --
-  AetherId: (name: string, schema: SchemaEntry<ReturnType<typeof aetherID>>) => unknown
-  AetherColor: (name: string, schema: SchemaEntry<ReturnType<typeof aetherColor>>) => unknown
-  AetherDate: (name: string, schema: SchemaEntry<ReturnType<typeof aetherDate>>) => unknown
-  AetherEnum: (name: string, schema: SchemaEntry<ReturnType<typeof aetherEnum>>) => unknown
+  AetherId: (name: string, schema: SchemaEntry<ReturnType<typeof AetherID>>) => unknown
+  AetherColor: (name: string, schema: SchemaEntry<ReturnType<typeof AetherColor>>) => unknown
+  AetherDate: (name: string, schema: SchemaEntry<ReturnType<typeof AetherDate>>) => unknown
+  AetherEnum: (name: string, schema: SchemaEntry<ReturnType<typeof AetherEnum>>) => unknown
   // -- Objectlikes --
-  AetherSchema: (name: string, schema: SchemaEntry<ReturnType<typeof aetherSchema>>) => unknown
-  AetherObject: (name: string, schema: SchemaEntry<ReturnType<typeof aetherObject>>) => unknown
+  AetherSchema: (name: string, schema: SchemaEntry<ReturnType<typeof AetherSchema>>) => unknown
+  AetherObject: (name: string, schema: SchemaEntry<ReturnType<typeof AetherSchema>>) => unknown
   // -- Arraylikes --
-  AetherArray: (name: string, schema: SchemaEntry<ReturnType<typeof aetherArray>>) => unknown
-  AetherCollection: (name: string, schema: SchemaEntry<ReturnType<typeof aetherCollection>>) => unknown
+  AetherArray: (name: string, schema: SchemaEntry<ReturnType<typeof AetherArray>>) => unknown
+  AetherCollection: (name: string, schema: SchemaEntry<ReturnType<typeof AetherCollection>>) => unknown
 }
 
 /* --- Helpers --------------------------------------------------------------------------------- */
@@ -85,59 +86,53 @@ const aetherWrapper = <A extends any[], T, S>(struct: (...args: A) => ss.Struct<
 
 /* --- Primitive Schema Types ------------------------------------------------------------------ */
 
-export const aetherID = aetherWrapper(ss.string, 'AetherID')
-export const aetherColor = aetherWrapper(ss.string, 'AetherColor')
-export const aetherString = aetherWrapper(ss.string, 'AetherString')
-export const aetherNumber = aetherWrapper(ss.number, 'AetherNumber')
-export const aetherBoolean = aetherWrapper(ss.boolean, 'AetherBoolean')
-export const aetherDate = aetherWrapper(ss.date, 'AetherDate')
+const AetherID = aetherWrapper(ss.string, 'AetherID')
+const AetherColor = aetherWrapper(ss.string, 'AetherColor')
+const AetherString = aetherWrapper(ss.string, 'AetherString')
+const AetherNumber = aetherWrapper(ss.number, 'AetherNumber')
+const AetherBoolean = aetherWrapper(ss.boolean, 'AetherBoolean')
+const AetherDate = aetherWrapper(ss.date, 'AetherDate')
 
-export const aetherEnum = <T extends string = string>(values: readonly T[]) => {
+const AetherEnum = <T extends string = string>(values: readonly T[]) => {
   const schema = assignDescriptors(ss.enums<T>(values), 'AetherEnum')
   return makeOptionalable<T, typeof schema['schema'], typeof schema>(schema, 'AetherEnum')
 }
 
 /* --- Advanced Schema Types ------------------------------------------------------------------- */
 
-export const aetherSchema = <S extends ObjectSchema>(schemaName: string, objSchema: S) => {
-  const aetherSchema = assignDescriptors(ss.object(objSchema), 'aetherSchema', schemaName)
-  return makeOptionalable<ObjectType<S>, typeof aetherSchema['schema'], typeof aetherSchema>(
-    aetherSchema,
-    'AetherSchema',
-    schemaName
-  )
+const AetherSchema = <S extends ObjectSchema>(schemaName: string, objSchema: S) => {
+  const schema = assignDescriptors(ss.object(objSchema), 'AetherSchema', schemaName)
+  return makeOptionalable<ObjectType<S>, typeof schema['schema'], typeof schema>(schema, 'AetherSchema', schemaName)
 }
 
-export const aetherObject = <S extends ObjectSchema>(objSchema: S) => aetherSchema('', objSchema)
-
-export const aetherArray = <T extends ss.Struct<any>>(Element: T) => {
+const AetherArray = <T extends ss.Struct<any>>(Element: T) => {
   const arraySchema = assignDescriptors(ss.array<T>(Element), 'AetherArray')
   return makeOptionalable<ss.Infer<T>[], typeof arraySchema['schema'], typeof arraySchema>(arraySchema, 'AetherSchema')
 }
 
-export const aetherCollection = <S extends ObjectSchema>(objSchema: S) => {
-  const entrySchema = aetherObject(objSchema)
-  return aetherArray(entrySchema)
+const AetherCollection = <S extends ObjectSchema>(schemaName: string, objSchema: S) => {
+  const entrySchema = AetherSchema(schemaName, objSchema)
+  return AetherArray(entrySchema)
 }
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
 export const AetherSchemaTypes = {
   // -- Primitives --
-  string: aetherString,
-  number: aetherNumber,
-  boolean: aetherBoolean,
+  string: AetherString,
+  number: AetherNumber,
+  boolean: AetherBoolean,
   // -- Single values --
-  id: aetherID,
-  color: aetherColor,
-  date: aetherDate,
-  enum: aetherEnum,
+  id: AetherID,
+  color: AetherColor,
+  date: AetherDate,
+  enum: AetherEnum,
   // -- Objectlikes --
-  schema: aetherSchema,
-  object: aetherObject,
+  schema: AetherSchema,
+  object: AetherSchema,
   // -- Arraylikes --
-  array: aetherArray,
-  collection: aetherCollection,
+  array: AetherArray,
+  collection: AetherCollection,
 }
 
 export const ats = {
@@ -148,3 +143,132 @@ export const ats = {
 }
 
 export default ats
+
+/* --- Examples -------------------------------------------------------------------------------- */
+
+// enum TEST_ENUM {
+//   A = 'A',
+//   B = 'B',
+// }
+// console.log(ats.schema('MySchema', {
+//   id: ats.id().default('a')
+//   ids: ats.array(ats.id())
+//   str: ats.string().nullable().docs('example', 'description')
+//   day: ats.date().optional().docs('01/01/2022', 'The start of the year')
+//   num: ats.number().docs(5)
+//   bln: ats.boolean().optional()
+//   opt: ats.enum<TEST_ENUM>(Object.values(TEST_ENUM))
+//   obj: ats.object('StringObject', { str: ats.str })
+//   col: ats.array(ats.object('IDObject', { id: ats.id }))
+//   coll: ats.collection('IDObject', { id: ats.id })
+// }))
+
+// ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓           (e.g. by testing with "yarn workspace scripts schema-test")
+
+// {
+//     "type": "object",
+//     "schema": {
+//         "id": {
+//             "type": "string",
+//             "schema": null,
+//             "default": "a",
+//             "aetherType": "AetherID"
+//         },
+//         "ids": {
+//             "type": "array",
+//             "schema": {
+//                 "type": "string",
+//                 "schema": null,
+//                 "aetherType": "AetherID"
+//             },
+//             "aetherType": "AetherArray"
+//         },
+//         "str": {
+//             "type": "string",
+//             "schema": null,
+//             "nullable": true,
+//             "aetherType": "AetherString",
+//             "example": "example",
+//             "description": "description"
+//         },
+//         "day": {
+//             "type": "date",
+//             "schema": null,
+//             "optional": true,
+//             "aetherType": "AetherDate",
+//             "example": "01/01/2022",
+//             "description": "The start of the year"
+//         },
+//         "num": {
+//             "type": "number",
+//             "schema": null,
+//             "aetherType": "AetherNumber",
+//             "example": 5
+//         },
+//         "bln": {
+//             "type": "boolean",
+//             "schema": null,
+//             "optional": true,
+//             "aetherType": "AetherBoolean"
+//         },
+//         "opt": {
+//             "type": "enums",
+//             "schema": {
+//                 "A": "A",
+//                 "B": "B"
+//             },
+//             "aetherType": "AetherEnum"
+//         },
+//         "obj": {
+//             "type": "object",
+//             "schema": {
+//                 "str": {
+//                     "type": "string",
+//                     "schema": null,
+//                     "nullable": true,
+//                     "aetherType": "AetherString",
+//                     "example": "example",
+//                     "description": "description"
+//                 }
+//             },
+//             "aetherType": "AetherSchema",
+//             "schemaName": "StringObject"
+//         },
+//         "col": {
+//             "type": "array",
+//             "schema": {
+//                 "type": "object",
+//                 "schema": {
+//                     "id": {
+//                         "type": "string",
+//                         "schema": null,
+//                         "default": "a",
+//                         "aetherType": "AetherID"
+//                     }
+//                 },
+//                 "aetherType": "AetherSchema",
+//                 "schemaName": "IDObject"
+//             },
+//             "aetherType": "AetherArray"
+//         },
+//         "coll": {
+//             "type": "array",
+//             "schema": {
+//                 "type": "object",
+//                 "schema": {
+//                     "id": {
+//                         "type": "string",
+//                         "schema": null,
+//                         "default": "a",
+//                         "aetherType": "AetherID"
+//                     }
+//                 },
+//                 "aetherType": "AetherSchema",
+//                 "schemaName": "IDObject"
+//             },
+//             "aetherType": "AetherArray"
+//         }
+//     },
+//     "aetherType": "AetherSchema",
+//     "schemaName": "MySchema"
+// }

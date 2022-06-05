@@ -13,9 +13,9 @@ const day = ats.date().optional().docs('01/01/2022', 'The start of the year')
 const num = ats.number().docs(5)
 const bln = ats.boolean().optional()
 const opt = ats.enum<TEST_ENUM>(Object.values(TEST_ENUM))
-const obj = ats.object({ str })
-const col = ats.array(ats.object({ id }))
-const coll = ats.collection({ id })
+const obj = ats.object('StringObject', { str })
+const col = ats.array(ats.object('IDObject', { id }))
+const coll = ats.collection('IDObject', { id })
 
 const superSchema = ats.schema('MySchema', {
     id,
@@ -35,6 +35,8 @@ type typeTest = typeof superSchema['TYPE']
 
 console.log(JSON.stringify(superSchema, null, 4))
 
+// ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
 // {
 //     "type": "object",
 //     "schema": {
@@ -49,7 +51,7 @@ console.log(JSON.stringify(superSchema, null, 4))
 //             "schema": {
 //                 "type": "string",
 //                 "schema": null,
-//                 "aetherType": "AetherString"
+//                 "aetherType": "AetherID"
 //             },
 //             "aetherType": "AetherArray"
 //         },
@@ -101,7 +103,8 @@ console.log(JSON.stringify(superSchema, null, 4))
 //                     "description": "description"
 //                 }
 //             },
-//             "aetherType": "aetherSchema"
+//             "aetherType": "AetherSchema",
+//             "schemaName": "StringObject"
 //         },
 //         "col": {
 //             "type": "array",
@@ -112,10 +115,11 @@ console.log(JSON.stringify(superSchema, null, 4))
 //                         "type": "string",
 //                         "schema": null,
 //                         "default": "a",
-//                         "aetherType": "AetherString"
+//                         "aetherType": "AetherID"
 //                     }
 //                 },
-//                 "aetherType": "aetherSchema"
+//                 "aetherType": "AetherSchema",
+//                 "schemaName": "IDObject"
 //             },
 //             "aetherType": "AetherArray"
 //         },
@@ -128,14 +132,15 @@ console.log(JSON.stringify(superSchema, null, 4))
 //                         "type": "string",
 //                         "schema": null,
 //                         "default": "a",
-//                         "aetherType": "AetherString"
+//                         "aetherType": "AetherID"
 //                     }
 //                 },
-//                 "aetherType": "aetherSchema"
+//                 "aetherType": "AetherSchema",
+//                 "schemaName": "IDObject"
 //             },
 //             "aetherType": "AetherArray"
 //         }
 //     },
-//     "aetherType": "aetherSchema",
+//     "aetherType": "AetherSchema",
 //     "schemaName": "MySchema"
 // }

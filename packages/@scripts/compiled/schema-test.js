@@ -14,9 +14,9 @@ var day = schemas_1.ats.date().optional().docs('01/01/2022', 'The start of the y
 var num = schemas_1.ats.number().docs(5);
 var bln = schemas_1.ats.boolean().optional();
 var opt = schemas_1.ats.enum(Object.values(TEST_ENUM));
-var obj = schemas_1.ats.object({ str: str });
-var col = schemas_1.ats.array(schemas_1.ats.object({ id: id }));
-var coll = schemas_1.ats.collection({ id: id });
+var obj = schemas_1.ats.object('StringObject', { str: str });
+var col = schemas_1.ats.array(schemas_1.ats.object('IDObject', { id: id }));
+var coll = schemas_1.ats.collection('IDObject', { id: id });
 var superSchema = schemas_1.ats.schema('MySchema', {
     id: id,
     ids: ids,
@@ -30,6 +30,7 @@ var superSchema = schemas_1.ats.schema('MySchema', {
     coll: coll,
 });
 console.log(JSON.stringify(superSchema, null, 4));
+// ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 // {
 //     "type": "object",
 //     "schema": {
@@ -44,7 +45,7 @@ console.log(JSON.stringify(superSchema, null, 4));
 //             "schema": {
 //                 "type": "string",
 //                 "schema": null,
-//                 "aetherType": "AetherString"
+//                 "aetherType": "AetherID"
 //             },
 //             "aetherType": "AetherArray"
 //         },
@@ -96,7 +97,8 @@ console.log(JSON.stringify(superSchema, null, 4));
 //                     "description": "description"
 //                 }
 //             },
-//             "aetherType": "aetherSchema"
+//             "aetherType": "AetherSchema",
+//             "schemaName": "StringObject"
 //         },
 //         "col": {
 //             "type": "array",
@@ -107,10 +109,11 @@ console.log(JSON.stringify(superSchema, null, 4));
 //                         "type": "string",
 //                         "schema": null,
 //                         "default": "a",
-//                         "aetherType": "AetherString"
+//                         "aetherType": "AetherID"
 //                     }
 //                 },
-//                 "aetherType": "aetherSchema"
+//                 "aetherType": "AetherSchema",
+//                 "schemaName": "IDObject"
 //             },
 //             "aetherType": "AetherArray"
 //         },
@@ -123,14 +126,15 @@ console.log(JSON.stringify(superSchema, null, 4));
 //                         "type": "string",
 //                         "schema": null,
 //                         "default": "a",
-//                         "aetherType": "AetherString"
+//                         "aetherType": "AetherID"
 //                     }
 //                 },
-//                 "aetherType": "aetherSchema"
+//                 "aetherType": "AetherSchema",
+//                 "schemaName": "IDObject"
 //             },
 //             "aetherType": "AetherArray"
 //         }
 //     },
-//     "aetherType": "aetherSchema",
+//     "aetherType": "AetherSchema",
 //     "schemaName": "MySchema"
 // }

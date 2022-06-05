@@ -1,12 +1,12 @@
 import React from 'react'
 // Navigation
-import { AetherLink, useAetherNav } from 'aetherspace/navigation'
+import { useAetherNav } from 'aetherspace/navigation'
 // Primitives
 import { AetherView, AetherPressable, AetherText } from 'aetherspace/primitives'
 // Icons
 import { BackIcon, HomeIcon } from '../icons'
 
-/* --- <AuthorScreen/> --------------------------------------------------------------------------- */
+/* --- <AuthorScreen/> ------------------------------------------------------------------------- */
 
 const AuthorScreen = () => {
   // Hooks
@@ -23,10 +23,10 @@ const AuthorScreen = () => {
           <BackIcon width={16} height={16} />
           <AetherText tw="text-white"> Go Back</AetherText>
         </AetherPressable>
-        <AetherLink tw="flex-row py-2.5 px-5 mx-3 bg-black items-center" routeName="/">
+        <AetherPressable tw="flex-row py-2.5 px-5 mx-3 bg-black items-center" onPress={() => openLink('/')}>
           <HomeIcon width={15} height={15} />
           <AetherText tw="text-white"> Home</AetherText>
-        </AetherLink>
+        </AetherPressable>
       </AetherView>
     </AetherView>
   )

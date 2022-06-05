@@ -44,6 +44,7 @@
     "build": "yarn app-expo run create-next-manifest && yarn turbo run scripts#collect-assets build",
     "deploy": "vercel --prod --no-clipboard",
     "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
     "collect-assets": "yarn turbo run scripts#collect-assets",
     "dev-web": "yarn turbo run app-next#dev",
     "dev-mobile": "yarn turbo run app-next#dev app-expo#start",
