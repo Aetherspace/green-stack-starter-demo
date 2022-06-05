@@ -30,3 +30,6 @@ packages/@scripts/compiled
 .vercel
 tsconfig.tsbuildinfo
 doppler.yaml
+
+# Storybook
+build-storybook.log
