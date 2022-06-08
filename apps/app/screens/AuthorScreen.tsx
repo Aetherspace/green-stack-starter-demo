@@ -29,7 +29,7 @@ const AuthorScreen = () => {
         </AetherPressable>
       </AetherView>
       <AetherLink
-        to="https://629ce63e5ac0810042889fc6-ziifurbgqw.chromatic.com/"
+        to="https://main--629ce63e5ac0810042889fc6.chromatic.com/?path=/story/readme-md--page"
         tw="text-xs roboto-bold py-2.5 px-5 mx-3 "
       >
         {'Read the Docs'}

@@ -7,6 +7,7 @@ module.exports = {
         '../apps/**/*.stories.@(js|jsx|ts|tsx)',
         '../packages/**/*.stories.mdx', 
         '../packages/**/*.stories.@(js|jsx|ts|tsx)',
+        '../docs/**/*.stories.mdx',
     ],
     addons: ['@storybook/addon-essentials'],
     webpackFinal: (config) => {
@@ -32,6 +33,9 @@ module.exports = {
     },
     core: {
         builder: 'webpack5',
+    },
+    features: {
+      previewMdx2: true, // 👈 MDX 2 enabled here (https://storybook.js.org/docs/react/writing-docs/mdx#mdx-2)
     },
     framework: '@storybook/react',
 }

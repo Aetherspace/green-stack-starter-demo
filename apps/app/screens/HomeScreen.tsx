@@ -25,7 +25,10 @@ const HomeScreen = () => {
       <AetherLink href="/author" tw="text-gray-500 pt-5 text-center text-xs" asText>
         (Tap here or below to test navigation)
       </AetherLink>
-      <AetherLink to="https://629ce63e5ac0810042889fc6-ziifurbgqw.chromatic.com/" tw="text-xs roboto-bold my-4 px-5">
+      <AetherLink
+        to="https://main--629ce63e5ac0810042889fc6.chromatic.com/?path=/story/readme-md--page"
+        tw="text-xs roboto-bold my-4 px-5"
+      >
         {'Read the Docs'}
       </AetherLink>
       <AetherLink to="/author" tw="m-3">

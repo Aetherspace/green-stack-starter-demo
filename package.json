@@ -17,6 +17,7 @@
     "@storybook/addon-essentials": "^6.5.5",
     "@storybook/builder-webpack5": "^6.5.5",
     "@storybook/manager-webpack5": "^6.5.5",
+    "@storybook/mdx2-csf": "^0.0.3",
     "@storybook/react": "^6.5.5",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",

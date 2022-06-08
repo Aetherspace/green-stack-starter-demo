@@ -1,37 +1,30 @@
 # Move fast and Build things™️
 
 <p>
-  <!-- Next.js -->
   <a href="https://aetherspace-green-stack-starter.vercel.app/">
     <img alt="Supports Next.js" longdesc="Supports Next.js" src="https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white" />
   </a>
-  <!-- Vercel -->
   <a href="https://aetherspace-green-stack-starter.vercel.app/">
     <img alt="Supports Vercel Deployments" longdesc="Supports Vercel Deployments" src="https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white" />
   </a>
-  <!-- Netlify -->
   <a href="https://aetherspace-green-stack-starter.netlify.app/">
     <img alt="Supports Netlify Deployments" longdesc="Supports Netlify Deployments" src="https://img.shields.io/badge/netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=#00C7B7" />
   </a>
-  <!-- Expo -->
   <a href="https://itunes.apple.com/app/apple-store/id982107779">
     <img alt="Test in Expo GO" longdesc="Test in Expo GO" src="https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37" />
   </a>
-  <!-- iOS -->
   <a href="https://itunes.apple.com/app/apple-store/id982107779">
     <img alt="Supports Expo iOS" longdesc="Supports Expo iOS" src="https://img.shields.io/badge/iOS-4630EB.svg?style=for-the-badge&logo=APPLE&labelColor=999999&logoColor=fff" />
   </a>
-  <!-- Android -->
   <a href="https://play.google.com/store/apps/details?id=host.exp.exponent&referrer=blankexample">
     <img alt="Supports Expo Android" longdesc="Supports Expo Android" src="https://img.shields.io/badge/Android-4630EB.svg?style=for-the-badge&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
   </a>
-  <!-- Storybook -->
-  <a href="https://629ce63e5ac0810042889fc6-ziifurbgqw.chromatic.com/">
+  <a href="https://main--629ce63e5ac0810042889fc6.chromatic.com/?path=/story/readme-md--page">
     <img alt="Docs with Storybook" longdesc="Documentated with Storybook" src="https://img.shields.io/badge/-Storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=fff" />
   </a>
 </p>
 
-> This project was bootstrapped with [Aetherspace](https://github.com/codinsonn/aetherspace-green-stack-starter), the Evergreen repo setup for all your full-stack cross platform app development needs {...💚} Enabling the project to be built for Web, PWA, Static, SSR, iOS, Android, Mac, Linux, Windows, REST and GraphQL all at once 👇
+> This project was bootstrapped with [Aetherspace](https://github.com/codinsonn/aetherspace-green-stack-starter), the Evergreen repo setup for all your full-stack cross platform app development needs \{...💚\} Enabling the project to be built for Web, PWA, Static, SSR, iOS, Android, Mac, Linux, Windows, REST and GraphQL all at once 👇
 
 ### Getting Started ⚡️
 
@@ -46,20 +39,21 @@ Run on desktop: `yarn dev-desktop` (⚠️ WIP, coming soon)
 ---
 
 <details>
-<summary><b>{...💚} Aetherspace, GREEN stack & Template Benefits? 🚀</b></summary>
+<summary><b>\{...💚\} Aetherspace, GREEN stack & Template Benefits? 🚀</b></summary>
 
 ---
 
 # Aetherspace - Premium GREEN stack starter template for cross platform React app development
 
 ### Table of contents
+
 💚 - [What is the GREEN stack?](#what-is-the-green-stack)  
 🚀 - [What is Aetherspace?](#what-is-aetherspace)  
 🤖 - [Why start with a turbo/monorepo?](#why-turborepo)  
 📁 - [File structure and installing new packages.](#package-management)  
 👾 - [Benefits and next steps.](#benefits-next-steps)  
-🤷‍♂️ - [When *not* to use the GREEN stack.](#when-not-to-use-green-stack)  
-📚 - [Relevant Docs.](#relevant-docs)  
+🤷‍♂️ - [When _not_ to use the GREEN stack.](#when-not-to-use-green-stack)  
+📚 - [Relevant Docs.](#relevant-docs)
 
 ## What the hell is the GREEN stack? 💚 <a name="what-is-the-green-stack"></a>
 
@@ -89,7 +83,7 @@ Aetherspace is an opinionated framework I've made that fills in the gaps of work
 
 Just to name a few.
 
-While the stack itself is very powerful, figuring out how to get set up and do certain things in a write-once way can be frustrating and time consuming. To save you time figuring it all out on your own, *Aetherspace* contains a bunch of packages, utils and best-practices to set you up for a free and easy ride to cross-platform success.
+While the stack itself is very powerful, figuring out how to get set up and do certain things in a write-once way can be frustrating and time consuming. To save you time figuring it all out on your own, _Aetherspace_ contains a bunch of packages, utils and best-practices to set you up for a free and easy ride to cross-platform success.
 
 > Aetherspace is also fully optional. Usage of the UI primitives, React hooks and JS utils provided by `packages/aetherspace` is recommended but not required.
 
@@ -108,6 +102,7 @@ In this starter template, we've opted to use turborepo with yarn workspaces. We'
 ## 📁 File structure and package management 📦 <a name="package-management"></a>
 
 This starter monorepo has two types of workspaces:
+
 - `/apps/*` for all expo & next.js versions of your apps
 - `/packages/*` for all shared dependencies / library code used in multiple apps
 
@@ -164,11 +159,11 @@ This starter monorepo has two types of workspaces:
 For every app you're building in this monorepo, you'll need a few folders:
 
 - `/apps/app` - Where most of your app's UI, logic and Screens will live.
-    Shouldn't have any dependencies.
+  Shouldn't have any dependencies.
 - `/apps/app-next` - Entry for web where only next.js related config/setup for an app should live.
-    Should list only next.js related dependencies & polyfills.
+  Should list only next.js related dependencies & polyfills.
 - `/apps/app-expo` - Entry for mobile where only expo related config/setup for an app should live.
-    Should list all react(-native) and non next.js related dependencies.
+  Should list all react(-native) and non next.js related dependencies.
 
 In each of these folders own `package.json` file, a `name` property should be specified to identify that workspace. This name can then be referenced during installs via e.g.
 
@@ -189,7 +184,7 @@ yarn workspace app-expo add moti
 
 #### Write shared library code in `/packages/*` workspaces:
 
-Packages aim to provide common building blocks or logic for both apps *and* other packages. They do not need to differentiate between entry points with `/packages/...-next` and `/packages/...-expo`.
+Packages aim to provide common building blocks or logic for both apps _and_ other packages. They do not need to differentiate between entry points with `/packages/...-next` and `/packages/...-expo`.
 
 Like `/apps/` workspaces, they do also require their own `package.json` and `name`, and installing dependencies can work exactly the same:
 
@@ -199,8 +194,8 @@ yarn workspace component-library add -D @types/react
 
 However, unless you will be publishing the package to NPM, it may be best to just install any dependencies in the consuming apps' `/apps/{app-name}-next` or `/apps/{app-name}-expo` workspace instead.
 
-> A good example of a library package usable by multiple app workspaces in this monorepo is the 
-`/packages/aetherspace` workspace. It contains UI primitives like `AetherView`, `AetherImage` & `AetherLink` that are small wrappers for & recommended over react-native's own `View`, `Text` & `Image` components.
+> A good example of a library package usable by multiple app workspaces in this monorepo is the
+> `/packages/aetherspace` workspace. It contains UI primitives like `AetherView`, `AetherImage` & `AetherLink` that are small wrappers for & recommended over react-native's own `View`, `Text` & `Image` components.
 
 </details>
 
@@ -222,7 +217,8 @@ Here's a list of what you can start doing out of the box:
 - Deploy to netlify [via this guide](https://www.netlify.com/blog/2020/11/30/how-to-deploy-next.js-sites-to-netlify/) ([view live](https://aetherspace-green-stack-starter.netlify.app/))
 
 If you'd like to continue learning about Aetherspace and the GREEN stack, there are more detailed guides, tips and best-practices in:
-- `AETHERSPACE.md`, `CODEGEN.md`, `NAVIGATION.md` & `API.md` (Aetherspace & Codegen)  
+
+- `AETHERSPACE.md`, `CODEGEN.md`, `NAVIGATION.md` & `API.md` (Aetherspace & Codegen)
 - `STYLING.md`, `ANIMATING.md` & `DOCUMENTING.md` (GREEN stack How-tos)
 
 ## 💼 Why this makes sense from a business perspective 💸 <a name="why-this-makes-sense-from-a-business-perspective"></a>
@@ -232,6 +228,7 @@ Whether you're a startup or established company, having both web and mobile apps
 This stack makes it near effortless to enable extra platforms. It helps keep teams small and enables them to move fast when building new pages or features for phones, tablets and/or the web.
 
 **More deliverables for less time invested in turn means flexibility in one or more of these areas:**
+
 - ... negotiation room about budget or deadlines (in case of client work)
 - ... 💰 to be distributed among the entire team
 - ... 🕗 available for experimentation
@@ -246,28 +243,33 @@ Let's talk Return on Investment:
 
 > 🕗 = time required = devs / teams / resources invested  
 > 💰 = deliverable sale value = costs to build + profit margin  
-> ROI = 🕗 -> *sold for* -> 💰
+> ROI = 🕗 -> _sold for_ -> 💰
 
 Web only project ROI = 🕗🕗 -> 💰💰
+
 - 🕗 Web Front-End 💰
 - 🕗 General Back-End (REST / GraphQL + Templates / SSR) 💰
 
 Native iOS + Android project ROI = 🕗🕗🕗 -> 💰💰💰
+
 - 🕗 iOS App with Swift 💰
 - 🕗 Android app with Java 💰
 - 🕗 API Back-End (REST / GraphQL) 💰
 
 React-Native Mobile App ROI = 🕗🕗 -> 💰💰 to 💰💰💰
+
 - 🕗 iOS + Android App with RN 💰(💰)
 - 🕗 API Back-End (REST / GraphQL) 💰
 
 Expo Mobile + PWA ROI = 🕗🕗 ->💰💰 to 💰💰💰💰
+
 - 🕗 iOS + Android + PWA with Expo & RN (Web without SSR) 💰(💰💰)
 - 🕗 API Back-End (REST / GraphQL) 💰
 
-> Now, things get *really* interesting when you try to compare full cross-platform apps
+> Now, things get _really_ interesting when you try to compare full cross-platform apps
 
 Full Cross Platform with Separate Dev Teams ROI = 🕗🕗🕗🕗🕗🕗🕗 -> 💰💰💰💰💰💰💰
+
 - 🕗 Web Front-End 💰
 - 🕗 iOS App with Swift 💰
 - 🕗 Android app with Java 💰
@@ -277,6 +279,7 @@ Full Cross Platform with Separate Dev Teams ROI = 🕗🕗🕗🕗🕗🕗🕗 
 - 🕗 API Back-End (REST / GraphQL) 💰
 
 Full Cross Platform with GREEN stack ROI = 🕗🕗 -> 💰💰 to 💰💰💰💰💰💰💰
+
 - 🕗 Web (PWA & SSR & Web Vitals) + iOS + Android + Windows + MacOS + Linux 💰(💰💰💰💰💰)
 - 🕗 Back-End (REST + GraphQL + SSR + Static Exports + ISSG + universal JS utils thanks to Next.js) 💰
 
@@ -289,6 +292,7 @@ Full Cross Platform with GREEN stack ROI = 🕗🕗 -> 💰💰 to 💰💰💰
 ## When not to use the GREEN stack? 🤷‍♂️ <a name="when-not-to-use-green-stack"></a>
 
 The GREEN stack is unlikely to be the best fit when your project...
+
 - ... will always be web only 👉 Use `next.js`
 - ... will always be mobile only 👉 Use `Expo`
 - ... will always be desktop only 👉 Use `Electron` + `React` / `Vue` / `Svelte`
@@ -298,7 +302,7 @@ The GREEN stack is unlikely to be the best fit when your project...
 - ... has no real need for Server Rendering, SEO or Web-Vitals 👉 Use `Expo` (+ Web Support)
 - ... is using React, but the project is too far along and has no budget, time or people to refactor 🤷‍♂️
 
-If your project has required dependencies / SDKs / libraries that are either not available in JS, are not extractable to API calls or cannot function cross-platform, this may also not be a good solution for your use-case*.
+If your project has required dependencies / SDKs / libraries that are either not available in JS, are not extractable to API calls or cannot function cross-platform, this may also not be a good solution for your use-case\*.
 
 ```
 🛠 * However, for JS libs, you could always try adding cross platform support yourself with `patch-package`
