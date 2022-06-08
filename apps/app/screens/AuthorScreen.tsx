@@ -1,6 +1,6 @@
 import React from 'react'
 // Navigation
-import { useAetherNav } from 'aetherspace/navigation'
+import { AetherLink, useAetherNav } from 'aetherspace/navigation'
 // Primitives
 import { AetherView, AetherPressable, AetherText } from 'aetherspace/primitives'
 // Icons
@@ -18,7 +18,7 @@ const AuthorScreen = () => {
         <AetherText>About the Author:</AetherText>
         <AetherText tw="font-bold text-lg">thorr@codinsonn.dev</AetherText>
       </AetherPressable>
-      <AetherView tw="flex-row items-center content-center justify-center mt-5">
+      <AetherView tw="flex-row items-center content-center justify-center my-5">
         <AetherPressable tw="flex-row py-2.5 px-5 mx-3 bg-black items-center" onPress={goBack}>
           <BackIcon width={16} height={16} />
           <AetherText tw="text-white"> Go Back</AetherText>
@@ -28,6 +28,12 @@ const AuthorScreen = () => {
           <AetherText tw="text-white"> Home</AetherText>
         </AetherPressable>
       </AetherView>
+      <AetherLink
+        to="https://629ce63e5ac0810042889fc6-ziifurbgqw.chromatic.com/"
+        tw="text-xs roboto-bold py-2.5 px-5 mx-3 "
+      >
+        {'Read the Docs'}
+      </AetherLink>
     </AetherView>
   )
 }
