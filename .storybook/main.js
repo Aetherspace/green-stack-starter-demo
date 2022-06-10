@@ -7,7 +7,6 @@ module.exports = {
         '../apps/**/*.stories.@(js|jsx|ts|tsx)',
         '../packages/**/*.stories.mdx', 
         '../packages/**/*.stories.@(js|jsx|ts|tsx)',
-        '../docs/**/*.stories.mdx',
     ],
     addons: ['@storybook/addon-essentials'],
     webpackFinal: (config) => {

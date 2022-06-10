@@ -13,20 +13,20 @@ export const createDocs = (Component) => (args) => {
 
 App icons can be found at `apps/app/icons/`
 
-Thanks to yarn workspaces can also import them from other packages or apps via
+Thanks to yarn workspaces can also import them from other packages or apps via e.g.
 
-`import { HomeIcon } from 'app/icons'`
+`import { HomeIcon, BackIcon } from 'app/icons'`
 
 ## HomeIcon
 
 export const homeIconDocs = createDocs(HomeIcon)
-export const homeIconConfig = aetherStoryDocs({ HomeIcon })
+export const homeIconDocConfig = aetherStoryDocs({ HomeIcon })
 
 <Canvas>
     <Story
         name="HomeIcon"
-        args={homeIconConfig.args}
-        argTypes={homeIconConfig.argTypes}
+        args={homeIconDocConfig.args}
+        argTypes={homeIconDocConfig.argTypes}
     >
         {homeIconDocs.bind({})}
     </Story>
@@ -37,13 +37,13 @@ export const homeIconConfig = aetherStoryDocs({ HomeIcon })
 ## BackIcon
 
 export const backIconDocs = createDocs(BackIcon)
-export const backIconConfig = aetherStoryDocs({ BackIcon })
+export const backIconDocConfig = aetherStoryDocs({ BackIcon })
 
 <Canvas>
     <Story
         name="BackIcon"
-        args={backIconConfig.args}
-        argTypes={backIconConfig.argTypes}
+        args={backIconDocConfig.args}
+        argTypes={backIconDocConfig.argTypes}
     >
         {backIconDocs.bind({})}
     </Story>
