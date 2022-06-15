@@ -1,7 +1,7 @@
 // Schemas
 import { ats } from 'aetherspace/schemas'
 // Resolvers
-import { aetherResolver, makeNextApiHandler, AetherArgs, AetherResp } from 'aetherspace/utils/serverUtils'
+import { aetherResolver, makeNextApiHandler, AetherArgs, AetherResponse } from 'aetherspace/utils/serverUtils'
 
 /* --- Schemas --------------------------------------------------------------------------------- */
 
@@ -11,19 +11,19 @@ const echoArgsResolverArgsSchema = ats.schema('TestResolverArgs', {
   num: ats.number().default(0),
   bln: ats.boolean().optional(),
   arr: ats.array(ats.id()).optional(),
-  obj: ats.object({ prop: ats.string() }).optional(),
-  col: ats.collection({ _id: ats.id() }).optional(),
+  obj: ats.object('MyObject', { prop: ats.string() }).optional(),
+  col: ats.collection('CollectionObject', { _id: ats.id() }).optional(),
 })
 
 const echoArgsResolversResponseSchema = ats.schema('TestResolverResponse', {
-  args: ats.object(echoArgsResolverArgsSchema.schema),
+  args: ats.object('Arguments', echoArgsResolverArgsSchema.schema),
 })
 
 /* --- Resolver -------------------------------------------------------------------------------- */
 
 export const echoArgsResolver = aetherResolver(
   async ({ args }) => {
-    return { args } as typeof echoArgsResolversResponseSchema['TYPE']
+    return { args }
   },
   {
     argsSchema: echoArgsResolverArgsSchema,
@@ -34,7 +34,7 @@ export const echoArgsResolver = aetherResolver(
 /* --- Types ----------------------------------------------------------------------------------- */
 
 export type echoArgsResolverArgsType = AetherArgs<typeof echoArgsResolver>
-export type echoArgsResolverRespType = AetherResp<typeof echoArgsResolver>
+export type echoArgsResolverRespType = AetherResponse<typeof echoArgsResolver>
 
 /* --- /api/echo ------------------------------------------------------------------------------- */
 

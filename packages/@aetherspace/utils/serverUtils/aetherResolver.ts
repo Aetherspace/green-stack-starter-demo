@@ -54,7 +54,7 @@ export type ResolverExecutionParamsType<AT = any> = {
 }
 
 export type AetherArgs<T extends unknown & { ARGS_TYPE: unknown }> = T['ARGS_TYPE']
-export type AetherResp<T extends unknown & { RESP_TYPE: unknown }> = T['RESP_TYPE']
+export type AetherResponse<T extends unknown & { RESP_TYPE: unknown }> = T['RESP_TYPE']
 
 /* --- aetherResolver() ------------------------------------------------------------------------ */
 // -i- Wrap a server side resolver function for easy use in both graphQL & rest endpoints + provide error handling

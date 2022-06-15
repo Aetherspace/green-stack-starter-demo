@@ -3,6 +3,7 @@ const { withUnimodules } = require('@expo/webpack-config/addons')
 
 module.exports = {
     stories: [
+        '../*.stories.mdx',
         '../apps/**/*.stories.mdx', 
         '../apps/**/*.stories.@(js|jsx|ts|tsx)',
         '../packages/**/*.stories.mdx', 
