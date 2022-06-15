@@ -5,11 +5,13 @@ import { AetherLink, useAetherNav } from 'aetherspace/navigation'
 import { AetherView, AetherPressable, AetherText } from 'aetherspace/primitives'
 // Icons
 import { BackIcon, HomeIcon } from '../icons'
+import { useDocAddress } from 'aetherspace/docs'
 
 /* --- <AuthorScreen/> ------------------------------------------------------------------------- */
 
 const AuthorScreen = () => {
   // Hooks
+  const docsURI = useDocAddress()
   const { goBack, openLink } = useAetherNav()
   // Render
   return (
@@ -28,10 +30,7 @@ const AuthorScreen = () => {
           <AetherText tw="text-white"> Home</AetherText>
         </AetherPressable>
       </AetherView>
-      <AetherLink
-        to="https://main--629ce63e5ac0810042889fc6.chromatic.com/?path=/story/readme-md--page"
-        tw="text-xs roboto-bold py-2.5 px-5 mx-3 "
-      >
+      <AetherLink to={`${docsURI}?path=/story/readme-md--page`} tw="text-xs roboto-bold py-2.5 px-5 mx-3 ">
         {'Read the Docs'}
       </AetherLink>
     </AetherView>

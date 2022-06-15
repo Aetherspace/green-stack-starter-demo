@@ -42,6 +42,7 @@
     "@babel/plugin-transform-typescript": "~7.17.12"
   },
   "scripts": {
+    "dev": "yarn dev-mobile & yarn storybook",
     "build": "yarn app-expo run create-next-manifest && yarn turbo run scripts#collect-assets build",
     "deploy": "vercel --prod --no-clipboard",
     "storybook": "start-storybook -p 6006",

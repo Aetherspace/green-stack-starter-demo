@@ -1,5 +1,14 @@
 import Constants from 'expo-constants'
 
+/* --- getDebuggerURL() ---------------------------------------------------------------------------- */
+// -i- Get the IP based URL with specified port where the Expo command is running from if local
+export const getDebuggerURL = (port?: number) => {
+  const expoDebuggerHost = Constants?.manifest?.debuggerHost
+  const localURI = expoDebuggerHost?.split?.(':').shift()
+  if (!localURI) return null
+  return `http://${[localURI, port].join(':')}`
+}
+
 /* --- setGlobal() ----------------------------------------------------------------------------- */
 // -i- Set a global variable on the "globalThis" object
 const setGlobal = (key: any, val: any) => {

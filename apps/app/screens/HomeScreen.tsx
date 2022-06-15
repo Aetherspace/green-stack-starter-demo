@@ -4,11 +4,19 @@ import { StatusBar } from 'expo-status-bar'
 import { AetherLink } from 'aetherspace/navigation'
 // Primitives
 import { AetherView, AetherText, AetherImage } from 'aetherspace/primitives'
+// SEO
 import { H1 } from 'aetherspace/html-elements'
+// Hooks
+import { useDocAddress } from 'aetherspace/docs'
 
 /* --- <HomeScreen/> --------------------------------------------------------------------------- */
 
 const HomeScreen = () => {
+  // Hooks
+  const docsURI = useDocAddress()
+
+  // -- Render --
+
   return (
     <AetherView tw="flex-1 bg-white items-center justify-center">
       <StatusBar style="auto" />
@@ -22,13 +30,10 @@ const HomeScreen = () => {
       <AetherText tw="px-5 text-center text-sm">
         Open up <AetherText tw="text-gray-500">apps/app/screens/HomeScreen.tsx</AetherText> to start working on your app
       </AetherText>
-      <AetherLink href="/author" tw="text-gray-500 pt-5 text-center text-xs" asText>
-        (Tap here or below to test navigation)
+      <AetherLink href="/author" tw="roboto-bold pt-5 text-center text-sm" asText>
+        Test Navigation
       </AetherLink>
-      <AetherLink
-        to="https://main--629ce63e5ac0810042889fc6.chromatic.com/?path=/story/readme-md--page"
-        tw="text-xs roboto-bold my-4 px-5"
-      >
+      <AetherLink to={`${docsURI}?path=/story/readme-md--page`} tw="text-xs roboto-bold my-4 px-5">
         {'Read the Docs'}
       </AetherLink>
       <AetherLink to="/author" tw="m-3">
