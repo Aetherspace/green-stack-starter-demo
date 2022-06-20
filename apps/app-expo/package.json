@@ -40,13 +40,10 @@
     "twrnc": "^3.3.1"
   },
   "devDependencies": {
-    "@babel/core": "~7.17.12",
-    "@babel/types": "~7.17.12",
-    "@expo/webpack-config": "^0.16.6",
+    "@expo/webpack-config": "^0.16.24",
     "@types/react": "~17.0.21",
     "@types/react-native": "~0.64.12",
     "dotenv": "^10.0.0",
-    "expo-pwa": "^0.0.109",
-    "typescript": "~4.3.5"
+    "typescript": "^4.3.5"
   }
 }

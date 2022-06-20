@@ -21,6 +21,8 @@
     },
     "devDependencies": {
         "@expo/next-adapter": "^4.0.5",
+        "@expo/webpack-config": "^0.16.24",
+        "file-loader": "^6.2.0",
         "next-compose-plugins": "^2.2.1"
     }
 }

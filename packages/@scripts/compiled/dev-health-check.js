@@ -54,7 +54,7 @@ var checkHealth = function () { return __awaiter(void 0, void 0, void 0, functio
                 timesTried += 1;
                 // Exit with error when max amount of tries exceeded
                 if (timesTried > MAX_TRIES) {
-                    console.error("Exceeded " + MAX_TRIES + " health checks, something may be wrong, aborting.");
+                    console.error("Exceeded ".concat(MAX_TRIES, " health checks, something may be wrong, aborting."));
                     process.exit(1);
                 }
                 _a.label = 1;
@@ -64,14 +64,14 @@ var checkHealth = function () { return __awaiter(void 0, void 0, void 0, functio
             case 2:
                 res = _a.sent();
                 if (res.data.alive && res.data.kicking) {
-                    console.log("Health check #" + timesTried + " succeeded. Abort script with success message.");
+                    console.log("Health check #".concat(timesTried, " succeeded. Abort script with success message."));
                     process.exit(0);
                 }
                 return [3 /*break*/, 4];
             case 3:
                 err_1 = _a.sent();
                 retryMs = timesTried * TIME_INCREMENT;
-                console.log("Failed health check #" + timesTried + ", retrying in " + retryMs + " ms.");
+                console.log("Failed health check #".concat(timesTried, ", retrying in ").concat(retryMs, " ms."));
                 setTimeout(checkHealth, retryMs);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];

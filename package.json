@@ -10,7 +10,7 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@expo/webpack-config": "0.16.6",
+    "@expo/webpack-config": "^0.16.24",
     "@react-native-community/eslint-config": "^3.0.2",
     "@storybook/addon-controls": "^6.5.5",
     "@storybook/addon-docs": "^6.5.5",
@@ -37,9 +37,10 @@
     "webpack": "*"
   },
   "resolutions": {
-    "@babel/core": "~7.17.12",
-    "@babel/types": "~7.17.12",
-    "@babel/plugin-transform-typescript": "~7.17.12"
+    "typescript": "^4.3.5",
+    "@babel/core": "^7.18.5",
+    "@expo/config": "^6.0.24",
+    "@types/react": "~17.0.21"
   },
   "scripts": {
     "dev": "yarn dev-mobile & yarn storybook",
