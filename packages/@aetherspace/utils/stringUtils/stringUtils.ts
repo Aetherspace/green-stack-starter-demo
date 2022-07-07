@@ -18,3 +18,14 @@ export const getAssetKey = (srcAttrPath: string) => {
   const key = [...srcParts, ext].reduce((acc, part) => `${acc}${uppercaseFirstChar(part)}`, '')
   return dashToCamel(key)
 }
+
+/* --- replaceStringVars() --------------------------------------------------------------------- */
+// -i- Replaces placeholders like {somevar} or [somevar] with values from injectables
+export const replaceStringVars = (stringWithPlaceholders: string, injectables: Record<string, string | number>) => {
+  let result = stringWithPlaceholders
+  Object.keys(injectables).forEach((key) => {
+    result = result.replace(new RegExp(`\\{${key}\\}`, 'g'), injectables[key].toString()) // prettier-ignore
+    result = result.replace(new RegExp(`\\[${key}\\]`, 'g'), injectables[key].toString()) // prettier-ignore
+  })
+  return result
+}

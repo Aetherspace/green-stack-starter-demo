@@ -4,7 +4,7 @@
   "license": "MIT",
   "author": "codinsonn <thorr@codinsonn.dev>",
   "repository": "https://github.com/codinsonn/aetherspace-green-stack-starter",
-  "description": "A starter monorepo to get started with the GREEN stack for all your cross platform app development needs. Comes standard with GraphQL, React-Native(-Web), Expo, Electron & Next.js + A bunch of pre-written code to make these all work together smoothlessly.",
+  "description": "Starter monorepo to get started with the GREEN stack for all your cross platform app development needs. Comes standard with GraphQL, React-Native(-Web), Expo & Next.js + A bunch of optional helpers to make these all work together smoothlessly.",
   "workspaces": [
     "apps/*",
     "packages/*"
