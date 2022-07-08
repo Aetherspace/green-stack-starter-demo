@@ -71,7 +71,7 @@ The core idea this tech stack enables you to achieve boils down to writing your 
 
 ## How does 'Aetherspace' help, exactly? 🚀 <a name="what-is-aetherspace"></a>
 
-Aetherspace is an opinionated framework I've made that fills in the gaps of working and building with the GREEN stack:
+Aetherspace is an opinionated framework that fills in the gaps of working and building with the GREEN stack:
 
 - How should I handle responsive design?
 - How do I avoid SSR layout shift when react-native styling does not support media queries or classnames?
@@ -99,23 +99,17 @@ In this starter template, we've opted to use turborepo with yarn workspaces. We'
 
 ## 📁 File structure and package management 📦 <a name="package-management"></a>
 
-This starter monorepo has two types of workspaces:
+This starter monorepo has three types of workspaces:
 
-- `/apps/*` for all expo & next.js versions of your apps
+- `/apps/*` for all expo & next.js versions of your apps (consumes `'features'` 👇)
+- `/features/*` features of your app, grouped together by feature name (consumes `'packages'` 👇)
 - `/packages/*` for all shared dependencies / library code used in multiple apps
 
 ```
 ├── apps/
-│   └── {app-name}/ 👉 Where all cross-platform code for {app-name} lives
-│       └── components/ ➡️ Molecules / Atoms / Common UI used in 'screens/'
-│       └── graphql/ ➡️ Shared code for the GraphQL API client (optional)
-│       └── resolvers/ ➡️ Shared resolvers used in both REST or GraphQL API
-│       └── screens/ ➡️ Page templates used in App.tsx and next.js's 'pages/' directory
-│       └── package.json ➡️ config required by yarn-workspaces, no dependencies
-│
-│   └── {app-name}-expo/ 👉 Where all Expo & mobile specific config for {app-name} lives
+│   └── expo/ 👉 Where all Expo & mobile specific config for {app-name} lives
 │       └── app.json ➡️ Expo app config (e.g. landscape / tablet support)
-│       └── App.tsx ➡️ Mobile Entrypoint & Navigation Setup (using '{app-name}/screens/')
+│       └── App.tsx ➡️ Mobile Entrypoint & Navigation Setup (using 'app-core/screens/')
 │       └── babel.config.js ➡️ Babel transpilation config for Expo
 │       └── index.js ➡️ Mobile entrypoint loader for App.tsx
 │       └── metro.config.js ➡️ Metro bundler config for react-native
@@ -123,25 +117,35 @@ This starter monorepo has two types of workspaces:
 │       └── tsconfig.json ➡️ Typescript config for Expo
 │       └── webpack.config.js ➡️ Enables PWA browser testing with Expo (no SSR)
 │
-│   └── {app-name}-next/ 👉 Where all Next.js, Server & API config for {app-name} lives
+│   └── next/ 👉 Where all Next.js, Server & API config for {app-name} lives
 │       └── public/ ➡️ favicon, app icons & other static assets (e.g. images & fonts)
 │       └── src/
-│           └── pages/ ➡️ directory based routes (using '{app-name}/screens/')
-│               └── api/ ➡️ directory based api routes (using '{app-name}/resolvers/')
-│                   └── graphql.ts ➡️ GraphQL client from '{app-name}/graphql/'
+│           └── pages/ ➡️ directory based routes (using 'app-core/screens/')
+│               └── api/ ➡️ directory based api routes (using 'app-core/resolvers/')
+│                   └── graphql.ts ➡️ GraphQL client from 'app-core/graphql/'
 │               └── _app.tsx ➡️ App Layout Wrapper (e.g. headers / footers / navigation)
 │               └── _document.tsx ➡️ HTML wrapper for head, body & meta tags (+ SSR styles)
-│               └── index.tsx ➡️ Homepage (e.g. using '{app-name}/screens/HomeScreen.tsx')
+│               └── index.tsx ➡️ Homepage (e.g. using 'app-core/screens/HomeScreen.tsx')
 │       └── babel.config.js ➡️ Babel transpilation config for Next.js
 │       └── next.config.js ➡️ Next.js config, modules to transpile & plugins to support
 │       └── package.json ➡️ yarn-workspaces config, lists ONLY next.js dependencies
 │       └── tsconfig.json ➡️ Typescript config for Next.js
+|
+|── features/
+│   └── app-core/ 👉 Where all cross-platform code for {app-name} lives
+│       └── components/ ➡️ Molecules / Atoms / Common UI used in 'screens/'
+│       └── graphql/ ➡️ Shared code for the GraphQL API client (optional)
+│       └── resolvers/ ➡️ Shared resolvers used in both REST or GraphQL API
+│       └── screens/ ➡️ Page templates used in App.tsx and next.js's 'pages/' directory
+│       └── package.json ➡️ config required by yarn-workspaces, no dependencies
+│   └── {app-feature}/ 👉 Code shared across apps, ideally same structure as 'features/app-core'
+│       └── package.json ➡️ config required by yarn-workspaces, no dependencies
 │
 ├── packages/
 │   └── @aetherspace/ ➡️ Primitives, utils & helpers for working with the GREEN stack
 │   └── @config/ ➡️ list of ts & other configs to use / extend from in next or expo apps
 │   └── @scripts/ ➡️ scripts that help streamline things like codegen & managing assets
-│   └── {comp-lib}/ 👉 Code shared across apps, ideally same structure as 'apps/{app-name}'
+│   └── {comp-lib}/ 👉 Code shared across apps, ideally same structure as 'features/app-core'
 │       └── package.json ➡️ yarn-workspace config, doesn't need deps unless published
 │
 ├── node_modules/ ➡️ Contains all modules for this monorepo
@@ -149,33 +153,29 @@ This starter monorepo has two types of workspaces:
 ```
 
 ```
-💡 `{app-name}` & `{comp-lib}` are just placeholders and you **can** have multiple of these
+💡 `{app-feature}`, `{app-name}` & `{comp-lib}` are just placeholders and you **can** have multiple of these
 ```
 
-#### 📦 Keep your apps seperate with `/apps/*` workspaces:
+#### 📦 Keep your apps seperate with `/apps/*` & `/features/*` workspaces:
 
 For every app you're building in this monorepo, you'll need a few folders:
 
-- `/apps/app` - Where most of your app's UI, logic and Screens will live.
+- `/features/{app}-core` - Where most of your core app specific UI, logic and screens will live.
   Shouldn't have any dependencies.
-- `/apps/app-next` - Entry for web where only next.js related config/setup for an app should live.
+- `/apps/next` - Entry for web where only next.js related config/setup for an app should live.
   Should list only next.js related dependencies & polyfills.
-- `/apps/app-expo` - Entry for mobile where only expo related config/setup for an app should live.
+- `/apps/expo` - Entry for mobile where only expo related config/setup for an app should live.
   Should list all react(-native) and non next.js related dependencies.
 
 In each of these folders own `package.json` file, a `name` property should be specified to identify that workspace. This name can then be referenced during installs via e.g.
 
 ```bash
-yarn workspace app-next add next-images
+yarn workspace next add next-images
 ```
 
 ```bash
-yarn workspace app-expo add moti
+yarn workspace expo add moti
 ```
-
-> It's also advised to see app workspaces as fully seperate from other apps:
-
-> For example, `/apps/app` should not import or reference anything from `/apps/some-other-app`. If you do need to embed a certain screen or component from one app in another, it's best to extract it to its own shared library workspace instead (toggle below for info 👇)
 
 <details>
 <summary>💡 `/packages/*` workspaces for e.g. component libraries</summary>

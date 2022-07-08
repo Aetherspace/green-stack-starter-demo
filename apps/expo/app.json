@@ -4,9 +4,9 @@
     "slug": "app",
     "version": "1.0.0",
     "orientation": "default",
-    "icon": "../app-next/public/icon.png",
+    "icon": "../next/public/icon.png",
     "splash": {
-      "image": "../app-next/public/splash.png",
+      "image": "../next/public/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,12 +21,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "../app-next/public/adaptive-icon.png",
+        "foregroundImage": "../next/public/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "../app-next/public/favicon.png"
+      "favicon": "../next/public/favicon.png"
     }
   }
 }

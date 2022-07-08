@@ -20,8 +20,8 @@
         "scripts#build"
       ],
       "outputs": [
-        "../../apps/app/assets.generated.js",
-        "../../apps/app-next/public/**"
+        "../../features/app-core/assets.generated.js",
+        "../../apps/next/public/**"
       ]
     },
     "scripts#dev-health-check": {
@@ -34,19 +34,19 @@
         "scripts#build"
       ]
     },
-    "app-next#dev": {},
-    "app-expo#create-next-manifest": {
+    "next-app#dev": {},
+    "expo-app#create-next-manifest": {
       "outputs": [
-        "../app-next/public/**"
+        "../next/public/**"
       ]
     },
-    "app-expo#web": {
+    "expo-app#web": {
       "dependsOn": [
         "scripts#collect-assets",
         "scripts#dev-health-check"
       ]
     },
-    "app-expo#start": {
+    "expo-app#start": {
       "dependsOn": [
         "scripts#collect-assets",
         "scripts#dev-health-check"

@@ -1,3 +1,5 @@
+import React from 'react'
+// Screens
 import HomeScreen from 'app/screens/HomeScreen'
 
 /* --- <HomePage/> ----------------------------------------------------------------------------- */

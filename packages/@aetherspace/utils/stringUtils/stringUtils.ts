@@ -13,7 +13,7 @@ export const uppercaseFirstChar = (str: string) => str.charAt(0).toUpperCase() +
 /* --- getAssetKey() --------------------------------------------------------------------------- */
 // -i- Transform a file path like '/imgs/someImage.png' into an object key like 'ImgsSomeImagePng'
 export const getAssetKey = (srcAttrPath: string) => {
-  const [src, ext] = srcAttrPath.split('.')
+  const [ext, src] = srcAttrPath.split('.').reverse()
   const srcParts = src.split('/')
   const key = [...srcParts, ext].reduce((acc, part) => `${acc}${uppercaseFirstChar(part)}`, '')
   return dashToCamel(key)
