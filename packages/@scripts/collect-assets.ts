@@ -10,12 +10,10 @@ const collectAssets = () => {
     const excludeJS = (pth) => ['.js', '.json'].every((ext) => !pth.includes(ext))
     const excludeDirs = (pth) => pth.split('/').pop().includes('.')
     const assetPaths = glob.sync('../../apps/next/public/**/*').filter(excludeJS).filter(excludeDirs)
-    console.log(assetPaths)
     const assetRegistry = assetPaths.reduce((acc, assetPath) => {
       const requirePath = assetPath.replace('../../apps/', '../../apps/')
       const relSrcPath = assetPath.replace('apps/next/public', '')
       const assetKey = getAssetKey(relSrcPath)
-      console.log(assetKey, requirePath, relSrcPath)
       const exportLine = `export const ${assetKey} = require('${requirePath}');`
       return `${acc}${exportLine}\n`
     }, '// -i- Auto generated with "yarn collect-assets"\n')
