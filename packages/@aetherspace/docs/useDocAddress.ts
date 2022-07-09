@@ -7,7 +7,7 @@ import { getDebuggerURL, getEnvVar } from '../utils/envUtils'
 
 enum DOC_SOURCES {
   localDocs = 'http://localhost:6006/',
-  officialDocs = 'https://main--629ce63e5ac0810042889fc6.chromatic.com/',
+  officialDocs = 'https://main--62c9a236ee16e6611d719e94.chromatic.com/',
 }
 
 /* --- useDocAddress() ---------------------------------------------------------------------------- */
