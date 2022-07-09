@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "app",
-    "slug": "app",
+    "name": "aetherspace-starter-app",
+    "slug": "aetherspace-starter-app",
     "version": "1.0.0",
     "orientation": "default",
     "icon": "../next/public/icon.png",

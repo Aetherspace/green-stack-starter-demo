@@ -10,7 +10,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "publish": "expo publish",
+    "publish": "expo publish --release-channel starter-preview-main",
     "pwa-utils": "expo-pwa",
     "create-next-manifest": "expo-pwa manifest --output ../next/public",
     "uncache": "rm -f yarn.lock && rm -rf node_modules && yarn install && yarn start -c && rm -rf /tmp/metro-*"
@@ -44,6 +44,7 @@
     "@types/react": "~17.0.21",
     "@types/react-native": "~0.64.12",
     "dotenv": "^10.0.0",
+    "expo-updates": "^0.13.3",
     "typescript": "^4.3.5"
   }
 }

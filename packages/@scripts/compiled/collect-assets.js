@@ -13,12 +13,10 @@ var collectAssets = function () {
         var excludeJS = function (pth) { return ['.js', '.json'].every(function (ext) { return !pth.includes(ext); }); };
         var excludeDirs = function (pth) { return pth.split('/').pop().includes('.'); };
         var assetPaths = glob_1.default.sync('../../apps/next/public/**/*').filter(excludeJS).filter(excludeDirs);
-        console.log(assetPaths);
         var assetRegistry = assetPaths.reduce(function (acc, assetPath) {
             var requirePath = assetPath.replace('../../apps/', '../../apps/');
             var relSrcPath = assetPath.replace('apps/next/public', '');
             var assetKey = (0, stringUtils_1.getAssetKey)(relSrcPath);
-            console.log(assetKey, requirePath, relSrcPath);
             var exportLine = "export const ".concat(assetKey, " = require('").concat(requirePath, "');");
             return "".concat(acc).concat(exportLine, "\n");
         }, '// -i- Auto generated with "yarn collect-assets"\n');
