@@ -190,7 +190,7 @@ Like `/apps/` workspaces, they do also require their own `package.json` and `nam
 yarn workspace component-library add -D @types/react
 ```
 
-However, unless you will be publishing the package to NPM, it may be best to just install any dependencies in the consuming apps' `/apps/{app-name}-next` or `/apps/{app-name}-expo` workspace instead.
+However, unless you will be publishing the package to NPM, it may be best to just install any dependencies in the consuming apps' `/apps/next`, `/apps/expo` or `/features/{app-feature}` workspace instead.
 
 > A good example of a library package usable by multiple app workspaces in this monorepo is the
 > `/packages/aetherspace` workspace. It contains UI primitives like `AetherView`, `AetherImage` & `AetherLink` that are small wrappers for & recommended over react-native's own `View`, `Text` & `Image` components.
@@ -206,7 +206,7 @@ Here's a list of what you can start doing out of the box:
 
 - Link pages and screens cross platform with `expo-next-react-navigation` or `<AetherLink>`
 - Use tailwind to style UI responsively on web / mobile with `<AetherView tw="sm:px-2">` / `tailwind-rn`
-- Animate UI elements with `<AetherView.Animated>` / `react-native-reanimated` / `moti`
+- Animate UI elements with `react-native-reanimated` or `moti`
 - Add illustrations or icons with `react-native-svg`
 - Bring the power of GraphQL to JSON or REST apis with `aetherResolver()` and Schemas.
 - Add auth with [AuthSession](https://docs.expo.dev/versions/latest/sdk/auth-session/) ([Expo Examples](https://docs.expo.dev/guides/authentication/))
