@@ -1,0 +1,40 @@
+name: 'Expo: Publish Main'
+on:
+  push:
+    branches:
+      - main
+    tags-ignore:
+      - 'release/v*.*.*'
+jobs:
+  publish:
+    name: Install and publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      - name: Use node_modules cache
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: node_modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Setup Expo
+        uses: expo/expo-github-action@v7
+        with:
+          expo-version: 4.x
+          expo-cache: true
+          packager: yarn
+          token: ${{ secrets.EXPO_ACCESS_TOKEN }}
+
+      - name: Install Node.js dependencies
+        run: yarn install
+
+      - name: Publish to Expo
+        run: cd apps/expo && expo publish --release-channel=starter-preview-main
+        env:
+          ENV: staging
