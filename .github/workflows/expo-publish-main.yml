@@ -38,3 +38,4 @@ jobs:
         run: cd apps/expo && expo publish --release-channel=starter-preview-main
         env:
           ENV: staging
+          NEXT_PUBLIC_APP_LINKS: ${{ secrets.NEXT_PUBLIC_APP_LINKS }}
