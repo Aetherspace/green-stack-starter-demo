@@ -79,6 +79,8 @@ class Document extends NextDocument {
       <Html>
         <Head>
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+          {/* iOS PWA fixes */}
+          <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         </Head>
         <body>
           <Main />

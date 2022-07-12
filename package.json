@@ -45,9 +45,10 @@
     "@types/react": "~17.0.21"
   },
   "scripts": {
-    "dev": "yarn dev-mobile & yarn storybook",
+    "dev": "yarn dev-mobile",
     "dev-web": "yarn turbo run next-app#dev",
     "dev-mobile": "yarn turbo run next-app#dev expo-app#start",
+    "dev-docs": "yarn dev-mobile & yarn storybook",
     "next-app": "yarn workspace next-app",
     "expo-app": "yarn workspace expo-app",
     "ios": "yarn turbo run expo-app#ios",
