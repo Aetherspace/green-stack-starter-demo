@@ -57,6 +57,8 @@
     "expo-web": "yarn turbo run expo-app#web",
     "uncache": "yarn turbo run expo-app#uncache",
     "storybook": "start-storybook -p 6006",
+    "collect-assets": "yarn turbo run aetherspace#collect-assets",
+    "collect-resolvers": "yarn turbo run aetherspace#collect-resolvers",
     "build": "yarn expo run create-next-manifest && yarn turbo run aetherspace#collect-assets build",
     "build-storybook": "build-storybook",
     "deploy": "vercel --prod --no-clipboard",

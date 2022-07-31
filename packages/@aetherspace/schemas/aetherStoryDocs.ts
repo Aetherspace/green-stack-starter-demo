@@ -36,12 +36,13 @@ const aetherSchemaArgTypes = (aetherSchema) => {
   }
   // Storybook ArgTypes factory
   const createArgType = (dataType, controlType) => (name, schemaConfig) => {
+    const isNullable = [schemaConfig.optional, schemaConfig.nullable].includes(true)
     const argType: StorybookArgType = {
       name,
       description: schemaConfig.description,
       type: {
         name: dataType,
-        required: !schemaConfig.optional && !schemaConfig.nullable,
+        required: !isNullable,
       },
       table: {
         type: { summary: dataType },

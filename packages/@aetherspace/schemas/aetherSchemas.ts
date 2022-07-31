@@ -107,7 +107,7 @@ const AetherSchema = <S extends ObjectSchema>(schemaName: string, objSchema: S) 
 
 const AetherArray = <T extends ss.Struct<any>>(Element: T) => {
   const arraySchema = assignDescriptors(ss.array<T>(Element), 'AetherArray')
-  return makeOptionalable<ss.Infer<T>[], typeof arraySchema['schema'], typeof arraySchema>(arraySchema, 'AetherSchema')
+  return makeOptionalable<ss.Infer<T>[], typeof arraySchema['schema'], typeof arraySchema>(arraySchema, 'AetherArray')
 }
 
 const AetherCollection = <S extends ObjectSchema>(schemaName: string, objSchema: S) => {

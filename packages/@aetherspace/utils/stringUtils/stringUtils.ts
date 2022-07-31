@@ -29,3 +29,10 @@ export const replaceStringVars = (stringWithPlaceholders: string, injectables: R
   })
   return result
 }
+
+/* --- findTargetString() ---------------------------------------------------------------------- */
+// -i- Finds a $target$ string inside another string
+export const findTargetString = (source: string, search = '($target$)') => {
+  const [preTarget, postTarget] = search.split('$target$')
+  return source.split(preTarget).pop()?.split(postTarget)?.[0]
+}

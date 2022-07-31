@@ -71,10 +71,11 @@ export const aetherResolver = <
     paramKeys?: string
     argsSchema?: AST
     responseSchema?: RST
+    isMutation?: boolean
   }
 ) => {
   // Extract options
-  const { paramKeys, argsSchema, responseSchema } = options || {}
+  const { paramKeys, argsSchema, responseSchema, isMutation } = options || {}
   // Build Resolver
   const resolverWrapper = (ctx?: ResolverInputType<AT>): Promise<RT> => {
     const { req, res, nextSsrContext, parent, args, context, info, cookies: _, ...resolverContext } = ctx || {}
@@ -127,6 +128,7 @@ export const aetherResolver = <
     resSchema: responseSchema || {}, // @ts-ignore
     ARGS_TYPE: undefined as AT, // @ts-ignore
     RESP_TYPE: undefined as RT,
+    isMutation,
   })
 }
 

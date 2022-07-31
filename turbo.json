@@ -10,8 +10,15 @@
     "aetherspace#collect-assets": {
       "dependsOn": ["aetherspace#build"],
       "outputs": [
-        "../../features/app-core/assets.generated.js",
+        "../../features/app-core/registries/assets.generated.js",
         "../../apps/next/public/**"
+      ],
+      "cache": false
+    },
+    "aetherspace#collect-resolvers": {
+      "dependsOn": ["aetherspace#build"],
+      "outputs": [
+        "../../features/app-core/registries/resolvers.generated.js"
       ],
       "cache": false
     },
