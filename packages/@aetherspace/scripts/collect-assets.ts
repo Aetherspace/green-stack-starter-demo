@@ -1,7 +1,7 @@
 import glob from 'glob'
 import fs from 'fs'
 // Utils
-import { getAssetKey } from 'aetherspace/utils/stringUtils'
+import { getAssetKey } from '../utils/stringUtils'
 
 /* --- collectAssets --------------------------------------------------------------------------- */
 
@@ -19,7 +19,7 @@ const collectAssets = () => {
     }, '// -i- Auto generated with "yarn collect-assets"\n')
     fs.writeFileSync('../../features/app-core/assets.generated.ts', assetRegistry)
     console.log('-i- Successfully created asset registries at:\n', '✅ features/app-core/assets.generated.ts')
-    process.exit(0)
+    // process.exit(0)
   } catch (err) {
     console.error(err)
     process.exit(1)

@@ -7,73 +7,42 @@
         "../../packages/@aetherspace/**/*.js"
       ]
     },
-    "scripts#build": {
-      "dependsOn": [
-        "aetherspace#build"
-      ],
-      "outputs": [
-        "lib"
-      ]
-    },
-    "scripts#collect-assets": {
-      "dependsOn": [
-        "scripts#build"
-      ],
+    "aetherspace#collect-assets": {
+      "dependsOn": ["aetherspace#build"],
       "outputs": [
         "../../features/app-core/assets.generated.js",
         "../../apps/next/public/**"
-      ]
+      ],
+      "cache": false
     },
-    "scripts#dev-health-check": {
-      "dependsOn": [
-        "scripts#build"
-      ]
+    "aetherspace#dev-health-check": {
+      "dependsOn": ["aetherspace#build"]
     },
-    "scripts#schema-test": {
-      "dependsOn": [
-        "scripts#build"
-      ]
+    "aetherspace#schema-test": {
+      "dependsOn": ["aetherspace#build"]
     },
-    "next-app#dev": {},
+    "next-app#dev": {
+      "dependsOn": ["aetherspace#build"]
+    },
     "expo-app#create-next-manifest": {
-      "outputs": [
-        "../next/public/**"
-      ]
+      "outputs": ["../next/public/**"]
     },
     "expo-app#web": {
-      "dependsOn": [
-        "scripts#collect-assets",
-        "scripts#dev-health-check"
-      ]
+      "dependsOn": ["aetherspace#dev-health-check"]
     },
     "expo-app#start": {
-      "dependsOn": [
-        "scripts#collect-assets",
-        "scripts#dev-health-check"
-      ]
+      "dependsOn": ["aetherspace#dev-health-check"]
     },
     "build": {
+      "dependsOn": ["^build"],
       "outputs": [
         ".expo/**",
         ".expo-shared/**",
         ".next/**"
-      ],
-      "dependsOn": [
-        "scripts#collect-assets",
-        "^build"
       ]
     },
     "deploy": {
-      "dependsOn": [
-        "build"
-      ]
-    },
-    "lint": {},
-    "test": {
-      "outputs": [],
-      "dependsOn": [
-        "build"
-      ]
+      "dependsOn": ["build"]
     },
     "dev": {}
   }

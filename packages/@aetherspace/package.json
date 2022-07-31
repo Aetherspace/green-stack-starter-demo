@@ -4,9 +4,13 @@
     "version": "1.0.0",
     "license": "MIT",
     "scripts": {
-        "build": "tsc --project ."
+        "build": "tsc --project .",
+        "collect-assets": "node scripts/collect-assets.js",
+        "dev-health-check": "node scripts/dev-health-check.js",
+        "schema-test": "node scripts/schema-test"
     },
     "dependencies": {
+        "@apollo/client": "^3.6.9",
         "@expo/html-elements": "^0.1.0",
         "apollo-server-micro": "^3.10.0",
         "axios": "^0.24.0",

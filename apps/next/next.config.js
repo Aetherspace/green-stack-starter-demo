@@ -27,6 +27,16 @@ const config = withPlugins(
             // scope: '/app',
             // sw: 'service-worker.js',
         },
+        webpack: (config, { isServer }) => {
+            // -i- Run aetherspace automation scripts
+            if (!isServer) {
+                // -i- Build 'assets.generated.ts' in 'features/app-core'
+                // -i- ... this makes src paths for AetherImage work in Expo
+                require('aetherspace/scripts/collect-assets');
+            }
+            // Return unaltered config
+            return config
+        }
     },
 );
 
