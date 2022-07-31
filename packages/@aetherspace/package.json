@@ -8,6 +8,13 @@
     },
     "dependencies": {
         "@expo/html-elements": "^0.1.0",
-        "superstruct": "^0.15.3"
+        "apollo-server-micro": "^3.10.0",
+        "axios": "^0.24.0",
+        "expo-linking": "~3.1.0",
+        "expo-next-react-navigation": "^2.0.2",
+        "expo-web-browser": "~10.2.1",
+        "graphql": "^16.5.0",
+        "superstruct": "^0.15.3",
+        "twrnc": "^3.3.1"
     }
 }

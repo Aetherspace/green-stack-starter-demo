@@ -2,5 +2,8 @@
     "name": "app",
     "version": "1.0.0",
     "license": "MIT",
-    "scripts": {}
+    "scripts": {},
+    "dependencies": {
+        "@expo-google-fonts/roboto": "^0.2.2"
+    }
 }
