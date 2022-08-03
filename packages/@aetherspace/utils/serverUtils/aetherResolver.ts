@@ -10,6 +10,7 @@ import type { AetherSchemaType, Infer } from '../../schemas'
 // Utils
 import { getApiParams, runMiddleWare, MiddlewareFnType } from './apiUtils'
 import { normalizeObjectProps, isEmpty } from '../index'
+import { ApolloError } from 'apollo-server-micro'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -132,17 +133,42 @@ export const aetherResolver = <
   })
 }
 
+/* --- makeGraphQLResolver() ------------------------------------------------------------------- */
+// -i- Codegen: Build a graphQL resolver from aether an resolver
+export const makeGraphQLResolver = <AT, RT, AST, RST>(
+  resolver: ((ctx?: ResolverInputType<AT>) => Promise<RT>) & { argSchema: AST; resSchema: RST },
+  options?: {
+    config?: ResolverInputType['config']
+  }
+) => {
+  const wrappedResolver = async (parent, args, context, info) => {
+    const config = options?.config || {}
+    try {
+      const responseData = await resolver({ parent, args: args.args, context, info, config })
+      return responseData
+    } catch (err) {
+      console.error(err) // @ts-ignore
+      throw new ApolloError(err.message || err.toString())
+    }
+  }
+  return Object.assign(wrappedResolver, {
+    argSchema: resolver.argSchema,
+    resSchema: resolver.resSchema,
+    ARGS_TYPE: resolver['ARGS_TYPE'] as AT,
+    RESP_TYPE: resolver['RESP_TYPE'] as AT,
+  })
+}
+
 /* --- makeNextApiHandler() -------------------------------------------------------------------- */
 // -i- Codegen: Build next.js api request from an aether resolver
-export const makeNextApiHandler =
-  <AT, RT>(
-    resolver: (ctx?: ResolverInputType<AT>) => Promise<RT>,
-    options?: {
-      middleware?: MiddlewareFnType[]
-      config?: ResolverInputType['config']
-    }
-  ) =>
-  async (req: NextApiRequest, res: NextApiResponse) => {
+export const makeNextApiHandler = <AT, RT, AST, RST>(
+  resolver: ((ctx?: ResolverInputType<AT>) => Promise<RT>) & { argSchema: AST; resSchema: RST },
+  options?: {
+    middleware?: MiddlewareFnType[]
+    config?: ResolverInputType['config']
+  }
+) => {
+  return async (req: NextApiRequest, res: NextApiResponse) => {
     const middleware = options?.middleware || []
     const config = options?.config || {}
     try {
@@ -160,6 +186,7 @@ export const makeNextApiHandler =
       return res.status(500).json({ success: false, errors: [err] })
     }
   }
+}
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

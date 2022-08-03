@@ -17,13 +17,13 @@ const collectResolvers = () => {
       // Skip files that don't export an aether resolver
       const pathContents = fs.readFileSync(resolverPath, 'utf8')
       const usesAetherSchemas = pathContents.includes("'aetherspace/schemas'")
-      const exportsAetherResolver = pathContents.includes('export default makeNextApiHandler')
+      const exportsAetherResolver = pathContents.includes('makeGraphQLResolver')
       const exportsGraphQLResolver = pathContents.includes('export const graphResolver')
       if (!usesAetherSchemas || !exportsAetherResolver || !exportsGraphQLResolver) return acc
       // Find the resolver name
       const loc = pathContents.split('\n')
-      const defaultExportLine = loc.find((line) => line.includes('export default makeNextApiHandler'))
-      const resolverName = findTargetString(defaultExportLine!, 'makeNextApiHandler($target$)')
+      const graphResolverLine = loc.find((line) => line.includes('export const graphResolver = makeGraphQLResolver'))
+      const resolverName = findTargetString(graphResolverLine!, 'makeGraphQLResolver($target$)')
       if (!resolverName) return acc
       // Create export line for the resolver
       const exportLine = `export { graphResolver as ${resolverName} } from '${importPath}'`

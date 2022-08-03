@@ -121,6 +121,7 @@ const aetherGraphSchema = (aetherResolvers: ResolverMapType) => {
     argSchema: resolver.argSchema,
     resSchema: resolver.resSchema,
     isMutation: !!resolver.isMutation,
+    resolver,
   }))
   const mutationConfigs = resolverConfigs.filter((resolverConfig) => resolverConfig.isMutation)
   const queryConfigs = resolverConfigs.filter((resolverConfig) => !resolverConfig.isMutation)
@@ -132,14 +133,18 @@ const aetherGraphSchema = (aetherResolvers: ResolverMapType) => {
   const mutation = hasMutations ? `type Mutation {\n    ${mutationDefs.join('\n    ')}\n}` : ''
   const query = hasQueries ? `type Query {\n    ${queryDefs.join('\n    ')}\n}` : ''
   const allTypeDefs = [...dataTypeDefs, mutation, query].filter(Boolean)
-  console.log(allTypeDefs.join('\n\n'))
   const graphqlSchemaDefs = gql`${allTypeDefs.join('\n\n')}` // prettier-ignore
-  return graphqlSchemaDefs
+  const rebuildFromConfig = (handlers, { resolverName, resolver }) => ({ ...handlers, [resolverName]: resolver })
+  const queryResolvers = queryConfigs.reduce(rebuildFromConfig, {})
+  const mutationResolvers = mutationConfigs.reduce(rebuildFromConfig, {})
+  return {
+    typeDefs: graphqlSchemaDefs,
+    resolvers: {
+      ...(hasQueries ? { Query: queryResolvers } : {}),
+      ...(hasMutations ? { Mutations: mutationResolvers } : {}),
+    },
+  }
 }
-
-// TODO: Add Queries and Mutations
-// TODO: Merge with schema definitions in makeExecutableSchema()
-// https://stackblitz.com/github/vercel/next.js/tree/canary/examples/api-routes-apollo-server-and-client?file=apollo%2Fschema.js
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

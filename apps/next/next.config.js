@@ -37,7 +37,9 @@ const config = withPlugins(
                 // -i- Makes regular img src paths like on the web work for AetherImage in Expo
                 require('aetherspace/scripts/collect-assets');
             }
-            // Return unaltered config
+            // Enable top level await in API handlers
+            config.experiments.topLevelAwait = true
+            // Return config
             return config
         }
     },

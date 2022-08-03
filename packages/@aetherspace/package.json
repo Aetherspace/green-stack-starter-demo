@@ -19,6 +19,7 @@
         "expo-next-react-navigation": "^2.0.2",
         "expo-web-browser": "~10.2.1",
         "graphql": "^16.5.0",
+        "micro": "^9.4.1",
         "superstruct": "^0.15.3",
         "twrnc": "^3.3.1"
     }
