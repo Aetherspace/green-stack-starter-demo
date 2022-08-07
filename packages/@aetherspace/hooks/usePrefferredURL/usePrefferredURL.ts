@@ -3,7 +3,7 @@ import axios from 'axios'
 
 /* --- usePrefferredURL() ------------------------------------------------------------------- */
 
-const usePrefferredURL = (preferredURLS: string[] = []) => {
+const usePrefferredURL = (preferredURLS: string[] = [], forcedFallback?: string) => {
   // State
   const [firstAvailableURL, setFirstAvailableURL] = useState('')
 
@@ -16,11 +16,16 @@ const usePrefferredURL = (preferredURLS: string[] = []) => {
     const checkUriIndex = async (index = 0) => {
       try {
         // If we've hit the end, stop checking
-        if (index >= urlsToCheck.length) return
+        if (index >= urlsToCheck.length) {
+          if (forcedFallback) setFirstAvailableURL(forcedFallback)
+          return
+        }
         // Attempt to contact docs
         const response = await axios.get(urlsToCheck[index])
         // If unavailable, check the next URI
-        if (response?.status !== 200) return checkUriIndex(index + 1)
+        if (response?.status !== 200) {
+          return checkUriIndex(index + 1)
+        }
         // If we do get a response, set as docs URI
         return setFirstAvailableURL(urlsToCheck[index])
       } catch (error) {

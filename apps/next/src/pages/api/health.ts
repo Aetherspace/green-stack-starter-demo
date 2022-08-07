@@ -26,9 +26,9 @@ const resolverConfig = {
   responseSchema: HealthCheckResponse,
 }
 
-/* --- healthCheckResolver() ------------------------------------------------------------------- */
+/* --- healthCheck() --------------------------------------------------------------------------- */
 
-const healthCheckResolver = aetherResolver(
+const healthCheck = aetherResolver(
   async ({ args }) => ({
     alive: true,
     kicking: true,
@@ -39,7 +39,7 @@ const healthCheckResolver = aetherResolver(
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export type HealthCheckArgsType = AetherArgs<typeof healthCheckResolver>
-export type HealthCheckResponsType = AetherResponse<typeof healthCheckResolver>
-export const graphResolver = makeGraphQLResolver(healthCheckResolver)
-export default makeNextApiHandler(healthCheckResolver)
+export type HealthCheckArgsType = AetherArgs<typeof healthCheck>
+export type HealthCheckResType = AetherResponse<typeof healthCheck>
+export const graphResolver = makeGraphQLResolver(healthCheck) // Make resolver available to GraphQL
+export default makeNextApiHandler(healthCheck)
