@@ -81,7 +81,7 @@ const aetherSchemaDefinitions = (aetherSchema: ResolverSchemaType, prefix = 'typ
   `
   // Remove excess spacing & newlines
   if (!schemaDef.includes('undefined')) {
-    const defWithoutLeadingSpaces = schemaDef.replaceAll('\n    ', '\n')
+    const defWithoutLeadingSpaces = schemaDef.split('\n    ').join('\n')
     const defWithoutLeadingNewLines = defWithoutLeadingSpaces.replace('\n', '')
     const defWithoutEndingNewLines = defWithoutLeadingNewLines.replace('}\n  ', '}')
     schemaDefinitions.push(defWithoutEndingNewLines)
