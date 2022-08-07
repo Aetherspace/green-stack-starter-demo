@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client'
-import { isEmpty } from '../utils'
 import { aetherSchemaPlugin } from './aetherSchemaPlugin'
 import { AetherSchemaType } from './aetherSchemas'
 
@@ -107,7 +106,10 @@ const aetherGraphDefinitions = (resolverConfigs: ResolverConfigType[]) => {
 
 const createResolverDefinition = (resolverConfig: ResolverConfigType) => {
   const { resolverName, argSchema, resSchema } = resolverConfig
-  const argDef = isEmpty(argSchema?.schema) ? '' : `(args: ${argSchema.schemaName}!)`
+  const hasArguments = Object.values(argSchema.schema).length > 0 // @ts-ignore
+  const onlyHasOptionalArgs = !hasArguments || Object.values(argSchema?.schema).every((arg) => arg.optional === true)
+  const argRequireState = onlyHasOptionalArgs ? '' : '!'
+  const argDef = hasArguments ? `(args: ${argSchema.schemaName}${argRequireState})` : ''
   const resDef = resSchema.schemaName
   return `${resolverName}${argDef}: ${resDef}`
 }

@@ -13,14 +13,12 @@ import {
 
 export const HealthCheckArgs = ats.schema('HealthCheckArgs', {
   echo: ats.string().optional(),
-  // arr: ats.array(ats.string()).optional(),
 })
 
 export const HealthCheckResponse = ats.schema('HealthCheckResponse', {
   alive: ats.boolean(),
   kicking: ats.boolean(),
   echo: HealthCheckArgs.schema.echo,
-  // args: ats.array(HealthCheckArgs).optional(),
 })
 
 const resolverConfig = {
@@ -35,7 +33,6 @@ const healthCheckResolver = aetherResolver(
     alive: true,
     kicking: true,
     echo: args.echo,
-    // args: [args],
   }),
   resolverConfig
 )
