@@ -11,7 +11,7 @@ module.exports = {
         '../packages/**/*.stories.mdx', 
         '../packages/**/*.stories.@(js|jsx|ts|tsx)',
     ],
-    addons: ['@storybook/addon-essentials'],
+    addons: ['@storybook/addon-essentials', 'aetherspace/docs/addons'],
     webpackFinal: (config) => {
         // Add TS & react-native-web support
         config.module.rules.push({
@@ -20,7 +20,7 @@ module.exports = {
             {
                 loader: 'babel-loader',
                 options: {
-                    presets: ['@babel/preset-typescript'],
+                    presets: ['@babel/preset-typescript', '@babel/preset-react'],
                 },
             },
           ],

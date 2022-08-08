@@ -5,7 +5,8 @@ node_modules
 # Internal Packages
 packages/@aetherspace/**/*.d.ts
 packages/@aetherspace/**/*.js
-packages/@scripts/compiled
+!packages/@aetherspace/docs/addons/preset.js
+!packages/@aetherspace/docs/addons/gqlPlaygroundAddon.js
 
 # Expo
 .expo/
