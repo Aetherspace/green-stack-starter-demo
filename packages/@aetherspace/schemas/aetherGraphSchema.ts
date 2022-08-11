@@ -43,6 +43,7 @@ const aetherSchemaDefinitions = (aetherSchema: ResolverSchemaType, prefix = 'typ
   const createDefinition = (gqlType) => (name, schemaConfig) => {
     const isNullable = [schemaConfig.optional, schemaConfig.nullable].includes(true)
     const requiredState = isNullable ? '' : '!'
+    // TODO: Add doc annotations via triple quotes
     if (gqlType === 'Schema') {
       schemaDefinitions = [...schemaDefinitions, ...aetherSchemaDefinitions(schemaConfig)]
       return `${name}: ${schemaConfig.schemaName}${requiredState}`
