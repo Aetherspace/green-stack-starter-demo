@@ -1,0 +1,22 @@
+input HealthCheckArgs {
+  """Echoes back the echo argument"""
+  echo: String
+
+  """Saves graphql schema to app-next root in development mode"""
+  saveGraphQLSchema: Boolean
+}
+
+type HealthCheckResponse {
+  alive: Boolean!
+  kicking: Boolean!
+
+  """Echoes back the echo argument"""
+  echo: String
+
+  """true if schema was saved to app-next root in development mode"""
+  didSaveGraphQLSchema: Boolean!
+}
+
+type Query {
+  healthCheck(args: HealthCheckArgs): HealthCheckResponse
+}

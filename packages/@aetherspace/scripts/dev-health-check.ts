@@ -18,7 +18,8 @@ const checkHealth = async () => {
   }
   // Attempt to reach the API
   try {
-    const res = await axios.post(ENDPOINT, { test: 'Hello World' })
+    const saveGraphQLSchema = process.env.NODE_ENV === 'development' && process.env.SAVE_GRAPHQL_SCHEMA === 'true'
+    const res = await axios.post(ENDPOINT, { echo: 'Hello World', saveGraphQLSchema })
     if (res.data.alive && res.data.kicking) {
       console.log(`Health check #${timesTried} succeeded. Abort script with success message.`)
       process.exit(0)

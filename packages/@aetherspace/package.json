@@ -5,14 +5,15 @@
     "license": "MIT",
     "scripts": {
         "build": "tsc --project .",
-        "collect-assets": "node scripts/collect-assets.js",
-        "collect-resolvers": "node scripts/collect-resolvers.js",
-        "dev-health-check": "node scripts/dev-health-check.js",
+        "collect-assets": "node scripts/collect-assets",
+        "collect-resolvers": "node scripts/collect-resolvers",
+        "dev-health-check": "NODE_ENV=development SAVE_GRAPHQL_SCHEMA=true node scripts/dev-health-check",
         "schema-test": "node scripts/schema-test"
     },
     "dependencies": {
         "@apollo/client": "^3.6.9",
         "@expo/html-elements": "^0.1.0",
+        "@graphql-tools/schema": "^9.0.1",
         "apollo-server-micro": "^3.10.0",
         "axios": "^0.24.0",
         "expo-linking": "~3.1.0",
@@ -22,5 +23,6 @@
         "micro": "^9.4.1",
         "superstruct": "^0.15.3",
         "twrnc": "^3.3.1"
-    }
+    },
+    "devDependencies": {}
 }

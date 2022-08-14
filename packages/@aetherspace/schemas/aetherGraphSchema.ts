@@ -43,17 +43,17 @@ const aetherSchemaDefinitions = (aetherSchema: ResolverSchemaType, prefix = 'typ
   const createDefinition = (gqlType) => (name, schemaConfig) => {
     const isNullable = [schemaConfig.optional, schemaConfig.nullable].includes(true)
     const requiredState = isNullable ? '' : '!'
-    // TODO: Add doc annotations via triple quotes
+    const description = schemaConfig.description ? `"""${schemaConfig.description}"""\n` : ''
     if (gqlType === 'Schema') {
       schemaDefinitions = [...schemaDefinitions, ...aetherSchemaDefinitions(schemaConfig)]
-      return `${name}: ${schemaConfig.schemaName}${requiredState}`
+      return [description, `${name}: ${schemaConfig.schemaName}${requiredState}`].join('')
     } else if (gqlType === 'Array') {
       const primitiveType = SCHEMA_PRIMITIVE_MAPPER[schemaConfig.schema.aetherType]
       const arrayEntryType = primitiveType || schemaConfig.schema.schemaName
       if (!primitiveType) schemaDefinitions = [...schemaDefinitions, ...aetherSchemaDefinitions(schemaConfig.schema)]
-      return `${name}: [${arrayEntryType}]${requiredState}`
+      return [description, `${name}: [${arrayEntryType}]${requiredState}`].join('')
     }
-    return `${name}: ${gqlType}${requiredState}`
+    return [description, `${name}: ${gqlType}${requiredState}`].join('')
   }
   // Schema is known, build graphql definitions from them
   const schemaMap = aetherSchemaPlugin(aetherSchema, {
