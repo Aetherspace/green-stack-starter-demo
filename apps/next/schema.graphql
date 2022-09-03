@@ -13,8 +13,8 @@ type HealthCheckResponse {
   """Echoes back the echo argument"""
   echo: String
 
-  """true if schema was saved to app-next root in development mode"""
-  didSaveGraphQLSchema: Boolean!
+  """true if schema was saved to next-app root in dev mode"""
+  didSaveGraphQLSchema: Boolean
 }
 
 type Query {
