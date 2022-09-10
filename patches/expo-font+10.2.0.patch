@@ -1,0 +1,76 @@
+diff --git a/node_modules/expo-font/build/Font.types.d.ts b/node_modules/expo-font/build/Font.types.d.ts
+index cf0e032..3abc002 100644
+--- a/node_modules/expo-font/build/Font.types.d.ts
++++ b/node_modules/expo-font/build/Font.types.d.ts
+@@ -9,7 +9,8 @@ export declare type FontSource = string | number | Asset | FontResource;
+  * with [`loadAsync`](#loadasync).
+  */
+ export declare type FontResource = {
+-    uri: string | number;
++    uri?: string | number;
++    default?: string;
+     /**
+      * _Web Only._ Sets the [`font-display`](#fontdisplay) property for a given typeface in the
+      * browser.
+diff --git a/node_modules/expo-font/build/FontLoader.web.js b/node_modules/expo-font/build/FontLoader.web.js
+index d287341..a2e51f6 100644
+--- a/node_modules/expo-font/build/FontLoader.web.js
++++ b/node_modules/expo-font/build/FontLoader.web.js
+@@ -6,8 +6,9 @@ function uriFromFontSource(asset) {
+         return asset || null;
+     }
+     else if (typeof asset === 'object') {
+-        return asset.uri || asset.localUri || null;
++        return asset.uri || asset.localUri || asset.default || null;
+     }
++    console.warn('uriFromFontSource():', asset)
+     return null;
+ }
+ function displayFromFontSource(asset) {
+@@ -35,6 +36,7 @@ function throwInvalidSourceError(source) {
+ }
+ export async function loadSingleFontAsync(name, input) {
+     if (typeof input !== 'object' || typeof input.uri !== 'string' || input.downloadAsync) {
++        console.warn('typeof input:', typeof input)
+         throwInvalidSourceError(input);
+     }
+     await ExpoFontLoader.loadAsync(name, input);
+diff --git a/node_modules/expo-font/src/Font.types.ts b/node_modules/expo-font/src/Font.types.ts
+index 2ba505c..eee7c27 100644
+--- a/node_modules/expo-font/src/Font.types.ts
++++ b/node_modules/expo-font/src/Font.types.ts
+@@ -13,7 +13,8 @@ export type FontSource = string | number | Asset | FontResource;
+  * with [`loadAsync`](#loadasync).
+  */
+ export type FontResource = {
+-  uri: string | number;
++  uri?: string | number;
++  default?: string;
+   /**
+    * _Web Only._ Sets the [`font-display`](#fontdisplay) property for a given typeface in the
+    * browser.
+diff --git a/node_modules/expo-font/src/FontLoader.web.ts b/node_modules/expo-font/src/FontLoader.web.ts
+index 0e7955e..e87ee44 100644
+--- a/node_modules/expo-font/src/FontLoader.web.ts
++++ b/node_modules/expo-font/src/FontLoader.web.ts
+@@ -9,9 +9,10 @@ function uriFromFontSource(asset: any): string | null {
+   if (typeof asset === 'string') {
+     return asset || null;
+   } else if (typeof asset === 'object') {
+-    return asset.uri || asset.localUri || null;
++    return asset.uri || asset.localUri || asset.default || null;
+   }
+-  return null;
++  console.warn('uriFromFontSource():', asset)
++  return asset.default || null;
+ }
+ 
+ function displayFromFontSource(asset: any): FontDisplay | undefined {
+@@ -50,6 +51,7 @@ export async function loadSingleFontAsync(
+   input: Asset | FontResource
+ ): Promise<void> {
+   if (typeof input !== 'object' || typeof input.uri !== 'string' || (input as any).downloadAsync) {
++    console.warn('typeof input:', typeof input)
+     throwInvalidSourceError(input);
+   }
+ 
