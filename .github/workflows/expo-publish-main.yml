@@ -43,7 +43,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Deploy with EAS update
-        run: cd apps/expo && eas update auto
+        run: cd apps/expo && eas update --auto
         env:
           ENV: staging
           NEXT_PUBLIC_APP_LINKS: ${{ secrets.NEXT_PUBLIC_APP_LINKS }}
