@@ -34,6 +34,12 @@
     "expo-app#create-next-manifest": {
       "outputs": ["../next/public/**"]
     },
+    "expo-app#ios": {
+      "dependsOn": ["aetherspace#dev-health-check"]
+    },
+    "expo-app#android": {
+      "dependsOn": ["aetherspace#dev-health-check"]
+    },
     "expo-app#web": {
       "dependsOn": ["aetherspace#dev-health-check"]
     },

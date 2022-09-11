@@ -13,29 +13,44 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v1
+      - name: Setup Node
+        uses: actions/setup-node@v2
         with:
           node-version: 16.x
-
-      - name: Use node_modules cache
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: node_modules-${{ hashFiles('**/yarn.lock') }}
+          cache: yarn
 
       - name: Setup Expo
         uses: expo/expo-github-action@v7
         with:
-          expo-version: 4.x
+          expo-version: latest
+          eas-version: latest
           expo-cache: true
           packager: yarn
           token: ${{ secrets.EXPO_ACCESS_TOKEN }}
 
-      - name: Install Node.js dependencies
-        run: yarn install
+      - name: Find yarn cache
+        id: yarn-cache-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - name: Publish to Expo
-        run: cd apps/expo && expo publish --release-channel=starter-preview-main
+      - name: Restore cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
+
+      - name: Install Node.js dependencies
+        run: yarn install --immutable
+
+      - name: Deploy with EAS update
+        run: cd apps/expo && eas update auto
+        env:
+          ENV: staging
+          NEXT_PUBLIC_APP_LINKS: ${{ secrets.NEXT_PUBLIC_APP_LINKS }}
+
+      # -i- Optional for demo purposes, feel free to remove this last step -i-
+      - name: Deploy with Expo publish
+        run: cd apps/expo && EXPO_PUBLISH=true yarn expo publish --release-channel=starter-preview-main
         env:
           ENV: staging
           NEXT_PUBLIC_APP_LINKS: ${{ secrets.NEXT_PUBLIC_APP_LINKS }}

@@ -19,8 +19,8 @@
         "setimmediate": "^1.0.5"
     },
     "devDependencies": {
-        "@expo/next-adapter": "^4.0.5",
-        "@expo/webpack-config": "^0.16.24",
+        "@expo/next-adapter": "^4.0.12",
+        "@expo/webpack-config": "^0.17.0",
         "file-loader": "^6.2.0",
         "next-compose-plugins": "^2.2.1"
     }

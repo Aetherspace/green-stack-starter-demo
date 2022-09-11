@@ -24,6 +24,7 @@ const apolloServer = new ApolloServer({
   resolvers: schema.resolvers,
   context: ({ req, res }) => ({ req, res }),
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
+  introspection: true,
 })
 
 // @ts-ignore

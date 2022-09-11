@@ -3,7 +3,7 @@ import { ObjectSchema, ObjectType, StructSchema } from 'superstruct/lib/utils'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-export type AetherSchemaType = ss.Struct<any, any>
+export type AetherSchemaType<T = any, S = any> = ss.Struct<T, S>
 export type Infer<T extends AetherSchemaType> = T['TYPE'] // Same as superstruct's Infer type
 export type Describe<T> = ss.Struct<T, StructSchema<T>> // Same as superstruct's Describe type
 
@@ -40,7 +40,7 @@ export type SchemaPluginMap = {
 
 /* --- Helpers --------------------------------------------------------------------------------- */
 
-const assignDescriptors = <R>(schema: R, aetherType: string, schemaName?: string) => {
+const assignDescriptors = <R extends AetherSchemaType>(schema: R, aetherType: string, schemaName?: string) => {
   return Object.assign(schema, {
     // Chain command for docs, indicating example value & description to schema property (e.g. for Storybook)
     docs: (example, description?: string) => Object.assign(schema, { example, description }),

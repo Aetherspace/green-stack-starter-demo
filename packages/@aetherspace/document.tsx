@@ -50,13 +50,13 @@ body {
 
 /* --- Initial Props --------------------------------------------------------------------------- */
 
-export const getInitialProps = (ctx: DocumentContext) => {
+export const getInitialProps = async (ctx: DocumentContext) => {
   // React Native Styling
   AppRegistry.registerComponent('Main', () => Main)
-  const initialProps = ctx.defaultGetInitialProps(ctx) // @ts-ignore
+  const initialProps = await ctx.defaultGetInitialProps(ctx) // @ts-ignore
   const { getStyleElement } = AppRegistry.getApplication('Main')
   // Render to HTML & collect styles
-  const page = ctx.renderPage()
+  const page = await ctx.renderPage()
   // Aetherspace SSR Media Queries
   const aetherQueries = getInjectableMediaQueries()
   // List all styles
