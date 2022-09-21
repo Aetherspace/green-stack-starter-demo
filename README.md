@@ -28,7 +28,7 @@
   </a>
 </p>
 
-> This project was bootstrapped with [Aetherspace](https://github.com/Aetherspace/green-stack-starter-demo), the Evergreen repo setup for all your **full-product, universal app** development needs \{...💚\} Enabling the project to be built for Web, iOS, Android, PWA, Static, SSR, API routes and GraphQL at write-once efficiency, while also documenting your code automatically with Zod & Storybook.
+> This project was bootstrapped with the demo version of [Aetherspace](https://github.com/sponsors/codinsonn), the Evergreen repo setup for all your **full-product, universal app** development needs \{...💚\} Enabling the project to be built for Web, iOS, Android, PWA, Static, SSR, API routes and GraphQL at write-once efficiency, while also documenting your code automatically with Zod & Storybook.
 
 <p style={{ padding: "4px" }} />  
 
@@ -380,3 +380,7 @@ Continue with >>> <b><a href="https://main--62c9a236ee16e6611d719e94.chromatic.c
 ---
 
 ...
+
+> This repo is just a fork for demo and conference talk purposes. While usable, this template may therefore be outdated. I often make this demo repo public for about 1 month after any related conf talk, so it might also dissapear soon. 👀 (Until then, any repos created from this template fall under the [free licence](https://github.com/Aetherspace/green-stack-starter-demo/blob/main/LICENSE.md#free-license))  
+  
+> ***For an always available, always updated version 👉 [Aetherspace/green-stack-starter](https://github.com/sponsors/codinsonn)***

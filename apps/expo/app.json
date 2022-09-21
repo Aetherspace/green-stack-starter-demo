@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "aetherspace-starter-app",
-    "slug": "aetherspace-starter-app",
+    "name": "aetherspace-starter-demo",
+    "slug": "aetherspace-starter-demo",
     "version": "1.0.0",
     "privacy": "public",
     "sdkVersion": "49.0.0",

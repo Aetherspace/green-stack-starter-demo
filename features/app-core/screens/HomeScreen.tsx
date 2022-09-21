@@ -86,7 +86,7 @@ export const HomeScreen = (props: AetherProps<typeof HomePropsSchema>) => {
   return (
     <View class="relative flex w-full h-full items-center justify-center">
       <StatusBar style="auto" />
-      <Link to="https://aetherspace-green-stack-starter.vercel.app/author">
+      <Link to="/author">
         <Image
           src="/img/icon.png"
           alt="App Icon"
