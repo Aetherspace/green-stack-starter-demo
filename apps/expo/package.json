@@ -9,14 +9,15 @@
     "android": "yarn expo start --android",
     "ios": "yarn expo start --ios",
     "web": "yarn expo start --web",
-    "eject": "yarn expo eject",
-    "publish": "EXPO_PUBLISH=true yarn expo publish --release-channel starter-preview-main",
-    "deploy:auto": "eas update --auto",
-    "deploy:dev": "eas update --branch dev",
-    "deploy:stage": "eas update --branch stage",
-    "deploy:prod": "eas update --branch main",
+    "expo-cli": "yarn expo",
+    "eas-cli": "npx npx eas-cli",
+    "deploy:publish": "EXPO_PUBLISH=true yarn expo publish --release-channel starter-preview-main",
+    "deploy:update:auto": "npx eas-cli update --auto",
+    "deploy:update:dev": "npx eas-cli update --branch dev",
+    "deploy:update:stage": "npx eas-cli update --branch stage",
+    "deploy:update:prod": "npx eas-cli update --branch main",
     "create-next-manifest": "expo-pwa manifest --output ../next/public",
-    "uncache": "rm -f yarn.lock && rm -rf node_modules && yarn install && yarn start -c && rm -rf /tmp/metro-*"
+    "uncache:metro": "yarn start -c && rm -rf /tmp/metro-*"
   },
   "jest": {
     "preset": "jest-expo"

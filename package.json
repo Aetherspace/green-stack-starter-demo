@@ -53,16 +53,18 @@
     "ios": "yarn turbo run next-app#dev expo-app#ios",
     "android": "yarn turbo run next-app#dev expo-app#android",
     "storybook": "start-storybook -p 6006",
+    "expo-cli": "yarn workspace expo-app expo-cli",
+    "eas-cli": "yarn workspace expo-app eas-cli",
     "collect-assets": "yarn turbo run aetherspace#collect-assets",
     "collect-resolvers": "yarn turbo run aetherspace#collect-resolvers",
     "build": "yarn expo run create-next-manifest && yarn turbo run aetherspace#collect-assets build",
     "build-storybook": "build-storybook",
     "deploy:web:vercel": "vercel --prod --no-clipboard",
-    "deploy:mobile:publish": "yarn workspace expo-app run publish",
-    "deploy:mobile:auto": "yarn workspace expo-app run deploy:auto",
-    "deploy:mobile:dev": "yarn workspace expo-app run deploy:dev",
-    "deploy:mobile:stage": "yarn workspace expo-app run deploy:stage",
-    "deploy:mobile:prod": "yarn workspace expo-app run deploy:prod",
+    "deploy:mobile:publish": "yarn workspace expo-app run deploy:publish",
+    "deploy:mobile:auto": "yarn workspace expo-app run deploy:update:auto",
+    "deploy:mobile:dev": "yarn workspace expo-app run deploy:update:dev",
+    "deploy:mobile:stage": "yarn workspace expo-app run deploy:update:stage",
+    "deploy:mobile:prod": "yarn workspace expo-app run deploy:update:prod",
     "postinstall": "patch-package"
   }
 }

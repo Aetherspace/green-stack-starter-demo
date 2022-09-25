@@ -9,20 +9,22 @@ const aetherAppConfig = require('config/app.config');
 const config = ({ config }) => {
     // EAS updates config (only applied when not using expo publish)
     const easConfig = {
-        runtimeVersion: { policy: 'sdkVersion' },
         updates: {
             enabled: true,
             checkAutomatically: 'ON_LOAD',
             fallbackToCacheTimeout: 0,
-            // -!- TODO: This uri is supposed to be different per project and won't work if not changed
-            // -i- TODO: Figure out your own uri by running 'eas updates:configure' in ./apps/expo/
+            // -!- TODO: This URL is supposed to be different per project and won't work if not changed
+            // -i- TODO: Figure out your own URL by running 'eas updates:configure' in ./apps/expo/
             url: 'https://u.expo.dev/0fd0bb82-82d2-4be2-933a-edd5237cc822',
         },
         extra: {
             eas: {
                 projectId: '0fd0bb82-82d2-4be2-933a-edd5237cc822',
-            }
-        }
+            },
+        },
+        runtimeVersion: {
+            policy: 'sdkVersion',
+        },
     }
     // Extend the config
     const finalConfig = aetherAppConfig({
