@@ -28,6 +28,7 @@
     "@react-navigation/stack": "^6.1.1",
     "app": "*",
     "expo": "^46.0.0",
+    "expo-font": "~10.2.0",
     "expo-status-bar": "~1.4.0",
     "expo-updates": "^0.14.5",
     "react": "18.0.0",

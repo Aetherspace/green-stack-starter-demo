@@ -121,9 +121,9 @@ const aetherGraphSchema = (aetherResolvers: ResolverMapType) => {
   const resolverEntries = Object.entries(aetherResolvers)
   const resolverConfigs = resolverEntries.map(([resolverName, resolver]) => ({
     resolverName,
-    argSchema: resolver.argSchema,
-    resSchema: resolver.resSchema,
-    isMutation: !!resolver.isMutation,
+    argSchema: resolver?.argSchema,
+    resSchema: resolver?.resSchema,
+    isMutation: !!resolver?.isMutation,
     resolver,
   }))
   const mutationConfigs = resolverConfigs.filter((resolverConfig) => resolverConfig.isMutation)
