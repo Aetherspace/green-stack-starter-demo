@@ -1,7 +1,14 @@
 import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs'
 import { aetherStoryDocs } from 'aetherspace/schemas'
+
 import BackIcon from './BackIcon'
 import HomeIcon from './HomeIcon'
+
+import GraphIcon from './GraphIcon'
+import ReactIcon from './ReactIcon'
+import ExpoIcon from './ExpoIcon'
+import StorybookIcon from './StorybookIcon'
+import NextIcon from './NextIcon'
 
 <Meta title="App / Icons" />
 
@@ -50,3 +57,89 @@ export const backIconDocConfig = aetherStoryDocs({ BackIcon })
 </Canvas>
 
 <ArgsTable story="BackIcon" />
+
+## GraphIcon
+
+export const graphIconDocs = createDocs(GraphIcon)
+export const graphIconDocConfig = aetherStoryDocs({ GraphIcon })
+
+<Canvas>
+    <Story
+        name="GraphIcon"
+        args={graphIconDocConfig.args}
+        argTypes={graphIconDocConfig.argTypes}
+    >
+        {graphIconDocs.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="GraphIcon" />
+
+## ReactIcon
+
+export const reactIconDocs = createDocs(ReactIcon)
+export const reactIconDocConfig = aetherStoryDocs({ ReactIcon })
+
+<Canvas>
+    <Story
+        name="ReactIcon"
+        args={reactIconDocConfig.args}
+        argTypes={reactIconDocConfig.argTypes}
+    >
+        {reactIconDocs.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="ReactIcon" />
+
+## ExpoIcon
+
+export const expoIconDocs = createDocs(ExpoIcon)
+export const expoIconDocConfig = aetherStoryDocs({ ExpoIcon })
+
+<Canvas>
+    <Story
+        name="ExpoIcon"
+        args={expoIconDocConfig.args}
+        argTypes={expoIconDocConfig.argTypes}
+    >
+        {expoIconDocs.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="ExpoIcon" />
+
+## StorybookIcon
+
+export const storybookIconDocs = createDocs(StorybookIcon)
+export const storybookIconDocConfig = aetherStoryDocs({ StorybookIcon })
+
+<Canvas>
+    <Story
+        name="StorybookIcon"
+        args={storybookIconDocConfig.args}
+        argTypes={storybookIconDocConfig.argTypes}
+    >
+        {storybookIconDocs.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="StorybookIcon" />
+
+## NextIcon
+
+export const nextIconDocs = createDocs(NextIcon)
+export const nextIconDocConfig = aetherStoryDocs({ NextIcon })
+
+<Canvas>
+    <Story
+        name="NextIcon"
+        args={nextIconDocConfig.args}
+        argTypes={nextIconDocConfig.argTypes}
+    >
+        {nextIconDocs.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="NextIcon" />
+

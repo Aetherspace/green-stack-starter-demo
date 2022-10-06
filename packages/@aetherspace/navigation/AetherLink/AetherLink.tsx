@@ -119,6 +119,10 @@ const AetherLink = forwardRef<typeof Link | typeof Text, AetherLinkType>((props,
       {...restProps}
       routeName={destination}
       ref={ref as any$Todo}
+      web={{
+        path: destination,
+        as: destination,
+      }}
       touchableOpacityProps={{ onPressIn: onLinkPress }}
     >
       <AetherView {...bindStyles}>{children}</AetherView>
