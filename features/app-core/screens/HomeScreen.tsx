@@ -21,13 +21,13 @@ const HomeScreen = () => {
   const appURIs = getEnvVar('APP_LINKS')?.split('|').filter((url) => url.includes('http')) || [] // prettier-ignore
 
   // Hooks
-  const { isWeb } = useAetherContext()
+  const { isPhoneSize } = useAetherContext()
   const docsURI = useDocAddress()
   const { healthEndpoint, graphQLEndpoint } = useAPICheck(appURIs)
   const { openLink } = useAetherNav()
 
   // Vars
-  const tapOrClick = isWeb ? 'Click' : 'Tap'
+  const tapOrClick = isPhoneSize ? 'Tap' : 'Click'
   const ICON_COLOR = '#22c55e'
   const ICON_SIZE = 32
 

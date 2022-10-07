@@ -11,6 +11,7 @@
     "packages/*"
   ],
   "devDependencies": {
+    "@a110/storybook-expand-all": "^1.1.1",
     "@expo/webpack-config": "^0.17.2",
     "@react-native-community/eslint-config": "^3.0.2",
     "@storybook/addon-controls": "^6.5.5",

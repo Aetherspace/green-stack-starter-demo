@@ -12,7 +12,7 @@ Copyright (c) 2022 Thorr Stevens
 
 ### Eligibility
 
-You are eligible to use the Aetherspace GREEN stack starter for personal and commercial use if granted access free of charge by the author (Thorr Stevens, a.k.a. @codinsonn) AND while being any of the following:
+You are eligible to use the Aetherspace GREEN stack starter for personal and commercial use if granted access free of charge by the author (Thorr Stevens, a.k.a. [@codinsonn](https://github.com/sponsors/codinsonn)) AND while being any of the following:
 - a non-profit or not-for-profit organisation
 - a company currently employing the author (Thorr Stevens, a.k.a. [@codinsonn](https://github.com/sponsors/codinsonn))
 - evaluating whether the template repo is a good fit, and are not yet using it in a commercial way
@@ -86,15 +86,15 @@ However, **you will lose access to the original repo** and any further updates /
 
 ### Can I use the template repo for free if I include a link to the project or your sponsor page?
 
-Yes. If you keep the disclaimer the README.md file comes with, as far as I'm concerned, you're allowed to use the template repo for free. Alternatively, you can include a "Built with Aetherspace" reference in your app linking to the project.
+Yes. If you keep the disclaimer the README.mdx file comes with, as far as I'm concerned, you're allowed to use the template repo for free. Alternatively, you can include a "Built with Aetherspace" reference in your app linking to the project.
 
-It's not really necessary, but if you'd like official confirmation, you can contact me via **thorr@codinsonn.dev** (or [twitter](https://twitter.com/codinsonn)). I will then evaluate and personnaly grant you access to the template repo, after which your usecase will offficially fall under the free license.
+It's not really necessary, but if you'd like official confirmation, you can contact me via **thorr@codinsonn.dev** (or [twitter](https://twitter.com/codinsonn)). I will then evaluate and personally grant you access to the template repo, after which your usecase will officially fall under the eligibility of the 'Free License'.
 
 ### Can I instead sponsor the open-source projects, contributors and libraries that Aetherspace is built on in order to get free access?
 
 Yes. You absolutely can.
 
-If I can verify that you have sponsored a related open-source project, contributor or library whose work Aetherspace is built on, contact me and I will grant you free access to the template repo. Your usecase will then fall under the 'Free License' terms as I personally granted you access free of charge.
+If I can verify that you have sponsored a related open-source project, contributor or library whose work Aetherspace is built on, contact me and I will grant you free access to the template repo. Your usecase will then fall under the 'Free License' eligibility as I personally granted you access free of charge.
 
 ### Are there plans to open-source the template repo at some point? If so, what about licensing?
 

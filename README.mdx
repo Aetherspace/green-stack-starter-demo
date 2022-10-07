@@ -26,7 +26,7 @@
 
 > This project was bootstrapped with [Aetherspace](https://github.com/Aetherspace/green-stack-starter), the Evergreen repo setup for all your full-stack cross platform app development needs \{...💚\} Enabling the project to be built for Web, iOS, Android, PWA, Static, SSR, REST and GraphQL all at once 👇 ... while also documenting your code automatically with Storybook.
 
-### Getting Started ⚡️
+### Getting started ⚡️
 
 Install packages: `yarn install`
 
@@ -37,7 +37,7 @@ Run with Storybook docs: `yarn dev:docs`
 ---
 
 <details>
-  <summary><b>✅ Aetherspace, GREEN stack & Template Benefits? 🚀</b></summary>
+  <summary><b>✅ Aetherspace, GREEN stack & template benefits? 🚀</b></summary>
 
 ---
 
@@ -63,13 +63,13 @@ In short GREEN stands for these 5 core technologies:
 - **E**xpo for easy web + mobile dev, deploys and testing
 - **N**ext.js for SEO, Static Exports, API, SSR & Web-Vitals
 
-The core idea is that this tech stack enables you to achieve writing your app code or features once with Javascript and React, yet make it available on any platform or device without double implementations or the need for different development teams.
-
-### It allows you to move fast, save time and deliver more 🎉
-
-> Think of it as Unity for React Apps. Just like Unity aims to make cross console game development a lot easier for (indie) game devs, the GREEN stack aims to do the same for cross-platform app development.
+The core idea is writing your app code or features just once with Typescript and React-Native, yet make it available on any platform or device without double implementations or the need for different development teams.
 
 ## How does 'Aetherspace' help, exactly? 🚀 <a name="what-is-aetherspace"></a>
+
+> Think of it as Unity for React Apps. Just like Unity aims to make cross console game development a lot easier for (indie) game devs, Aetherspace's setup for the GREEN stack aims to do the same for cross-platform app development.
+
+#### It helps you move fast, save time and deliver more
 
 Aetherspace is an opinionated framework that fills in the gaps of working and building with the GREEN stack:
 
@@ -83,15 +83,9 @@ Just to name a few.
 
 While the stack itself is very powerful, figuring out how to get set up and do certain things in a write-once way can be frustrating and time consuming. To save you time figuring it all out on your own, _Aetherspace_ contains a bunch of packages, utils and best-practices to set you up for a free and easy ride to cross-platform success.
 
-> Aetherspace is also fully optional. Usage of the UI primitives, React hooks and JS utils provided by `packages/aetherspace` is recommended but not required.
-
-> Provided you throw out the examples and edit some helper scripts in the `package.json` files, you could even delete the package entirely and still be left with a great GREEN stack starter.
-
-More on Aetherspace in the **[👾 Benefits and Next steps](#benefits-next-steps)** section or `AETHERSPACE.md` and `CODEGEN.md`.
-
 ## But why start with a turbo/monorepo? 🤖 <a name="why-turborepo"></a>
 
-One very annoying thing about figuring stuff out on your own is when packages you're using require custom configuration for webpack, babel or otherwise. It often happens that updating e.g. a single `babel.config.js` used for both React-Native and Next.js will fix usage on either, but then break the other.
+One annoying thing about figuring this stack out on your own is when packages you're using require custom config for webpack, babel or otherwise. It often happens that updating e.g. a single `babel.config.js` used for both React-Native and Next.js will fix usage on either, but then break the other.
 
 Using a monorepo with different entry points for Next.js and Expo allows us to keep configs more seperate, and therefore allow more confident updating of packages and configs without accidentally breaking other platforms.
 
@@ -144,7 +138,6 @@ This starter monorepo has three types of workspaces:
 ├── packages/
 │   └── @aetherspace/ ➡️ Primitives, utils & helpers for working with the GREEN stack
 │   └── @config/ ➡️ list of ts & other configs to use / extend from in next or expo apps
-│   └── @scripts/ ➡️ scripts that help streamline things like codegen & managing assets
 │   └── {comp-lib}/ 👉 Code shared across apps, ideally same structure as 'features/app-core'
 │       └── package.json ➡️ yarn-workspace config, list dependencies specific to this package
 │
@@ -170,32 +163,15 @@ For every app you're building in this monorepo, you'll need a few folders:
 In each of these folders own `package.json` file, a `name` property should be specified to identify that workspace. This name can then be referenced during installs via e.g.
 
 ```bash
-yarn workspace next add next-images
+yarn workspace next add {package-name}
 ```
+
+#### To install expo modules for the specific SDK you're using:
 
 ```bash
-yarn workspace expo add moti
-```
-
-<details>
-<summary>💡 `/packages/*` workspaces for e.g. component libraries</summary>
-
-#### Write shared library code in `/packages/*` workspaces:
-
-Packages aim to provide common building blocks or logic for both apps _and_ other packages. They do not need to differentiate between entry points with `/packages/...-next` and `/packages/...-expo`.
-
-Like `/apps/` workspaces, they do also require their own `package.json` and `name`, and installing dependencies can work exactly the same:
-
-```bash
-yarn workspace component-library add -D @types/react
-```
-
-However, unless you will be publishing the package to NPM, it may be best to just install any dependencies in the consuming apps' `/apps/next`, `/apps/expo` or `/features/{app-feature}` workspace instead.
-
-> A good example of a library package usable by multiple app workspaces in this monorepo is the
-> `/packages/aetherspace` workspace. It contains UI primitives like `AetherView`, `AetherImage` & `AetherLink` that are small wrappers for & recommended over react-native's own `View`, `Text` & `Image` components.
-
-</details>
+yarn expo-cli install {package-name}
+````
+Which will run `yarn workspace expo-app expo-cli install {package-name}` under the hood.
 
 ## 👾 Stack and Template benefits + Next steps 👾 <a name="benefits-next-steps"></a>
 
@@ -204,20 +180,17 @@ If you've read the sections above, It's likely the **ease** of use, **time savin
 The starter repo comes with some opinionated extra packages and abilities.  
 Here's a list of what you can start doing out of the box:
 
-- Link pages and screens cross platform with `expo-next-react-navigation` or `<AetherLink>`
+- Link pages and screens cross platform with the `<Link>` component from `aetherspace/navigation`
 - Use tailwind to style UI responsively on web / mobile with `<AetherView tw="sm:px-2">` / `tailwind-rn`
-- Animate UI elements with `react-native-reanimated` or `moti`
 - Add illustrations or icons with `react-native-svg`
-- Bring the power of GraphQL to JSON or REST apis with `aetherResolver()` and Schemas.
-- Add auth with [AuthSession](https://docs.expo.dev/versions/latest/sdk/auth-session/) ([Expo Examples](https://docs.expo.dev/guides/authentication/))
+- Bring the power of GraphQL to JSON or REST apis with `aetherResolver()` and schemas as single sources of truth.
 - Document your components and APIs with Storybook.
 - Deploy to vercel with `yarn deploy` or `vercel --prod --no-clipboard` ([view live](https://aetherspace-green-stack-starter.vercel.app/))
 - Deploy to netlify [via this guide](https://www.netlify.com/blog/2020/11/30/how-to-deploy-next.js-sites-to-netlify/) ([view live](https://aetherspace-green-stack-starter.netlify.app/))
 
-If you'd like to continue learning about Aetherspace and the GREEN stack, there are more detailed guides, tips and best-practices in:
-
-- `AETHERSPACE.md`, `CODEGEN.md`, `NAVIGATION.md` & `API.md` (Aetherspace & Codegen)
-- `STYLING.md`, `ANIMATING.md` & `DOCUMENTING.md` (GREEN stack How-tos)
+Possible next steps:
+- Animate UI elements with `react-native-reanimated` or `moti`
+- Add auth with [AuthSession](https://docs.expo.dev/versions/latest/sdk/auth-session/) ([Expo Examples](https://docs.expo.dev/guides/authentication/))
 
 ## 💼 Why this makes sense from a business perspective 💸 <a name="why-this-makes-sense-from-a-business-perspective"></a>
 
@@ -281,9 +254,7 @@ Full Cross Platform with GREEN stack ROI = 🕗🕗 -> 💰💰 to 💰💰💰
 - 🕗 Web (PWA & SSR & Web Vitals) + iOS + Android + Windows + MacOS + Linux 💰(💰💰💰💰💰)
 - 🕗 Back-End (REST + GraphQL + SSR + Static Exports + ISSG + universal JS utils thanks to Next.js) 💰
 
-#### Key takeaway: Always upsell more plaforms / devices the app could run on
-
----
+**Key takeaway: Always upsell more plaforms / devices the app could run on**
 
 </details>
 

@@ -11,7 +11,12 @@ module.exports = {
         '../packages/**/*.stories.mdx', 
         '../packages/**/*.stories.@(js|jsx|ts|tsx)',
     ],
-    addons: ['@storybook/addon-essentials', 'aetherspace/docs/addons'],
+    addons: [
+      { name: '@storybook/addon-essentials', options: { transcludeMarkdown: true } },
+      { name: '@storybook/addon-docs', options: { transcludeMarkdown: true } },
+      '@a110/storybook-expand-all',
+      'aetherspace/docs/addons',
+    ],
     webpackFinal: (config) => {
         // Add TS & react-native-web support
         config.module.rules.push({
