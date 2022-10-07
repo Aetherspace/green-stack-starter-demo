@@ -11,7 +11,10 @@ const collectAssets = () => {
     const excludeJS = (pth) => ['.js', '.json'].every((ext) => !pth.includes(ext))
     const excludeDirs = (pth) => pth.split('/').pop().includes('.')
     // Get all asset file paths in the next app's public folder
-    const assetPaths = glob.sync('../../apps/next/public/**/*').filter(excludeJS).filter(excludeDirs)
+    const assetPaths = glob
+      .sync('../../apps/next/public/**/*')
+      .filter(excludeJS)
+      .filter(excludeDirs)
     // Map asset paths to asset keys and turn into barrel file body for 'assets.generated.ts'
     const assetRegistry = assetPaths.reduce((acc, assetPath) => {
       const requirePath = assetPath.replace('../../apps/', '../../../apps/')

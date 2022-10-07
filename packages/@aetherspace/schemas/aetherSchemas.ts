@@ -35,12 +35,16 @@ export type SchemaPluginMap = {
   AetherObject: (name: string, schema: SchemaEntry<ReturnType<typeof AetherSchema>>) => unknown
   // -- Arraylikes --
   AetherArray: (name: string, schema: SchemaEntry<ReturnType<typeof AetherArray>>) => unknown
-  AetherCollection: (name: string, schema: SchemaEntry<ReturnType<typeof AetherCollection>>) => unknown
+  AetherCollection: (name: string, schema: SchemaEntry<ReturnType<typeof AetherCollection>>) => unknown // prettier-ignore
 }
 
 /* --- Helpers --------------------------------------------------------------------------------- */
 
-const assignDescriptors = <R extends AetherSchemaType>(schema: R, aetherType: string, schemaName?: string) => {
+const assignDescriptors = <R extends AetherSchemaType>(
+  schema: R,
+  aetherType: string,
+  schemaName?: string
+) => {
   return Object.assign(schema, {
     // Chain command for docs, indicating example value & description to schema property (e.g. for Storybook)
     docs: (example, description?: string) => Object.assign(schema, { example, description }),
@@ -59,7 +63,11 @@ const assignDescriptors = <R extends AetherSchemaType>(schema: R, aetherType: st
   })
 }
 
-const makeOptionalable = <T, S, ST extends ss.Struct<T, S>>(schema: ST, aetherType: string, schemaName?: string) => {
+const makeOptionalable = <T, S, ST extends ss.Struct<T, S>>(
+  schema: ST,
+  aetherType: string,
+  schemaName?: string
+) => {
   return Object.assign(schema, {
     // Chain command to indicate the field can be nullable (e.g. in GraphQL)
     nullable: () => {
@@ -75,7 +83,10 @@ const makeOptionalable = <T, S, ST extends ss.Struct<T, S>>(schema: ST, aetherTy
   })
 }
 
-const aetherWrapper = <A extends any[], T, S>(struct: (...args: A) => ss.Struct<T, S>, aetherType: string) => {
+const aetherWrapper = <A extends any[], T, S>(
+  struct: (...args: A) => ss.Struct<T, S>,
+  aetherType: string
+) => {
   return (...args: A) => {
     // Add chain commands for extending with default or documentation descriptions
     const schema = assignDescriptors(struct(...args), aetherType)
@@ -102,12 +113,12 @@ const AetherEnum = <T extends string = string>(values: readonly T[]) => {
 
 const AetherSchema = <S extends ObjectSchema>(schemaName: string, objSchema: S) => {
   const schema = assignDescriptors(ss.object(objSchema), 'AetherSchema', schemaName)
-  return makeOptionalable<ObjectType<S>, typeof schema['schema'], typeof schema>(schema, 'AetherSchema', schemaName)
+  return makeOptionalable<ObjectType<S>, typeof schema['schema'], typeof schema>(schema, 'AetherSchema', schemaName) // prettier-ignore
 }
 
 const AetherArray = <T extends ss.Struct<any>>(Element: T) => {
   const arraySchema = assignDescriptors(ss.array<T>(Element), 'AetherArray')
-  return makeOptionalable<ss.Infer<T>[], typeof arraySchema['schema'], typeof arraySchema>(arraySchema, 'AetherArray')
+  return makeOptionalable<ss.Infer<T>[], typeof arraySchema['schema'], typeof arraySchema>(arraySchema, 'AetherArray') // prettier-ignore
 }
 
 const AetherCollection = <S extends ObjectSchema>(schemaName: string, objSchema: S) => {

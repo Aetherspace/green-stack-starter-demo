@@ -79,27 +79,36 @@ export const aetherResolver = <
   const { paramKeys, argsSchema, responseSchema, isMutation } = options || {}
   // Build Resolver
   const resolverWrapper = (ctx?: ResolverInputType<AT>): Promise<RT> => {
-    const { req, res, nextSsrContext, parent, args, context, info, cookies: _, ...resolverContext } = ctx || {}
+    const { req, res, nextSsrContext, parent, args, context, info, cookies: _, ...resolverContext } = ctx || {} // prettier-ignore
     const { logErrors, respondErrors, allowFail, onError, ...restParams } = resolverContext
     // Collect params from all possible sources
     const { body, method } = (req as NextApiRequest) || {}
     const schemaParamKeys = Object.keys(argsSchema?.schema ?? {})
-    const apiParamKeys = [ctx?.paramKeys, paramKeys || schemaParamKeys].flat().filter(Boolean).join(' ')
+    const apiParamKeys = [ctx?.paramKeys, paramKeys || schemaParamKeys].flat().filter(Boolean).join(' ') // prettier-ignore
     const query = { ...nextSsrContext?.query, ...(req as NextApiRequest)?.query }
     const params = { ...restParams, ...nextSsrContext?.params, ...context, ...ctx?.params }
     const cookies = nextSsrContext?.req?.cookies || req?.cookies || ctx?.cookies
-    const relatedArgs = apiParamKeys ? getApiParams(apiParamKeys, { query, params, body, args, context }) : {}
+    const relatedArgs = apiParamKeys ? getApiParams(apiParamKeys, { query, params, body, args, context }) : {} // prettier-ignore
     const normalizedArgs = normalizeObjectProps(relatedArgs)
     // Build config
     const errorConfig = { logErrors, respondErrors, onError, allowFail }
-    const config = { ...restParams, ...context, ...errorConfig, cookies, method, parent, info, ...ctx?.config }
+    const config = {
+      ...restParams,
+      ...context,
+      ...errorConfig,
+      cookies,
+      method,
+      parent,
+      info,
+      ...ctx?.config,
+    }
     // Log handling
     const logs = [] as string[]
     const addLog = (log: string) => {
       if (normalizedArgs.shouldSaveLogs) console.log(log) // Save log in server logfile as well
       logs.push(log)
     }
-    const saveLogs = async (logHandler) => await (logHandler?.(logs) ?? ctx?.config?.logHandler?.(logs))
+    const saveLogs = async (logHandler) => await (logHandler?.(logs) ?? ctx?.config?.logHandler?.(logs)) // prettier-ignore
     // Error handling
     const handleError = (err, sendResponse = false) => {
       const isRichError = typeof err === 'object' && !!err.errors
@@ -109,7 +118,7 @@ export const aetherResolver = <
       if (typeof config?.onError === 'function' && config.allowFail) config.onError(errorObj)
       else if (typeof config?.onError === 'function') return config.onError(errorObj)
       if (config.allowFail || config.onError === 'return') return { success: false, ...errorObj }
-      if (!!res && sendResponse && !config.allowFail) return (res as NextApiResponse).status(code).json(errorObj)
+      if (!!res && sendResponse && !config.allowFail) return (res as NextApiResponse).status(code).json(errorObj) // prettier-ignore
       else throw new Error(isRichError ? errorObj : err)
     }
     // Return resolver
@@ -174,9 +183,12 @@ export const makeNextApiHandler = <AT, RT, AST, RST>(
     try {
       let middlewareArgs = {}
       if (!isEmpty(middleware)) {
-        const middlewareResults = await Promise.all(middleware.map((mw) => runMiddleWare(req, res, mw)))
+        const middlewarePromises = middleware.map((mw) => runMiddleWare(req, res, mw))
+        const middlewareResults = await Promise.all(middlewarePromises)
         middlewareResults.filter(Boolean).map((middlewareResult) => {
-          if (typeof middlewareResult === 'object') middlewareArgs = { ...middlewareArgs, ...middlewareResult }
+          if (typeof middlewareResult === 'object') {
+            middlewareArgs = { ...middlewareArgs, ...middlewareResult }
+          }
         })
       }
       const responseData = await resolver({ ...middlewareArgs, req, res, config })

@@ -31,7 +31,7 @@ type StorybookArgType = {
 const aetherSchemaArgTypes = (aetherSchema) => {
   // Error & return early if prop schema is not known
   if (!aetherSchema) {
-    console.warn(`Component passed to createStorybookDocs() did not have a propSchema attached to it. Skipping.`)
+    console.warn(`Component passed to createStorybookDocs() did not have a propSchema attached to it. Skipping.`) // prettier-ignore
     return {}
   }
   // Storybook ArgTypes factory
@@ -51,7 +51,9 @@ const aetherSchemaArgTypes = (aetherSchema) => {
     }
     // Fill in extra table values
     if (dataType === 'enum') argType.options = Object.values(schemaConfig.schema)
-    if (typeof schemaConfig?.default !== 'function') argType.table.defaultValue = { summary: schemaConfig.default }
+    if (typeof schemaConfig?.default !== 'function') {
+      argType.table.defaultValue = { summary: schemaConfig.default }
+    }
     // Return final result
     return argType
   }
@@ -79,7 +81,7 @@ const aetherSchemaArgTypes = (aetherSchema) => {
 
 const aetherStoryDocs = (forComponent, args = {}) => {
   // Extract config
-  const [componentName, Component] = Object.entries(forComponent)[0] as [string, AetherComponentType]
+  const [componentName, Component] = Object.entries(forComponent)[0] as [string, AetherComponentType] // prettier-ignore
   const argTypes = aetherSchemaArgTypes(Component.propSchema)
   // Figure out story args
   const storyArgs = Object.entries(argTypes).reduce((acc, [propKey, argType]) => {

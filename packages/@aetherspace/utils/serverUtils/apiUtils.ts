@@ -24,7 +24,9 @@ export type MiddlewareFnType = (
 // -i- Gets a specific property by key from supplied api sources
 export const getApiParam = (key: string, apiSources: ApiSourcesType) => {
   const { cookies, query, params, body, args, context } = apiSources
-  const [result] = [params, query, body, args, context, cookies].map((src) => src?.[key]).filter(Boolean)
+  const [result] = [params, query, body, args, context, cookies]
+    .map((src) => src?.[key])
+    .filter(Boolean)
   if (!result && cookies?.get?.(key)) return parseIfJSON(cookies?.get?.(key))
   return result
 }

@@ -17,7 +17,10 @@ type StylePropsType<C extends JSXElementConstructor<any>> = {
 
 /* --- useAetherStyles() ----------------------------------------------------------------------- */
 
-const useAetherStyles = <C extends JSXElementConstructor<any>, P extends StylePropsType<C> = StylePropsType<C>>(
+const useAetherStyles = <
+  C extends JSXElementConstructor<any>,
+  P extends StylePropsType<C> = StylePropsType<C>
+>(
   props: P
 ) => {
   // Props
@@ -25,7 +28,13 @@ const useAetherStyles = <C extends JSXElementConstructor<any>, P extends StylePr
   const twStrings = Array.isArray(tw) ? tw.filter(Boolean).join(' ') : tw
 
   // Context
-  const { tailwind, isWeb, breakpoints = {}, twPrefixes = [], mediaPrefixes = [] } = useAetherContext()
+  const {
+    tailwind,
+    isWeb,
+    breakpoints = {},
+    twPrefixes = [],
+    mediaPrefixes = [],
+  } = useAetherContext()
 
   // -- Styles --
 
@@ -42,13 +51,19 @@ const useAetherStyles = <C extends JSXElementConstructor<any>, P extends StylePr
       const [twPrefix, className] = twClass.split(':')
       if (isWeb && mediaPrefixes.includes(twPrefix)) {
         const breakpointStyles = tailwind!`${className}` || {}
-        const breakpointId = addMediaQuery(breakpoints[twPrefix as keyof BreakPointsType]!, breakpointStyles)
+        const breakpointId = addMediaQuery(
+          breakpoints[twPrefix as keyof BreakPointsType]!,
+          breakpointStyles
+        )
         breakpointIds = `${breakpointIds}${!breakpointIds ? '' : ' '}${breakpointId}`
       }
       return twPrefixes.includes(twPrefix) ? `${classes}${i === 0 ? '' : ' '}${className}` : classes
     }, '')
-    // @ts-ignore
-    const memoStyles = { ...tailwind`${usedClasses}`, ...style } as unknown as ComponentProps<C>['style']
+    const memoStyles = {
+      // @ts-ignore
+      ...tailwind`${usedClasses}`,
+      ...style,
+    } as unknown as ComponentProps<C>['style']
     return [memoStyles, breakpointIds] as [ComponentProps<C>['style'], string]
   }, [style, twStrings, twPrefixes.join()])
 

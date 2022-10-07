@@ -3,7 +3,7 @@ import Constants from 'expo-constants'
 /* --- getDebuggerURL() ---------------------------------------------------------------------------- */
 // -i- Get the IP based URL with specified port where the Expo command is running from if local
 export const getDebuggerURL = (port?: number) => {
-  const expoDebuggerHost = Constants?.manifest?.debuggerHost || Constants.manifest2?.extra?.expoGo?.debuggerHost
+  const expoDebuggerHost = Constants?.manifest?.debuggerHost || Constants.manifest2?.extra?.expoGo?.debuggerHost // prettier-ignore
   const localURI = expoDebuggerHost?.split?.(':').shift()
   if (!localURI) return null
   return `http://${[localURI, port].join(':')}`
@@ -30,8 +30,16 @@ export const setPublicEnvVars = (publicEnvVars: { [key: string]: any }) => {
 /* --- getEnvVar() ----------------------------------------------------------------------------- */
 // -i- Get expo / public env var
 export const getEnvVar = (key: string) => {
-  const possibleKeys = [key, `NEXT_PUBLIC_${key}`, `EXPO_PUBLIC_${key}`, `EXPO_${key}`, `REACT_NATIVE_${key}`] // @ts-ignore
-  const expoEnv = Constants.manifest?.extra?.environment || Constants.manifest2?.extra?.expoClient?.extra?.environment
+  const possibleKeys = [
+    key,
+    `NEXT_PUBLIC_${key}`,
+    `EXPO_PUBLIC_${key}`,
+    `EXPO_${key}`,
+    `REACT_NATIVE_${key}`,
+  ]
+  const expoEnv =
+    Constants.manifest?.extra?.environment ||
+    Constants.manifest2?.extra?.expoClient?.extra?.environment
   const checkEnv = (k) => process.env[k] || expoEnv?.[k] || getGlobal(__PUBLIC_ENV)?.[k]
   return possibleKeys.map(checkEnv).find((envVar) => typeof envVar !== 'undefined')
 }

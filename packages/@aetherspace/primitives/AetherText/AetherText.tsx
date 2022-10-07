@@ -1,5 +1,6 @@
-// https://docs.expo.dev/versions/latest/react-native/text/
-// https://necolas.github.io/react-native-web/docs/text/
+// -i- Based on / inspired by:
+// - https://docs.expo.dev/versions/latest/react-native/text/
+// - https://necolas.github.io/react-native-web/docs/text/
 import React, { createContext, useContext, forwardRef, ComponentProps } from 'react'
 import { Text } from 'react-native'
 // Hooks
@@ -28,7 +29,7 @@ const useAetherText = ({ children, ...props }: AetherTextType) => {
 
   // Context
   const contextColor = useTextContext() // @ts-ignore
-  const textColor: string | undefined = bindStyles.style?.color || contextColor // remember color for children
+  const textColor: string | undefined = bindStyles.style?.color || contextColor // Remember color for children
 
   // -- Return --
 

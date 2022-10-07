@@ -1,6 +1,6 @@
-/* eslint-disable react-native-a11y/has-valid-accessibility-ignores-invert-colors */
-// https://necolas.github.io/react-native-web/docs/image/
-// https://nextjs.org/docs/api-reference/next/image
+// -i- Based on / inspired by:
+// - https://necolas.github.io/react-native-web/docs/image/
+// - https://nextjs.org/docs/api-reference/next/image
 import React, { useMemo, forwardRef, ComponentProps } from 'react'
 import { Image as RNImage, ImageURISource } from 'react-native'
 import Image from 'next/image'
@@ -52,8 +52,14 @@ const AetherImage = forwardRef<typeof Image, AetherImageType>((props, ref) => {
   if (!isNextJS || isExpo) return <AetherImageExpo {...bindStyles} src={src} />
   return (
     <AetherView {...bindStyles}>
-      {/* @ts-ignore */}
-      <Image src={src!} ref={ref} {...imgProps} quality={quality} priority={priority} loading={loading} />
+      <Image
+        src={src!} // @ts-ignore
+        ref={ref}
+        {...imgProps}
+        quality={quality}
+        priority={priority}
+        loading={loading}
+      />
     </AetherView>
   )
 })

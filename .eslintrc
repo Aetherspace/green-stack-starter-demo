@@ -35,11 +35,12 @@
             "semi": false,
             "singleQuote": true,
             "trailingComma": "es5",
-            "printWidth": 120
+            "printWidth": 100
         }, { "usePrettierrc": false }],
+        "react-native-a11y/has-valid-accessibility-ignores-invert-colors": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/ban-ts-comment": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
-        "@typescript-eslint/no-unused-vars": ["warn", { "ignoreRestSiblings": true, "varsIgnorePattern": "_" }] 
+        "@typescript-eslint/no-unused-vars": ["warn", { "ignoreRestSiblings": true, "varsIgnorePattern": "_" }]
     }
 }

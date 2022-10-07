@@ -3,8 +3,8 @@ export const snakeToCamel = (str: string) => str.replace(/(_\w)/g, (m) => m[1].t
 export const snakeToDash = (str: string) => str.replace(/_/g, '-')
 export const dashToCamel = (str: string) => str.replace(/(-\w)/g, (m) => m[1].toUpperCase())
 export const dashToSnake = (str: string) => str.replace(/-/g, '_')
-export const camelToSnake = (str: string) => str.replace(/[\w]([A-Z])/g, (m) => `${m[0]}_${m[1]}`).toLowerCase()
-export const camelToDash = (str: string) => str.replace(/[\w]([A-Z])/g, (m) => `${m[0]}-${m[1]}`).toLowerCase()
+export const camelToSnake = (str: string) => str.replace(/[\w]([A-Z])/g, (m) => `${m[0]}_${m[1]}`).toLowerCase() // prettier-ignore
+export const camelToDash = (str: string) => str.replace(/[\w]([A-Z])/g, (m) => `${m[0]}-${m[1]}`).toLowerCase() // prettier-ignore
 
 /* --- uppercaseFirstChar() -------------------------------------------------------------------- */
 // -i- Uppercase the first character of a string
@@ -21,7 +21,10 @@ export const getAssetKey = (srcAttrPath: string) => {
 
 /* --- replaceStringVars() --------------------------------------------------------------------- */
 // -i- Replaces placeholders like {somevar} or [somevar] with values from injectables
-export const replaceStringVars = (stringWithPlaceholders: string, injectables: Record<string, string | number>) => {
+export const replaceStringVars = (
+  stringWithPlaceholders: string,
+  injectables: Record<string, string | number>
+) => {
   let result = stringWithPlaceholders
   Object.keys(injectables).forEach((key) => {
     result = result.replace(new RegExp(`\\{${key}\\}`, 'g'), injectables[key].toString()) // prettier-ignore

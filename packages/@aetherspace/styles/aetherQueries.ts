@@ -23,7 +23,7 @@ export const addMediaQuery = (breakpoint: number, styles: Record<string, unknown
   const breakpointRules = Object.entries(styles).map(([cssProperty, styleVal]) => {
     return `${camelToDash(cssProperty)}: ${styleVal}${getUnit(cssProperty)} !important;`
   })
-  const breakpointCSS = `${breakpointSelector} { [id~="${styleId}"] { ${breakpointRules.join(' ')} } }`
+  const breakpointCSS = `${breakpointSelector} { [id~="${styleId}"] { ${breakpointRules.join(' ')} } }` // prettier-ignore
   // Save css to global styles object
   mediaQueries[styleId] = breakpointCSS
   // Return styleId to be included in `[id]` prop

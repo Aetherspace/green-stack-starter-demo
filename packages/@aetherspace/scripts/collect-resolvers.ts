@@ -22,7 +22,9 @@ const collectResolvers = () => {
       if (!usesAetherSchemas || !exportsAetherResolver || !exportsGraphQLResolver) return acc
       // Find the resolver name
       const loc = pathContents.split('\n')
-      const graphResolverLine = loc.find((line) => line.includes('export const graphResolver = makeGraphQLResolver'))
+      const graphResolverLine = loc.find((line) => {
+        return line.includes('export const graphResolver = makeGraphQLResolver')
+      })
       const resolverName = findTargetString(graphResolverLine!, 'makeGraphQLResolver($target$)')
       if (!resolverName) return acc
       // Create export line for the resolver

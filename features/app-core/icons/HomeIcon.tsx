@@ -13,7 +13,7 @@ const propSchema = ats.schema('HomeIconProps', {
 /* --- <HomeIcon/> ----------------------------------------------------------------------------- */
 
 const HomeIcon = (props) => (
-  <Svg width={24} height={24} viewBox="0 0 24 24" fill="#FFFFFF" xmlns="http://www.w3.org/2000/svg" {...props}>
+  <Svg width={24} height={24} viewBox="0 0 24 24" fill="#FFFFFF" {...props}>
     <Path d="M19 8.89L12 3 5 8.89V21c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V8.89z" clipRule="evenodd" />
     <Path d="M16 2.5v3.87l3 2.52V2.5c0-.28-.22-.5-.5-.5h-2c-.28 0-.5.22-.5.5z" clipRule="evenodd" />
     <Path

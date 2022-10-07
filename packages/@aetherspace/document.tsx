@@ -1,4 +1,4 @@
-// Based on https://github.com/expo/expo-cli/blob/master/packages/next-adapter/document.js
+// -i- Based on https://github.com/expo/expo-cli/blob/master/packages/next-adapter/document.js
 import React from 'react'
 import { AppRegistry } from 'react-native'
 import NextDocument, { Head, Html, Main, NextScript, DocumentContext } from 'next/document'

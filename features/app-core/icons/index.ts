@@ -1,2 +1,7 @@
 export { default as BackIcon } from './BackIcon'
 export { default as HomeIcon } from './HomeIcon'
+export { default as GraphIcon } from './GraphIcon'
+export { default as ReactIcon } from './ReactIcon'
+export { default as ExpoIcon } from './ExpoIcon'
+export { default as StorybookIcon } from './StorybookIcon'
+export { default as NextIcon } from './NextIcon'

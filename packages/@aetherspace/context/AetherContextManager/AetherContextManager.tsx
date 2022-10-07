@@ -193,7 +193,10 @@ const AetherContextManager = (props: AetherContextType) => {
   return (
     <AetherContext.Provider value={contextValue}>
       <View
-        style={{ ...props.style, ...contextValue.tailwind`${['w-full h-full', props.tw].filter(Boolean).join(' ')}` }}
+        style={{
+          ...props.style,
+          ...contextValue.tailwind`${['w-full h-full', props.tw].filter(Boolean).join(' ')}`,
+        }}
         onLayout={measureOnLayout('app')}
       >
         {children}

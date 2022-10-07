@@ -1,5 +1,6 @@
-// https://docs.expo.dev/versions/latest/react-native/pressable/
-// https://necolas.github.io/react-native-web/docs/pressable/
+// -i- Based on / inspired by
+// - https://docs.expo.dev/versions/latest/react-native/pressable/
+// - https://necolas.github.io/react-native-web/docs/pressable/
 import React, { ComponentProps, forwardRef } from 'react'
 import { View, Pressable } from 'react-native'
 // Hooks

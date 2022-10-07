@@ -64,7 +64,8 @@ export const useAetherNav = () => {
   const openLink = (path: string, isBlank = false) => {
     const destination = getDestination(path)
     const isInternalLink = !destination.includes('://') && !destination.includes('api/')
-    const webDestination = isInternalLink && Platform.OS !== 'web' ? `${webDomain}${destination}` : path
+    const isWeb = Platform.OS !== 'web'
+    const webDestination = isInternalLink && isWeb ? `${webDomain}${destination}` : path
     const isBrowserEnv = Platform.OS === 'web' && typeof window !== 'undefined' && !!window.open
     const openURL = isBrowserEnv ? (url: string) => window.open(url, '_blank') : Linking.openURL
     if (isInternalLink && !isBlank) return navigate({ routeName: destination })

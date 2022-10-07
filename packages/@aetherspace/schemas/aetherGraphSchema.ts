@@ -50,7 +50,9 @@ const aetherSchemaDefinitions = (aetherSchema: ResolverSchemaType, prefix = 'typ
     } else if (gqlType === 'Array') {
       const primitiveType = SCHEMA_PRIMITIVE_MAPPER[schemaConfig.schema.aetherType]
       const arrayEntryType = primitiveType || schemaConfig.schema.schemaName
-      if (!primitiveType) schemaDefinitions = [...schemaDefinitions, ...aetherSchemaDefinitions(schemaConfig.schema)]
+      if (!primitiveType) {
+        schemaDefinitions = [...schemaDefinitions, ...aetherSchemaDefinitions(schemaConfig.schema)]
+      }
       return [description, `${name}: [${arrayEntryType}]${requiredState}`].join('')
     }
     return [description, `${name}: ${gqlType}${requiredState}`].join('')
@@ -108,7 +110,7 @@ const aetherGraphDefinitions = (resolverConfigs: ResolverConfigType[]) => {
 const createResolverDefinition = (resolverConfig: ResolverConfigType) => {
   const { resolverName, argSchema, resSchema } = resolverConfig
   const hasArguments = Object.values(argSchema.schema).length > 0 // @ts-ignore
-  const onlyHasOptionalArgs = !hasArguments || Object.values(argSchema?.schema).every((arg) => arg.optional === true)
+  const onlyHasOptionalArgs = !hasArguments || Object.values(argSchema?.schema).every((arg) => arg.optional === true) // prettier-ignore
   const argRequireState = onlyHasOptionalArgs ? '' : '!'
   const argDef = hasArguments ? `(args: ${argSchema.schemaName}${argRequireState})` : ''
   const resDef = resSchema.schemaName
@@ -137,7 +139,10 @@ const aetherGraphSchema = (aetherResolvers: ResolverMapType) => {
   const query = hasQueries ? `type Query {\n    ${queryDefs.join('\n    ')}\n}` : ''
   const allTypeDefs = [...dataTypeDefs, mutation, query].filter(Boolean)
   const graphqlSchemaDefs = gql`${allTypeDefs.join('\n\n')}` // prettier-ignore
-  const rebuildFromConfig = (handlers, { resolverName, resolver }) => ({ ...handlers, [resolverName]: resolver })
+  const rebuildFromConfig = (handlers, { resolverName, resolver }) => ({
+    ...handlers,
+    [resolverName]: resolver,
+  })
   const queryResolvers = queryConfigs.reduce(rebuildFromConfig, {})
   const mutationResolvers = mutationConfigs.reduce(rebuildFromConfig, {})
   return {

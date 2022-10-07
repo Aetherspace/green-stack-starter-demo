@@ -1,5 +1,6 @@
-// https://docs.expo.dev/versions/latest/react-native/view/
-// https://necolas.github.io/react-native-web/docs/view/
+// -i- Based on / inspired by:
+// - https://docs.expo.dev/versions/latest/react-native/view/
+// - https://necolas.github.io/react-native-web/docs/view/
 import React, { ComponentProps, forwardRef } from 'react'
 import { View } from 'react-native'
 // Hooks

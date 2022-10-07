@@ -1,5 +1,6 @@
-// https://docs.expo.dev/versions/latest/react-native/image/
-// https://necolas.github.io/react-native-web/docs/image/
+// -i- Based on / inspired by:
+// - https://necolas.github.io/react-native-web/docs/image/
+// - https://nextjs.org/docs/api-reference/next/image
 import React, { useMemo, ComponentProps, forwardRef } from 'react'
 import { Image, ImageRequireSource } from 'react-native'
 // Context
@@ -43,7 +44,15 @@ const AetherImage = forwardRef<Image, AetherImageType>((props, ref) => {
 
   // -- Render --
 
-  return <Image {...componentProps} ref={ref} source={source!} {...bindStyles} accessibilityIgnoresInvertColors />
+  return (
+    <Image
+      {...componentProps}
+      ref={ref}
+      source={source!}
+      {...bindStyles}
+      accessibilityIgnoresInvertColors
+    />
+  )
 })
 
 /* --- Exports --------------------------------------------------------------------------------- */

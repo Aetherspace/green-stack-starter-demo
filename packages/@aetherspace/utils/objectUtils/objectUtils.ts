@@ -2,12 +2,17 @@
 import { isValidNumber } from '../numberUtils'
 
 /* --- Types ----------------------------------------------------------------------------------- */
+
 type ObjectType = { [key: string]: any }
 
 /* --- objectifier() --------------------------------------------------------------------------- */
 // -i- Utility method to get and set nested objects that may or may not exist
 // -i- (Drop in replacement for optional chaining until we add support for it)
-export const objectifier = (contextTree: ObjectType, parts: string[], create = false): ObjectType | undefined => {
+export const objectifier = (
+  contextTree: ObjectType,
+  parts: string[],
+  create = false
+): ObjectType | undefined => {
   let branch: undefined | ObjectType = contextTree
   let current
   let index = 0
@@ -17,7 +22,10 @@ export const objectifier = (contextTree: ObjectType, parts: string[], create = f
     try {
       // Skip null & undefined + check if the next branch actually exists
       const propExists: boolean = typeof branch?.[current] !== 'undefined'
-      branch = branch && propExists ? branch[current] : branch && create ? (branch[current] = {}) : undefined
+      // Go deeper?
+      if (branch && propExists) branch = branch[current]
+      // Create branch?
+      if (create) branch![current] = {}
     } catch (err) {
       branch = undefined
     }
@@ -41,7 +49,10 @@ export const setProp = (obj: ObjectType, key: string, val: unknown): ObjectType 
 /* --- getProp() ------------------------------------------------------------------------------ */
 // -i- Retrieve potentially nested property by keys like 'prop.subProp.valueYouWant'
 // -i- (Drop in replacement for optional chaining until we add support for it)
-export const getProp = <T extends ObjectType>(obj: ObjectType | null, key: string): T | undefined => {
+export const getProp = <T extends ObjectType>(
+  obj: ObjectType | null,
+  key: string
+): T | undefined => {
   if (!key) return undefined
   const parts = key.split('.')
   const last = parts.pop()
@@ -58,7 +69,10 @@ export const getFromSources = (key: string, sources: { [key: string]: any }[]) =
 
 /* --- normalizeObjectProps() ------------------------------------------------------------------ */
 // -i- Parses object properties like "1" to 1, and "true" to true
-export const normalizeObjectProps = (objToValidate: ObjectType = {}, ignoredKeys: string[] = []): ObjectType => {
+export const normalizeObjectProps = (
+  objToValidate: ObjectType = {},
+  ignoredKeys: string[] = []
+): ObjectType => {
   const obj: typeof objToValidate = {}
   Object.keys(objToValidate).forEach((pKey) => {
     let val = objToValidate[pKey]
