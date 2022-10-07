@@ -2,7 +2,7 @@ import React from 'react'
 // Screens
 import AuthorScreen from 'app/screens/AuthorScreen'
 
-/* --- <AuthorPage/> ----------------------------------------------------------------------------- */
+/* --- <AuthorPage/> --------------------------------------------------------------------------- */
 
 const AuthorPage = () => {
   return <AuthorScreen />

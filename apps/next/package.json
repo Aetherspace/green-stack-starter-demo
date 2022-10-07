@@ -4,6 +4,7 @@
     "license": "MIT",
     "scripts": {
         "dev": "next",
+        "lint": "cd ../.. && eslint \"apps/next/**/*.{ts,tsx}\"",
         "build": "next build",
         "deploy": "yarn --cwd ../../ deploy"
     },

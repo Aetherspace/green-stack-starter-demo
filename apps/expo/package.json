@@ -9,6 +9,7 @@
     "android": "yarn expo start --android",
     "ios": "yarn expo start --ios",
     "web": "yarn expo start --web",
+    "lint": "cd ../.. && eslint \"apps/expo/**/*.{ts,tsx}\"",
     "expo-cli": "yarn expo",
     "eas-cli": "npx npx eas-cli",
     "deploy:publish": "EXPO_PUBLISH=true yarn expo publish --release-channel starter-preview-main",

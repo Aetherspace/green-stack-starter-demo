@@ -11,7 +11,7 @@ import useLoadFonts from 'app/hooks/useLoadFonts'
 // Utils
 import { setPublicEnvVars } from 'aetherspace/utils'
 
-/* --- Public Env Vars ------------------------------------------------------------------------------- */
+/* --- Public Env Vars ------------------------------------------------------------------------- */
 
 // -i- This ensures that public env vars can be retrieved via the getEnvVar() util
 // -i- @expo/next-adapter rewrites process.env to {}, but does inject statically known env vars
@@ -21,9 +21,17 @@ setPublicEnvVars({
   APP_LINKS: process.env.NEXT_PUBLIC_APP_LINKS,
 })
 
-/* --- <AppLayout/> ---------------------------------------------------------------------------------- */
+/* --- Types ----------------------------------------------------------------------------------- */
 
-const AppLayout = (props: AppProps) => {
+type AppLayoutProps = AppProps & {
+  pageProps: {
+    pageTitle: string
+  }
+}
+
+/* --- <AppLayout/> ---------------------------------------------------------------------------- */
+
+const AppLayout = (props: AppLayoutProps) => {
   // Props
   const { Component, pageProps } = props
   const { pageTitle = 'My GREEN stack App' } = pageProps

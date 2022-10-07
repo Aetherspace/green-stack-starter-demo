@@ -17,14 +17,14 @@ import {
 
 export const HealthCheckArgs = ats.schema('HealthCheckArgs', {
   echo: ats.string().optional().docs('Hello World', 'Echoes back the echo argument'),
-  saveGraphQLSchema: ats.boolean().optional().docs(false, 'Saves graphql schema to app-next root in development mode'),
+  saveGraphQLSchema: ats.boolean().optional().docs(false, 'Saves graphql schema to app-next root in development mode'), // prettier-ignore
 })
 
 export const HealthCheckResponse = ats.schema('HealthCheckResponse', {
   alive: ats.boolean(),
   kicking: ats.boolean(),
   echo: HealthCheckArgs.schema.echo,
-  didSaveGraphQLSchema: ats.boolean().optional().docs(false, 'true if schema was saved to next-app root in dev mode'),
+  didSaveGraphQLSchema: ats.boolean().optional().docs(false, 'true if schema was saved to next-app root in dev mode'), // prettier-ignore
 })
 
 const resolverConfig = {
