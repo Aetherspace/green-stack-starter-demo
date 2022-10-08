@@ -7,15 +7,28 @@ on: push
 # List of jobs
 jobs:
   test:
-    # Operating System
+    name: 'Chromatic Deployment'
     runs-on: ubuntu-latest
-    # Job steps
     steps:
-      - uses: actions/checkout@v1
-      - run: yarn
-        #👇 Adds Chromatic as a step in the workflow
+      - name: 'Check out Git repository'
+        uses: actions/checkout@v1
+
+      - name: 'Check secrets'
+        id: check-secrets
+        run: echo "::set-output name=has-secrets::$([ -n "${{ env.CHROMATIC_PROJECT_TOKEN }}" ] && echo true || echo false)"
+        env:
+          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+
+      - name: 'Warn required secrets'
+        if: ${{ steps.check-secrets.outputs.has-secrets == 'false' }}
+        run: echo 'CHROMATIC_PROJECT_TOKEN missing in Github secrets. Skipping Storybook deployment.'
+
+      - name: 'Install dependencies'
+        if: ${{ steps.check-secrets.outputs.has-secrets == 'true' }}
+        run: yarn
+
       - uses: chromaui/action@v1
-        # Options required for Chromatic's GitHub Action
+        if: ${{ steps.check-secrets.outputs.has-secrets == 'true' }}
         with:
           #👇 Chromatic projectToken, see https://storybook.js.org/tutorials/intro-to-storybook/react/en/deploy/ to obtain it
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
