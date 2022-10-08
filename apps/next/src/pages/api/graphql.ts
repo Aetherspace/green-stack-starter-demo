@@ -3,7 +3,7 @@ import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-co
 // Schemas
 import { aetherGraphSchema, ResolverMapType } from 'aetherspace/schemas'
 // Resolvers
-import * as resolvers from 'app/registries/resolvers.generated'
+import * as resolvers from 'registries/resolvers.generated'
 
 /* --- Debug ----------------------------------------------------------------------------------- */
 
@@ -18,7 +18,10 @@ import * as resolvers from 'app/registries/resolvers.generated'
 
 /* --- /api/graphql ---------------------------------------------------------------------------- */
 
+// Build executable GraphQL schema from resolvers
 const schema = aetherGraphSchema(resolvers as unknown as ResolverMapType)
+
+// Create Apollo Server with schema
 const apolloServer = new ApolloServer({
   typeDefs: schema.typeDefs,
   resolvers: schema.resolvers,

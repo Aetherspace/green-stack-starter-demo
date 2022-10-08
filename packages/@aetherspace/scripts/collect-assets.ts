@@ -17,17 +17,17 @@ const collectAssets = () => {
       .filter(excludeDirs)
     // Map asset paths to asset keys and turn into barrel file body for 'assets.generated.ts'
     const assetRegistry = assetPaths.reduce((acc, assetPath) => {
-      const requirePath = assetPath.replace('../../apps/', '../../../apps/')
+      const requirePath = assetPath.replace('../../apps/', '../../apps/')
       const relSrcPath = assetPath.replace('apps/next/public', '')
       const assetKey = getAssetKey(relSrcPath)
       const exportLine = `export const ${assetKey} = require('${requirePath}');`
       return `${acc}${exportLine}\n`
     }, '// -i- Auto generated with "yarn collect-assets"\n')
-    // Write barrel file to 'features/app-core/registries/assets.generated.ts'
-    fs.writeFileSync('../../features/app-core/registries/assets.generated.ts', assetRegistry)
+    // Write barrel file to 'packages/@registries/assets.generated.ts'
+    fs.writeFileSync('../../packages/@registries/assets.generated.ts', assetRegistry)
     console.log(
       '-i- Successfully created asset registries at:\n',
-      '✅ features/app-core/registries/assets.generated.ts'
+      '✅ packages/@registries/assets.generated.ts'
     )
   } catch (err) {
     console.error(err)

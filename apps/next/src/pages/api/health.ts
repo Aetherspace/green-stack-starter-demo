@@ -4,7 +4,7 @@ import { printSchema } from 'graphql'
 // Schemas
 import { ats, aetherGraphSchema, ResolverMapType } from 'aetherspace/schemas'
 // Resolvers
-import * as resolvers from 'app/registries/resolvers.generated'
+import * as resolvers from 'registries/resolvers.generated'
 import {
   aetherResolver,
   makeNextApiHandler,

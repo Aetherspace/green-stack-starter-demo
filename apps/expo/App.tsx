@@ -5,12 +5,12 @@ import { createStackNavigator } from '@react-navigation/stack'
 // Config
 import tailwindConfig from 'app/tailwind.config'
 // Context
-import AetherContextManager from '../../packages/@aetherspace/context/AetherContextManager'
+import { AetherContextManager } from 'aetherspace/context'
 // Screens
 import HomeScreen from 'app/screens/HomeScreen'
 import AuthorScreen from 'app/screens/AuthorScreen'
 // Assets
-import * as assets from 'app/registries/assets.generated'
+import * as assets from 'registries/assets.generated'
 // Hooks
 import useLoadFonts from 'app/hooks/useLoadFonts'
 

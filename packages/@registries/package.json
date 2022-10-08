@@ -1,0 +1,9 @@
+{
+    "name": "registries",
+    "main": "index.ts",
+    "version": "1.0.0",
+    "license": "MIT",
+    "scripts": {},
+    "dependencies": {},
+    "devDependencies": {}
+}

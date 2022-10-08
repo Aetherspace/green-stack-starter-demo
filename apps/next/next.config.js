@@ -33,10 +33,10 @@ const nextConfig = {
     webpack: (config, { isServer }) => {
         // -i- Run aetherspace automation scripts
         if (!isServer) {
-            // -i- Build 'resolvers.generated.ts' in 'features/app-core/registries':
+            // -i- Build 'packages/@registries/resolvers.generated.ts':
             // -i- Turns all REST api paths build with aetherResolver into GraphQL resolvers as well
             require('aetherspace/scripts/collect-resolvers')
-            // -i- Build 'assets.generated.ts' in 'features/app-core/registries':
+            // -i- Build 'packages/@registries/assets.generated.ts':
             // -i- Makes regular img src paths like on the web work for AetherImage in Expo
             require('aetherspace/scripts/collect-assets')
         }

@@ -13,7 +13,7 @@ const collectResolvers = () => {
     const nextAPIPaths = glob.sync('../../apps/next/**/api/**/*.ts').filter(excludeDirs)
     // Filter out the next.js api paths that don't work with aether schemas
     const resolverRegistry = nextAPIPaths.reduce((acc, resolverPath) => {
-      const importPath = resolverPath.replace('.ts', '').replace('../../apps/', '../../../apps/')
+      const importPath = resolverPath.replace('.ts', '').replace('../../apps/', '../../apps/')
       // Skip files that don't export an aether resolver
       const pathContents = fs.readFileSync(resolverPath, 'utf8')
       const usesAetherSchemas = pathContents.includes("'aetherspace/schemas'")
@@ -32,11 +32,11 @@ const collectResolvers = () => {
       // Add the resolver to the registry
       return `${acc}${exportLine}\n`
     }, '// -i- Auto generated with "yarn build-schema"\n')
-    // Write barrel file to 'features/app-core/registries/resolvers.generated.ts'
-    fs.writeFileSync('../../features/app-core/registries/resolvers.generated.ts', resolverRegistry)
+    // Write barrel file to 'packages/@registries/resolvers.generated.ts'
+    fs.writeFileSync('../../packages/@registries/resolvers.generated.ts', resolverRegistry)
     console.log(
       '-i- Successfully created asset registries at:\n',
-      '✅ features/app-core/registries/resolvers.generated.ts'
+      '✅ packages/@registries/resolvers.generated.ts'
     )
   } catch (err) {
     console.log(err)
