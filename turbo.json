@@ -1,29 +1,45 @@
 {
-  "baseBranch": "origin/main",
+  "$schema": "https://turborepo.org/schema.json",
   "pipeline": {
     "aetherspace#build": {
       "outputs": [
-        "../../packages/@aetherspace/**/*.d.ts",
-        "../../packages/@aetherspace/**/*.js"
+        "**/*.d.ts",
+        "**/*.js"
+      ],
+      "inputs": [
+        "**/*.tsx",
+        "**/*.ts"
       ]
     },
     "aetherspace#collect-assets": {
       "dependsOn": ["aetherspace#build"],
-      "outputs": [
-        "../../packages/@registries/assets.generated.js",
-        "../../apps/next/public/**"
-      ],
-      "cache": false
+      "outputs": ["../@registries/assets.generated.js"],
+      "inputs": ["../../apps/next/public/**"]
     },
     "aetherspace#collect-resolvers": {
       "dependsOn": ["aetherspace#build"],
-      "outputs": [
-        "../../packages/@registries/resolvers.generated.js"
-      ],
+      "outputs": ["../@registries/resolvers.generated.js"],
+      "inputs": [
+        "../../apps/**/api/**/*.tsx",
+        "../../apps/**/api/**/*.ts"
+      ]
+    },
+    "aetherspace#documentation-reset": {
+      "dependsOn": ["aetherspace#build"],
       "cache": false
     },
+    "aetherspace#document-components": {
+      "dependsOn": ["aetherspace#build", "aetherspace#documentation-reset"],
+      "outputs": ["packages/@registries/docs/"],
+      "inputs": [
+        "../../apps/**/*.tsx",
+        "../../features/**/*.tsx",
+        "../../packages/**/*.tsx"
+      ]
+    },
     "aetherspace#dev-health-check": {
-      "dependsOn": ["aetherspace#build"]
+      "dependsOn": ["aetherspace#build"],
+      "cache": false
     },
     "aetherspace#schema-test": {
       "dependsOn": ["aetherspace#build"]

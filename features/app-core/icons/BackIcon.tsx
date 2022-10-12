@@ -18,6 +18,10 @@ const BackIcon = (props) => (
   </Svg>
 )
 
+/* --- Documentation --------------------------------------------------------------------------- */
+
+export const getDocumentationProps = propSchema
+
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default Object.assign(BackIcon, { propSchema })
+export default BackIcon

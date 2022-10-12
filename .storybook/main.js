@@ -3,13 +3,14 @@ const { withUnimodules } = require('@expo/webpack-config/addons')
 
 module.exports = {
     stories: [
-        '../*.stories.mdx',
+        '../README.stories.mdx',
         '../apps/**/*.stories.mdx', 
         '../apps/**/*.stories.@(js|jsx|ts|tsx)',
         '../features/**/*.stories.mdx', 
         '../features/**/*.stories.@(js|jsx|ts|tsx)',
         '../packages/**/*.stories.mdx', 
         '../packages/**/*.stories.@(js|jsx|ts|tsx)',
+        './LICENSE.stories.mdx',
     ],
     addons: [
       { name: '@storybook/addon-essentials', options: { transcludeMarkdown: true } },
@@ -33,6 +34,11 @@ module.exports = {
         // Aliases
         config.resolve.alias['react-native$'] = require.resolve('react-native-web')
         config.resolve.extensions.push('.ts', '.tsx')
+        // Compatibility
+        config.optimization = {
+          ...config.optimization,
+          sideEffects: false,
+        }
         // Export updated webpack config
         return withUnimodules(config, {
           projectRoot: path.resolve(__dirname, '../'),

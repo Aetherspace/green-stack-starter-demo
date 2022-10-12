@@ -2,6 +2,8 @@ import React from 'react'
 import { StatusBar } from 'expo-status-bar'
 // Navigation
 import { Link, useAetherNav } from 'aetherspace/navigation'
+// Schemas
+import { ats } from 'aetherspace/schemas'
 // Primitives
 import { View, Text, Image, Pressable } from 'aetherspace/primitives'
 // SEO
@@ -14,9 +16,18 @@ import { getEnvVar } from 'aetherspace/utils'
 // Icons
 import { GraphIcon, ReactIcon, ExpoIcon, StorybookIcon, NextIcon } from '../icons'
 
+/* --- Schemas --------------------------------------------------------------------------------- */
+
+const propSchema = ats.schema('HomeScreenProps', {
+  customGreeting: ats.string().optional().docs('Hello Storybook 👋', 'A greeting for the user'),
+})
+
 /* --- <HomeScreen/> --------------------------------------------------------------------------- */
 
-const HomeScreen = () => {
+const HomeScreen = (props: typeof propSchema['TYPE']) => {
+  // Props
+  const { customGreeting } = props
+
   // Environment
   const appURIs = getEnvVar('APP_LINKS')?.split('|').filter((url) => url.includes('http')) || [] // prettier-ignore
 
@@ -39,10 +50,12 @@ const HomeScreen = () => {
       <Link to="https://aetherspace-green-stack-starter.vercel.app/author">
         <Image
           src="/img/icon.png"
-          tw={['w-20 h-20 mt-0 mb-3 overflow-hidden', true && 'rounded-full']} // Assign conditional classes with an array
+          tw={['w-20 h-20 mt-0 mb-3 overflow-hidden bg-slate-100', true && 'rounded-full']} // Assign conditional classes with an array
         />
       </Link>
-      <H1 tw="text-green-500 pb-2 roboto-bold font-bold text-base">Hello 'GREEN-stack' 👋</H1>
+      <H1 tw="text-green-500 pb-2 roboto-bold font-bold text-base">
+        {customGreeting || "Hello 'GREEN-stack' 👋"}
+      </H1>
       <View tw="flex-row">
         <Link href="https://expo.dev/home" tw="px-2">
           <ExpoIcon width={ICON_SIZE} height={ICON_SIZE} fill={ICON_COLOR} />
@@ -93,6 +106,10 @@ const HomeScreen = () => {
     </View>
   )
 }
+
+/* --- Documentation --------------------------------------------------------------------------- */
+
+export const getDocumentationProps = propSchema
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

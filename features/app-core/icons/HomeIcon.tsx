@@ -23,6 +23,10 @@ const HomeIcon = (props) => (
   </Svg>
 )
 
+/* --- Documentation --------------------------------------------------------------------------- */
+
+export const getDocumentationProps = propSchema
+
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default Object.assign(HomeIcon, { propSchema })
+export default HomeIcon

@@ -7,7 +7,7 @@ import { ats } from 'aetherspace/schemas'
 const propSchema = ats.schema('GraphIconProps', {
   width: ats.number().optional().default(24, 24, 'Icon width'),
   height: ats.number().optional().default(24, 24, 'Icon height'),
-  fill: ats.color().optional().default('#e10098', '#000000', 'Icon fill color'),
+  fill: ats.color().optional().default('#e10098', '#e10098', 'Icon fill color'),
 })
 
 /* --- <GraphIcon/> ----------------------------------------------------------------------------- */
@@ -50,6 +50,10 @@ const GraphIcon = (props) => (
   </Svg>
 )
 
+/* --- Docs ------------------------------------------------------------------------------------ */
+
+export const getDocumentationProps = propSchema
+
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default Object.assign(GraphIcon, { propSchema })
+export default GraphIcon

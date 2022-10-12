@@ -18,6 +18,10 @@ const ExpoIcon = (props) => (
   </Svg>
 )
 
+/* --- Documentation --------------------------------------------------------------------------- */
+
+export const getDocumentationProps = propSchema
+
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default Object.assign(ExpoIcon, { propSchema })
+export default ExpoIcon

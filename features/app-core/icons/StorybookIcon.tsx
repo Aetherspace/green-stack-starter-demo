@@ -7,7 +7,7 @@ import { ats } from 'aetherspace/schemas'
 const propSchema = ats.schema('StorybookIconProps', {
   width: ats.number().optional().default(24, 24, 'Icon width'),
   height: ats.number().optional().default(24, 24, 'Icon height'),
-  fill: ats.color().optional().default('#ff4785', '#000000', 'Icon fill color'),
+  fill: ats.color().optional().default('#ff4785', '#ff4785', 'Icon fill color'),
 })
 
 /* --- <StorybookIcon/> ------------------------------------------------------------------------ */
@@ -29,6 +29,10 @@ const StorybookIcon = ({ fill = '#ff4785', ...props }) => (
   </Svg>
 )
 
+/* --- Documentation --------------------------------------------------------------------------- */
+
+export const getDocumentationProps = propSchema
+
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default Object.assign(StorybookIcon, { propSchema })
+export default StorybookIcon

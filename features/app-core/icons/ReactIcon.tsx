@@ -4,15 +4,15 @@ import { ats } from 'aetherspace/schemas'
 
 /* --- Schema ---------------------------------------------------------------------------------- */
 
-const propSchema = ats.schema('GraphIconProps', {
+const propSchema = ats.schema('ReactIconProps', {
   width: ats.number().optional().default(24, 24, 'Icon width'),
   height: ats.number().optional().default(24, 24, 'Icon height'),
-  fill: ats.color().optional().default('#61dafb', '#000000', 'Icon fill color'),
+  fill: ats.color().optional().default('#61dafb', '#61dafb', 'Icon fill color'),
 })
 
-/* --- <GraphIcon/> ---------------------------------------------------------------------------- */
+/* --- <ReactIcon/> ---------------------------------------------------------------------------- */
 
-const GraphIcon = ({ fill = '#61dafb', ...props }) => (
+const ReactIcon = ({ fill = '#61dafb', ...props }) => (
   <Svg width={24} height={24} viewBox="-11.5 -10.23174 23 20.46348" fill={fill} {...props}>
     <Circle r={2.05} />
     {/* @ts-ignore */}
@@ -24,6 +24,10 @@ const GraphIcon = ({ fill = '#61dafb', ...props }) => (
   </Svg>
 )
 
+/* --- Documentation --------------------------------------------------------------------------- */
+
+export const getDocumentationProps = propSchema
+
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default Object.assign(GraphIcon, { propSchema })
+export default ReactIcon

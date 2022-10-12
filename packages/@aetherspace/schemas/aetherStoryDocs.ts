@@ -6,6 +6,11 @@ import { AetherSchemaType } from './aetherSchemas'
 
 type AetherComponentType = ComponentType & { propSchema: AetherSchemaType }
 
+type GetDocPropsType =
+  | AetherSchemaType
+  | ((args: Record<string, any>) => AetherSchemaType)
+  | undefined
+
 type StorybookArgType = {
   name
   description?: string
@@ -79,14 +84,17 @@ const aetherSchemaArgTypes = (aetherSchema) => {
 
 /* --- aetherStoryDocs() ----------------------------------------------------------------------- */
 
-const aetherStoryDocs = (forComponent, args = {}) => {
+const aetherStoryDocs = (forComponent, getDocumentationProps: GetDocPropsType, args = {}) => {
   // Extract config
   const [componentName, Component] = Object.entries(forComponent)[0] as [string, AetherComponentType] // prettier-ignore
-  const argTypes = aetherSchemaArgTypes(Component.propSchema)
+  // Figure out propSchema source
+  let propSchema = Component?.propSchema || getDocumentationProps || {}
+  if (typeof getDocumentationProps === 'function') propSchema = getDocumentationProps(args)
+  const argTypes = aetherSchemaArgTypes(propSchema)
   // Figure out story args
   const storyArgs = Object.entries(argTypes).reduce((acc, [propKey, argType]) => {
     const defaultValue = argType.table.defaultValue?.summary
-    const exampleValue = Component.propSchema?.schema?.[propKey]?.example
+    const exampleValue = propSchema?.schema?.[propKey]?.example
     const storyValue = args[propKey] ?? exampleValue ?? defaultValue ?? argType.options?.[0]
     return typeof storyValue !== 'undefined' ? { ...acc, [propKey]: storyValue } : acc
   }, {})

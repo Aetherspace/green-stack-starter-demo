@@ -43,6 +43,10 @@ const NextIcon = ({ fill = '#000000', ...props }) => (
   </Svg>
 )
 
+/* --- Documentation --------------------------------------------------------------------------- */
+
+export const getDocumentationProps = propSchema
+
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default Object.assign(NextIcon, { propSchema })
+export default NextIcon
