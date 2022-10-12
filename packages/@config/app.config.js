@@ -11,7 +11,7 @@ const expoConfig = ({ config }) => ({
     ...config,
     extra: {
         ...config.extra,
-        environment: getPublicEnvVars(),
+        env: getPublicEnvVars(),
     },
 });
 

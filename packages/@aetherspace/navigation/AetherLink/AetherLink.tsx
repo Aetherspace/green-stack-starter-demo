@@ -98,6 +98,7 @@ const AetherLink = forwardRef<typeof Link | typeof Text, AetherLinkType>((props,
   // Vars
   const isBlank = props.target === '_blank' || props.isBlank
   const isText = asText || props.isText || typeof children === 'string'
+  const isExternal = destination.includes('://') || destination.includes('api/')
 
   // -- Handler --
 
@@ -118,12 +119,9 @@ const AetherLink = forwardRef<typeof Link | typeof Text, AetherLinkType>((props,
   return (
     <Link
       {...restProps}
-      routeName={destination}
+      routeName={isExternal ? '' : destination}
       ref={ref as any$Todo}
-      web={{
-        path: destination,
-        as: destination,
-      }}
+      web={{ as: destination }}
       touchableOpacityProps={{ onPressIn: onLinkPress }}
     >
       <AetherView {...bindStyles}>{children}</AetherView>

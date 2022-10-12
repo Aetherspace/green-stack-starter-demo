@@ -19,8 +19,8 @@ const setGlobal = (key: any, val: any) => {
 // -i- Get a global variable on the "globalThis" object
 const getGlobal = (key: any) => globalThis[key]
 
-/* --- setGlobalEnvVars() ---------------------------------------------------------------------- */
-// -i- Set a series of global env vars to enable retrieving them via getEnvVar() later
+/* --- setPublicEnvVars() ---------------------------------------------------------------------- */
+// -i- Set a series of global public env vars to enable retrieving them via getEnvVar() later
 // -i- You may want to do this in any _app.tsx / _app.js files due to @expo/next-adapter clearing process.env
 const __PUBLIC_ENV = '__PUBLIC_ENV'
 export const setPublicEnvVars = (publicEnvVars: { [key: string]: any }) => {
@@ -28,18 +28,18 @@ export const setPublicEnvVars = (publicEnvVars: { [key: string]: any }) => {
 }
 
 /* --- getEnvVar() ----------------------------------------------------------------------------- */
-// -i- Get expo / public env var
+// -i- Get expo / next / public env var
 export const getEnvVar = (key: string) => {
   const possibleKeys = [
+    // Private env var, as exact matches only happen in node server envs
     key,
+    // Public env var, needs prefix to hook into front-end next / expo env var system
     `NEXT_PUBLIC_${key}`,
     `EXPO_PUBLIC_${key}`,
     `EXPO_${key}`,
     `REACT_NATIVE_${key}`,
   ]
-  const expoEnv =
-    Constants.manifest?.extra?.environment ||
-    Constants.manifest2?.extra?.expoClient?.extra?.environment
+  const expoEnv = Constants.manifest?.extra?.env || Constants.manifest2?.extra?.expoClient?.extra?.env // prettier-ignore
   const checkEnv = (k) => process.env[k] || expoEnv?.[k] || getGlobal(__PUBLIC_ENV)?.[k]
   return possibleKeys.map(checkEnv).find((envVar) => typeof envVar !== 'undefined')
 }
