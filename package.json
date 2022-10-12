@@ -49,11 +49,12 @@
   "scripts": {
     "dev": "yarn dev:mobile",
     "dev:mobile": "yarn turbo run next-app#dev expo-app#start",
-    "dev:docs": "yarn dev:mobile & yarn storybook",
+    "dev:docs": "yarn dev:mobile & yarn storybook:wait",
     "web": "yarn turbo run next-app#dev",
     "ios": "yarn turbo run next-app#dev expo-app#ios",
     "android": "yarn turbo run next-app#dev expo-app#android",
     "storybook": "start-storybook -p 6006",
+    "storybook:wait": "yarn turbo run aetherspace#dev-health-check && start-storybook -p 6006",
     "expo-cli": "yarn workspace expo-app expo-cli",
     "eas-cli": "yarn workspace expo-app eas-cli",
     "collect-assets": "yarn turbo run aetherspace#collect-assets",
