@@ -12,7 +12,7 @@ import { H1 } from 'aetherspace/html-elements'
 import { useDocAddress, useAPICheck } from 'aetherspace/docs'
 import { useAetherContext } from 'aetherspace/context'
 // Utils
-import { getEnvVar } from 'aetherspace/utils'
+import { getEnvVar, getGlobal } from 'aetherspace/utils'
 // Icons
 import { GraphIcon, ReactIcon, ExpoIcon, StorybookIcon, NextIcon } from '../icons'
 
@@ -28,6 +28,9 @@ const HomeScreen = (props: typeof propSchema['TYPE']) => {
   // Props
   const { customGreeting } = props
 
+  // State
+  const [showDebug, setShowDebug] = React.useState(false)
+
   // Environment
   const appURIs = getEnvVar('APP_LINKS')?.split('|').filter((url) => url.includes('http')) || [] // prettier-ignore
 
@@ -41,6 +44,7 @@ const HomeScreen = (props: typeof propSchema['TYPE']) => {
   const tapOrClick = isPhoneSize ? 'Tap' : 'Click'
   const ICON_COLOR = '#22c55e'
   const ICON_SIZE = 32
+  const debugLog = getGlobal('DEBUG_LOG')
 
   // -- Render --
 
@@ -53,7 +57,10 @@ const HomeScreen = (props: typeof propSchema['TYPE']) => {
           tw={['w-20 h-20 mt-0 mb-3 overflow-hidden bg-slate-100', true && 'rounded-full']} // Assign conditional classes with an array
         />
       </Link>
-      <H1 tw="text-green-500 pb-2 roboto-bold font-bold text-base">
+      <H1
+        tw="text-green-500 pb-2 roboto-bold font-bold text-base"
+        onPress={() => setShowDebug(true)}
+      >
         {customGreeting || "Hello 'GREEN-stack' 👋"}
       </H1>
       <View tw="flex-row">
@@ -98,11 +105,12 @@ const HomeScreen = (props: typeof propSchema['TYPE']) => {
         Test Navigation
       </Link>
       <Link to={`${docsURI}?path=/story/readme-md--page`} tw="text-xs roboto-bold my-4 px-5">
-        {'Read the Docs'}
+        Read the Docs
       </Link>
       <Link to="/author" tw="m-2 text-xs text-gray-500">
         {'{ ...💚 }'}
       </Link>
+      {showDebug && <Text>{JSON.stringify({ docsURI, healthEndpoint, debugLog }, null, 4)}</Text>}
     </View>
   )
 }

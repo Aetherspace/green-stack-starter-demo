@@ -1,7 +1,7 @@
 // Hooks
 import { usePrefferredURL } from '../hooks'
 // Utils
-import { getDebuggerURL, getEnvVar } from '../utils/envUtils'
+import { getDebuggerURL, getEnvVar, setGlobal } from '../utils/envUtils'
 
 /* --- Types & constants ----------------------------------------------------------------------- */
 
@@ -13,7 +13,7 @@ enum DOC_SOURCES {
 /* --- useDocAddress() ---------------------------------------------------------------------------- */
 
 const useDocAddress = (...preferredDocURIs: string[]) => {
-  const docsURI = usePrefferredURL([
+  const urlsToCheck = [
     // Any doc urls the dev would prefer
     ...preferredDocURIs,
     // Env var based documentation
@@ -23,8 +23,10 @@ const useDocAddress = (...preferredDocURIs: string[]) => {
     getDebuggerURL(6006),
     // Official docs
     DOC_SOURCES.officialDocs,
-  ])
-  return docsURI
+  ]
+  const docsURI = usePrefferredURL(urlsToCheck)
+  setGlobal('DEBUG_LOG', { docsURI, urlsToCheck })
+  return docsURI || DOC_SOURCES.officialDocs
 }
 
 /* --- Exports --------------------------------------------------------------------------------- */

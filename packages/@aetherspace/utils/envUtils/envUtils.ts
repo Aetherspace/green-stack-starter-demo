@@ -11,13 +11,13 @@ export const getDebuggerURL = (port?: number) => {
 
 /* --- setGlobal() ----------------------------------------------------------------------------- */
 // -i- Set a global variable on the "globalThis" object
-const setGlobal = (key: any, val: any) => {
+export const setGlobal = (key: any, val: any) => {
   globalThis[key] = val
 }
 
 /* --- getGlobal() ----------------------------------------------------------------------------- */
 // -i- Get a global variable on the "globalThis" object
-const getGlobal = (key: any) => globalThis[key]
+export const getGlobal = (key: any) => globalThis[key]
 
 /* --- setPublicEnvVars() ---------------------------------------------------------------------- */
 // -i- Set a series of global public env vars to enable retrieving them via getEnvVar() later
@@ -39,7 +39,7 @@ export const getEnvVar = (key: string) => {
     `EXPO_${key}`,
     `REACT_NATIVE_${key}`,
   ]
-  const expoEnv = Constants.manifest?.extra?.env || Constants.manifest2?.extra?.expoClient?.extra?.env // prettier-ignore
+  const expoEnv = Constants.expoConfig?.extra?.env || Constants.manifest2?.extra?.expoClient?.extra?.env // prettier-ignore
   const checkEnv = (k) => process.env[k] || expoEnv?.[k] || getGlobal(__PUBLIC_ENV)?.[k]
   return possibleKeys.map(checkEnv).find((envVar) => typeof envVar !== 'undefined')
 }
