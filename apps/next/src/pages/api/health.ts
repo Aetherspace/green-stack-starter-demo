@@ -27,6 +27,8 @@ export const HealthCheckResponse = ats.schema('HealthCheckResponse', {
   didSaveGraphQLSchema: ats.boolean().optional().docs(false, 'true if schema was saved to next-app root in dev mode'), // prettier-ignore
 })
 
+/* --- Config ---------------------------------------------------------------------------------- */
+
 const resolverConfig = {
   argsSchema: HealthCheckArgs,
   responseSchema: HealthCheckResponse,
@@ -40,6 +42,7 @@ const healthCheck = aetherResolver(async ({ args }) => {
   if (process.env.NODE_ENV === 'development' && args.saveGraphQLSchema) {
     try {
       const schema = aetherGraphSchema(resolvers as unknown as ResolverMapType)
+      // Save graphql schema to next root?
       if (process.env.NODE_ENV === 'development') {
         const schemaDefinitions = printSchema(makeExecutableSchema(schema))
         writeFileSync('./schema.graphql', schemaDefinitions)

@@ -1,18 +1,18 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
-import { ats } from 'aetherspace/schemas'
+import { ats, Infer } from 'aetherspace/schemas'
 
 /* --- Schema ---------------------------------------------------------------------------------- */
 
 const propSchema = ats.schema('GraphIconProps', {
-  width: ats.number().optional().default(24, 24, 'Icon width'),
-  height: ats.number().optional().default(24, 24, 'Icon height'),
-  fill: ats.color().optional().default('#e10098', '#e10098', 'Icon fill color'),
+  width: ats.number().optional().default(24, 'Icon width'),
+  height: ats.number().optional().default(24, 'Icon height'),
+  fill: ats.color().optional().default('#e10098', 'Icon fill color'),
 })
 
 /* --- <GraphIcon/> ----------------------------------------------------------------------------- */
 
-const GraphIcon = (props) => (
+const GraphIcon = (props: Infer<typeof propSchema>) => (
   <Svg width={24} height={24} viewBox="0 0 134 134" fill="#e10098" {...props}>
     <Path
       d="M-.43 12.534h22.901v1.187H-.43z"

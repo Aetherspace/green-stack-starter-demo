@@ -1,18 +1,18 @@
 import * as React from 'react'
 import Svg, { Defs, LinearGradient, Stop, Circle, Mask, Use, G, Path } from 'react-native-svg'
-import { ats } from 'aetherspace/schemas'
+import { ats, Infer } from 'aetherspace/schemas'
 
 /* --- Schema ---------------------------------------------------------------------------------- */
 
 const propSchema = ats.schema('NextIconProps', {
-  width: ats.number().optional().default(24, 24, 'Icon width'),
-  height: ats.number().optional().default(24, 24, 'Icon height'),
-  fill: ats.color().optional().default('#000000', '#000000', 'Icon fill color'),
+  width: ats.number().optional().default(24, 'Icon width'),
+  height: ats.number().optional().default(24, 'Icon height'),
+  fill: ats.color().optional().default('#000000', 'Icon fill color'),
 })
 
 /* --- <NextIcon/> ----------------------------------------------------------------------------- */
 
-const NextIcon = ({ fill = '#000000', ...props }) => (
+const NextIcon = ({ fill = '#000000', ...props }: Infer<typeof propSchema>) => (
   <Svg width={24} height={24} viewBox="0 0 256 256" fill={fill} {...props}>
     <Defs>
       {/* @ts-ignore */}

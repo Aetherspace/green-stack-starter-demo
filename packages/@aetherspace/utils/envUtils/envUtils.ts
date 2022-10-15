@@ -11,13 +11,13 @@ export const getDebuggerURL = (port?: number) => {
 
 /* --- setGlobal() ----------------------------------------------------------------------------- */
 // -i- Set a global variable on the "globalThis" object
-export const setGlobal = (key: any, val: any) => {
+const setGlobal = (key: any, val: any) => {
   globalThis[key] = val
 }
 
 /* --- getGlobal() ----------------------------------------------------------------------------- */
 // -i- Get a global variable on the "globalThis" object
-export const getGlobal = (key: any) => globalThis[key]
+const getGlobal = (key: any) => globalThis[key]
 
 /* --- setPublicEnvVars() ---------------------------------------------------------------------- */
 // -i- Set a series of global public env vars to enable retrieving them via getEnvVar() later

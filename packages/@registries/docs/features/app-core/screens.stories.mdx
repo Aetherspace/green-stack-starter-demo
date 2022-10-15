@@ -1,5 +1,6 @@
 import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs'
 import { aetherStoryDocs } from 'aetherspace/schemas'
+import { isEmpty } from 'aetherspace/utils/commonUtils'
 // -i- Auto generated with "yarn document-components"
 // Components hooking into the storybook auto-documentation script
 import { default as AuthorScreen, getDocumentationProps as getAuthorScreenProps } from '../../../../../features/app-core/screens/AuthorScreen.tsx'
@@ -22,6 +23,11 @@ export const createDocs = (Component) => (args) => {
 export const AuthorScreenDocs = createDocs(AuthorScreen)
 export const AuthorScreenConfig = aetherStoryDocs({ AuthorScreen }, getAuthorScreenProps)
 
+```typescript
+import AuthorScreen from 'features/app-core/screens/AuthorScreen'
+```
+
+
 <Canvas>
     <Story
         name="AuthorScreen"
@@ -32,11 +38,18 @@ export const AuthorScreenConfig = aetherStoryDocs({ AuthorScreen }, getAuthorScr
     </Story>
 </Canvas>
 
+{!isEmpty(AuthorScreenConfig.args) && <ArgsTable story="AuthorScreen" />}
+
 
 ## HomeScreen
 
 export const HomeScreenDocs = createDocs(HomeScreen)
 export const HomeScreenConfig = aetherStoryDocs({ HomeScreen }, getHomeScreenProps)
+
+```typescript
+import HomeScreen from 'features/app-core/screens/HomeScreen'
+```
+
 
 <Canvas>
     <Story
@@ -47,6 +60,8 @@ export const HomeScreenConfig = aetherStoryDocs({ HomeScreen }, getHomeScreenPro
       {HomeScreenDocs.bind({})}
     </Story>
 </Canvas>
+
+{!isEmpty(HomeScreenConfig.args) && <ArgsTable story="HomeScreen" />}
 
 
 

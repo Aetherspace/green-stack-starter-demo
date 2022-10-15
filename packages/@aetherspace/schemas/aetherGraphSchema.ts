@@ -75,9 +75,9 @@ const aetherSchemaDefinitions = (aetherSchema: ResolverSchemaType, prefix = 'typ
     AetherArray: createDefinition('Array'),
     AetherCollection: createDefinition('Array'),
   })
-  // Transform into usable graphql definitions
+  // Transform into usable graphql definitions (TODO: Figure out why aetherSchema can be undefined, yet graphql doesn't break?)
   const schemaDef = `
-    ${prefix} ${aetherSchema.schemaName} {
+    ${prefix} ${aetherSchema?.schemaName} {
         ${Object.values(schemaMap).join('\n        ')}
     }
   `

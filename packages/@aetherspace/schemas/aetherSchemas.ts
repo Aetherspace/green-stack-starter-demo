@@ -49,10 +49,10 @@ const assignDescriptors = <R extends AetherSchemaType>(
     // Chain command for docs, indicating example value & description to schema property (e.g. for Storybook)
     docs: (example, description?: string) => Object.assign(schema, { example, description }),
     // Chain command for indicating default value + add example & description for docs
-    default: (defaultVal, example?: any, description?: string) => {
+    default: (defaultVal, description?: string, example?: any) => {
       return Object.assign(schema, {
         default: defaultVal,
-        ...(example ? { example } : null),
+        example: example || defaultVal,
         ...(description ? { description } : null),
       })
     },
@@ -75,10 +75,11 @@ const makeOptionalable = <T, S, ST extends ss.Struct<T, S>>(
       return assignDescriptors(newSchema, aetherType, schemaName)
     },
     // Chain command to indicate the field can be omitted / undefined (e.g. in Docs)
-    optional: (nullable?: boolean) => {
+    optional: (/* nullable = false */) => {
       const newSchema = Object.assign(ss.optional(schema), { optional: true })
-      if (!nullable) return assignDescriptors(newSchema, aetherType, schemaName)
-      return assignDescriptors(Object.assign(ss.nullable(newSchema), { nullable: true }), aetherType, schemaName); // prettier-ignore
+      // TODO: Type inference seems to be broken here, if we enable optional nullability here, it automatically assumes null is a valid type, even if nullable is false
+      // if (nullable) return assignDescriptors(Object.assign(ss.nullable(newSchema), { nullable: true }), aetherType, schemaName) // prettier-ignore
+      return assignDescriptors(newSchema, aetherType, schemaName)
     },
   })
 }

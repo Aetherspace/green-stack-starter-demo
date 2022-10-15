@@ -1,18 +1,18 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
-import { ats } from 'aetherspace/schemas'
+import { ats, Infer } from 'aetherspace/schemas'
 
 /* --- Schema ---------------------------------------------------------------------------------- */
 
 const propSchema = ats.schema('HomeIconProps', {
-  width: ats.number().optional().default(24, 24, 'Icon width'),
-  height: ats.number().optional().default(24, 24, 'Icon height'),
-  fill: ats.color().optional().default('#FFFFFF', '#000000', 'Icon fill color'),
+  width: ats.number().optional().default(24, 'Icon width'),
+  height: ats.number().optional().default(24, 'Icon height'),
+  fill: ats.color().optional().default('#FFFFFF', 'Icon fill color', '#000000'),
 })
 
 /* --- <HomeIcon/> ----------------------------------------------------------------------------- */
 
-const HomeIcon = (props) => (
+const HomeIcon = (props: Infer<typeof propSchema>) => (
   <Svg width={24} height={24} viewBox="0 0 24 24" fill="#FFFFFF" {...props}>
     <Path d="M19 8.89L12 3 5 8.89V21c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V8.89z" clipRule="evenodd" />
     <Path d="M16 2.5v3.87l3 2.52V2.5c0-.28-.22-.5-.5-.5h-2c-.28 0-.5.22-.5.5z" clipRule="evenodd" />

@@ -1,18 +1,18 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
-import { ats } from 'aetherspace/schemas'
+import { ats, Infer } from 'aetherspace/schemas'
 
 /* --- Schema ---------------------------------------------------------------------------------- */
 
 const propSchema = ats.schema('StorybookIconProps', {
-  width: ats.number().optional().default(24, 24, 'Icon width'),
-  height: ats.number().optional().default(24, 24, 'Icon height'),
-  fill: ats.color().optional().default('#ff4785', '#ff4785', 'Icon fill color'),
+  width: ats.number().optional().default(24, 'Icon width'),
+  height: ats.number().optional().default(24, 'Icon height'),
+  fill: ats.color().optional().default('#ff4785', 'Icon fill color'),
 })
 
 /* --- <StorybookIcon/> ------------------------------------------------------------------------ */
 
-const StorybookIcon = ({ fill = '#ff4785', ...props }) => (
+const StorybookIcon = ({ fill = '#ff4785', ...props }: Infer<typeof propSchema>) => (
   <Svg width={24} height={24} viewBox="0 0 32 32" {...props}>
     <Path
       d="m20.735 5.442.133-3.173 2.72-.168.122 3.23a.216.216 0 0 1-.047.143.21.21 0 0 1-.3.029l-1.05-.82-1.243.934a.212.212 0 0 1-.3-.04.206.206 0 0 1-.035-.135Z"

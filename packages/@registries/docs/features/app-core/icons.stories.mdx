@@ -1,5 +1,6 @@
 import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs'
 import { aetherStoryDocs } from 'aetherspace/schemas'
+import { isEmpty } from 'aetherspace/utils/commonUtils'
 // -i- Auto generated with "yarn document-components"
 // Components hooking into the storybook auto-documentation script
 import { default as BackIcon, getDocumentationProps as getBackIconProps } from '../../../../../features/app-core/icons/BackIcon.tsx'
@@ -27,6 +28,11 @@ export const createDocs = (Component) => (args) => {
 export const BackIconDocs = createDocs(BackIcon)
 export const BackIconConfig = aetherStoryDocs({ BackIcon }, getBackIconProps)
 
+```typescript
+import BackIcon from 'features/app-core/icons/BackIcon'
+```
+
+
 <Canvas>
     <Story
         name="BackIcon"
@@ -37,11 +43,18 @@ export const BackIconConfig = aetherStoryDocs({ BackIcon }, getBackIconProps)
     </Story>
 </Canvas>
 
+{!isEmpty(BackIconConfig.args) && <ArgsTable story="BackIcon" />}
+
 
 ## ExpoIcon
 
 export const ExpoIconDocs = createDocs(ExpoIcon)
 export const ExpoIconConfig = aetherStoryDocs({ ExpoIcon }, getExpoIconProps)
+
+```typescript
+import ExpoIcon from 'features/app-core/icons/ExpoIcon'
+```
+
 
 <Canvas>
     <Story
@@ -53,11 +66,18 @@ export const ExpoIconConfig = aetherStoryDocs({ ExpoIcon }, getExpoIconProps)
     </Story>
 </Canvas>
 
+{!isEmpty(ExpoIconConfig.args) && <ArgsTable story="ExpoIcon" />}
+
 
 ## GraphIcon
 
 export const GraphIconDocs = createDocs(GraphIcon)
 export const GraphIconConfig = aetherStoryDocs({ GraphIcon }, getGraphIconProps)
+
+```typescript
+import GraphIcon from 'features/app-core/icons/GraphIcon'
+```
+
 
 <Canvas>
     <Story
@@ -69,11 +89,18 @@ export const GraphIconConfig = aetherStoryDocs({ GraphIcon }, getGraphIconProps)
     </Story>
 </Canvas>
 
+{!isEmpty(GraphIconConfig.args) && <ArgsTable story="GraphIcon" />}
+
 
 ## HomeIcon
 
 export const HomeIconDocs = createDocs(HomeIcon)
 export const HomeIconConfig = aetherStoryDocs({ HomeIcon }, getHomeIconProps)
+
+```typescript
+import HomeIcon from 'features/app-core/icons/HomeIcon'
+```
+
 
 <Canvas>
     <Story
@@ -85,11 +112,18 @@ export const HomeIconConfig = aetherStoryDocs({ HomeIcon }, getHomeIconProps)
     </Story>
 </Canvas>
 
+{!isEmpty(HomeIconConfig.args) && <ArgsTable story="HomeIcon" />}
+
 
 ## NextIcon
 
 export const NextIconDocs = createDocs(NextIcon)
 export const NextIconConfig = aetherStoryDocs({ NextIcon }, getNextIconProps)
+
+```typescript
+import NextIcon from 'features/app-core/icons/NextIcon'
+```
+
 
 <Canvas>
     <Story
@@ -101,11 +135,18 @@ export const NextIconConfig = aetherStoryDocs({ NextIcon }, getNextIconProps)
     </Story>
 </Canvas>
 
+{!isEmpty(NextIconConfig.args) && <ArgsTable story="NextIcon" />}
+
 
 ## ReactIcon
 
 export const ReactIconDocs = createDocs(ReactIcon)
 export const ReactIconConfig = aetherStoryDocs({ ReactIcon }, getReactIconProps)
+
+```typescript
+import ReactIcon from 'features/app-core/icons/ReactIcon'
+```
+
 
 <Canvas>
     <Story
@@ -117,11 +158,18 @@ export const ReactIconConfig = aetherStoryDocs({ ReactIcon }, getReactIconProps)
     </Story>
 </Canvas>
 
+{!isEmpty(ReactIconConfig.args) && <ArgsTable story="ReactIcon" />}
+
 
 ## StorybookIcon
 
 export const StorybookIconDocs = createDocs(StorybookIcon)
 export const StorybookIconConfig = aetherStoryDocs({ StorybookIcon }, getStorybookIconProps)
+
+```typescript
+import StorybookIcon from 'features/app-core/icons/StorybookIcon'
+```
+
 
 <Canvas>
     <Story
@@ -132,6 +180,8 @@ export const StorybookIconConfig = aetherStoryDocs({ StorybookIcon }, getStorybo
       {StorybookIconDocs.bind({})}
     </Story>
 </Canvas>
+
+{!isEmpty(StorybookIconConfig.args) && <ArgsTable story="StorybookIcon" />}
 
 
 

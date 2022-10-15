@@ -8,6 +8,7 @@ import { isEmpty } from '../utils/commonUtils'
 
 const mdxTemplate = `import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs'
 import { aetherStoryDocs } from 'aetherspace/schemas'
+import { isEmpty } from 'aetherspace/utils/commonUtils'
 // -i- Auto generated with "yarn document-components"
 // Components hooking into the storybook auto-documentation script
 {{imports}}
@@ -30,6 +31,8 @@ const storyTemplate = `
 export const {componentNameDocs} = createDocs({componentName})
 export const {componentNameConfig} = aetherStoryDocs({ {componentName} }, {getDocumentationProps})
 
+{importExample}
+
 <Canvas>
     <Story
         name="{componentName}"
@@ -39,6 +42,8 @@ export const {componentNameConfig} = aetherStoryDocs({ {componentName} }, {getDo
       {{componentNameDocs}.bind({})}
     </Story>
 </Canvas>
+
+{!isEmpty({componentNameConfig}.args) && <ArgsTable story="{componentName}" />}
 
 {{stories}}
 `
@@ -95,19 +100,24 @@ const documentComponents = () => {
       // Create the .stories.mdx file content
       const storiesFile = componentsList.reduce((acc, componentConfig) => {
         const { componentName, componentFile, componentFolder, hasNamedExport } = componentConfig
-        const importPath = `${componentFolder.replace('../../', relativeSections)}/${componentFile}`
-        // Build import statement
+        const storyImportPath = `${componentFolder.replace('../../', relativeSections)}/${componentFile}` // prettier-ignore
+        // Build story import statement
         const storyPropsAlias = `get${componentName}Props`
         const storyComponentAlias = hasNamedExport ? componentName : `default as ${componentName}`
-        const importLine = `import { ${storyComponentAlias}, getDocumentationProps as ${storyPropsAlias} } from '${importPath}'` // prettier-ignore
+        const storyImportLine = `import { ${storyComponentAlias}, getDocumentationProps as ${storyPropsAlias} } from '${storyImportPath}'` // prettier-ignore
+        // Build component import example
+        const importStatement = hasNamedExport ? `{ ${componentName} }` : componentName
+        const componentImportPath = `${componentFolder.replace('../../', '')}/${componentName}`
+        const importExample = `import ${importStatement} from '${componentImportPath}'`
         // Add import statement to the imports list
-        let updatedStoryFile = acc.replace('{{imports}}\n', `${importLine}\n{{imports}}\n`)
+        let updatedStoryFile = acc.replace('{{imports}}\n', `${storyImportLine}\n{{imports}}\n`)
         // Build story
         const story = replaceStringVars(storyTemplate, {
           componentName,
           componentNameDocs: `${componentName}Docs`,
           componentNameConfig: `${componentName}Config`,
           getDocumentationProps: storyPropsAlias,
+          importExample: '```typescript\n' + importExample + '\n```\n',
         })
         // Add story to the stories list
         updatedStoryFile = updatedStoryFile.replace('{{stories}}', `${story}`)
