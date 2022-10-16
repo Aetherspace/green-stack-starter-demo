@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar'
 // Navigation
 import { Link, useAetherNav } from 'aetherspace/navigation'
 // Schemas
-import { ats } from 'aetherspace/schemas'
+import { ats, applySchema } from 'aetherspace/schemas'
 // Primitives
 import { View, Text, Image, Pressable } from 'aetherspace/primitives'
 // SEO
@@ -12,30 +12,24 @@ import { H1 } from 'aetherspace/html-elements'
 import { useDocAddress, useAPICheck } from 'aetherspace/docs'
 import { useAetherContext } from 'aetherspace/context'
 // Utils
-import { getEnvVar } from 'aetherspace/utils'
+import { getEnvList } from 'aetherspace/utils'
 // Icons
 import { GraphIcon, ReactIcon, ExpoIcon, StorybookIcon, NextIcon } from '../icons'
 
 /* --- Schemas --------------------------------------------------------------------------------- */
 
-const propSchema = ats.schema('HomeScreenProps', {
-  customGreeting: ats.string().optional().docs('Hello Storybook 👋', 'A greeting for the user'),
-  testSchema: ats
-    .schema('TestSchema', {
-      hello: ats.string().docs('Hello', 'A greeting for the user'),
-    })
-    .optional()
-    .docs('Test Schema', 'A test schema'),
+const PropSchema = ats.schema('HomeScreenProps', {
+  customGreeting: ats.string().nullish().default('Hello GREEN stack 👋', 'A greeting for the user', 'Hello Storybook 👋'), // prettier-ignore
 })
 
 /* --- <HomeScreen/> --------------------------------------------------------------------------- */
 
-const HomeScreen = (props: typeof propSchema['TYPE']) => {
+const HomeScreen = (props) => {
   // Props
-  const { customGreeting } = props
+  const { customGreeting } = applySchema(props, PropSchema)
 
   // Environment
-  const appURIs = getEnvVar('APP_LINKS')?.split('|').filter((url) => url.includes('http')) || [] // prettier-ignore
+  const appURIs = getEnvList('APP_LINKS').filter((url) => url.includes('http')) || [] // prettier-ignore
 
   // Hooks
   const { isPhoneSize } = useAetherContext()
@@ -115,7 +109,7 @@ const HomeScreen = (props: typeof propSchema['TYPE']) => {
 
 /* --- Documentation --------------------------------------------------------------------------- */
 
-export const getDocumentationProps = propSchema
+export const getDocumentationProps = PropSchema
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

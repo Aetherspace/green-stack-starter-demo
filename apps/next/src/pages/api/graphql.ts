@@ -1,9 +1,13 @@
 import { ApolloServer } from 'apollo-server-micro'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
+// Types
+import type { NextApiRequest, NextApiResponse } from 'next'
 // Schemas
 import { aetherGraphSchema, ResolverMapType } from 'aetherspace/schemas'
 // Resolvers
 import * as resolvers from 'registries/resolvers.generated'
+import { withCors } from 'app/middleware'
+import { runMiddleWare } from 'aetherspace/utils/serverUtils'
 
 /* --- Debug ----------------------------------------------------------------------------------- */
 
@@ -34,6 +38,13 @@ const apolloServer = new ApolloServer({
 await apolloServer.start() // Required to make ApolloServer work
 const graphqlHandler = apolloServer.createHandler({ path: '/api/graphql' })
 
+/* --- Handler --------------------------------------------------------------------------------- */
+
+const apiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+  await runMiddleWare(req, res, withCors)
+  return graphqlHandler(req, res)
+}
+
 /* --- API Config ------------------------------------------------------------------------------ */
 
 // Config needs to be exported because we are changing default values in Next.JS API https://nextjs.org/docs/api-routes/api-middlewares
@@ -46,4 +57,4 @@ export const config = {
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export default graphqlHandler
+export default apiHandler

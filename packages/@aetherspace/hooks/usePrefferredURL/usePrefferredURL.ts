@@ -11,7 +11,7 @@ const usePrefferredURL = (preferredURLS: string[] = [], forcedFallback?: string)
 
   useEffect(() => {
     // Filter out falsy URLs
-    const urlsToCheck = preferredURLS.filter(Boolean)
+    const urlsToCheck = preferredURLS.filter((url) => !!url && !url.includes('null'))
     // Check URL, move on to next if unavailable
     const checkUriIndex = async (index = 0) => {
       try {
@@ -21,11 +21,13 @@ const usePrefferredURL = (preferredURLS: string[] = [], forcedFallback?: string)
           return
         }
         // Attempt to contact docs
-        const response = await axios.get(urlsToCheck[index])
+        const response = await axios.head(urlsToCheck[index], {
+          headers: {
+            // Origin: 'same-origin',
+          },
+        })
         // If unavailable, check the next URI
-        if (response?.status !== 200) {
-          return checkUriIndex(index + 1)
-        }
+        if (response?.status !== 200) return checkUriIndex(index + 1)
         // If we do get a response, set as docs URI
         return setFirstAvailableURL(urlsToCheck[index])
       } catch (error) {

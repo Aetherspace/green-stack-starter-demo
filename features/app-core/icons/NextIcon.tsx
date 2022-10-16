@@ -4,7 +4,7 @@ import { ats, Infer } from 'aetherspace/schemas'
 
 /* --- Schema ---------------------------------------------------------------------------------- */
 
-const propSchema = ats.schema('NextIconProps', {
+const PropSchema = ats.schema('NextIconProps', {
   width: ats.number().optional().default(24, 'Icon width'),
   height: ats.number().optional().default(24, 'Icon height'),
   fill: ats.color().optional().default('#000000', 'Icon fill color'),
@@ -12,7 +12,7 @@ const propSchema = ats.schema('NextIconProps', {
 
 /* --- <NextIcon/> ----------------------------------------------------------------------------- */
 
-const NextIcon = ({ fill = '#000000', ...props }: Infer<typeof propSchema>) => (
+const NextIcon = ({ fill = '#000000', ...props }: Infer<typeof PropSchema>) => (
   <Svg width={24} height={24} viewBox="0 0 256 256" fill={fill} {...props}>
     <Defs>
       {/* @ts-ignore */}
@@ -45,7 +45,7 @@ const NextIcon = ({ fill = '#000000', ...props }: Infer<typeof propSchema>) => (
 
 /* --- Documentation --------------------------------------------------------------------------- */
 
-export const getDocumentationProps = propSchema
+export const getDocumentationProps = PropSchema
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

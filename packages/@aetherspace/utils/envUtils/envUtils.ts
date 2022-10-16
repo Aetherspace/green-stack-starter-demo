@@ -43,3 +43,10 @@ export const getEnvVar = (key: string) => {
   const checkEnv = (k) => process.env[k] || expoEnv?.[k] || getGlobal(__PUBLIC_ENV)?.[k]
   return possibleKeys.map(checkEnv).find((envVar) => typeof envVar !== 'undefined')
 }
+
+/* --- getEnvList() ---------------------------------------------------------------------------- */
+// -i- Get an env var, split on '|' and return as an array
+export const getEnvList = (key: string) => {
+  const envList = getEnvVar(key)?.split?.('|') || []
+  return envList as string[]
+}

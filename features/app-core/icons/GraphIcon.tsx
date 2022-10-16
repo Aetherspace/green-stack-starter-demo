@@ -4,7 +4,7 @@ import { ats, Infer } from 'aetherspace/schemas'
 
 /* --- Schema ---------------------------------------------------------------------------------- */
 
-const propSchema = ats.schema('GraphIconProps', {
+const PropSchema = ats.schema('GraphIconProps', {
   width: ats.number().optional().default(24, 'Icon width'),
   height: ats.number().optional().default(24, 'Icon height'),
   fill: ats.color().optional().default('#e10098', 'Icon fill color'),
@@ -12,7 +12,7 @@ const propSchema = ats.schema('GraphIconProps', {
 
 /* --- <GraphIcon/> ----------------------------------------------------------------------------- */
 
-const GraphIcon = (props: Infer<typeof propSchema>) => (
+const GraphIcon = (props: Infer<typeof PropSchema>) => (
   <Svg width={24} height={24} viewBox="0 0 134 134" fill="#e10098" {...props}>
     <Path
       d="M-.43 12.534h22.901v1.187H-.43z"
@@ -52,7 +52,7 @@ const GraphIcon = (props: Infer<typeof propSchema>) => (
 
 /* --- Docs ------------------------------------------------------------------------------------ */
 
-export const getDocumentationProps = propSchema
+export const getDocumentationProps = PropSchema
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

@@ -4,7 +4,7 @@ import { ats, Infer } from 'aetherspace/schemas'
 
 /* --- Schema ---------------------------------------------------------------------------------- */
 
-const propSchema = ats.schema('ReactIconProps', {
+const PropSchema = ats.schema('ReactIconProps', {
   width: ats.number().optional().default(24, 'Icon width'),
   height: ats.number().optional().default(24, 'Icon height'),
   fill: ats.color().optional().default('#61dafb', 'Icon fill color'),
@@ -12,7 +12,7 @@ const propSchema = ats.schema('ReactIconProps', {
 
 /* --- <ReactIcon/> ---------------------------------------------------------------------------- */
 
-const ReactIcon = ({ fill = '#61dafb', ...props }: Infer<typeof propSchema>) => (
+const ReactIcon = ({ fill = '#61dafb', ...props }: Infer<typeof PropSchema>) => (
   <Svg width={24} height={24} viewBox="-11.5 -10.23174 23 20.46348" fill={fill} {...props}>
     <Circle r={2.05} />
     {/* @ts-ignore */}
@@ -26,7 +26,7 @@ const ReactIcon = ({ fill = '#61dafb', ...props }: Infer<typeof propSchema>) => 
 
 /* --- Documentation --------------------------------------------------------------------------- */
 
-export const getDocumentationProps = propSchema
+export const getDocumentationProps = PropSchema
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

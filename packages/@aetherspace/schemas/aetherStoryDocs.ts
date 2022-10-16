@@ -41,24 +41,30 @@ const aetherSchemaArgTypes = (aetherSchema) => {
   }
   // Storybook ArgTypes factory
   const createArgType = (dataType, controlType) => (name, schemaConfig) => {
-    const isNullable = [schemaConfig.optional, schemaConfig.nullable].includes(true)
+    const { isNullable, isOptional } = schemaConfig
+    const isNullish = [isNullable, isOptional].includes(true)
     const argType: StorybookArgType = {
       name,
       description: schemaConfig.description,
       type: {
         name: dataType,
-        required: !isNullable,
+        required: !isNullish,
       },
       table: {
-        type: { summary: dataType },
+        type: {
+          summary: [
+            schemaConfig.schemaName || dataType,
+            isNullable && 'null',
+            // isOptional && '(undefined)',
+          ].filter(Boolean).join(' | '), // prettier-ignore
+        },
       },
       control: { type: controlType },
     }
+    if (name === 'customGreeting') console.log({ isNullable, isOptional, argType })
     // Fill in extra table values
     if (dataType === 'enum') argType.options = Object.values(schemaConfig.schema)
-    if (typeof schemaConfig?.default !== 'function') {
-      argType.table.defaultValue = { summary: schemaConfig.default }
-    }
+    if (schemaConfig?.defaultValue) argType.table.defaultValue = { summary: schemaConfig.defaultValue } // prettier-ignore
     // Return final result
     return argType
   }
@@ -72,9 +78,9 @@ const aetherSchemaArgTypes = (aetherSchema) => {
     AetherId: createArgType('string', 'text'),
     AetherColor: createArgType('color', 'color'),
     AetherDate: createArgType('date', 'date'),
-    AetherEnum: createArgType('enum', 'select'), // TODO: expand with options
+    AetherEnum: createArgType('enum', 'select'),
     // -- Objectlikes --
-    AetherSchema: createArgType('object', 'object'), // TODO: add schema name to description
+    AetherSchema: createArgType('object', 'object'),
     AetherObject: createArgType('object', 'object'),
     // -- Arraylikes --
     AetherArray: createArgType('array', 'object'),

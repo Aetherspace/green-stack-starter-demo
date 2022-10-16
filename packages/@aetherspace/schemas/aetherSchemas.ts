@@ -1,5 +1,6 @@
 import * as ss from 'superstruct'
 import { ObjectSchema, ObjectType, StructSchema } from 'superstruct/lib/utils'
+import { isEmpty } from '../utils'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -49,10 +50,10 @@ const assignDescriptors = <R extends AetherSchemaType>(
     // Chain command for docs, indicating example value & description to schema property (e.g. for Storybook)
     docs: (example, description?: string) => Object.assign(schema, { example, description }),
     // Chain command for indicating default value + add example & description for docs
-    default: (defaultVal, description?: string, example?: any) => {
+    default: (defaultValue, description?: string, example?: any) => {
       return Object.assign(schema, {
-        default: defaultVal,
-        example: example || defaultVal,
+        defaultValue,
+        example: example || defaultValue,
         ...(description ? { description } : null),
       })
     },
@@ -71,15 +72,22 @@ const makeOptionalable = <T, S, ST extends ss.Struct<T, S>>(
   return Object.assign(schema, {
     // Chain command to indicate the field can be nullable (e.g. in GraphQL)
     nullable: () => {
-      const newSchema = Object.assign(ss.nullable(schema), { nullable: true })
-      return assignDescriptors(newSchema, aetherType, schemaName)
+      const nullableSchema = Object.assign(ss.nullable(schema), { isNullable: true })
+      return assignDescriptors(nullableSchema, aetherType, schemaName)
+    },
+    // Chain command to indicate the field can be nullish (= null or undefined)
+    nullish: () => {
+      const nullableSchema = Object.assign(ss.nullable(schema), { isNullable: true })
+      const nullishSchema = Object.assign(ss.optional(nullableSchema), {
+        isNullable: true,
+        isOptional: true,
+      })
+      return assignDescriptors(nullishSchema, aetherType, schemaName)
     },
     // Chain command to indicate the field can be omitted / undefined (e.g. in Docs)
-    optional: (/* nullable = false */) => {
-      const newSchema = Object.assign(ss.optional(schema), { optional: true })
-      // TODO: Type inference seems to be broken here, if we enable optional nullability here, it automatically assumes null is a valid type, even if nullable is false
-      // if (nullable) return assignDescriptors(Object.assign(ss.nullable(newSchema), { nullable: true }), aetherType, schemaName) // prettier-ignore
-      return assignDescriptors(newSchema, aetherType, schemaName)
+    optional: () => {
+      const optionalSchema = Object.assign(ss.optional(schema), { isOptional: true })
+      return assignDescriptors(optionalSchema, aetherType, schemaName)
     },
   })
 }
@@ -127,6 +135,37 @@ const AetherCollection = <S extends ObjectSchema>(schemaName: string, objSchema:
   return AetherArray(entrySchema)
 }
 
+/* --- Helpers --------------------------------------------------------------------------------- */
+
+export const applySchema = <S extends AetherSchemaType>(
+  obj: Record<string, unknown> | Infer<S>,
+  schema: S,
+  applyExamples = false
+): Infer<S> => {
+  // Loop over schemaConfig
+  const objWithDefaults = Object.entries(schema.schema).reduce((acc, entries) => {
+    // Extract schema entries
+    const [name, fieldConfig] = entries as [string, { defaultValue?: any; example?: any, type: string }] // prettier-ignore
+    // Detect if we should nest
+    const isObjectSchema = ['object', 'schema'].includes(fieldConfig.type)
+    // Always apply the same for nested objects
+    if (isObjectSchema) {
+      return {
+        ...acc,
+        [name]: applySchema(obj?.[name] || {}, fieldConfig as AetherSchemaType, applyExamples),
+      }
+    }
+    // Keep existing value if present
+    if (obj?.[name]) return obj[name]
+    // Apply example value instead? (docs)
+    if (applyExamples) return { ...acc, [name]: fieldConfig.example || fieldConfig.defaultValue } // prettier-ignore
+    // Apply default value
+    return { ...acc, [name]: fieldConfig.defaultValue }
+  }, {})
+  // Build final object
+  return { ...obj, ...objWithDefaults }
+}
+
 /* --- Exports --------------------------------------------------------------------------------- */
 
 export const AetherSchemaTypes = {
@@ -152,6 +191,7 @@ export const ats = {
   is: ss.is,
   validate: ss.validate,
   assert: ss.assert,
+  applySchema,
 }
 
 export default ats

@@ -3,7 +3,7 @@ import { AetherSchemaType, SchemaPluginMap } from './aetherSchemas'
 /* --- aetherSchemaPlugin() --------------------------------------------------------------------- */
 
 const aetherSchemaPlugin = <T>(
-  aetherSchema: AetherSchemaType,
+  aetherSchema: AetherSchemaType<T>,
   schemaMap: SchemaPluginMap
 ): { [key: string]: T } => {
   return Object.entries(aetherSchema?.schema || {}).reduce((result, [schemaKey, schemaEntry]) => {

@@ -5,6 +5,9 @@ import { printSchema } from 'graphql'
 import { ats, aetherGraphSchema, ResolverMapType } from 'aetherspace/schemas'
 // Resolvers
 import * as resolvers from 'registries/resolvers.generated'
+// Middleware
+import { withCors } from 'app/middleware'
+// Utils
 import {
   aetherResolver,
   makeNextApiHandler,
@@ -66,4 +69,4 @@ const healthCheck = aetherResolver(async ({ args }) => {
 export type HealthCheckArgsType = AetherArgs<typeof healthCheck>
 export type HealthCheckResType = AetherResponse<typeof healthCheck>
 export const graphResolver = makeGraphQLResolver(healthCheck) // Make resolver available to GraphQL
-export default makeNextApiHandler(healthCheck)
+export default makeNextApiHandler(healthCheck, { middleware: [withCors] })

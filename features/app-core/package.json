@@ -6,6 +6,7 @@
         "lint": "cd ../.. && eslint \"features/app-core/**/*.{ts,tsx}\""
     },
     "dependencies": {
-        "@expo-google-fonts/roboto": "^0.2.2"
+        "@expo-google-fonts/roboto": "^0.2.2",
+        "cors": "^2.8.5"
     }
 }

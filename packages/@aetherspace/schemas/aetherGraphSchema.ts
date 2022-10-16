@@ -41,7 +41,7 @@ const aetherSchemaDefinitions = (aetherSchema: ResolverSchemaType, prefix = 'typ
   let schemaDefinitions = [] as string[]
   // Definition factory
   const createDefinition = (gqlType) => (name, schemaConfig) => {
-    const isNullable = [schemaConfig.optional, schemaConfig.nullable].includes(true)
+    const isNullable = [schemaConfig.isOptional, schemaConfig.isNullable].includes(true)
     const requiredState = isNullable ? '' : '!'
     const description = schemaConfig.description ? `"""${schemaConfig.description}"""\n` : ''
     if (gqlType === 'Schema') {
@@ -110,7 +110,7 @@ const aetherGraphDefinitions = (resolverConfigs: ResolverConfigType[]) => {
 const createResolverDefinition = (resolverConfig: ResolverConfigType) => {
   const { resolverName, argSchema, resSchema } = resolverConfig
   const hasArguments = Object.values(argSchema.schema).length > 0 // @ts-ignore
-  const onlyHasOptionalArgs = !hasArguments || Object.values(argSchema?.schema).every((arg) => arg.optional === true) // prettier-ignore
+  const onlyHasOptionalArgs = !hasArguments || Object.values(argSchema?.schema).every((arg) => arg.isOptional === true) // prettier-ignore
   const argRequireState = onlyHasOptionalArgs ? '' : '!'
   const argDef = hasArguments ? `(args: ${argSchema.schemaName}${argRequireState})` : ''
   const resDef = resSchema.schemaName
