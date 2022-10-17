@@ -1,5 +1,15 @@
 import React, { useEffect } from 'react'
 
+/* --- Transform links ------------------------------------------------------------------------- */
+
+const transformLinks = (replaceMap: Record<string, string>) => {
+  const $allLinks = document.querySelectorAll('a[href]')
+  $allLinks.forEach(($link) => {
+    const href = $link.getAttribute('href') || ''
+    if (replaceMap[href]) $link.setAttribute('href', replaceMap[href])
+  })
+}
+
 /* --- <StorybookLinkTransformer/> ------------------------------------------------------------- */
 
 const StorybookLinkTransformer = (props) => {
@@ -9,7 +19,9 @@ const StorybookLinkTransformer = (props) => {
   // -- Memoizations --
 
   useEffect(() => {
-    console.log('[StorybookLinkTransformer]', props)
+    transformLinks({
+      '?path=/packages/@registries/README.md': '?path=/docs/aetherspace-automation--page',
+    })
   }, [])
 
   // -- Render --

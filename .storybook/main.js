@@ -3,14 +3,18 @@ const { withUnimodules } = require('@expo/webpack-config/addons')
 
 module.exports = {
     stories: [
+        // -- Aetherspace docs --
         '../README.stories.mdx',
+        './docs/Quickstart.stories.mdx',
+        './docs/Automation.stories.mdx',
+        './other/License.stories.mdx',
+        // -- Other documentation --
         '../apps/**/*.stories.mdx', 
         '../apps/**/*.stories.@(js|jsx|ts|tsx)',
         '../features/**/*.stories.mdx', 
         '../features/**/*.stories.@(js|jsx|ts|tsx)',
         '../packages/**/*.stories.mdx', 
         '../packages/**/*.stories.@(js|jsx|ts|tsx)',
-        './LICENSE.stories.mdx',
     ],
     addons: [
       { name: '@storybook/addon-essentials', options: { transcludeMarkdown: true } },
