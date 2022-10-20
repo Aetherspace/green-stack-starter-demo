@@ -14,7 +14,7 @@ const collectResolvers = () => {
     // Filter out the next.js api paths that don't work with aether schemas
     const resolverRegistry = nextAPIPaths.reduce((acc, resolverPath) => {
       const importPath = resolverPath.replace('.ts', '').replace('../../apps/', '../../apps/')
-      // Skip files that don't export an aether resolver
+      // Skip files that don't export an aetherResolver
       const pathContents = fs.readFileSync(resolverPath, 'utf8')
       const usesAetherSchemas = pathContents.includes("'aetherspace/schemas'")
       const exportsAetherResolver = pathContents.includes('makeGraphQLResolver')
@@ -35,8 +35,8 @@ const collectResolvers = () => {
     // Write barrel file to 'packages/@registries/resolvers.generated.ts'
     fs.writeFileSync('../../packages/@registries/resolvers.generated.ts', resolverRegistry)
     console.log(
-      '-i- Successfully created asset registries at:\n',
-      '✅ packages/@registries/resolvers.generated.ts'
+      '-i- Successfully created asset registries at:',
+      '\n✅ packages/@registries/resolvers.generated.ts'
     )
   } catch (err) {
     console.log(err)

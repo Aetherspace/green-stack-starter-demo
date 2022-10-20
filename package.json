@@ -47,9 +47,9 @@
     "@expo/webpack-config": "^0.17.0"
   },
   "scripts": {
-    "dev": "yarn dev:mobile",
-    "dev:mobile": "yarn turbo run next-app#dev expo-app#start",
-    "dev:docs": "yarn dev:mobile & yarn storybook:wait",
+    "dev": "yarn turbo run next-app#dev expo-app#start",
+    "dev:mobile": "yarn turbo run next-app#dev expo-app#ios & yarn storybook:wait",
+    "dev:docs": "yarn dev & yarn storybook:wait",
     "web": "yarn turbo run next-app#dev",
     "ios": "yarn turbo run next-app#dev expo-app#ios",
     "android": "yarn turbo run next-app#dev expo-app#android",
