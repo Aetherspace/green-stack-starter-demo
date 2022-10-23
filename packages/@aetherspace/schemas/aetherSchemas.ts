@@ -168,7 +168,23 @@ const makePartialSchema = <S extends ObjectSchema>(
   originalSchema: ss.Struct<ObjectType<S>, S>
 ) => {
   const schema = assignDescriptors(ss.partial(originalSchema), 'AetherSchema', schemaName)
-  for (const key in schema.schema) schema.schema[key] = Object.assign(schema.schema[key], { isOptional: true }) // prettier-ignore
+  for (const key in schema.schema) {
+    const { aetherType, isNullable } = originalSchema.schema[key] as AetherSchemaType['schema'][string] // prettier-ignore
+    schema.schema[key] = Object.assign(schema.schema[key], { aetherType, isNullable, isOptional: true }) // prettier-ignore
+  }
+  return makeOptionalable<typeof schema['TYPE'], typeof schema['schema'], typeof schema>(schema, 'AetherSchema', schemaName) // prettier-ignore
+}
+
+const pickSchemaProps = <S extends ObjectSchema, K extends keyof S>(
+  schemaName: string,
+  originalSchema: ss.Struct<ObjectType<S>, S>,
+  keys: K[]
+) => {
+  const schema = assignDescriptors(ss.pick(originalSchema, keys), 'AetherSchema', schemaName)
+  for (const key in schema.schema) {
+    const { aetherType, isOptional, isNullable } = originalSchema.schema[key] as AetherSchemaType['schema'][string] // prettier-ignore
+    schema.schema[key] = Object.assign(schema.schema[key], { aetherType, isOptional, isNullable }) // prettier-ignore
+  }
   return makeOptionalable<typeof schema['TYPE'], typeof schema['schema'], typeof schema>(schema, 'AetherSchema', schemaName) // prettier-ignore
 }
 
@@ -225,6 +241,7 @@ export const AetherSchemaTypes = {
   extend: extendSchema,
   assign: extendSchema,
   omit: omitSchemaProps,
+  pick: pickSchemaProps,
   partial: makePartialSchema,
 }
 

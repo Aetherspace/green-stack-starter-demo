@@ -31,7 +31,7 @@ const originalSchema = ats.schema('MySchema', {
     col,
     coll,
 })
-type OriginalSchemaType = typeof originalSchema['TYPE']
+type OriginalSchemaType = typeof originalSchema['TYPE'] // Hover to preview
 
 // -- Test Utilities --
 
@@ -46,9 +46,12 @@ type ExtendedSchemaType = typeof extendedSchema['TYPE'] // Hover to preview
 const partialSchema = ats.partial('Partial', extendedSchema)
 type PartialSchemaType = typeof partialSchema['TYPE'] // Hover to preview
 
+const pickedSchema = ats.pick('Picked', partialSchema, ['id', 'str', 'day'])
+type PickedSchemaType = typeof pickedSchema['TYPE'] // Hover to preview
+
 // -- Test Results --
 
-const finalSchema = partialSchema
+const finalSchema = originalSchema // pickedSchema // partialSchema // extendedSchema // omittedSchema // originalSchema
 type FinalSchemaType = typeof finalSchema['TYPE'] // Hover to preview
 
 console.log(JSON.stringify(finalSchema, null, 4))
