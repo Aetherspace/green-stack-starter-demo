@@ -6,7 +6,7 @@ enum TEST_ENUM {
     B = 'B',
 }
 
-const id = ats.id().default('a')
+const id = ats.id().default('some-id')
 const ids = ats.array(ats.id())
 const str = ats.string().nullable().docs('example', 'description')
 const day = ats.date().optional().docs('01/01/2022', 'The start of the year')
@@ -23,21 +23,29 @@ const superSchema = ats.schema('MySchema', {
     str,
     day,
     num,
-    // bln,
-    // opt,
-    // obj,
-    // col,
-    // coll,
+    bln,
+    opt,
+    obj,
+    col,
+    coll,
 })
 
-const extendedSchema = ats.extend('Extended', superSchema, {
+// -- Test Utilities --
+
+const minimalSchema = ats.omit('Minimal', superSchema, ['obj', 'col', 'coll'])
+
+const extendedSchema = ats.extend('Extended', minimalSchema, {
     extra: ats.string().nullish(),
 })
 
-type typeTest = typeof extendedSchema['TYPE']
+const finalSchema = extendedSchema
 
-console.log(JSON.stringify(extendedSchema, null, 4))
+// -- Test Results --
 
+// Hover over this type to preview the schema
+type typeTest = typeof finalSchema['TYPE']
+
+console.log(JSON.stringify(finalSchema, null, 4))
 // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
 // {
@@ -46,8 +54,9 @@ console.log(JSON.stringify(extendedSchema, null, 4))
 //         "id": {
 //             "type": "string",
 //             "schema": null,
-//             "default": "a",
-//             "aetherType": "AetherID"
+//             "aetherType": "AetherID",
+//             "defaultValue": "some-id",
+//             "example": "some-id"
 //         },
 //         "ids": {
 //             "type": "array",
@@ -61,7 +70,7 @@ console.log(JSON.stringify(extendedSchema, null, 4))
 //         "str": {
 //             "type": "string",
 //             "schema": null,
-//             "nullable": true,
+//             "isNullable": true,
 //             "aetherType": "AetherString",
 //             "example": "example",
 //             "description": "description"
@@ -69,7 +78,7 @@ console.log(JSON.stringify(extendedSchema, null, 4))
 //         "day": {
 //             "type": "date",
 //             "schema": null,
-//             "optional": true,
+//             "isOptional": true,
 //             "aetherType": "AetherDate",
 //             "example": "01/01/2022",
 //             "description": "The start of the year"
@@ -83,7 +92,7 @@ console.log(JSON.stringify(extendedSchema, null, 4))
 //         "bln": {
 //             "type": "boolean",
 //             "schema": null,
-//             "optional": true,
+//             "isOptional": true,
 //             "aetherType": "AetherBoolean"
 //         },
 //         "opt": {
@@ -94,56 +103,14 @@ console.log(JSON.stringify(extendedSchema, null, 4))
 //             },
 //             "aetherType": "AetherEnum"
 //         },
-//         "obj": {
-//             "type": "object",
-//             "schema": {
-//                 "str": {
-//                     "type": "string",
-//                     "schema": null,
-//                     "nullable": true,
-//                     "aetherType": "AetherString",
-//                     "example": "example",
-//                     "description": "description"
-//                 }
-//             },
-//             "aetherType": "AetherSchema",
-//             "schemaName": "StringObject"
-//         },
-//         "col": {
-//             "type": "array",
-//             "schema": {
-//                 "type": "object",
-//                 "schema": {
-//                     "id": {
-//                         "type": "string",
-//                         "schema": null,
-//                         "default": "a",
-//                         "aetherType": "AetherID"
-//                     }
-//                 },
-//                 "aetherType": "AetherSchema",
-//                 "schemaName": "IDObject"
-//             },
-//             "aetherType": "AetherArray"
-//         },
-//         "coll": {
-//             "type": "array",
-//             "schema": {
-//                 "type": "object",
-//                 "schema": {
-//                     "id": {
-//                         "type": "string",
-//                         "schema": null,
-//                         "default": "a",
-//                         "aetherType": "AetherID"
-//                     }
-//                 },
-//                 "aetherType": "AetherSchema",
-//                 "schemaName": "IDObject"
-//             },
-//             "aetherType": "AetherArray"
+//         "extra": {
+//             "type": "string",
+//             "schema": null,
+//             "isNullable": true,
+//             "isOptional": true,
+//             "aetherType": "AetherString"
 //         }
 //     },
 //     "aetherType": "AetherSchema",
-//     "schemaName": "MySchema"
+//     "schemaName": "Extended"
 // }

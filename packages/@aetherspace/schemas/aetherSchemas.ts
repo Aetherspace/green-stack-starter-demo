@@ -13,6 +13,8 @@ export type AetherSchemaType<T = any, S = any> = ss.Struct<T, S>
 export type Infer<T extends AetherSchemaType> = T['TYPE'] // Same as superstruct's Infer type
 export type Describe<T> = ss.Struct<T, StructSchema<T>> // Same as superstruct's Describe type
 
+export { Simplify, Optionalize, ObjectSchema, ObjectType, StructSchema }
+
 // -i- Use to extend individual schema entries
 export type SchemaEntry<T extends AetherSchemaType> = {
   type: string
@@ -147,8 +149,17 @@ const extendSchema = <A extends ObjectSchema, B extends ObjectSchema>(
   originalSchema: ss.Struct<ObjectType<A>, A>,
   newProperties: B
 ) => {
-  const extendedSchema = ss.assign(originalSchema, ss.object(newProperties))
-  const schema = assignDescriptors(extendedSchema, 'AetherSchema', schemaName)
+  // Create new schema by extending original schema with new properties using superstruct's assign() method
+  const schema = assignDescriptors(ss.assign(originalSchema, ss.object(newProperties)), 'AetherSchema', schemaName) // prettier-ignore
+  return makeOptionalable<typeof schema['TYPE'], typeof schema['schema'], typeof schema>(schema, 'AetherSchema', schemaName) // prettier-ignore
+}
+
+const omitSchemaProps = <S extends ObjectSchema, K extends keyof S>(
+  schemaName: string,
+  originalSchema: ss.Struct<ObjectType<S>, S>,
+  keys: K[]
+) => {
+  const schema = assignDescriptors(ss.omit(originalSchema, keys), 'AetherSchema', schemaName)
   return makeOptionalable<typeof schema['TYPE'], typeof schema['schema'], typeof schema>(schema, 'AetherSchema', schemaName) // prettier-ignore
 }
 
@@ -204,6 +215,7 @@ export const AetherSchemaTypes = {
   // -- Utilities --
   extend: extendSchema,
   assign: extendSchema,
+  omit: omitSchemaProps,
 }
 
 export const ats = {
@@ -235,7 +247,7 @@ export default ats
 //   coll: ats.collection('IDObject', { id: ats.id })
 // }))
 
-// ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓           (e.g. by testing with "yarn workspace scripts schema-test")
+// ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓           (e.g. by testing with "yarn turbo run aetherspace#schema-test")
 
 // {
 //     "type": "object",
