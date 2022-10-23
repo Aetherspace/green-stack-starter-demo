@@ -23,17 +23,20 @@ const superSchema = ats.schema('MySchema', {
     str,
     day,
     num,
-    bln,
-    opt,
-    obj,
-    col,
-    coll,
+    // bln,
+    // opt,
+    // obj,
+    // col,
+    // coll,
 })
 
-// @ts-ignore
-type typeTest = typeof superSchema['TYPE']
+const extendedSchema = ats.extend('Extended', superSchema, {
+    extra: ats.string().nullish(),
+})
 
-console.log(JSON.stringify(superSchema, null, 4))
+type typeTest = typeof extendedSchema['TYPE']
+
+console.log(JSON.stringify(extendedSchema, null, 4))
 
 // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 

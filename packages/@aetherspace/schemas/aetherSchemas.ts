@@ -1,6 +1,11 @@
 import * as ss from 'superstruct'
-import { ObjectSchema, ObjectType, StructSchema } from 'superstruct/lib/utils'
-import { isEmpty } from '../utils'
+import {
+  ObjectSchema,
+  ObjectType,
+  StructSchema,
+  Simplify,
+  Optionalize,
+} from 'superstruct/lib/utils'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -135,6 +140,18 @@ const AetherCollection = <S extends ObjectSchema>(schemaName: string, objSchema:
   return AetherArray(entrySchema)
 }
 
+/* --- Utilities ------------------------------------------------------------------------------- */
+
+const extendSchema = <A extends ObjectSchema, B extends ObjectSchema>(
+  schemaName: string,
+  originalSchema: ss.Struct<ObjectType<A>, A>,
+  newProperties: B
+) => {
+  const extendedSchema = ss.assign(originalSchema, ss.object(newProperties))
+  const schema = assignDescriptors(extendedSchema, 'AetherSchema', schemaName)
+  return makeOptionalable<typeof schema['TYPE'], typeof schema['schema'], typeof schema>(schema, 'AetherSchema', schemaName) // prettier-ignore
+}
+
 /* --- Helpers --------------------------------------------------------------------------------- */
 
 export const applySchema = <S extends AetherSchemaType>(
@@ -184,6 +201,9 @@ export const AetherSchemaTypes = {
   // -- Arraylikes --
   array: AetherArray,
   collection: AetherCollection,
+  // -- Utilities --
+  extend: extendSchema,
+  assign: extendSchema,
 }
 
 export const ats = {
