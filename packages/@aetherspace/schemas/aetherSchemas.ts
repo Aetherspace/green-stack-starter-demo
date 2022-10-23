@@ -1,5 +1,5 @@
 import * as ss from 'superstruct'
-import {
+import type {
   ObjectSchema,
   ObjectType,
   StructSchema,
@@ -13,7 +13,7 @@ export type AetherSchemaType<T = any, S = any> = ss.Struct<T, S>
 export type Infer<T extends AetherSchemaType> = T['TYPE'] // Same as superstruct's Infer type
 export type Describe<T> = ss.Struct<T, StructSchema<T>> // Same as superstruct's Describe type
 
-export { Simplify, Optionalize, ObjectSchema, ObjectType, StructSchema }
+export type { Simplify, Optionalize, ObjectSchema, ObjectType, StructSchema }
 
 // -i- Use to extend individual schema entries
 export type SchemaEntry<T extends AetherSchemaType> = {
