@@ -163,6 +163,15 @@ const omitSchemaProps = <S extends ObjectSchema, K extends keyof S>(
   return makeOptionalable<typeof schema['TYPE'], typeof schema['schema'], typeof schema>(schema, 'AetherSchema', schemaName) // prettier-ignore
 }
 
+const makePartialSchema = <S extends ObjectSchema>(
+  schemaName: string,
+  originalSchema: ss.Struct<ObjectType<S>, S>
+) => {
+  const schema = assignDescriptors(ss.partial(originalSchema), 'AetherSchema', schemaName)
+  for (const key in schema.schema) schema.schema[key] = Object.assign(schema.schema[key], { isOptional: true }) // prettier-ignore
+  return makeOptionalable<typeof schema['TYPE'], typeof schema['schema'], typeof schema>(schema, 'AetherSchema', schemaName) // prettier-ignore
+}
+
 /* --- Helpers --------------------------------------------------------------------------------- */
 
 export const applySchema = <S extends AetherSchemaType>(
@@ -216,6 +225,7 @@ export const AetherSchemaTypes = {
   extend: extendSchema,
   assign: extendSchema,
   omit: omitSchemaProps,
+  partial: makePartialSchema,
 }
 
 export const ats = {

@@ -17,7 +17,9 @@ const obj = ats.object('StringObject', { str })
 const col = ats.array(ats.object('IDObject', { id }))
 const coll = ats.collection('IDObject', { id })
 
-const superSchema = ats.schema('MySchema', {
+// -- Build Original Schema --
+
+const originalSchema = ats.schema('MySchema', {
     id,
     ids,
     str,
@@ -29,21 +31,25 @@ const superSchema = ats.schema('MySchema', {
     col,
     coll,
 })
+type OriginalSchemaType = typeof originalSchema['TYPE']
 
 // -- Test Utilities --
 
-const minimalSchema = ats.omit('Minimal', superSchema, ['obj', 'col', 'coll'])
+const omittedSchema = ats.omit('Minimal', originalSchema, ['obj', 'col', 'coll'])
+type OmittedSchemaType = typeof omittedSchema['TYPE']
 
-const extendedSchema = ats.extend('Extended', minimalSchema, {
+const extendedSchema = ats.extend('Extended', omittedSchema, {
     extra: ats.string().nullish(),
 })
+type ExtendedSchemaType = typeof extendedSchema['TYPE'] // Hover to preview
 
-const finalSchema = extendedSchema
+const partialSchema = ats.partial('Partial', extendedSchema)
+type PartialSchemaType = typeof partialSchema['TYPE'] // Hover to preview
 
 // -- Test Results --
 
-// Hover over this type to preview the schema
-type typeTest = typeof finalSchema['TYPE']
+const finalSchema = partialSchema
+type FinalSchemaType = typeof finalSchema['TYPE'] // Hover to preview
 
 console.log(JSON.stringify(finalSchema, null, 4))
 // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
