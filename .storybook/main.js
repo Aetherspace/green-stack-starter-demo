@@ -6,6 +6,7 @@ module.exports = {
         // -- Aetherspace docs --
         '../README.stories.mdx',
         './docs/Quickstart.stories.mdx',
+        './docs/Schemas.stories.mdx',
         './docs/Automation.stories.mdx',
         './other/License.stories.mdx',
         // -- Other documentation --
