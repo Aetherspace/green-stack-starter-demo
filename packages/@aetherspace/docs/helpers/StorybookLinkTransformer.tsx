@@ -21,6 +21,7 @@ const StorybookLinkTransformer = (props) => {
   useEffect(() => {
     transformLinks({
       '?path=/packages/@registries/README.md': '?path=/docs/aetherspace-automation--page',
+      '?path=/packages/@aetherspace/schemas/README.md': '?path=/docs/aetherspace-schemas--page',
     })
   }, [])
 

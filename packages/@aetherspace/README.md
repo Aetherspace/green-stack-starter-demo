@@ -1,8 +1,8 @@
-# Web & Mobile with Aetherspace
+# GREEN stack quickstart ⚡
 
 > Welcome! Set up your Web, iOS & Android app in minutes, and blow away the competition with write-once components that run on all platforms. Powered by GraphQL, React, Expo & Next.js
 
-## GREEN stack quickstart ⚡
+## Web & Mobile with Aetherspace
 
 Generate a new repo from the [Aetherspace template](https://github.com/Aetherspace/green-stack-starter) and optionally include all branches.
 
@@ -21,3 +21,9 @@ It comes out of the box with setup for:
 ```bash
 yarn dev:docs
 ```
+
+## Next Steps:
+
+- [Single Sources of Truth for your Web & Mobile apps](/packages/@aetherspace/schemas/README.md)
+- [Writing flexible data resolvers with Schemas]() (TODO)
+- [Automation based on Schemas: Storybook & GraphQL](/packages/@registries/README.md)

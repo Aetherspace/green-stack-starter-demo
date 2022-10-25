@@ -88,7 +88,7 @@ const aetherSchemaDefinitions = (aetherSchema: ResolverSchemaType, prefix = 'typ
     const defWithoutEndingNewLines = defWithoutLeadingNewLines.replace('}\n  ', '}')
     schemaDefinitions.push(defWithoutEndingNewLines)
   } else {
-    console.log(schemaDef, aetherSchema.schemaName, aetherSchema)
+    console.log(schemaDef, aetherSchema?.schemaName, aetherSchema)
   }
   // Return all definitions
   return schemaDefinitions
