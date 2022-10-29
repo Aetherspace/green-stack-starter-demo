@@ -26,7 +26,7 @@ yarn dev:docs
 
 #### Write & style your components just once
 
-> 💚 Aetherspace primitives are ___built with tailwind, ssr, and mobile in mind___
+> 💚 Aetherspace primitives are ___built with [tailwind](), ssr (+ media queries!), and mobile in mind___
 
 ```tsx
 import { View, Text } from 'aetherspace/primitives'
@@ -37,6 +37,27 @@ export const MyComponent = () => (
         Hello World 👋
     </Text>
   </View>
+)
+```
+
+#### Use semantic HTML & optimised primitives where necessary
+
+> ✨ Thanks to a tiny wrapper around `@expo/html-elements` and primitives like `Image` using either the optimized Next.js or React-Native component under the hood, __anything you build with these primitives will automatically be optimized for each platform as well__ 🎉
+
+```tsx
+import { Image } from 'aetherspace/primitives'
+import { Article, Section, H2 } from 'aetherspace/html-elements'
+
+// -i- Render React-Native View / Text / ... components on mobile
+// -i- Render article / section / h2 & next/image for better SEO & vitals on web
+export const MyBlogPost = (props: { paragraphs: string[] }) => (
+  <Article tw="relative">
+    <H2 tw="text-gray roboto-black">My post title</H2>
+    <Image tw="w-full" src="/img/article-header.png">
+    <Section tw="px-4 mb-4">
+      {props.paragraphs.map((paragraph) => <P tw="roboto-regular">{paraggraph}</P>)}
+    </Section>
+  </Article>
 )
 ```
 
@@ -123,7 +144,7 @@ next-app:dev: ✅ packages/@registries/docs/features/app-core/screens.stories.md
 
 [example >>> icon docs](https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/docs/features-app-core-icons)
 
-#### Make your data resolvers flexible
+#### Build flexible data resolvers
 
 > 💪 Using `ats` to describe function arguments and responses opens it up to not just async / await, but Next.js API routes and GraphQL resolvers as well.
 
@@ -165,8 +186,8 @@ export const graphResolver = makeGraphQLResolver(healthCheck)
 export default makeNextApiHandler(healthCheck, { /* options */ })
 ```
 
-[example >>> REST](https://aetherspace-green-stack-starter.vercel.app/api/health) (e.g. `/api/health`)  
-[example >>> GraphQL](https://aetherspace-green-stack-starter.vercel.app/api/graphql) (e.g. `/api/graphql`)
+[example >>> REST](https://aetherspace-green-stack-starter.vercel.app/api/health) (e.g. at `/api/health`)  
+[example >>> GraphQL](https://aetherspace-green-stack-starter.vercel.app/api/graphql) (e.g. in `/api/graphql`)
 
 ## Next Steps:
 
