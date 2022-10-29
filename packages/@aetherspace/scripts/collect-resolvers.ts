@@ -35,7 +35,7 @@ const collectResolvers = () => {
     // Write barrel file to 'packages/@registries/resolvers.generated.ts'
     fs.writeFileSync('../../packages/@registries/resolvers.generated.ts', resolverRegistry)
     console.log(
-      '-i- Successfully created asset registries at:',
+      '-i- Successfully created resolver registry at:',
       '\n✅ packages/@registries/resolvers.generated.ts'
     )
   } catch (err) {

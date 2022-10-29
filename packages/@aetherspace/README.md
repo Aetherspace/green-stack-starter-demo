@@ -22,6 +22,152 @@ It comes out of the box with setup for:
 yarn dev:docs
 ```
 
+## Up and running in minutes
+
+#### Write & style your components just once
+
+> 💚 Aetherspace primitives are ___built with tailwind, ssr, and mobile in mind___
+
+```tsx
+import { View, Text } from 'aetherspace/primitives'
+
+export const MyComponent = () => (
+  <View tw="px-2 max-w-[100px] items-center rounded-md">
+    <Text tw="lg:text-xl roboto-bold text-green">
+        Hello World 👋
+    </Text>
+  </View>
+)
+```
+
+#### Test on _web, iOS & Android_
+
+> ⏳ Automatically wait for your **Next.js** server to start before starting up **Expo**
+
+```bash
+yarn dev
+```
+
+This will run the `dev` command in each app workspace in parallell with [Turbo](https://turbo.build/repo) 👇
+
+```bash
+## Starts next.js web project on port 3000
+next-app:dev: $ next
+next-app:dev: ready - started server on 0.0.0.0:3000, url: http://localhost:3000
+## Runs automations at next.js build time
+next-app:dev: -i- Successfully created resolver registry at: 
+next-app:dev: ✅ packages/@registries/resolvers.generated.ts
+next-app:dev: -i- Successfully created asset registry at:
+next-app:dev: ✅ packages/@registries/assets.generated.ts
+## Checks whether next.js API is ready
+aetherspace:dev-health-check: $ NODE_ENV=development node scripts/dev-health-check
+aetherspace:dev-health-check: ✅ Health check 1 succeeded. Server up and running.
+## Starts Expo for mobile dev
+expo-app:start: $ npx expo start
+expo-app:start: Your native app is running at exp://192.168.0.168:19000
+```
+
+#### Define your data as _single sources of truth_
+
+> 📐 Our `ats` schema builder enables you to __build for Typescript first__, but enables you to optionally ___generate documentation, validation, GraphQL typedefs___ and ___data resolvers___ from them later
+
+```tsx
+import { ats, applySchema, Infer } from 'aetherspace/schemas'
+
+/* --- Schematypes ------------- */
+
+export const PropSchema = ats.schema('MyComponentProps', {
+  name: ats.string().optional(), // string | undefined
+  value: ats.number().default(1), // number
+})
+
+/* --- <MyComponent/> ---------- */
+
+// Infer types from schema with 'Infer' helper, or ...
+export const MyComponent = (props: Infer<typeof PropSchema>) => {
+    // Prop validation (optional: apply defaults? + also infers types)
+    const { name, value } = applySchema(props, PropSchema)
+    // ...
+}
+```
+
+#### Hook into automatic docgen
+
+> 📚 ___Documentation drives adoption___... and Storybook is a great way to do it.  
+> Just export your `ats` powered schema as a __`getDocumentationProps` export__ and our scripts will __automatically turn it into Storybook controls.__
+
+`../../components/MyComponent.tsx`
+
+```tsx
+const PropSchema = ats.schema('MyComponentProps', {
+  name: ats.string().optional().docs('Example', 'Title of the component'),
+  value: ats.number().docs(1, 'Value of the component'),
+})
+
+/* --- <MyComponent/> ---------- */
+
+// ... export your component with the same name as the file ...
+
+/* --- Documenation ------------ */
+
+export const getDocumentationProps = PropsSchema
+```
+
+`// ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓`
+
+```bash
+next-app:dev: -i- Auto documenting with 'yarn document-components' ...
+next-app:dev: ✅ packages/@registries/docs/features/app-core/icons.stories.mdx
+next-app:dev: ✅ packages/@registries/docs/features/app-core/screens.stories.mdx
+```
+
+[example >>> icon docs](https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/docs/features-app-core-icons)
+
+#### Make your data resolvers flexible
+
+> 💪 Using `ats` to describe function arguments and responses opens it up to not just async / await, but Next.js API routes and GraphQL resolvers as well.
+
+`apps/next/src/pages/api/health.ts`
+
+```ts
+// Schemas
+import { ats, aetherGraphSchema } from 'aetherspace/schemas'
+import { aetherResolver, makeNextApiHandler, makeGraphQLResolver } from 'aetherspace/utils/serverUtils'
+
+/* --- Schemas ----------- */
+
+export const HealthCheckArgs = ats.schema('HealthCheckArgs', {
+  echo: ats.string().optional().docs('Hello World', 'Echoes back the echo argument'),
+})
+
+export const HealthCheckResponse = ats.schema('HealthCheckResponse', {
+  echo: HealthCheckArgs.schema.echo, // <- You can reuse schema definitions 👀
+})
+
+/* --- Config ------------ */
+
+const resolverConfig = {
+  argsSchema: HealthCheckArgs,
+  responseSchema: HealthCheckResponse,
+}
+
+/* --- healthCheck() ----- */
+
+export const healthCheck = aetherResolver(async ({ args }) => ({
+    echo: args.echo, // Echo back the echo argument 🤷‍♂️
+}), resolverConfig)
+
+/* --- Exports ----------- */
+
+// Make resolver available to GraphQL (picked up by automation)
+export const graphResolver = makeGraphQLResolver(healthCheck)
+// Export as Next.js API route
+export default makeNextApiHandler(healthCheck, { /* options */ })
+```
+
+[example >>> REST](https://aetherspace-green-stack-starter.vercel.app/api/health) (e.g. `/api/health`)  
+[example >>> GraphQL](https://aetherspace-green-stack-starter.vercel.app/api/graphql) (e.g. `/api/graphql`)
+
 ## Next Steps:
 
 - [Single Sources of Truth for your Web & Mobile apps](/packages/@aetherspace/schemas/README.md)

@@ -26,7 +26,7 @@ const collectAssets = () => {
     // Write barrel file to 'packages/@registries/assets.generated.ts'
     fs.writeFileSync('../../packages/@registries/assets.generated.ts', assetRegistry)
     console.log(
-      '-i- Successfully created asset registries at:',
+      '-i- Successfully created asset registry at:',
       '\n✅ packages/@registries/assets.generated.ts'
     )
   } catch (err) {

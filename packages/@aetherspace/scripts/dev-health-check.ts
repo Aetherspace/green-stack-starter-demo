@@ -13,7 +13,7 @@ const checkHealth = async () => {
   timesTried += 1
   // Exit with error when max amount of tries exceeded
   if (timesTried > MAX_TRIES) {
-    console.error(`Exceeded ${MAX_TRIES} health checks, something may be wrong, aborting.`)
+    console.error(`❌ Exceeded ${MAX_TRIES} health checks, something may be wrong, aborting.`)
     process.exit(1)
   }
   // Attempt to reach the API
@@ -23,12 +23,12 @@ const checkHealth = async () => {
     const saveGraphQLSchema = isDev && requestsSchemaSave
     const res = await axios.post(ENDPOINT, { echo: 'Hello World', saveGraphQLSchema })
     if (res.data.alive && res.data.kicking) {
-      console.log(`Health check #${timesTried} succeeded. Abort script with success message.`)
+      console.log(`✅ Health check #${timesTried} succeeded. Server up and running.`)
       process.exit(0)
     }
   } catch (err) {
     const retryMs = timesTried * TIME_INCREMENT
-    console.log(`Failed health check #${timesTried}, retrying in ${retryMs} ms.`)
+    console.log(`⏳ Failed health check #${timesTried}, retrying in ${retryMs} ms.`)
     setTimeout(checkHealth, retryMs)
   }
 }
