@@ -26,7 +26,7 @@ yarn dev:docs
 
 #### Write & style your components just once
 
-> 💚 Aetherspace primitives are ___built with [tailwind](), ssr (+ media queries!), and mobile in mind___
+> 💚 Aetherspace primitives are ___built with [tailwind](), iOS, Android, web, node and ssr (+ media queries!) in mind___
 
 ```tsx
 import { View, Text } from 'aetherspace/primitives'
@@ -48,8 +48,8 @@ export const MyComponent = () => (
 import { Image } from 'aetherspace/primitives'
 import { Article, Section, H2 } from 'aetherspace/html-elements'
 
-// -i- Render React-Native View / Text / ... components on mobile
-// -i- Render article / section / h2 & next/image for better SEO & vitals on web
+// -i- Web: Renders article / section / h2 + next/image for better SEO & vitals
+// -i- Mobile: Renders react-native View / Text / ... 👉 Gets turned into native UI
 export const MyBlogPost = (props: { paragraphs: string[] }) => (
   <Article tw="relative">
     <H2 tw="text-gray roboto-black">My post title</H2>
@@ -61,36 +61,48 @@ export const MyBlogPost = (props: { paragraphs: string[] }) => (
 )
 ```
 
-#### Test on _web, iOS & Android_
+#### Test on _Web, iOS, Android & Storybook_
 
-> ⏳ Automatically wait for your **Next.js** server to start before starting up **Expo**
+> ⏳ Automatically wait for your **Next.js** server to start before starting up **Expo** & **Storybook**
 
 ```bash
-yarn dev
+yarn dev:docs
 ```
 
 This will run the `dev` command in each app workspace in parallell with [Turbo](https://turbo.build/repo) 👇
 
 ```bash
-## Starts next.js web project on port 3000
+## Starts next.js web project + API routes on port 3000
 next-app:dev: $ next
 next-app:dev: ready - started server on 0.0.0.0:3000, url: http://localhost:3000
-## Runs automations at next.js build time
+## Runs automations like docgen at next.js build time
 next-app:dev: -i- Successfully created resolver registry at: 
 next-app:dev: ✅ packages/@registries/resolvers.generated.ts
-next-app:dev: -i- Successfully created asset registry at:
-next-app:dev: ✅ packages/@registries/assets.generated.ts
+next-app:dev: -i- Auto documenting with 'yarn document-components' ...
+next-app:dev: ✅ packages/@registries/docs/features/app-core/icons.stories.mdx
+next-app:dev: ✅ packages/@registries/docs/features/app-core/screens.stories.mdx
 ## Checks whether next.js API is ready
 aetherspace:dev-health-check: $ NODE_ENV=development node scripts/dev-health-check
 aetherspace:dev-health-check: ✅ Health check 1 succeeded. Server up and running.
-## Starts Expo for mobile dev
+## Starts Expo for mobile dev in iOS / Android device or simulator
 expo-app:start: $ npx expo start
 expo-app:start: Your native app is running at exp://192.168.0.168:19000
+## Starts up Storybook for developing & testing components in isolation
+99% done plugins webpack-hot-middlewarewebpack built preview acfe5466784b8a1a2429 in 162ms
+╭─────────────────────────────────────────────────────╮
+│                                                     │
+│   Storybook 6.5.10 for React started                │
+│   3.12 s for manager and 8.9 s for preview          │
+│                                                     │
+│    Local:            http://localhost:6006/         │
+│    On your network:  http://169.254.34.142:6006/    │
+│                                                     │
+╰─────────────────────────────────────────────────────╯
 ```
 
-#### Define your data as _single sources of truth_
+#### Define your data as _actual_ **single sources of truth**
 
-> 📐 Our `ats` schema builder enables you to __build for Typescript first__, but enables you to optionally ___generate documentation, validation, GraphQL typedefs___ and ___data resolvers___ from them later
+> 📐 Our `ats` schema builder enables you to __build for Typescript first__, but enables you to optionally ___generate documentation, validation logic, GraphQL typedefs___ and ___data resolvers___ from them later
 
 ```tsx
 import { ats, applySchema, Infer } from 'aetherspace/schemas'
@@ -144,7 +156,7 @@ next-app:dev: ✅ packages/@registries/docs/features/app-core/screens.stories.md
 
 [example >>> icon docs](https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/docs/features-app-core-icons)
 
-#### Build flexible data resolvers
+#### Build flexible data resolvers (API routes + GraphQL)
 
 > 💪 Using `ats` to describe function arguments and responses opens it up to not just async / await, but Next.js API routes and GraphQL resolvers as well.
 
@@ -187,9 +199,35 @@ export default makeNextApiHandler(healthCheck, { /* options */ })
 ```
 
 [example >>> REST](https://aetherspace-green-stack-starter.vercel.app/api/health) (e.g. at `/api/health`)  
+
+> ⚛️ Since we're exporting a `graphResolver` function using `makeGraphQLResolver()`, we can generate a GraphQL endpoint for our resolver function as well:
+
+`// ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓`
+
+```bash
+next-app:dev: -i- Successfully created resolver registry at: 
+next-app:dev: ✅ packages/@registries/resolvers.generated.ts
+```
+
+`/api/graphql` will then use the `resolvers.generated.ts` barrel file to build its graphql API from.
+
 [example >>> GraphQL](https://aetherspace-green-stack-starter.vercel.app/api/graphql) (e.g. in `/api/graphql`)
 
-## Next Steps:
+## Powerful results 💪
+
+Performing these 6 steps has provided us with a bunch of value in little time:
+
+- Hybrid component that is styled with tailwind, but actually native on iOS and Android
+- Hybrid component that is optimized for SEO, media queries and Web-Vitals on Web
+- Storybook documentation without having to explicitly create it ourselves
+---
+- 🤝 A single source of truth for all our props, args, responses, docs, types & defaults
+---
+- A resolver function we can call from other data resolvers or API routes
+- A GraphQL API powered by Apollo-Server, with automatic typedefs
+- A Next.js powered REST API
+
+## Learn more:
 
 - [Single Sources of Truth for your Web & Mobile apps](/packages/@aetherspace/schemas/README.md)
 - [Writing flexible data resolvers with Schemas]() (TODO)
