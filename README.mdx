@@ -170,13 +170,13 @@ For every app you're building in this monorepo, you'll need a few folders:
 
 In each of these folders own `package.json` file, a `name` property should be specified to identify that workspace. This name can then be referenced during installs via e.g.
 
-```bash
+```shell-script
 yarn workspace next add {package-name}
 ```
 
 #### To install expo modules for the specific SDK you're using:
 
-```bash
+```shell-script
 yarn expo-cli install {package-name}
 ````
 Which will run `yarn workspace expo-app expo-cli install {package-name}` under the hood.

@@ -2,15 +2,15 @@
 
 > Welcome! Set up your Web, iOS & Android app in minutes, and blow away the competition with write-once components that run on all platforms. Powered by GraphQL, React, Expo & Next.js
 
-## Web & Mobile with Aetherspace
+## Kickstart for Web & Mobile with Aetherspace
 
-Generate a new repo from the [Aetherspace template](https://github.com/Aetherspace/green-stack-starter) and optionally include all branches.
+Generate a new repo from the [Aetherspace template](https://github.com/Aetherspace/green-stack-starter) and (optionally) include all branches.
 
 Github will then generate a copy of the template repo for you to customize.
 It comes out of the box with setup for:
 
 - Next.js web app (File based routing, Serverside rendering, Static site generation, ...)
-- Expo mobile app (Android & iOS with react-native)
+- Expo mobile app (Android & iOS with Expo and react-native)
 - A REST & GraphQL API (with Apollo Server & Next.js API routes)
 - Documentation for both Aetherspace and the example components
 - [Automation](/packages/@registries/README.md) scripts to automatically generate API & component documentation
@@ -18,15 +18,18 @@ It comes out of the box with setup for:
 
 **When you're ready to start developing, run `yarn install` to install all dependencies, followed by:**
 
-```bash
+```shell-script
 yarn dev:docs
 ```
 
 ## Up and running in minutes
 
+`packages/@aetherspace` houses a bunch of helpers that can be imported under the `aetherspace` namespace. These aim to make your cross-platform journey a breeze. All of it has been written in Typescript and is in the process of being documented in Storybook. Feel free to edit these to your liking, but here's what it you can do with it out of the box:
+
 #### Write & style your components just once
 
-> 💚 Aetherspace primitives are ___built with [tailwind](), iOS, Android, web, node and ssr (+ media queries!) in mind___
+> 💚 Aetherspace primitives are ___built with [tailwind](), iOS, Android, web, node and ssr (+ media queries) in mind___.  
+> We mention media queries specifically because react-native-web does not support them out of the box. But we've got you covered.
 
 ```tsx
 import { View, Text } from 'aetherspace/primitives'
@@ -46,16 +49,16 @@ export const MyComponent = () => (
 
 ```tsx
 import { Image } from 'aetherspace/primitives'
-import { Article, Section, H2 } from 'aetherspace/html-elements'
+import { Article, Section, H2, P } from 'aetherspace/html-elements'
 
-// -i- Web: Renders article / section / h2 + next/image for better SEO & vitals
-// -i- Mobile: Renders react-native View / Text / ... 👉 Gets turned into native UI
+// -i- Web: Renders article / section / h2 + next/image for better SEO & web vitals
+// -i- Mobile: Renders react-native View / Text / ... 👉 Gets turned into actual native UI
 export const MyBlogPost = (props: { paragraphs: string[] }) => (
   <Article tw="relative">
     <H2 tw="text-gray roboto-black">My post title</H2>
     <Image tw="w-full" src="/img/article-header.png">
     <Section tw="px-4 mb-4">
-      {props.paragraphs.map((paragraph) => <P tw="roboto-regular">{paraggraph}</P>)}
+      {props.paragraphs.map((paragraph) => <P tw="roboto-regular">{paragraph}</P>)}
     </Section>
   </Article>
 )
@@ -65,13 +68,13 @@ export const MyBlogPost = (props: { paragraphs: string[] }) => (
 
 > ⏳ Automatically wait for your **Next.js** server to start before starting up **Expo** & **Storybook**
 
-```bash
+```shell-script
 yarn dev:docs
 ```
 
 This will run the `dev` command in each app workspace in parallell with [Turbo](https://turbo.build/repo) 👇
 
-```bash
+```shell-script
 ## Starts next.js web project + API routes on port 3000
 next-app:dev: $ next
 next-app:dev: ready - started server on 0.0.0.0:3000, url: http://localhost:3000
@@ -81,9 +84,9 @@ next-app:dev: ✅ packages/@registries/resolvers.generated.ts
 next-app:dev: -i- Auto documenting with 'yarn document-components' ...
 next-app:dev: ✅ packages/@registries/docs/features/app-core/icons.stories.mdx
 next-app:dev: ✅ packages/@registries/docs/features/app-core/screens.stories.mdx
-## Checks whether next.js API is ready
+## Checks whether backend is ready
 aetherspace:dev-health-check: $ NODE_ENV=development node scripts/dev-health-check
-aetherspace:dev-health-check: ✅ Health check 1 succeeded. Server up and running.
+aetherspace:dev-health-check: ✅ Health check 1 succeeded: Server, API routes & GraphQL up and running.
 ## Starts Expo for mobile dev in iOS / Android device or simulator
 expo-app:start: $ npx expo start
 expo-app:start: Your native app is running at exp://192.168.0.168:19000
@@ -148,7 +151,7 @@ export const getDocumentationProps = PropsSchema
 
 `// ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓`
 
-```bash
+```shell-script
 next-app:dev: -i- Auto documenting with 'yarn document-components' ...
 next-app:dev: ✅ packages/@registries/docs/features/app-core/icons.stories.mdx
 next-app:dev: ✅ packages/@registries/docs/features/app-core/screens.stories.mdx
@@ -204,7 +207,7 @@ export default makeNextApiHandler(healthCheck, { /* options */ })
 
 `// ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓`
 
-```bash
+```shell-script
 next-app:dev: -i- Successfully created resolver registry at: 
 next-app:dev: ✅ packages/@registries/resolvers.generated.ts
 ```

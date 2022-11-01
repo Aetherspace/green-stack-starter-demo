@@ -6,7 +6,7 @@ These scripts are automatically run in development mode from the `withAutomation
 
 Alternatively, you can run the automation scripts manually from the root of the project:
 
-```bash
+```shell-script
 yarn collect-assets # runs `packages/@aetherspace/scripts/collect-assets.js`
 yarn collect-resolvers # runs `packages/@aetherspace/scripts/collect-resolvers.js`
 yarn document-components # runs `packages/@aetherspace/scripts/document-components.js`
@@ -16,7 +16,7 @@ yarn document-components # runs `packages/@aetherspace/scripts/document-componen
 
 The `packages/@registries/docs` folder contains automatically generated `.stories.mdx` files for all the components hooking into the automation.
 
-```bash
+```shell-script
 yarn document-components
 ```
 
@@ -46,7 +46,7 @@ The `resolvers.generated.ts` file contains a modularised list of all API resolve
 
 The `collect-resolvers` script builds this barrel module by analysing all api handlers matching `/apps/next/**/api/**/*.ts`.
 
-```bash
+```shell-script
 yarn collect-resolvers
 ```
 
@@ -73,7 +73,7 @@ The `assets.generated.ts` file contains a modularised list of all assets located
 
 The `collect-assets` script turns the img file paths into export keys for those resources.
 
-```bash
+```shell-script
 yarn collect-assets
 ```
 
