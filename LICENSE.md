@@ -16,6 +16,7 @@ You are eligible to use the Aetherspace GREEN stack starter for personal and com
 - a non-profit or not-for-profit organisation
 - a company currently employing the author (Thorr Stevens, a.k.a. [@codinsonn](https://github.com/sponsors/codinsonn))
 - evaluating whether the template repo is a good fit, and are not yet using it in a commercial way
+- an embassador of the project, linking to Aetherspace or the author in your app or README file
 
 ### Allowed use cases
 
@@ -86,7 +87,9 @@ However, **you will lose access to the original repo** and any further updates /
 
 ### Can I use the template repo for free if I include a link to the project or your sponsor page?
 
-Yes. If you keep the disclaimer the README.mdx file comes with, as far as I'm concerned, you're allowed to use the template repo for free. Alternatively, you can include a "Built with Aetherspace" reference in your app linking to the project.
+Yes. If you can include a "Built with Aetherspace" reference in your app linking to the project and author, as far as I'm concerned, you're allowed to use the template repo for free. Alternatively, you can keep the disclaimer the README.mdx file comes with:
+
+> This project was bootstrapped with [Aetherspace](https://github.com/Aetherspace/green-stack-starter), the Evergreen repo setup for all your full-stack cross platform app development needs \{...💚\} Enabling the project to be built for Web, iOS, Android, PWA, Static, SSR, API routes and GraphQL all at once 👇 ... while also documenting your code automatically with Storybook.
 
 It's not really necessary, but if you'd like official confirmation, you can contact me via **thorr@codinsonn.dev** (or [twitter](https://twitter.com/codinsonn)). I will then evaluate and personally grant you access to the template repo, after which your usecase will officially fall under the eligibility of the 'Free License'.
 
