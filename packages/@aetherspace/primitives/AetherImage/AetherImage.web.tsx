@@ -19,7 +19,7 @@ interface AetherImageType extends Partial<ComponentProps<typeof RNImage>> {
   src?: string
   width?: number
   height?: number
-  quality?: number | string
+  quality?: ComponentProps<typeof Image>['quality']
   priority?: boolean
   loading?: 'lazy' | 'eager'
 }

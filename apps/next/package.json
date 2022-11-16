@@ -9,13 +9,14 @@
         "deploy": "yarn --cwd ../../ deploy"
     },
     "dependencies": {
+        "@expo/next-adapter": "^4.0.13",
         "aetherspace": "*",
         "app": "*",
-        "next": "^12.1.6",
+        "next": "^13.0.3",
         "next-fonts": "^1.5.1",
         "next-images": "^1.8.4",
         "next-pwa": "^5.6.0",
-        "next-transpile-modules": "^9.0.0",
+        "next-transpile-modules": "^10.0.0",
         "raf": "^3.4.1",
         "registries": "*",
         "setimmediate": "^1.0.5"
