@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-document-import-in-page */
 // -i- Based on https://github.com/expo/expo-cli/blob/master/packages/next-adapter/document.js
 import React from 'react'
 import { AppRegistry } from 'react-native'

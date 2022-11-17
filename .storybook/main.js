@@ -38,16 +38,20 @@ module.exports = {
         })
         // Aliases
         config.resolve.alias['react-native$'] = require.resolve('react-native-web')
+        config.resolve.alias['aetherspace/navigation'] = require.resolve('./__mocks__/aetherspaceNavigation.tsx')
+        config.resolve.alias['aetherspace/context'] = require.resolve('./__mocks__/aetherspaceContext.tsx')
         config.resolve.extensions.push('.ts', '.tsx')
         // Compatibility
         config.optimization = {
           ...config.optimization,
           sideEffects: false,
         }
-        // Export updated webpack config
-        return withUnimodules(config, {
+        // Create final webpack config
+        const finalConfig = withUnimodules(config, {
           projectRoot: path.resolve(__dirname, '../'),
         })
+        // Return updated config
+        return finalConfig
     },
     core: {
         builder: 'webpack5',

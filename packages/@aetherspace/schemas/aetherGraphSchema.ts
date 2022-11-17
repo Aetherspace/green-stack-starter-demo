@@ -109,7 +109,7 @@ const aetherGraphDefinitions = (resolverConfigs: ResolverConfigType[]) => {
 
 const createResolverDefinition = (resolverConfig: ResolverConfigType) => {
   const { resolverName, argSchema, resSchema } = resolverConfig
-  const hasArguments = Object.values(argSchema.schema).length > 0 // @ts-ignore
+  const hasArguments = argSchema && Object.values(argSchema.schema).length > 0 // @ts-ignore
   const onlyHasOptionalArgs = !hasArguments || Object.values(argSchema?.schema).every((arg) => arg.isOptional === true) // prettier-ignore
   const argRequireState = onlyHasOptionalArgs ? '' : '!'
   const argDef = hasArguments ? `(args: ${argSchema.schemaName}${argRequireState})` : ''

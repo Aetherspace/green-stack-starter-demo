@@ -15,7 +15,7 @@ jobs:
 
       - name: 'Check secrets'
         id: check-secrets
-        run: echo "::set-output name=has-secrets::$([ -n "${{ env.CHROMATIC_PROJECT_TOKEN }}" ] && echo true || echo false)"
+        run: echo "has-secrets=$([ -n "${{ env.CHROMATIC_PROJECT_TOKEN }}" ] && echo true || echo false)" >> $GITHUB_OUTPUT
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
 

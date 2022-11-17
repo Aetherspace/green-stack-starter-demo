@@ -50,6 +50,7 @@ const HomeScreen = (props) => {
       <Link to="https://aetherspace-green-stack-starter.vercel.app/author">
         <Image
           src="/img/icon.png"
+          alt="App Icon"
           tw={['w-20 h-20 mt-0 mb-3 overflow-hidden bg-slate-100', true && 'rounded-full']} // Assign conditional classes with an array
         />
       </Link>

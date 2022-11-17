@@ -61,7 +61,6 @@ const aetherSchemaArgTypes = (aetherSchema) => {
       },
       control: { type: controlType },
     }
-    if (name === 'customGreeting') console.log({ isNullable, isOptional, argType })
     // Fill in extra table values
     if (dataType === 'enum') argType.options = Object.values(schemaConfig.schema)
     if (schemaConfig?.defaultValue) argType.table.defaultValue = { summary: schemaConfig.defaultValue } // prettier-ignore

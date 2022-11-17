@@ -15,7 +15,7 @@ jobs:
 
       - name: 'Check secrets'
         id: check-secrets
-        run: echo "::set-output name=has-secrets::$([ -n "${{ env.EXPO_ACCESS_TOKEN }}" ] && echo true || echo false)"
+        run: echo "has-secrets=$([ -n "${{ env.EXPO_ACCESS_TOKEN }}" ] && echo true || echo false)" >> $GITHUB_OUTPUT
         env:
           EXPO_ACCESS_TOKEN: ${{ secrets.EXPO_ACCESS_TOKEN }}
 

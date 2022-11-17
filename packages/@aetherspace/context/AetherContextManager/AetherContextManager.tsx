@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useMemo, createContext, FC } from 'react'
 import { View, Platform, Dimensions, TextProps } from 'react-native'
 import tailwind, { create as createTailwindWithConfig, TwConfig, TailwindFn } from 'twrnc'
@@ -80,7 +81,7 @@ export interface AetherContextType {
 
 /* --- AetherContext --------------------------------------------------------------------------- */
 
-export const DEFAULT_AETHER_CONTEXT = { assets: {}, icons: {}, linkContext: {} }
+export const DEFAULT_AETHER_CONTEXT = { assets: {}, icons: {}, linkContext: {}, tailwind }
 export const AetherContext = createContext<AetherContextType>(DEFAULT_AETHER_CONTEXT)
 
 /* --- <AetherContextManager/> ----------------------------------------------------------------- */
@@ -165,9 +166,7 @@ const AetherContextManager = (props: AetherContextType) => {
       expo: isExpo,
       desktop: isDesktop,
     }
-    const twPrefixes = Object.entries(twPrefixObj)
-      .filter(([, val]) => !!val)
-      .map(([k]) => k)
+    const twPrefixes = Object.entries(twPrefixObj).filter(([, val]) => !!val).map(([k]) => k) // prettier-ignore
     const mediaPrefixes = Object.keys(mediaPrefixObj)
     return {
       ...flags,
