@@ -55,6 +55,8 @@ const AetherText = forwardRef<Text, AetherTextType>((props, ref) => {
   )
 })
 
+AetherText.displayName = 'AetherText'
+
 /* --- Exports --------------------------------------------------------------------------------- */
 
 export default Object.assign(AetherText, {

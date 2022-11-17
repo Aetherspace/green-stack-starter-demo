@@ -17,6 +17,7 @@ interface AetherImageType extends Partial<ComponentProps<typeof RNImage>> {
   tw?: string | (string | null | undefined | false | 0)[]
   twID?: string
   src?: string
+  alt?: string
   width?: number
   height?: number
   quality?: ComponentProps<typeof Image>['quality']
@@ -45,7 +46,7 @@ const AetherImage = forwardRef<typeof Image, AetherImageType>((props, ref) => {
     // Fill when no width & height are passed
     type FillType = { layout: 'fill'; width: never; height: never }
     return { layout: 'fill' } as FillType
-  }, [])
+  }, [height, width])
 
   // -- Render --
 
@@ -55,6 +56,7 @@ const AetherImage = forwardRef<typeof Image, AetherImageType>((props, ref) => {
       <Image
         src={src!} // @ts-ignore
         ref={ref}
+        alt={props.alt || ''}
         {...imgProps}
         quality={quality}
         priority={priority}
@@ -63,6 +65,8 @@ const AetherImage = forwardRef<typeof Image, AetherImageType>((props, ref) => {
     </AetherView>
   )
 })
+
+AetherImage.displayName = 'AetherImage'
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

@@ -19,7 +19,8 @@
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:react-native-a11y/all",
-        "prettier"
+        "prettier",
+        "next"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -38,6 +39,7 @@
             "printWidth": 100
         }, { "usePrettierrc": false }],
         "react-native-a11y/has-valid-accessibility-ignores-invert-colors": "off",
+        "@next/next/no-html-link-for-pages": [2, "apps/next/src/pages/"],
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/ban-ts-comment": "off",
         "@typescript-eslint/no-non-null-assertion": "off",

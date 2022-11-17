@@ -23,6 +23,8 @@ const AetherPressable = forwardRef<View, AetherPressableType>((props, ref) => {
   return <Pressable {...props} ref={ref} {...bindStyles} />
 })
 
+AetherPressable.displayName = 'AetherPressable'
+
 /* --- Exports --------------------------------------------------------------------------------- */
 
 export default Object.assign(AetherPressable, {

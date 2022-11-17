@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useMemo, createContext, FC } from 'react'
 import { View, Platform, Dimensions, TextProps } from 'react-native'
 import tailwind, { create as createTailwindWithConfig, TwConfig, TailwindFn } from 'twrnc'

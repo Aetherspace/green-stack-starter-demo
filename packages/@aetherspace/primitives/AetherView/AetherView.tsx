@@ -23,6 +23,8 @@ const AetherView = forwardRef<View, AetherViewType>((props, ref) => {
   return <View {...props} ref={ref} {...bindStyles} />
 })
 
+AetherView.displayName = 'AetherView'
+
 /* --- Exports --------------------------------------------------------------------------------- */
 
 export default Object.assign(AetherView, {

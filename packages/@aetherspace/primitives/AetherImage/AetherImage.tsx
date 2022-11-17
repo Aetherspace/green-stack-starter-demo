@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 // -i- Based on / inspired by:
 // - https://necolas.github.io/react-native-web/docs/image/
 // - https://nextjs.org/docs/api-reference/next/image
@@ -17,6 +18,7 @@ interface AetherImageType extends Partial<ComponentProps<typeof Image>> {
   tw?: string | (string | null | undefined | false | 0)[]
   twID?: string
   src?: string
+  alt?: string
   width?: number
   height?: number
   quality?: number | string
@@ -54,6 +56,8 @@ const AetherImage = forwardRef<Image, AetherImageType>((props, ref) => {
     />
   )
 })
+
+AetherImage.displayName = 'AetherImage'
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
