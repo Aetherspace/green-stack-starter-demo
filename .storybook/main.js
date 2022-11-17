@@ -38,7 +38,8 @@ module.exports = {
         })
         // Aliases
         config.resolve.alias['react-native$'] = require.resolve('react-native-web')
-        config.resolve.alias['aetherspace/navigation'] = require.resolve('./__mocks__/aetherspaceNavigation.js')
+        config.resolve.alias['aetherspace/navigation'] = require.resolve('./__mocks__/aetherspaceNavigation.tsx')
+        config.resolve.alias['aetherspace/context'] = require.resolve('./__mocks__/aetherspaceContext.tsx')
         config.resolve.extensions.push('.ts', '.tsx')
         // Compatibility
         config.optimization = {

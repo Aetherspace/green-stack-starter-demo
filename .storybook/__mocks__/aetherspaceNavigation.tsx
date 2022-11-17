@@ -1,3 +1,5 @@
+// -i- Mocked to avoid using next/router in Storybook
+import React from 'react'
 import { useMemo } from 'react'
 import { action } from '@storybook/addon-actions'
 import { AetherText, AetherView } from '../../packages/@aetherspace/primitives'
