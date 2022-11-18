@@ -1,10 +1,5 @@
 name: 'Expo: Publish Main'
-on:
-  push:
-    branches:
-      - main
-    tags-ignore:
-      - 'release/v*.*.*'
+on: "push"
 jobs:
   publish:
     name: Install and publish
@@ -60,14 +55,6 @@ jobs:
       - name: Deploy with EAS update
         if: ${{ steps.check-secrets.outputs.has-secrets == 'true' }}
         run: cd apps/expo && eas update --auto
-        env:
-          ENV: staging
-          NEXT_PUBLIC_APP_LINKS: ${{ secrets.NEXT_PUBLIC_APP_LINKS }}
-
-      # -i- Optional for demo purposes, feel free to remove this last step -i-
-      - name: Deploy with Expo publish
-        if: ${{ steps.check-secrets.outputs.has-secrets == 'true' }}
-        run: cd apps/expo && EXPO_PUBLISH=true yarn expo publish --release-channel=starter-preview-main
         env:
           ENV: staging
           NEXT_PUBLIC_APP_LINKS: ${{ secrets.NEXT_PUBLIC_APP_LINKS }}
