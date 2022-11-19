@@ -185,7 +185,7 @@ const AetherContextManager = (props: AetherContextType) => {
       <View
         style={{
           ...props.style,
-          ...contextValue.tailwind`${['w-full h-full', props.tw].filter(Boolean).join(' ')}`,
+          ...contextValue.tailwind`${['flex min-h-full min-w-full', props.tw].filter(Boolean).join(' ')}`, // prettier-ignore
         }}
         onLayout={measureOnLayout('app')}
       >
