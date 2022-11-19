@@ -1,6 +1,10 @@
 /* eslint-disable @next/next/no-head-element */
-import React from 'react'
+import React, { useMemo } from 'react'
+import { AppRegistry } from 'react-native'
+// Layouts
 import RootLayout from './layout'
+// Styles
+import { getInjectableMediaQueries } from 'aetherspace/styles'
 
 /* --- Styles ---------------------------------------------------------------------------------- */
 
@@ -55,12 +59,34 @@ div[data-nextjs-scroll-focus-boundary] {
 
 /* --- <Document> ------------------------------------------------------------------------------ */
 
-const Document = ({ children }: { children: React.ReactNode }) => {
+const Document = (props: { children: React.ReactNode }) => {
+  // Props
+  const { children } = props
+
+  // -- React Native Styling --
+
+  const getStyleElement = useMemo(() => {
+    const Main = () => <RootLayout>{children}</RootLayout>
+    AppRegistry.registerComponent('Main', () => Main) // @ts-ignore
+    const mainApp = AppRegistry.getApplication('Main')
+    return mainApp.getStyleElement
+  }, [])
+
+  // -- Aetherspace SSR Media Queries --
+
+  const aetherQueries = useMemo(() => {
+    return getInjectableMediaQueries()
+  }, [])
+
+  // -- Render --
+
   return (
     <html>
       <head>
-        <style dangerouslySetInnerHTML={{ __html: cssReset }} />
-        <style dangerouslySetInnerHTML={{ __html: nextReset }} />
+        <style type="text/css" dangerouslySetInnerHTML={{ __html: cssReset }} />
+        <style type="text/css" dangerouslySetInnerHTML={{ __html: nextReset }} />
+        <style type="text/css" dangerouslySetInnerHTML={{ __html: aetherQueries.css }} />
+        {getStyleElement()}
       </head>
       <body>
         <RootLayout>{children}</RootLayout>
