@@ -1,12 +1,13 @@
+import React from 'react'
 // Primitives
 import { Text, View } from 'aetherspace/primitives'
 // Screens
 // import { HomeScreen } from 'app/screens/HomeScreen'
 
-/* --- /home ----------------------------------------------------------------------------------- */
+/* --- /index ---------------------------------------------------------------------------------- */
 
 const HomeRoute = () => (
-  <View tw="relative flex flex-1 bg-white items-center justify-center">
+  <View tw="flex flex-1 w-full h-full items-center justify-center">
     <Text tw="text-2xl font-bold">Hello Router 👋</Text>
   </View>
 )
