@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useMemo, createContext, FC } from 'react'
+import React, { useMemo, createContext, FC } from 'react'
 import { View, Platform, Dimensions, TextProps } from 'react-native'
 import tailwind, { create as createTailwindWithConfig, TwConfig, TailwindFn } from 'twrnc'
 // Hooks
@@ -102,15 +102,6 @@ const AetherContextManager = (props: AetherContextType) => {
   // Links (used for mobile navigation only)
   const linkContext = useMemo(() => props.linkContext || DEFAULT_AETHER_CONTEXT.linkContext, [])
 
-  // Styles
-  const [globalStyles, setGlobalStyles] = useState({})
-
-  // -- Handlers --
-
-  const registerStyles = (newStyles: Record<string, unknown>) => {
-    return setGlobalStyles((currStyles) => ({ ...newStyles, ...currStyles }))
-  }
-
   // -- ContextValue --
 
   const appWidth = layoutInfo.app?.width || Dimensions.get('window').width
@@ -179,8 +170,8 @@ const AetherContextManager = (props: AetherContextType) => {
       breakpoints,
       twPrefixes,
       mediaPrefixes,
-      styles: globalStyles,
-      registerStyles,
+      // styles: globalStyles,
+      // registerStyles,
       appWidth,
       appHeight,
       tailwind: twConfig ? createTailwindWithConfig(twConfig) : tailwind,
