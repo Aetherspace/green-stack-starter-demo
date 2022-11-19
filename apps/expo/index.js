@@ -4,11 +4,9 @@
 import 'expo/build/Expo.fx';
 import 'expo/build/Expo.fx.web';
 import { activateKeepAwake } from 'expo-keep-awake';
-// -i- Based on: ../node_modules/expo/AppEntry.js
-import { registerRootComponent } from 'expo';
-import App from './App';
 
 /* --- Start ----------------------------------------------------------------------------------- */
+// -i- Expo Router setup
+import 'expo-router/entry';
 
 if (__DEV__) activateKeepAwake();
-registerRootComponent(App);
