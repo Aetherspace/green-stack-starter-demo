@@ -1,1 +1,1 @@
-export { default } from 'app/routes/screen'
+export { default } from 'app/routes/'
