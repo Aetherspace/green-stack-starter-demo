@@ -118,7 +118,7 @@ const AetherLink = forwardRef<typeof Link | typeof Text, AetherLinkType>((props,
 
   if (isExternal) {
     return (
-      <a href={destination} target="_blank">
+      <a href={destination} target="_blank" rel="noreferrer">
         <AetherView {...bindStyles}>{children}</AetherView>
       </a>
     )
@@ -138,6 +138,8 @@ const AetherLink = forwardRef<typeof Link | typeof Text, AetherLinkType>((props,
     </Link>
   )
 })
+
+AetherLink.displayName = 'AetherLink'
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

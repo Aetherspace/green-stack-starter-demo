@@ -33,7 +33,7 @@ const NextRootLayout = (props: { children: React.ReactNode }) => {
 
   return (
     <RootLayout>
-      <AetherContextManager assets={{}} icons={{}} twConfig={tailwindConfig} isNextJS>
+      <AetherContextManager assets={{}} icons={{}} twConfig={tailwindConfig} isNextJS isAppDir>
         {children}
       </AetherContextManager>
     </RootLayout>

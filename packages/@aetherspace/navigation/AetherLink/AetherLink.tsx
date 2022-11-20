@@ -1,8 +1,11 @@
 import React, { useMemo, forwardRef, ComponentProps } from 'react'
 import { Platform } from 'react-native'
-import { Link, useRouting } from 'expo-next-react-navigation'
+import { Link as NavigationLink, useRouting } from 'expo-next-react-navigation'
 import * as Linking from 'expo-linking'
 import * as WebBrowser from 'expo-web-browser'
+// Context
+import { useAetherContext } from '../../context'
+import { Link as RouterLink, useLink } from 'expo-router'
 // Primitives
 import { AetherView, AetherText } from '../../primitives'
 // Utils
@@ -10,8 +13,8 @@ import { getEnvVar } from '../../utils'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-interface AetherLinkBaseType extends Partial<ComponentProps<typeof Link>> {
-  style?: ComponentProps<typeof Link>['style']
+interface AetherLinkBaseType extends Partial<ComponentProps<typeof NavigationLink>> {
+  style?: ComponentProps<typeof NavigationLink>['style']
   tw?: string | (string | null | undefined | false | 0)[]
   twID?: string
   asText?: boolean
@@ -45,6 +48,8 @@ type any$Todo = any
 export const useAetherNav = () => {
   // Hooks
   const { navigate, ...expoNextReactNavRoutingResources } = useRouting()
+  const { isAppDir } = useAetherContext()
+  const link = useLink()
 
   // Vars
   const APP_LINKS: string[] = useMemo(() => getEnvVar('APP_LINKS')?.split('|') || [], [])
@@ -68,7 +73,8 @@ export const useAetherNav = () => {
     const webDestination = isInternalLink && isWeb ? `${webDomain}${destination}` : path
     const isBrowserEnv = Platform.OS === 'web' && typeof window !== 'undefined' && !!window.open
     const openURL = isBrowserEnv ? (url: string) => window.open(url, '_blank') : Linking.openURL
-    if (isInternalLink && !isBlank) return navigate({ routeName: destination })
+    if (isInternalLink && !isBlank && !isAppDir) return navigate({ routeName: destination })
+    if (isInternalLink && !isBlank && isAppDir) return link.push(destination)
     if (isBlank || isBrowserEnv) return openURL(webDestination) // "open in a new tab" or mobile browser
     WebBrowser.openBrowserAsync(webDestination) // Open external links in internal browser?
   }
@@ -86,12 +92,13 @@ export const useAetherNav = () => {
 
 /* --- <AetherLink/> --------------------------------------------------------------------------- */
 
-const AetherLink = forwardRef<typeof Link | typeof Text, AetherLinkType>((props, ref) => {
+const AetherLink = forwardRef<typeof NavigationLink | typeof Text, AetherLinkType>((props, ref) => {
   // Props
   const { children, href, to, routeName, style, tw, twID, asText, ...restProps } = props
   const bindStyles = { style, tw, twID, ...restProps }
 
   // Hooks
+  const { isAppDir } = useAetherContext()
   const { openLink, getDestination } = useAetherNav()
   const destination = getDestination((href || to || routeName)!)
 
@@ -114,10 +121,20 @@ const AetherLink = forwardRef<typeof Link | typeof Text, AetherLinkType>((props,
     )
   }
 
-  // -- Render as View --
+  // -- Render as View with Router Navigation --
+
+  if (isAppDir) {
+    return (
+      <RouterLink href={destination}>
+        <AetherView {...bindStyles}>{children}</AetherView>
+      </RouterLink>
+    )
+  }
+
+  // -- Render as View with React Navigation --
 
   return (
-    <Link
+    <NavigationLink
       {...restProps}
       routeName={isExternal ? '' : destination}
       ref={ref as any$Todo}
@@ -125,9 +142,11 @@ const AetherLink = forwardRef<typeof Link | typeof Text, AetherLinkType>((props,
       touchableOpacityProps={{ onPressIn: onLinkPress }}
     >
       <AetherView {...bindStyles}>{children}</AetherView>
-    </Link>
+    </NavigationLink>
   )
 })
+
+AetherLink.displayName = 'AetherLink'
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
