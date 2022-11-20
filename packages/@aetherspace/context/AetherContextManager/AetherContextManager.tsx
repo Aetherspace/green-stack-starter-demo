@@ -61,6 +61,7 @@ export interface AetherContextType {
   isWeb?: boolean
   isExpo?: boolean
   isNextJS?: boolean
+  isAppDir?: boolean
   isServer?: boolean
   isDesktop?: boolean
   isMobile?: boolean
@@ -88,7 +89,7 @@ export const AetherContext = createContext<AetherContextType>(DEFAULT_AETHER_CON
 
 const AetherContextManager = (props: AetherContextType) => {
   // Props
-  const { children, isNextJS, isExpo, isDesktop, twConfig } = props
+  const { children, isNextJS, isExpo, isAppDir, isDesktop, twConfig } = props
 
   // Layout
   const { layoutInfo, measureOnLayout } = useLayoutInfo()
@@ -155,6 +156,7 @@ const AetherContextManager = (props: AetherContextType) => {
       server: flags.isServer,
       next: isNextJS,
       expo: isExpo,
+      app: isAppDir,
       desktop: isDesktop,
     }
     const twPrefixes = Object.entries(twPrefixObj).filter(([, val]) => !!val).map(([k]) => k) // prettier-ignore
@@ -166,6 +168,7 @@ const AetherContextManager = (props: AetherContextType) => {
       linkContext,
       isNextJS,
       isExpo,
+      isAppDir,
       isDesktop,
       breakpoints,
       twPrefixes,

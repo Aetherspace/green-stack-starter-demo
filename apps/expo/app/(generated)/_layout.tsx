@@ -20,7 +20,7 @@ const ExpoRootLayout = () => {
 
   return (
     <RootLayout>
-      <AetherContextManager assets={assets} icons={{}} twConfig={tailwindConfig}>
+      <AetherContextManager assets={assets} icons={{}} twConfig={tailwindConfig} isExpo isAppDir>
         <Children />
       </AetherContextManager>
     </RootLayout>
