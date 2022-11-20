@@ -45,7 +45,7 @@ const HomeScreen = (props) => {
   // -- Render --
 
   return (
-    <View tw="flex-1 bg-white items-center justify-center">
+    <View tw="absolute flex flex-1 w-full h-full items-center justify-center">
       <StatusBar style="auto" />
       <Link to="/author">
         <Image
