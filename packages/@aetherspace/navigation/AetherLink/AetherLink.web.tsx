@@ -1,8 +1,11 @@
 import React, { useMemo, forwardRef, ComponentProps } from 'react'
 import { Platform } from 'react-native'
-import { Link, useRouting } from 'expo-next-react-navigation'
+import { Link as NavigationLink, useRouting } from 'expo-next-react-navigation'
+import NextLink from 'next/link'
 import * as Linking from 'expo-linking'
 import * as WebBrowser from 'expo-web-browser'
+// Context
+import { useAetherContext } from 'aetherspace/context'
 // Primitives
 import { AetherView, AetherText } from '../../primitives'
 // Utils
@@ -10,8 +13,8 @@ import { getEnvVar } from '../../utils'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-interface AetherLinkBaseType extends Partial<ComponentProps<typeof Link>> {
-  style?: ComponentProps<typeof Link>['style']
+interface AetherLinkBaseType extends Partial<ComponentProps<typeof NavigationLink>> {
+  style?: ComponentProps<typeof NavigationLink>['style']
   tw?: string | (string | null | undefined | false | 0)[]
   twID?: string
   asText?: boolean
@@ -86,12 +89,13 @@ export const useAetherNav = () => {
 
 /* --- <AetherLink/> --------------------------------------------------------------------------- */
 
-const AetherLink = forwardRef<typeof Link | typeof Text, AetherLinkType>((props, ref) => {
+const AetherLink = forwardRef<typeof NavigationLink | typeof Text, AetherLinkType>((props, ref) => {
   // Props
   const { children, href, to, routeName, style, tw, twID, asText, ...restProps } = props
   const bindStyles = { style, tw, twID, ...restProps }
 
   // Hooks
+  const { isAppDir } = useAetherContext()
   const { openLink, getDestination } = useAetherNav()
   const destination = getDestination((href || to || routeName)!)
 
@@ -124,10 +128,20 @@ const AetherLink = forwardRef<typeof Link | typeof Text, AetherLinkType>((props,
     )
   }
 
-  // -- Render as View --
+  // -- Render as View wrapped with Next Link --
+
+  if (isAppDir) {
+    return (
+      <NextLink href={destination}>
+        <AetherView {...bindStyles}>{children}</AetherView>
+      </NextLink>
+    )
+  }
+
+  // -- Render as View wrapped with Navigation --
 
   return (
-    <Link
+    <NavigationLink
       {...restProps}
       routeName={isExternal ? '' : destination}
       ref={ref as any$Todo}
@@ -135,7 +149,7 @@ const AetherLink = forwardRef<typeof Link | typeof Text, AetherLinkType>((props,
       touchableOpacityProps={{ onPressIn: onLinkPress }}
     >
       <AetherView {...bindStyles}>{children}</AetherView>
-    </Link>
+    </NavigationLink>
   )
 })
 
