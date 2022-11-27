@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useMemo, createContext, FC } from 'react'
+import React, { useMemo, createContext, FC } from 'react'
 import { View, Platform, Dimensions, TextProps } from 'react-native'
 import tailwind, { create as createTailwindWithConfig, TwConfig, TailwindFn } from 'twrnc'
 // Hooks
@@ -61,6 +61,7 @@ export interface AetherContextType {
   isWeb?: boolean
   isExpo?: boolean
   isNextJS?: boolean
+  isAppDir?: boolean
   isServer?: boolean
   isDesktop?: boolean
   isMobile?: boolean
@@ -88,7 +89,7 @@ export const AetherContext = createContext<AetherContextType>(DEFAULT_AETHER_CON
 
 const AetherContextManager = (props: AetherContextType) => {
   // Props
-  const { children, isNextJS, isExpo, isDesktop, twConfig } = props
+  const { children, isNextJS, isExpo, isAppDir, isDesktop, twConfig } = props
 
   // Layout
   const { layoutInfo, measureOnLayout } = useLayoutInfo()
@@ -101,15 +102,6 @@ const AetherContextManager = (props: AetherContextType) => {
 
   // Links (used for mobile navigation only)
   const linkContext = useMemo(() => props.linkContext || DEFAULT_AETHER_CONTEXT.linkContext, [])
-
-  // Styles
-  const [globalStyles, setGlobalStyles] = useState({})
-
-  // -- Handlers --
-
-  const registerStyles = (newStyles: Record<string, unknown>) => {
-    return setGlobalStyles((currStyles) => ({ ...newStyles, ...currStyles }))
-  }
 
   // -- ContextValue --
 
@@ -164,6 +156,7 @@ const AetherContextManager = (props: AetherContextType) => {
       server: flags.isServer,
       next: isNextJS,
       expo: isExpo,
+      app: isAppDir,
       desktop: isDesktop,
     }
     const twPrefixes = Object.entries(twPrefixObj).filter(([, val]) => !!val).map(([k]) => k) // prettier-ignore
@@ -175,12 +168,13 @@ const AetherContextManager = (props: AetherContextType) => {
       linkContext,
       isNextJS,
       isExpo,
+      isAppDir,
       isDesktop,
       breakpoints,
       twPrefixes,
       mediaPrefixes,
-      styles: globalStyles,
-      registerStyles,
+      // styles: globalStyles,
+      // registerStyles,
       appWidth,
       appHeight,
       tailwind: twConfig ? createTailwindWithConfig(twConfig) : tailwind,
@@ -194,7 +188,7 @@ const AetherContextManager = (props: AetherContextType) => {
       <View
         style={{
           ...props.style,
-          ...contextValue.tailwind`${['w-full h-full', props.tw].filter(Boolean).join(' ')}`,
+          ...contextValue.tailwind`${['flex min-h-full min-w-full', props.tw].filter(Boolean).join(' ')}`, // prettier-ignore
         }}
         onLayout={measureOnLayout('app')}
       >

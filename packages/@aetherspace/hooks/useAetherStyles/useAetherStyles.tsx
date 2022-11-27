@@ -41,6 +41,7 @@ const useAetherStyles = <
 
   // -- Styles --
 
+  const prefixKey = twPrefixes.join()
   const [styles, mediaIds] = useMemo(() => {
     // Start off without breakpoints
     let breakpointIds = ''
@@ -79,7 +80,7 @@ const useAetherStyles = <
     } as unknown as ComponentProps<C>['style']
     // Return the styles
     return [memoStyles, breakpointIds] as [ComponentProps<C>['style'], string]
-  }, [style, twStrings, twPrefixes.join()])
+  }, [style, twStrings, prefixKey])
 
   // -- bindStyles --
 

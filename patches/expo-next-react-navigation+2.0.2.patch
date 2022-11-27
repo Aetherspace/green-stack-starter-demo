@@ -1,0 +1,88 @@
+diff --git a/node_modules/expo-next-react-navigation/build/hooks/use-routing/index.web.js b/node_modules/expo-next-react-navigation/build/hooks/use-routing/index.web.js
+index 202c055..8a1c6ab 100644
+--- a/node_modules/expo-next-react-navigation/build/hooks/use-routing/index.web.js
++++ b/node_modules/expo-next-react-navigation/build/hooks/use-routing/index.web.js
+@@ -1,8 +1,8 @@
+ import { useCallback, useEffect, useRef } from 'react';
+ import get from 'lodash.get';
+-import Router, { useRouter } from 'next/router';
++import { useRouter } from 'next/navigation';
+ import empty from '../../utils/empty';
+-const goBack = () => Router.back();
++// const goBack = () => Router.back();
+ const popToTop = () => { };
+ const setParams = (a) => { };
+ export default function useRouting() {
+@@ -13,15 +13,16 @@ export default function useRouting() {
+     const canGoBack = useRef(() => {
+         return hasNavigated.current;
+     }).current;
+-    useEffect(() => {
+-        const onRouteChange = () => {
+-            hasNavigated.current = true;
+-        };
+-        Router.events.on('routeChangeComplete', onRouteChange);
+-        return () => {
+-            Router.events.off('routeChangeComplete', onRouteChange);
+-        };
+-    }, []);
++    // -i- Router events are not implemented in app dir routing
++    // useEffect(() => {
++    //     const onRouteChange = () => {
++    //         hasNavigated.current = true;
++    //     };
++    //     router.events.on('routeChangeComplete', onRouteChange);
++    //     return () => {
++    //         router.events.off('routeChangeComplete', onRouteChange);
++    //     };
++    // }, []);
+     const getParam = (param, fallback) => {
+         if (!router) {
+             return undefined;
+@@ -34,27 +35,33 @@ export default function useRouting() {
+     };
+     const navigate = useCallback(({ routeName, web, params = empty.object, }) => {
+         const webPath = web?.path?.[0] === '/' ? web?.path?.slice(1) : web?.path;
+-        const pathname = `/${webPath ?? routeName}`;
+-        Router.push({
+-            pathname,
+-            query: { ...params },
+-        }, web?.as, {
+-            shallow: web?.shallow,
+-        });
++        let pathname = `/${webPath ?? routeName}`;
++        if (pathname === '//') pathname = '/';
++        // console.warn('navigate()', { pathname });
++        router.push(pathname);
++        // router.push({
++        //     pathname,
++        //     query: { ...params },
++        // }, web?.as, {
++        //     shallow: web?.shallow,
++        // });
+     }, []);
+     const replace = useCallback(({ routeName, web, params = empty.object, }) => {
+         const webPath = web?.path?.[0] === '/' ? web?.path?.slice(1) : web?.path;
+-        const pathname = `/${webPath ?? routeName}`;
+-        Router.replace({
+-            pathname,
+-            query: { ...params },
+-        }, web?.as);
++        let pathname = `/${webPath ?? routeName}`;
++        if (pathname === '//') pathname = '/';
++        // console.warn('replace()', { pathname });
++        router.replace(pathname)
++        // router.replace({
++        //     pathname,
++        //     query: { ...params },
++        // }, web?.as);
+     }, []);
+     return {
+         getParam,
+         navigate,
+         push: navigate,
+-        goBack,
++        goBack: router.back,
+         popToTop,
+         prefetch: router?.prefetch,
+         replace,
