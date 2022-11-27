@@ -99,6 +99,30 @@ const makeOptionalable = <T, S, ST extends ss.Struct<T, S>>(
   })
 }
 
+const makeExtendable = <S extends ObjectSchema>(schema: ss.Struct<ObjectType<S>, S>) => {
+  return Object.assign(schema, {
+    // Extend the schema with additional properties
+    extend: <SE extends ObjectSchema>(newSchemaName: string, extraPropsSchema: SE) => {
+      const newSchema = extendSchema(newSchemaName, schema, extraPropsSchema)
+      return makeExtendable(newSchema)
+    },
+    // Extend the schema by omitting properties
+    omit: <K extends keyof S>(newSchemaName: string, keys: K[]) => {
+      const newSchema = omitSchemaProps(newSchemaName, schema, keys)
+      return makeExtendable(newSchema)
+    },
+    // Make the entire schema partial
+    partial: (newSchemaName: string) => {
+      return makePartialSchema(newSchemaName, schema)
+    },
+    // Create new schema with specific properties from the original
+    pick: <K extends keyof S>(newSchemaName: string, keys: K[]) => {
+      const newSchema = pickSchemaProps(newSchemaName, schema, keys)
+      return makeExtendable(newSchema)
+    },
+  })
+}
+
 const aetherWrapper = <A extends any[], T, S>(
   struct: (...args: A) => ss.Struct<T, S>,
   aetherType: string
@@ -129,7 +153,8 @@ const AetherEnum = <T extends string = string>(values: readonly T[]) => {
 
 const AetherSchema = <S extends ObjectSchema>(schemaName: string, objSchema: S) => {
   const schema = assignDescriptors(ss.object(objSchema), 'AetherSchema', schemaName)
-  return makeOptionalable<ObjectType<S>, typeof schema['schema'], typeof schema>(schema, 'AetherSchema', schemaName) // prettier-ignore
+  const optschema = makeOptionalable<ObjectType<S>, typeof schema['schema'], typeof schema>(schema, 'AetherSchema', schemaName) // prettier-ignore
+  return makeExtendable(optschema)
 }
 
 const AetherArray = <T extends ss.Struct<any>>(Element: T) => {
