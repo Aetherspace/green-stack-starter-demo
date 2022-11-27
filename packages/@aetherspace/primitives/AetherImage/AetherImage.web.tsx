@@ -41,16 +41,18 @@ const AetherImage = forwardRef<typeof Image, AetherImageType>((props, ref) => {
 
   const imgProps = useMemo(() => {
     // Responsive when width & height are passed
-    type ResponsiveType = { width: number | string; height: number | string; layout: 'responsive' }
-    if (width && height) return { width, height, layout: 'responsive' } as ResponsiveType
+    type ResponsiveType = { width: number; height: number }
+    if (width && height) return { width, height } as ResponsiveType
     // Fill when no width & height are passed
-    type FillType = { layout: 'fill'; width: never; height: never }
-    return { layout: 'fill' } as FillType
+    return { fill: true } as const
   }, [height, width])
+
+  // -- Render as React-Native Image --
+
+  if (!isNextJS || isExpo) return <AetherImageExpo {...bindStyles} src={src} />
 
   // -- Render --
 
-  if (!isNextJS || isExpo) return <AetherImageExpo {...bindStyles} src={src} />
   return (
     <AetherView {...bindStyles}>
       <Image
