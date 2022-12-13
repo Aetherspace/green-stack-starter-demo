@@ -1,4 +1,4 @@
-import { Children } from 'expo-router'
+import { Stack } from 'expo-router'
 import RootLayout from 'app/routes/layout'
 // Config
 import tailwindConfig from 'app/tailwind.config'
@@ -21,7 +21,13 @@ const ExpoRootLayout = () => {
   return (
     <RootLayout>
       <AetherContextManager assets={assets} icons={{}} twConfig={tailwindConfig} isExpo isAppDir>
-        <Children />
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: '#FFFFFF' },
+            animation: 'slide_from_right',
+          }}
+        />
       </AetherContextManager>
     </RootLayout>
   )
