@@ -5,7 +5,7 @@ import { View } from 'aetherspace/primitives'
 /* --- <RootLayout/> --------------------------------------------------------------------------- */
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
-  <View tw="flex min-h-full min-w-full bg-white">{children}</View>
+  <View tw="flex flex-col min-h-full min-w-full bg-white">{children}</View>
 )
 
 /* --- Exports --------------------------------------------------------------------------------- */

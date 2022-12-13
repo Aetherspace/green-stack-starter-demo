@@ -46,7 +46,7 @@ const HomeScreen = (props: z.infer<typeof HomeScreenProps>) => {
   // -- Render --
 
   return (
-    <View tw="absolute flex flex-1 w-full h-full items-center justify-center">
+    <View tw="relative flex w-full h-full items-center justify-center">
       <StatusBar style="auto" />
       <Link to="https://aetherspace-green-stack-starter.vercel.app/author">
         <Image

@@ -51,9 +51,9 @@ body {
 
 export const nextReset = `
 div[data-nextjs-scroll-focus-boundary] {
-    position: relative;
-    min-width: 100vw;
-    min-height: 100vh;
+  position: relative;
+  min-width: 100%;
+  min-height: 100%;
 }
 `
 
