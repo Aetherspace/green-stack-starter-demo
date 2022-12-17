@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-head-element */
-import React, { useMemo } from 'react'
+import React from 'react'
 import { AppRegistry } from 'react-native'
+import { useServerInsertedHTML } from 'next/navigation'
 // Layouts
 import RootLayout from './layout'
 // Styles
@@ -64,20 +65,24 @@ const Document = (props: { children: React.ReactNode }) => {
   // Props
   const { children } = props
 
-  // -- React Native Styling --
+  // -- Serverside Styles --
 
-  const getStyleElement = useMemo(() => {
+  useServerInsertedHTML(() => {
+    // Get react-native-web styles
     const Main = () => <RootLayout>{children}</RootLayout>
     AppRegistry.registerComponent('Main', () => Main) // @ts-ignore
     const mainApp = AppRegistry.getApplication('Main')
-    return mainApp.getStyleElement
-  }, [])
-
-  // -- Aetherspace SSR Media Queries --
-
-  const aetherQueries = useMemo(() => {
-    return getInjectableMediaQueries()
-  }, [])
+    const reactNativeStyleElement = mainApp.getStyleElement()
+    // Get aetherspace styles
+    const aetherQueries = getInjectableMediaQueries()
+    // Inject styles
+    return (
+      <>
+        {reactNativeStyleElement}
+        <style type="text/css" dangerouslySetInnerHTML={{ __html: aetherQueries.css }} />
+      </>
+    )
+  })
 
   // -- Render --
 
@@ -86,8 +91,6 @@ const Document = (props: { children: React.ReactNode }) => {
       <head>
         <style type="text/css" dangerouslySetInnerHTML={{ __html: cssReset }} />
         <style type="text/css" dangerouslySetInnerHTML={{ __html: nextReset }} />
-        <style type="text/css" dangerouslySetInnerHTML={{ __html: aetherQueries.css }} />
-        {getStyleElement()}
       </head>
       <body>
         <RootLayout>{children}</RootLayout>
