@@ -1,4 +1,6 @@
-// import * as ss from 'superstruct'
+import { json } from 'micro'
+import { z } from 'zod'
+import zodToJsonSchema from 'zod-to-json-schema'
 import { ats } from '../schemas'
 
 enum TEST_ENUM {
@@ -54,7 +56,7 @@ type PickedSchemaType = typeof pickedSchema['TYPE'] // Hover to preview
 const finalSchema = originalSchema // pickedSchema // partialSchema // extendedSchema // omittedSchema // originalSchema
 type FinalSchemaType = typeof finalSchema['TYPE'] // Hover to preview
 
-console.log(JSON.stringify(finalSchema, null, 4))
+console.log('--- ATS ---\n', JSON.stringify(finalSchema, null, 4))
 // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
 // {
@@ -122,4 +124,183 @@ console.log(JSON.stringify(finalSchema, null, 4))
 //     },
 //     "aetherType": "AetherSchema",
 //     "schemaName": "Extended"
+// }
+
+/* --- Zod ------------------------------------------------------------------------------------- */
+
+const ENUM = { A: 'A', B: 'B' } as const
+
+const aetherSchema = <K extends string, Z extends z.ZodRawShape>(key: K, zodSchemaDef: Z) => {
+    const zodSchema = z.object(zodSchemaDef)
+    const assignMethods = <AK extends string, ZO extends z.ZodObject<z.ZodRawShape>>(key: AK, schemaObj: ZO) => {
+        return Object.assign(schemaObj, {
+            key,
+            name: key,
+            describe: null as never,
+            extendSchema: <EK extends string, EZ extends z.ZodRawShape>(key: EK, zodExtDef: EZ) => {
+                return aetherSchema(key, { ...zodExtDef, ...zodSchemaDef })
+            },
+            pickSchema: <PK extends string, PZ extends Parameters<typeof zodSchema.pick>[0]>(key: PK, picks: PZ) => {
+                const pickedSchema = zodSchema.pick(picks).describe(key)
+                return assignMethods(key, pickedSchema)
+            },
+            omitSchema: <OK extends string, OZ extends Parameters<typeof zodSchema.omit>[0]>(key: OK, omits: OZ) => {
+                const omittedSchema = zodSchema.omit(omits).describe(key)
+                return assignMethods(key, omittedSchema)
+            },
+            requiredSchema: <RK extends string>(key: RK) => {
+                const requiredSchema = zodSchema.required().describe(key)
+                return assignMethods(key, requiredSchema)
+            },
+            partialSchema: <PK extends string>(key: PK) => {
+                const partialSchema = zodSchema.partial().describe(key)
+                return assignMethods(key, partialSchema)
+            },
+            deepPartialSchema: <PK extends string>(key: PK) => {
+                const partialSchema = zodSchema.deepPartial().describe(key)
+                return assignMethods(key, partialSchema)
+            },
+            introspect: () => {
+                const jsonSchema = zodToJsonSchema(schemaObj)
+                return jsonSchema
+            },
+        })
+    }
+    return assignMethods(key, zodSchema.describe(key))
+}
+
+const Primitives = aetherSchema('Primitives', {
+    bln: z.boolean().optional().describe('A boolean'),
+    str: z.string().optional().nullable().default('default').describe('A string'),
+    num: z.number().optional().nullable().default(0).describe('A number'),
+})
+
+const Advanced = Primitives.extendSchema('Advanced', {
+    enum: z.enum(['A', 'B']).nullish().describe('An enum'),
+    ids: z.array(z.string()).optional().nullable().describe('An array of IDs'),
+    tuple: z.tuple([z.string(), z.number()]),
+})
+
+const Todo = aetherSchema('Todo', {
+    id: z.string().default('some-todo-id').describe('The ID of the Todo'),
+    status: z.enum(['active', 'completed']).default('active').describe('The status of the Todo'),
+})
+
+const ExtendedTodos = Advanced.extendSchema('ExtendedTodos', {
+    mainTodo: Todo,
+    todos: z.array(Todo).describe('An array of Todos'),
+    amount: z.number().min(0).max(10).int().describe('Amount of todos'),
+})
+
+const PartialTodos = ExtendedTodos.partialSchema('PartialTodos')
+const DeepPartialTodos = ExtendedTodos.deepPartialSchema('DeepPartialTodos')
+const RequiredTodos = ExtendedTodos.requiredSchema('RequiredTodos')
+
+const PickedTodos = RequiredTodos.pickSchema('PickedTodos', { mainTodo: true, amount: true, todos: true })
+const OmittedTodos = RequiredTodos.omitSchema('OmittedTodos', { mainTodo: true, amount: true, todos: true })
+
+type PrimitivesTypes = z.infer<typeof Primitives>
+type AdvancedTypes = z.infer<typeof Advanced>
+type TodoTypes = z.infer<typeof Todo>
+type ExtendedTodosTypes = z.infer<typeof ExtendedTodos>
+type PartialTodosTypes = z.infer<typeof PartialTodos>
+type DeepPartialTodosTypes = z.infer<typeof DeepPartialTodos>
+type RequiredTodosTypes = z.infer<typeof RequiredTodos>
+type PickedTodosTypes = z.infer<typeof PickedTodos>
+type OmittedTodosTypes = z.infer<typeof OmittedTodos>
+
+const zodJSON = RequiredTodos.introspect()
+
+console.log('--- ZOD ---\n', JSON.stringify(zodJSON, null, 4))
+
+// ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+// {
+//     "type": "object",
+//     "properties": {
+//         "id": {
+//             "type": "string",
+//             "default": "some-id"
+//         },
+//         "ids": {
+//             "type": "array",
+//             "items": {
+//                 "type": "string"
+//             },
+//             "description": "A list of IDs"
+//         },
+//         "str": {
+//             "type": [
+//                 "string",
+//                 "null"
+//             ]
+//         },
+//         "day": {
+//             "type": "string",
+//             "format": "date-time"
+//         },
+//         "num": {
+//             "anyOf": [
+//                 {
+//                     "anyOf": [
+//                         {
+//                             "not": {}
+//                         },
+//                         {
+//                             "type": "number"
+//                         }
+//                     ]
+//                 },
+//                 {
+//                     "type": "null"
+//                 }
+//             ]
+//         },
+//         "bln": {
+//             "type": "boolean",
+//             "default": false
+//         },
+//         "enum": {
+//             "type": "string",
+//             "enum": [
+//                 "A",
+//                 "B"
+//             ]
+//         },
+//         "tuple": {
+//             "type": "array",
+//             "minItems": 2,
+//             "maxItems": 2,
+//             "items": [
+//                 {
+//                     "type": "string"
+//                 },
+//                 {
+//                     "type": "number"
+//                 }
+//             ]
+//         },
+//         "obj": {
+//             "type": "object",
+//             "properties": {
+//                 "str": {
+//                     "type": "string"
+//                 }
+//             },
+//             "required": [
+//                 "str"
+//             ],
+//             "additionalProperties": false
+//         }
+//     },
+//     "required": [
+//         "ids",
+//         "str",
+//         "enum",
+//         "tuple",
+//         "obj"
+//     ],
+//     "additionalProperties": false,
+//     "description": "A test schema",
+//     "$schema": "http://json-schema.org/draft-07/schema#"
 // }
