@@ -1,14 +1,13 @@
-import { json } from 'micro'
 import { z } from 'zod'
 import zodToJsonSchema from 'zod-to-json-schema'
-import { ats } from '../schemas'
+import { ats, AetherSchemaType } from '../schemas'
 
 enum TEST_ENUM {
     A = 'A',
     B = 'B',
 }
 
-const id = ats.id().default('some-id')
+const id = ats.id().optional().default('some-id')
 const ids = ats.array(ats.id())
 const str = ats.string().nullable().docs('example', 'description')
 const day = ats.date().optional().docs('01/01/2022', 'The start of the year')
@@ -31,13 +30,13 @@ const originalSchema = ats.schema('MySchema', {
     opt,
     obj,
     col,
-    coll,
+    // coll,
 })
 type OriginalSchemaType = typeof originalSchema['TYPE'] // Hover to preview
 
 // -- Test Utilities --
 
-const omittedSchema = ats.omit('Minimal', originalSchema, ['obj', 'col', 'coll'])
+const omittedSchema = ats.omit('Minimal', originalSchema, ['obj', 'col'])
 type OmittedSchemaType = typeof omittedSchema['TYPE']
 
 const extendedSchema = ats.extend('Extended', omittedSchema, {
@@ -126,9 +125,96 @@ console.log('--- ATS ---\n', JSON.stringify(finalSchema, null, 4))
 //     "schemaName": "Extended"
 // }
 
-/* --- Zod ------------------------------------------------------------------------------------- */
+/* --- parseType() ----------------------------------------------------------------------------- */
 
-const ENUM = { A: 'A', B: 'B' } as const
+const schemaTypeMap = Object.freeze({
+    boolean: 'AetherBoolean',
+    number: 'AetherNumber',
+    string: 'AetherString',
+    date: 'AetherDate',
+    object: 'AetherSchema',
+    array: 'AetherArray',
+})
+
+const parseType = (propDef: Record<string, any>, propSchema: Record<string, unknown> = {}) => {
+    // @ts-ignore
+    const { type: propType, enum: propEnum, anyOf } = propDef
+    if (Array.isArray(propType)) {
+        propSchema.isNullable = propType.includes('null')
+        const leftoverType = propType.filter((type: string) => type !== 'null')[0]
+        propSchema.aetherType = schemaTypeMap[leftoverType]
+        propSchema.type = leftoverType
+    } else if (propDef.format === 'date-time') {
+        propSchema.aetherType = 'AetherDate'
+        propSchema.type = 'date'
+    } else if (propEnum) {
+        propSchema.aetherType = 'AetherEnum'
+        propSchema.type = 'enums'
+        propSchema.schema = propEnum.reduce((acc, enumVal) => ({ ...acc, [enumVal]: enumVal }), {})
+    } else {
+        propSchema.aetherType = schemaTypeMap[propType]
+        propSchema.type = propType
+    }
+    // Return
+    return propSchema
+}
+
+/* --- parseProp() ----------------------------------------------------------------------------- */
+
+const parseProp = (propKey: string, propDef: Record<string, any>, parseContext: { required: string[] }) => {
+    // @ts-ignore
+    const { type: propType, enum: propEnum, default: propDefault, description } = propDef
+    const required = parseContext?.required
+    let propSchema = {} as Record<string, unknown>
+    // Determine if optional
+    propSchema.isOptional = required ? (!required.includes(propKey)) : true
+    // Determine types
+    propSchema = parseType(propDef, propSchema)
+    // Handle descriptions
+    if (description && propSchema.type !== 'object') propSchema.description = description
+    // Handle defaults
+    if (propDefault) propSchema.defaultValue = propDefault
+    // Handle objects
+    if (propType === 'object') {
+        propSchema = { ...propSchema, ...parseSchema(propDef as ReturnType<typeof zodToJsonSchema>) }
+    }
+    // Handle arrays
+    if (propSchema.aetherType === 'AetherArray') {
+        propSchema.schema = parseProp(propKey, propDef.items as Record<string, unknown>, parseContext)
+    }
+    // Return parsed schema
+    return propSchema
+}
+
+/* --- parseSchema() --------------------------------------------------------------------------- */
+
+const parseSchema = (schema: ReturnType<typeof zodToJsonSchema>) => {
+    // @ts-ignore
+    const { type, description, properties, required } = schema
+    // Do nothing when not an object
+    if (type !== 'object') return {}
+    // Build aether schema
+    const resultSchema = {} as Record<string, any>
+    resultSchema.aetherType = 'AetherSchema'
+    resultSchema.type = type
+    resultSchema.schemaName = description
+    // console.log({ description })
+    // Parse properties
+    resultSchema.schema = Object.entries(properties).reduce((atSchema, [propKey, propDef]) => {
+        const propSchema = parseProp(propKey, propDef as Record<string, unknown>, { required })
+        // Abort if unknown
+        if (!propSchema.aetherType) {
+            console.warn(`Unknown prop type: ${propKey} (${propSchema.type})`, propSchema)
+            return atSchema
+        }
+        // Return prop definition
+        return { ...atSchema, [propKey]: propSchema }
+    }, {})
+    // Return parsed schema
+    return resultSchema
+}
+
+/* --- Zod ------------------------------------------------------------------------------------- */
 
 const aetherSchema = <K extends string, Z extends z.ZodRawShape>(key: K, zodSchemaDef: Z) => {
     const zodSchema = z.object(zodSchemaDef)
@@ -161,8 +247,10 @@ const aetherSchema = <K extends string, Z extends z.ZodRawShape>(key: K, zodSche
                 return assignMethods(key, partialSchema)
             },
             introspect: () => {
-                const jsonSchema = zodToJsonSchema(schemaObj)
-                return jsonSchema
+                return {
+                    result: parseSchema(zodToJsonSchema(schemaObj)),
+                    jsonSchema: zodToJsonSchema(schemaObj),
+                }
             },
         })
     }
@@ -209,7 +297,25 @@ type RequiredTodosTypes = z.infer<typeof RequiredTodos>
 type PickedTodosTypes = z.infer<typeof PickedTodos>
 type OmittedTodosTypes = z.infer<typeof OmittedTodos>
 
-const zodJSON = RequiredTodos.introspect()
+const ComparedSchema = aetherSchema('ComparedSchema', {
+    id: z.string().default('some-id').describe('An ID'),
+    ids: z.array(z.string()).describe('A list of IDs'),
+    str: z.string().nullable().describe('A string'),
+    day: z.date().optional().describe('A date'),
+    num: z.number().describe('A number'),
+    bln: z.boolean().optional().describe('A boolean'),
+    opt: z.enum(['A', 'B']).describe('An enum'),
+    obj: aetherSchema('StringObject', {
+        str: z.string().nullable().describe('A string'),
+    }),
+    col: z.array(aetherSchema('IDObject', {
+        id: z.string().describe('An ID'),
+    }))
+})
+
+type ComparedSchemaType = z.infer<typeof ComparedSchema>
+
+const zodJSON = ComparedSchema.introspect()
 
 console.log('--- ZOD ---\n', JSON.stringify(zodJSON, null, 4))
 
