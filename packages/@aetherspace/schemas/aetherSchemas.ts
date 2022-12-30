@@ -1,4 +1,6 @@
 import * as ss from 'superstruct'
+import { z } from 'zod'
+import zodToJsonSchema from 'zod-to-json-schema'
 import type {
   ObjectSchema,
   ObjectType,
@@ -6,6 +8,290 @@ import type {
   Simplify,
   Optionalize,
 } from 'superstruct/lib/utils'
+
+import type { JSONSchema7 } from 'json-schema'
+
+/* ### ZOD ##################################################################################### */
+/* ### ZOD ##################################################################################### */
+/* ### ZOD ##################################################################################### */
+
+/* --- Constants ------------------------------------------------------------------------------- */
+
+const SCHEMA_MAP = Object.freeze({
+  boolean: 'AetherBoolean',
+  number: 'AetherNumber',
+  string: 'AetherString',
+  date: 'AetherDate',
+  object: 'AetherSchema',
+  array: 'AetherArray',
+  color: 'AetherColor',
+  id: 'AetherId',
+})
+
+/* --- Types ----------------------------------------------------------------------------------- */
+
+export type AetherZodType<T = any> = {
+  type: keyof typeof SCHEMA_MAP
+  aetherType: typeof SCHEMA_MAP[keyof typeof SCHEMA_MAP]
+  description?: string
+  defaultValue?: T
+  schemaName?: string
+  isOptional?: boolean
+  isNullable?: boolean
+  schema?: AetherZodType | Record<string, any>
+}
+
+export type DropFirst<T extends unknown[]> = T extends [any, ...infer U] ? U : never
+
+/* --- Helpers --------------------------------------------------------------------------------- */
+
+const parseType = (propDef: JSONSchema7, propSchema: Record<string, unknown> = {}) => {
+  // @ts-ignore
+  const { type: propType, enum: propEnum, anyOf } = propDef
+  if (Array.isArray(propType)) {
+    propSchema.isNullable = propType.includes('null')
+    const leftoverType = propType.filter((type: string) => type !== 'null')[0]
+    propSchema.aetherType = SCHEMA_MAP[leftoverType]
+    propSchema.type = leftoverType
+  } else if (propDef.format === 'date-time') {
+    propSchema.aetherType = 'AetherDate'
+    propSchema.type = 'date'
+  } else if (propEnum) {
+    propSchema.aetherType = 'AetherEnum'
+    propSchema.type = 'enums'
+    propSchema.schema = propEnum.reduce(
+      (acc, enumVal) => ({
+        ...(acc as Record<string, string | number>),
+        [enumVal as string]: enumVal,
+      }),
+      {}
+    )
+  } else {
+    propSchema.aetherType = SCHEMA_MAP[propType!]
+    propSchema.type = propType
+  }
+  // Return
+  return propSchema
+}
+
+const parseProp = (propKey: string, propDef: JSONSchema7, parseContext: { required: string[] }) => {
+  // @ts-ignore
+  const { type: propType, default: propDefault, description } = propDef
+  const required = parseContext?.required
+  let propSchema = {} as Record<string, unknown>
+  // Determine if optional
+  propSchema.isOptional = required ? !required.includes(propKey) : true
+  // Determine types
+  propSchema = parseType(propDef, propSchema)
+  // Handle descriptions
+  if (description && propSchema.type !== 'object') propSchema.description = description
+  // Handle defaults
+  if (propDefault) propSchema.defaultValue = propDefault
+  // Handle objects
+  if (propType === 'object') {
+    propSchema = { ...propSchema, ...parseSchema(propDef as JSONSchema7) }
+  }
+  // Handle arrays
+  if (propSchema.aetherType === 'AetherArray') {
+    propSchema.schema = parseProp(propKey, propDef.items as Record<string, unknown>, parseContext)
+  }
+  // Return parsed schema
+  return propSchema
+}
+
+const parseSchema = (schema: JSONSchema7) => {
+  // @ts-ignore
+  const { type, description, properties, required = [] } = schema
+  // Do nothing when not an object
+  if (type !== 'object') return {}
+  // Build aether schema
+  const resultSchema = {} as Record<string, any>
+  resultSchema.aetherType = 'AetherSchema'
+  resultSchema.type = type
+  resultSchema.schemaName = description
+  // Parse properties
+  resultSchema.schema = Object.entries(properties!).reduce((atSchema, [propKey, propDef]) => {
+    const propSchema = parseProp(propKey, propDef as Record<string, unknown>, { required })
+    // Abort if unknown
+    if (!propSchema.aetherType) {
+      console.warn(`Unknown prop type: ${propKey} (${propSchema.type})`, propSchema)
+      return atSchema
+    }
+    // Return prop definition
+    return { ...atSchema, [propKey]: propSchema }
+  }, {})
+  // Return parsed schema
+  return resultSchema
+}
+
+// /* --- Schema Builders ------------------------------------------------------------------------- */
+
+// // Allow extending schema
+// // const extendSchema = <EK extends string, EZ extends zod.ZodRawShape>(key: EK, zodExtDef: EZ) => {
+// //   return aetherSchema(key, { ...zodExtDef, ...zodSchemaDef })
+// // }
+
+// type AetherZodSchema = zod.ZodObject<zod.ZodRawShape> | AssignType<zod.ZodObject<zod.ZodRawShape>>
+
+// // Allow picking schema
+// const pickSchema = <
+//   SCHEMA extends AetherZodSchema,
+//   KEY extends string,
+//   PICKS extends Parameters<SCHEMA['pick']>[0]
+// >(
+//   schema: SCHEMA,
+//   key: KEY,
+//   picks: PICKS
+// ) => {
+//   const pickedSchema = schema.pick(picks).describe(key)
+//   return assignMethods(key, pickedSchema)
+// }
+
+// // Allow omitting schema
+// const omitSchema = <
+//   SCHEMA extends AetherZodSchema,
+//   KEY extends string,
+//   OMITS extends Parameters<SCHEMA['pick']>[0]
+// >(
+//   schema: SCHEMA,
+//   key: KEY,
+//   omits: OMITS
+// ) => {
+//   const omittedSchema = schema.omit(omits).describe(key)
+//   return assignMethods(key, omittedSchema)
+// }
+
+// // Allow requiring schema
+// const requiredSchema = <SCHEMA extends AetherZodSchema, KEY extends string>(
+//   schema: SCHEMA,
+//   key: KEY
+// ) => {
+//   const requiredSchema = schema.required().describe(key)
+//   return assignMethods(key, requiredSchema)
+// }
+
+// // Allow partial schema
+// const partialSchema = <SCHEMA extends AetherZodSchema, KEY extends string>(
+//   schema: SCHEMA,
+//   key: KEY
+// ) => {
+//   const partialSchema = schema.partial().describe(key)
+//   return assignMethods(key, partialSchema)
+// }
+
+// // Allow deep partials
+// const deepPartialSchema = <SCHEMA extends AetherZodSchema, KEY extends string>(
+//   schema: SCHEMA,
+//   key: KEY
+// ) => {
+//   const partialSchema = schema.deepPartial().describe(key)
+//   return assignMethods(key, partialSchema)
+// }
+
+// class AssignHelper<
+//   SCHEMA extends AetherZodSchema,
+//   KEY extends string,
+//   PICKS extends Parameters<SCHEMA['pick']>[0] = Parameters<SCHEMA['pick']>[0]
+// > {
+//   pickSchema = (...args: [SCHEMA, KEY, PICKS]) => pickSchema<SCHEMA, KEY, PICKS>(...args)
+//   omitSchema = (...args: [SCHEMA, KEY, PICKS]) => omitSchema<SCHEMA, KEY, PICKS>(...args)
+//   requiredSchema = (...args: [SCHEMA, KEY]) => requiredSchema<SCHEMA, KEY>(...args)
+//   partialSchema = (...args: [SCHEMA, KEY]) => partialSchema<SCHEMA, KEY>(...args)
+//   deepPartialSchema = (...args: [SCHEMA, KEY]) => deepPartialSchema<SCHEMA, KEY>(...args)
+// }
+
+// type AssignType<SCHEMA extends AetherZodSchema> = SCHEMA & {
+//   key?: string
+//   name?: string
+//   describe?: never
+//   pickSchema?: (
+//     ...args: DropFirst<Parameters<typeof pickSchema>>
+//   ) => ReturnType<AssignHelper<SCHEMA, typeof args[0], typeof args[1]>['pickSchema']>
+//   omitSchema?: (
+//     ...args: DropFirst<Parameters<typeof omitSchema>>
+//   ) => ReturnType<AssignHelper<SCHEMA, typeof args[0], typeof args[1]>['omitSchema']>
+//   requiredSchema?: (
+//     ...args: DropFirst<Parameters<typeof requiredSchema>>
+//   ) => ReturnType<AssignHelper<SCHEMA, typeof args[0]>['requiredSchema']>
+//   partialSchema?: (
+//     ...args: DropFirst<Parameters<typeof partialSchema>>
+//   ) => ReturnType<AssignHelper<SCHEMA, typeof args[0]>['partialSchema']>
+//   deepPartialSchema?: (
+//     ...args: DropFirst<Parameters<typeof deepPartialSchema>>
+//   ) => ReturnType<AssignHelper<SCHEMA, typeof args[0]>['deepPartialSchema']>
+// }
+
+// // Assign methods
+// const assignMethods = <KEY extends string, SCHEMA extends AetherZodSchema>(
+//   key: KEY,
+//   schema: SCHEMA
+// ) => {
+//   return Object.assign(schema, {
+//     key,
+//     name: key,
+//     describe: null as never,
+//     // extendSchema,
+//     pickSchema: (...args: DropFirst<Parameters<typeof pickSchema>>) => {
+//       return pickSchema(schema, ...args)
+//     },
+//     omitSchema: (...args: DropFirst<Parameters<typeof omitSchema>>) => {
+//       return omitSchema(schema, ...args)
+//     },
+//     requiredSchema: (...args: DropFirst<Parameters<typeof requiredSchema>>) => {
+//       return requiredSchema(schema, ...args)
+//     },
+//     partialSchema: (...args: DropFirst<Parameters<typeof partialSchema>>) => {
+//       return partialSchema(schema, ...args)
+//     },
+//     deepPartialSchema: (...args: DropFirst<Parameters<typeof deepPartialSchema>>) => {
+//       return deepPartialSchema(schema, ...args)
+//     },
+//     introspect: () => {
+//       return {
+//         result: parseSchema(zodToJsonSchema(schema) as JSONSchema7),
+//         jsonSchema: zodToJsonSchema(schema),
+//       }
+//     },
+//   })
+// }
+
+// /* --- aetherSchema() -------------------------------------------------------------------------- */
+
+// const aetherSchema = <K extends string, Z extends zod.ZodRawShape>(key: K, zodSchemaDef: Z) => {
+//   const zodSchema = zod.object(zodSchemaDef)
+//   return assignMethods(key, zodSchema.describe(key))
+// }
+
+// const TestSchema = aetherSchema('TestSchema', {
+//   name: zod.string().optional(),
+// })
+// type Test = zod.infer<typeof TestSchema>
+
+// // const PickSchema = TestSchema.pickSchema('PickSchema', { test: true })
+// const PickSchema = pickSchema(TestSchema, 'PickSchema', { name: true })
+// type Pick = zod.infer<typeof PickSchema>
+
+// /* --- Zod ------------------------------------------------------------------------------------- */
+
+// type ZodExtended = typeof zod & {
+//   schema: typeof aetherSchema
+//   id: zod.ZodString
+//   color: zod.ZodString
+// }
+
+// const z = Object.assign(zod, {
+//   schema: aetherSchema,
+//   id: zod.string(),
+//   color: zod.string().regex(/^(#|0x)?[0-9a-fA-F]{6}$/, 'color'),
+// }) as ZodExtended
+
+// /* --- Exports --------------------------------------------------------------------------------- */
+
+// export { aetherSchema, z }
+
+/* ### ATS ##################################################################################### */
+/* ### ATS ##################################################################################### */
+/* ### ATS ##################################################################################### */
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
