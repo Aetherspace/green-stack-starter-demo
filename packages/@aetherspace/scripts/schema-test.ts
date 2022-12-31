@@ -1,6 +1,5 @@
-import { z } from 'zod'
-import zodToJsonSchema from 'zod-to-json-schema'
 import { ats, AetherSchemaType } from '../schemas'
+import { aetherSchema, z } from '../schemas/zodSchemas'
 
 enum TEST_ENUM {
     A = 'A',
@@ -127,135 +126,135 @@ console.log('--- ATS ---\n', JSON.stringify(finalSchema, null, 4))
 
 /* --- parseType() ----------------------------------------------------------------------------- */
 
-const schemaTypeMap = Object.freeze({
-    boolean: 'AetherBoolean',
-    number: 'AetherNumber',
-    string: 'AetherString',
-    date: 'AetherDate',
-    object: 'AetherSchema',
-    array: 'AetherArray',
-})
+// const schemaTypeMap = Object.freeze({
+//     boolean: 'AetherBoolean',
+//     number: 'AetherNumber',
+//     string: 'AetherString',
+//     date: 'AetherDate',
+//     object: 'AetherSchema',
+//     array: 'AetherArray',
+// })
 
-const parseType = (propDef: Record<string, any>, propSchema: Record<string, unknown> = {}) => {
-    // @ts-ignore
-    const { type: propType, enum: propEnum, anyOf } = propDef
-    if (Array.isArray(propType)) {
-        propSchema.isNullable = propType.includes('null')
-        const leftoverType = propType.filter((type: string) => type !== 'null')[0]
-        propSchema.aetherType = schemaTypeMap[leftoverType]
-        propSchema.type = leftoverType
-    } else if (propDef.format === 'date-time') {
-        propSchema.aetherType = 'AetherDate'
-        propSchema.type = 'date'
-    } else if (propEnum) {
-        propSchema.aetherType = 'AetherEnum'
-        propSchema.type = 'enums'
-        propSchema.schema = propEnum.reduce((acc, enumVal) => ({ ...acc, [enumVal]: enumVal }), {})
-    } else {
-        propSchema.aetherType = schemaTypeMap[propType]
-        propSchema.type = propType
-    }
-    // Return
-    return propSchema
-}
+// const parseType = (propDef: Record<string, any>, propSchema: Record<string, unknown> = {}) => {
+//     // @ts-ignore
+//     const { type: propType, enum: propEnum, anyOf } = propDef
+//     if (Array.isArray(propType)) {
+//         propSchema.isNullable = propType.includes('null')
+//         const leftoverType = propType.filter((type: string) => type !== 'null')[0]
+//         propSchema.aetherType = schemaTypeMap[leftoverType]
+//         propSchema.type = leftoverType
+//     } else if (propDef.format === 'date-time') {
+//         propSchema.aetherType = 'AetherDate'
+//         propSchema.type = 'date'
+//     } else if (propEnum) {
+//         propSchema.aetherType = 'AetherEnum'
+//         propSchema.type = 'enums'
+//         propSchema.schema = propEnum.reduce((acc, enumVal) => ({ ...acc, [enumVal]: enumVal }), {})
+//     } else {
+//         propSchema.aetherType = schemaTypeMap[propType]
+//         propSchema.type = propType
+//     }
+//     // Return
+//     return propSchema
+// }
 
-/* --- parseProp() ----------------------------------------------------------------------------- */
+// /* --- parseProp() ----------------------------------------------------------------------------- */
 
-const parseProp = (propKey: string, propDef: Record<string, any>, parseContext: { required: string[] }) => {
-    // @ts-ignore
-    const { type: propType, enum: propEnum, default: propDefault, description } = propDef
-    const required = parseContext?.required
-    let propSchema = {} as Record<string, unknown>
-    // Determine if optional
-    propSchema.isOptional = required ? (!required.includes(propKey)) : true
-    // Determine types
-    propSchema = parseType(propDef, propSchema)
-    // Handle descriptions
-    if (description && propSchema.type !== 'object') propSchema.description = description
-    // Handle defaults
-    if (propDefault) propSchema.defaultValue = propDefault
-    // Handle objects
-    if (propType === 'object') {
-        propSchema = { ...propSchema, ...parseSchema(propDef as ReturnType<typeof zodToJsonSchema>) }
-    }
-    // Handle arrays
-    if (propSchema.aetherType === 'AetherArray') {
-        propSchema.schema = parseProp(propKey, propDef.items as Record<string, unknown>, parseContext)
-    }
-    // Return parsed schema
-    return propSchema
-}
+// const parseProp = (propKey: string, propDef: Record<string, any>, parseContext: { required: string[] }) => {
+//     // @ts-ignore
+//     const { type: propType, enum: propEnum, default: propDefault, description } = propDef
+//     const required = parseContext?.required
+//     let propSchema = {} as Record<string, unknown>
+//     // Determine if optional
+//     propSchema.isOptional = required ? (!required.includes(propKey)) : true
+//     // Determine types
+//     propSchema = parseType(propDef, propSchema)
+//     // Handle descriptions
+//     if (description && propSchema.type !== 'object') propSchema.description = description
+//     // Handle defaults
+//     if (propDefault) propSchema.defaultValue = propDefault
+//     // Handle objects
+//     if (propType === 'object') {
+//         propSchema = { ...propSchema, ...parseSchema(propDef as ReturnType<typeof zodToJsonSchema>) }
+//     }
+//     // Handle arrays
+//     if (propSchema.aetherType === 'AetherArray') {
+//         propSchema.schema = parseProp(propKey, propDef.items as Record<string, unknown>, parseContext)
+//     }
+//     // Return parsed schema
+//     return propSchema
+// }
 
-/* --- parseSchema() --------------------------------------------------------------------------- */
+// /* --- parseSchema() --------------------------------------------------------------------------- */
 
-const parseSchema = (schema: ReturnType<typeof zodToJsonSchema>) => {
-    // @ts-ignore
-    const { type, description, properties, required } = schema
-    // Do nothing when not an object
-    if (type !== 'object') return {}
-    // Build aether schema
-    const resultSchema = {} as Record<string, any>
-    resultSchema.aetherType = 'AetherSchema'
-    resultSchema.type = type
-    resultSchema.schemaName = description
-    // console.log({ description })
-    // Parse properties
-    resultSchema.schema = Object.entries(properties).reduce((atSchema, [propKey, propDef]) => {
-        const propSchema = parseProp(propKey, propDef as Record<string, unknown>, { required })
-        // Abort if unknown
-        if (!propSchema.aetherType) {
-            console.warn(`Unknown prop type: ${propKey} (${propSchema.type})`, propSchema)
-            return atSchema
-        }
-        // Return prop definition
-        return { ...atSchema, [propKey]: propSchema }
-    }, {})
-    // Return parsed schema
-    return resultSchema
-}
+// const parseSchema = (schema: ReturnType<typeof zodToJsonSchema>) => {
+//     // @ts-ignore
+//     const { type, description, properties, required } = schema
+//     // Do nothing when not an object
+//     if (type !== 'object') return {}
+//     // Build aether schema
+//     const resultSchema = {} as Record<string, any>
+//     resultSchema.aetherType = 'AetherSchema'
+//     resultSchema.type = type
+//     resultSchema.schemaName = description
+//     // console.log({ description })
+//     // Parse properties
+//     resultSchema.schema = Object.entries(properties).reduce((atSchema, [propKey, propDef]) => {
+//         const propSchema = parseProp(propKey, propDef as Record<string, unknown>, { required })
+//         // Abort if unknown
+//         if (!propSchema.aetherType) {
+//             console.warn(`Unknown prop type: ${propKey} (${propSchema.type})`, propSchema)
+//             return atSchema
+//         }
+//         // Return prop definition
+//         return { ...atSchema, [propKey]: propSchema }
+//     }, {})
+//     // Return parsed schema
+//     return resultSchema
+// }
 
-/* --- Zod ------------------------------------------------------------------------------------- */
+// /* --- Zod ------------------------------------------------------------------------------------- */
 
-const aetherSchema = <K extends string, Z extends z.ZodRawShape>(key: K, zodSchemaDef: Z) => {
-    const zodSchema = z.object(zodSchemaDef)
-    const assignMethods = <AK extends string, ZO extends z.ZodObject<z.ZodRawShape>>(key: AK, schemaObj: ZO) => {
-        return Object.assign(schemaObj, {
-            key,
-            name: key,
-            describe: null as never,
-            extendSchema: <EK extends string, EZ extends z.ZodRawShape>(key: EK, zodExtDef: EZ) => {
-                return aetherSchema(key, { ...zodExtDef, ...zodSchemaDef })
-            },
-            pickSchema: <PK extends string, PZ extends Parameters<typeof zodSchema.pick>[0]>(key: PK, picks: PZ) => {
-                const pickedSchema = zodSchema.pick(picks).describe(key)
-                return assignMethods(key, pickedSchema)
-            },
-            omitSchema: <OK extends string, OZ extends Parameters<typeof zodSchema.omit>[0]>(key: OK, omits: OZ) => {
-                const omittedSchema = zodSchema.omit(omits).describe(key)
-                return assignMethods(key, omittedSchema)
-            },
-            requiredSchema: <RK extends string>(key: RK) => {
-                const requiredSchema = zodSchema.required().describe(key)
-                return assignMethods(key, requiredSchema)
-            },
-            partialSchema: <PK extends string>(key: PK) => {
-                const partialSchema = zodSchema.partial().describe(key)
-                return assignMethods(key, partialSchema)
-            },
-            deepPartialSchema: <PK extends string>(key: PK) => {
-                const partialSchema = zodSchema.deepPartial().describe(key)
-                return assignMethods(key, partialSchema)
-            },
-            introspect: () => {
-                return {
-                    result: parseSchema(zodToJsonSchema(schemaObj)),
-                    jsonSchema: zodToJsonSchema(schemaObj),
-                }
-            },
-        })
-    }
-    return assignMethods(key, zodSchema.describe(key))
-}
+// const aetherSchema = <K extends string, Z extends z.ZodRawShape>(key: K, zodSchemaDef: Z) => {
+//     const zodSchema = z.object(zodSchemaDef)
+//     const assignMethods = <AK extends string, ZO extends z.ZodObject<z.ZodRawShape>>(key: AK, schemaObj: ZO) => {
+//         return Object.assign(schemaObj, {
+//             key,
+//             name: key,
+//             describe: null as never,
+//             extendSchema: <EK extends string, EZ extends z.ZodRawShape>(key: EK, zodExtDef: EZ) => {
+//                 return aetherSchema(key, { ...zodExtDef, ...zodSchemaDef })
+//             },
+//             pickSchema: <PK extends string, PZ extends Parameters<typeof zodSchema.pick>[0]>(key: PK, picks: PZ) => {
+//                 const pickedSchema = zodSchema.pick(picks).describe(key)
+//                 return assignMethods(key, pickedSchema)
+//             },
+//             omitSchema: <OK extends string, OZ extends Parameters<typeof zodSchema.omit>[0]>(key: OK, omits: OZ) => {
+//                 const omittedSchema = zodSchema.omit(omits).describe(key)
+//                 return assignMethods(key, omittedSchema)
+//             },
+//             requiredSchema: <RK extends string>(key: RK) => {
+//                 const requiredSchema = zodSchema.required().describe(key)
+//                 return assignMethods(key, requiredSchema)
+//             },
+//             partialSchema: <PK extends string>(key: PK) => {
+//                 const partialSchema = zodSchema.partial().describe(key)
+//                 return assignMethods(key, partialSchema)
+//             },
+//             deepPartialSchema: <PK extends string>(key: PK) => {
+//                 const partialSchema = zodSchema.deepPartial().describe(key)
+//                 return assignMethods(key, partialSchema)
+//             },
+//             introspect: () => {
+//                 return {
+//                     result: parseSchema(zodToJsonSchema(schemaObj)),
+//                     jsonSchema: zodToJsonSchema(schemaObj),
+//                 }
+//             },
+//         })
+//     }
+//     return assignMethods(key, zodSchema.describe(key))
+// }
 
 const Primitives = aetherSchema('Primitives', {
     bln: z.boolean().optional().describe('A boolean'),
