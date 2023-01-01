@@ -1,4 +1,4 @@
-import { z as zod } from 'zod'
+import { z } from 'zod'
 import zodToJsonSchema from 'zod-to-json-schema'
 import type { JSONSchema7 } from 'json-schema'
 
@@ -26,8 +26,8 @@ export type AetherZodType<T = any> = {
   schema?: AetherZodType | Record<string, any>
 }
 
-export type ZodObjectSchema<S extends zod.ZodRawShape> = zod.ZodObject<S>
-export type ZodExtendedSchema<S extends zod.ZodRawShape> = ZodObjectSchema<S> & {
+export type ZodObjectSchema<S extends z.ZodRawShape> = z.ZodObject<S>
+export type ZodExtendedSchema<S extends z.ZodRawShape> = ZodObjectSchema<S> & {
   key?: string
   schemaDef?: S
 }
@@ -119,7 +119,7 @@ const parseSchema = (schema: JSONSchema7) => {
 
 /** --- extendFromSchema() --------------------------------------------------------------------- */
 /** -i- Add new properties to an eatherschema and give it a new name */
-export const extendFromSchema = <S extends zod.ZodRawShape, E extends zod.ZodRawShape>(
+export const extendFromSchema = <S extends z.ZodRawShape, E extends z.ZodRawShape>(
   schema: ZodExtendedSchema<S>,
   key: string,
   extraProps: E
@@ -130,7 +130,7 @@ export const extendFromSchema = <S extends zod.ZodRawShape, E extends zod.ZodRaw
 /** --- pickFromSchema() ----------------------------------------------------------------------- */
 /** -i- Create new schema by picking properties from another */
 export const pickFromSchema = <
-  S extends zod.ZodRawShape,
+  S extends z.ZodRawShape,
   P extends Parameters<ZodExtendedSchema<S>['pick']>[0]
 >(
   schema: ZodExtendedSchema<S>,
@@ -144,7 +144,7 @@ export const pickFromSchema = <
 /** --- omitFromSchema() ----------------------------------------------------------------------- */
 /** -i- Create new schema by removing properties from another */
 export const omitFromSchema = <
-  S extends zod.ZodRawShape,
+  S extends z.ZodRawShape,
   O extends Parameters<ZodExtendedSchema<S>['omit']>[0]
 >(
   schema: ZodExtendedSchema<S>,
@@ -157,7 +157,7 @@ export const omitFromSchema = <
 
 /** --- makeSchemaRequired() ------------------------------------------------------------------- */
 /** -i- Create a new schema by making all properties from another schema required */
-export const makeSchemaRequired = <S extends zod.ZodRawShape>(
+export const makeSchemaRequired = <S extends z.ZodRawShape>(
   schema: ZodExtendedSchema<S>,
   key: string
 ) => {
@@ -167,7 +167,7 @@ export const makeSchemaRequired = <S extends zod.ZodRawShape>(
 
 /** --- makeSchemaPartial() -------------------------------------------------------------------- */
 /** -i- Create a new schema by making all properties from another schema optional */
-export const makeSchemaPartial = <S extends zod.ZodRawShape>(
+export const makeSchemaPartial = <S extends z.ZodRawShape>(
   schema: ZodExtendedSchema<S>,
   key: string
 ) => {
@@ -177,7 +177,7 @@ export const makeSchemaPartial = <S extends zod.ZodRawShape>(
 
 /** --- makeSchemaDeepPartial() ---------------------------------------------------------------- */
 /** -i- Create a new schema by making all properties from another schema, including nested ones, optional */
-export const makeSchemaDeepPartial = <S extends zod.ZodRawShape>(
+export const makeSchemaDeepPartial = <S extends z.ZodRawShape>(
   schema: ZodExtendedSchema<S>,
   key: string
 ) => {
@@ -187,7 +187,7 @@ export const makeSchemaDeepPartial = <S extends zod.ZodRawShape>(
 
 /** --- assignDefs() --------------------------------------------------------------------------- */
 /** -i- Add key & schema definition to zod object */
-const assignDefs = <S extends zod.ZodRawShape>(
+const assignDefs = <S extends z.ZodRawShape>(
   zodSchema: ZodObjectSchema<S>,
   key: string,
   schemaDef: S
@@ -197,9 +197,9 @@ const assignDefs = <S extends zod.ZodRawShape>(
 
 /** --- assignMethods() ------------------------------------------------------------------------ */
 /** -i- Add ways to extend schemas from existing schemas */
-const assignMethods = <S extends zod.ZodRawShape>(zodSchema: ZodExtendedSchema<S>) => {
+const assignMethods = <S extends z.ZodRawShape>(zodSchema: ZodExtendedSchema<S>) => {
   return Object.assign(zodSchema as ZodExtendedSchema<S>, {
-    extendSchema: <E extends zod.ZodRawShape>(key: string, extraProps: E) => {
+    extendSchema: <E extends z.ZodRawShape>(key: string, extraProps: E) => {
       return extendFromSchema(zodSchema, key, extraProps)
     },
     pickSchema: <P extends Parameters<ZodExtendedSchema<S>['pick']>[0]>(
@@ -236,76 +236,68 @@ const assignMethods = <S extends zod.ZodRawShape>(zodSchema: ZodExtendedSchema<S
 
 /** --- aetherSchema() ------------------------------------------------------------------------- */
 /** -i- Defines your datastructure (Props, Args, Models) as a zod powered single source of truth */
-export const aetherSchema = <S extends zod.ZodRawShape>(key: string, schemaDef: S) => {
+export const aetherSchema = <S extends z.ZodRawShape>(key: string, schemaDef: S) => {
   // Attach key & schema definition
-  const zodSchema: ZodExtendedSchema<S> = assignDefs(zod.object(schemaDef), key, schemaDef)
+  const zodSchema: ZodExtendedSchema<S> = assignDefs(z.object(schemaDef), key, schemaDef)
   // Attach transform methods
   return assignMethods(zodSchema.describe(key))
 }
 
 /** --- buildSchema() -------------------------------------------------------------------------- */
 /** -i- Define your datastructure (Props, Args, Models) as a zod object and turn it into an aetherSchema */
-export const buildSchema = <S extends zod.ZodRawShape>(key: string, schema: zod.ZodObject<S>) => {
+export const buildSchema = <S extends z.ZodRawShape>(key: string, schema: z.ZodObject<S>) => {
   return aetherSchema(key, schema.shape)
 }
 
-/* --- Exports --------------------------------------------------------------------------------- */
-
-// TODO: Figure out how to export these types
-// export const z = Object.assign(zod, {
-//   schema: aetherSchema,
-//   buildSchema,
-// })
-
 /* --- Test ------------------------------------------------------------------------------------ */
 
-// const ZodTest = zod.object({
-//   id: zod.string(),
-//   name: zod.string().optional(),
-//   age: zod.number().int(),
+// const ZodTest = z.object({
+//   id: z.string(),
+//   name: z.string().optional(),
+//   age: z.number().int(),
 // })
-// type ZodTest = zod.infer<typeof ZodTest>
+// type ZodTest = z.infer<typeof ZodTest>
 
 // const AetherTest = aetherSchema('AetherTest', {
-//   id: zod.string(),
-//   name: zod.string().optional(),
-//   age: zod.number().int(),
+//   id: z.string(),
+//   name: z.string().optional(),
+//   age: z.number().int(),
 //   obj: aetherSchema('Todo', {
-//     id: zod.string(),
+//     id: z.string(),
 //   }),
 // })
-// type AetherTest = zod.infer<typeof AetherTest>
+// type AetherTest = z.infer<typeof AetherTest>
 
 // const ZodExtended = ZodTest.extend({
-//   email: zod.string().email(),
+//   email: z.string().email(),
 // })
-// type ZodExtended = zod.infer<typeof ZodExtended>
+// type ZodExtended = z.infer<typeof ZodExtended>
 
 // const AetherExtended = AetherTest.extendSchema('AetherExtended', {
-//   email: zod.string().email(),
+//   email: z.string().email(),
 // })
-// type AetherExtended = zod.infer<typeof AetherExtended>
+// type AetherExtended = z.infer<typeof AetherExtended>
 
 // const ZodOmitted = ZodExtended.omit({ email: true })
-// type ZodOmitted = zod.infer<typeof ZodOmitted>
+// type ZodOmitted = z.infer<typeof ZodOmitted>
 
 // const AetherOmitted = AetherExtended.omitSchema('AetherOmitted', { email: true })
-// type AetherOmitted = zod.infer<typeof AetherOmitted>
+// type AetherOmitted = z.infer<typeof AetherOmitted>
 
 // const ZodPicked = ZodExtended.pick({ email: true, name: true })
-// type ZodPicked = zod.infer<typeof ZodPicked>
+// type ZodPicked = z.infer<typeof ZodPicked>
 
 // const AetherPicked = AetherExtended.pickSchema('AetherPicked', { email: true, name: true })
-// type AetherPicked = zod.infer<typeof AetherPicked>
+// type AetherPicked = z.infer<typeof AetherPicked>
 
 // const AetherRequired = makeSchemaRequired(AetherExtended, 'AetherRequired')
 // // const AetherRequired = AetherExtended.requiredSchema('AetherRequired') // TODO: Make this work
-// type AetherRequired = zod.infer<typeof AetherRequired>
+// type AetherRequired = z.infer<typeof AetherRequired>
 
 // const AetherPartial = makeSchemaPartial(AetherExtended, 'AetherPartial')
 // // const AetherPartial = AetherExtended.partialSchema('AetherPartial') // TODO: Make this work
-// type AetherPartial = zod.infer<typeof AetherPartial>
+// type AetherPartial = z.infer<typeof AetherPartial>
 
 // // TODO: Make this work
 // const AetherDeepPartial = makeSchemaDeepPartial(AetherExtended, 'AetherDeepPartial')
-// type AetherDeepPartial = zod.infer<typeof AetherDeepPartial>
+// type AetherDeepPartial = z.infer<typeof AetherDeepPartial>

@@ -1,5 +1,6 @@
 import { ats, AetherSchemaType } from '../schemas'
-import { aetherSchema, z } from '../schemas/zodSchemas'
+import { aetherSchema, makeSchemaDeepPartial, makeSchemaPartial, makeSchemaRequired } from '../schemas/zodSchemas'
+import { z } from 'zod'
 
 enum TEST_ENUM {
     A = 'A',
@@ -279,12 +280,12 @@ const ExtendedTodos = Advanced.extendSchema('ExtendedTodos', {
     amount: z.number().min(0).max(10).int().describe('Amount of todos'),
 })
 
-const PartialTodos = ExtendedTodos.partialSchema('PartialTodos')
-const DeepPartialTodos = ExtendedTodos.deepPartialSchema('DeepPartialTodos')
-const RequiredTodos = ExtendedTodos.requiredSchema('RequiredTodos')
+const PartialTodos = makeSchemaPartial(ExtendedTodos, 'PartialTodos')
+const DeepPartialTodos = makeSchemaDeepPartial(ExtendedTodos, 'DeepPartialTodos')
+const RequiredTodos = makeSchemaRequired(ExtendedTodos, 'RequiredTodos')
 
-const PickedTodos = RequiredTodos.pickSchema('PickedTodos', { mainTodo: true, amount: true, todos: true })
-const OmittedTodos = RequiredTodos.omitSchema('OmittedTodos', { mainTodo: true, amount: true, todos: true })
+const PickedTodos = ExtendedTodos.pickSchema('PickedTodos', { mainTodo: true, amount: true, todos: true })
+const OmittedTodos = ExtendedTodos.omitSchema('OmittedTodos', { mainTodo: true, amount: true, todos: true })
 
 type PrimitivesTypes = z.infer<typeof Primitives>
 type AdvancedTypes = z.infer<typeof Advanced>
@@ -320,7 +321,7 @@ console.log('--- ZOD ---\n', JSON.stringify(zodJSON, null, 4))
 
 // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
-// {
+// { 
 //     "type": "object",
 //     "properties": {
 //         "id": {
