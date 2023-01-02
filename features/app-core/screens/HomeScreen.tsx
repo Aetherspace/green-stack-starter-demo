@@ -1,9 +1,10 @@
 import React from 'react'
 import { StatusBar } from 'expo-status-bar'
+import { z } from 'zod'
 // Navigation
 import { Link, useAetherNav } from 'aetherspace/navigation'
 // Schemas
-import { ats, applySchema } from 'aetherspace/schemas'
+import { aetherSchema } from 'aetherspace/schemas'
 // Primitives
 import { View, Text, Image, Pressable } from 'aetherspace/primitives'
 // SEO
@@ -18,15 +19,15 @@ import { GraphIcon, ReactIcon, ExpoIcon, StorybookIcon, NextIcon } from '../icon
 
 /* --- Schemas --------------------------------------------------------------------------------- */
 
-const PropSchema = ats.schema('HomeScreenProps', {
-  customGreeting: ats.string().nullish().default('Hello GREEN stack 👋', 'A greeting for the user', 'Hello Storybook 👋'), // prettier-ignore
+const HomeScreenProps = aetherSchema('HomeScreenProps', {
+  customGreeting: z.string().default('Hello GREEN stack 👋').optional().describe('A greeting for the user'), // prettier-ignore
 })
 
 /* --- <HomeScreen/> --------------------------------------------------------------------------- */
 
-const HomeScreen = (props) => {
+const HomeScreen = (props: z.infer<typeof HomeScreenProps>) => {
   // Props
-  const { customGreeting } = applySchema(props, PropSchema)
+  const { customGreeting } = HomeScreenProps.parse(props)
 
   // Environment
   const appURIs = getEnvList('APP_LINKS').filter((url) => url.includes('http')) || [] // prettier-ignore
@@ -110,7 +111,7 @@ const HomeScreen = (props) => {
 
 /* --- Documentation --------------------------------------------------------------------------- */
 
-export const getDocumentationProps = PropSchema
+export const getDocumentationProps = HomeScreenProps.introspect()
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

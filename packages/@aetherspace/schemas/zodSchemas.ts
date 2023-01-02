@@ -36,7 +36,7 @@ export type ZodExtendedSchema<S extends z.ZodRawShape> = ZodObjectSchema<S> & {
 /** -i- Add correct fields like type & aetherType while converting a JSON schema prop definition to aetherspace prop definition. */
 const parseType = (propDef: JSONSchema7, propSchema: Record<string, unknown> = {}) => {
   // @ts-ignore
-  const { type: propType, enum: propEnum, anyOf } = propDef
+  const { type: propType, enum: propEnum, description, anyOf } = propDef
   if (Array.isArray(propType)) {
     propSchema.isNullable = propType.includes('null')
     const leftoverType = propType.filter((type: string) => type !== 'null')[0]
@@ -55,6 +55,10 @@ const parseType = (propDef: JSONSchema7, propSchema: Record<string, unknown> = {
       }),
       {}
     )
+  } else if (propType === 'string' && description?.toLowerCase().includes('color')) {
+    // TODO: Figure out a better way to detect color fields
+    propSchema.aetherType = 'AetherColor'
+    propSchema.type = 'string'
   } else {
     propSchema.aetherType = SCHEMA_MAP[propType!]
     propSchema.type = propType
