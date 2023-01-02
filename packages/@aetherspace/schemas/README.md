@@ -1,23 +1,25 @@
 # Schemas 📐
 
 ```ts
-import { ats, Infer } from 'aetherspace/schemas'
+import { aetherSchema } from 'aetherspace/schemas'
+import { z } from 'zod'
 ```
 
-A core feature of Aetherspace as a starter template is taking what works and making it better. `ats` is a tiny wrapper around `superstruct`. You can use it to define your datastructures just once for the entire monorepo.
+A core feature of Aetherspace as a starter template is taking what works and making it better. `aetherSchema()` is a tiny wrapper around `zod.object()`. You can use it to define your datastructures just once for the entire monorepo.
 
-> `superstruct` is a validation lib like `zod`, built with Typescript and GraphQL in mind. This made it the ideal choice to extend for Aetherspace.
+> `zod` is a schema validation library, built with Typescript in mind. By extending it with `aetherSchema()`, we can leverage it's powerful features to create single sources of truth for GraphQL, Next.js and Storybook as well.
 
 <br/>
 
 ## Actual 'Single Sources of Truth'
 
-Think about all the datastructures related code of your application:
+Think about all the code related to the datastructures of your application:
 
 - Typescript types
 - Form & data validation
 - GraphQL definitions
 - Storybook controls
+- Database models
 - ...
 
 ### The problem:
@@ -28,35 +30,35 @@ If you need to change something, you have to remember to change it in all the pl
 
 ### The solution:
 
-By leveraging `ats` to build our schemas, we enable our datastructure definitions to create the other data definitions from them. Essentially meaning we can avoid declaring it twice or more.
+By leveraging `aetherSchema()` to build out the shape of our data just once, we enable our structure definitions to create more refined definitions for (e.g.) GraphQL and others from them. Essentially meaning we can avoid ever declaring it twice or more.
 
-This is a huge win for maintainability and developer experience, as it avoids the need to keep these datastructure sources of truth in sync.
+This is a huge win for maintainability and developer experience, as it avoids the need to keep these sources of truth in sync for all your component props, database models or function args / responses.
 
 ## Usage
 
-Let's have a look at how aetherspace schemas translate to Typescript types: 👇
+Let's have a look at how `zod` & `aetherSchema()` definitions translate to Typescript types: 👇
 
 #### Defining Primitives
 
 ```ts
-const someString = ats.string() // string
-const someNumber = ats.number() // number
-const someBoolean = ats.boolean() // boolean
+const someString = z.string() // string
+const someNumber = z.number() // number
+const someBoolean = z.boolean() // boolean
 ```
 
 #### Defining Objects
 
 ```ts
-const PropSchema = ats.schema('ComponentProps', {
-  title: ats.string(),
-  description: ats.string(),
-  isLoading: ats.boolean(),
+const PropSchema = aetherSchema('ComponentProps', {
+  title: z.string(),
+  description: z.string(),
+  isLoading: z.boolean(),
 })
 ```
 
-`type ComponentProps = Infer<typeof PropSchema>`
+`type ComponentProps = z.infer<typeof PropSchema>`
 
-> 💡 Note: `Infer` is a type helper type that extracts the type from a schema. It's the same as doing `typeof PropSchema['TYPE']`
+> 💡 Note: `z.infer` is a type helper type that extracts the type from a schema. It's a neat part of Zod and essentially the same as doing `typeof PropSchema['_output']`
 
 ```ts
 // {
@@ -69,14 +71,14 @@ const PropSchema = ats.schema('ComponentProps', {
 #### Advanced Types
 
 ```ts
-const TopicSchema = ats.schema('Topic', {
-  status: ats.enum(['draft', 'published', 'archived']),
-  createdOn: ats.date(),
-  tags: ats.array(ats.id()),
+const TopicSchema = aetherSchema('Topic', {
+  status: z.enum(['draft', 'published', 'archived']),
+  createdOn: z.date(),
+  tags: z.array(z.id()),
 })
 ```
 
-`type Topic = typeof TopicSchema['TYPE']`
+`type Topic = z.infer<typeof TopicSchema>`
 
 ```ts
 // {
@@ -89,15 +91,15 @@ const TopicSchema = ats.schema('Topic', {
 #### Defaults & Optionals
 
 ```ts
-const ResolverArgsSchema = ats.schema('ResolverArgs', {
-  isNullable: ats.boolean().nullable(),
-  isNullish: ats.boolean().nullish(),
-  isOptional: ats.boolean().optional(),
-  hasDefault: ats.boolean().default(true),
+const ResolverArgsSchema = aetherSchema('ResolverArgs', {
+  isNullable: z.boolean().nullable(),
+  isNullish: z.boolean().nullish(),
+  isOptional: z.boolean().optional(),
+  hasDefault: z.boolean().default(true),
 })
 ```
 
-`type ResolverArgs = Infer<typeof ResolverArgsSchema>`
+`type ResolverArgs = z.infer<typeof ResolverArgsSchema>`
 
 ```ts
 // {
@@ -111,17 +113,17 @@ const ResolverArgsSchema = ats.schema('ResolverArgs', {
 #### Nested Objects
 
 ```ts
-const ResponseSchema = ats.schema('ResolverResponse', {
-  id: ats.id(),
-  metadata: ats.schema('NestedMetadata', {
-    name: ats.string(),
-    description: ats.string().optional(),
+const ResponseSchema = aetherSchema('ResolverResponse', {
+  id: z.id(),
+  metadata: aetherSchema('NestedMetadata', {
+    name: z.string(),
+    description: z.string().optional(),
   }),
-  relatedTopics: ats.array(TopicSchema), // See example schema above
+  relatedTopics: z.array(TopicSchema), // See example schema above
 })
 ```
 
-`type ResolverResponse = Infer<typeof ResponseSchema>`
+`type ResolverResponse = z.infer<typeof ResponseSchema>`
 
 ```ts
 // {
@@ -137,18 +139,20 @@ const ResponseSchema = ats.schema('ResolverResponse', {
 #### Defining Collections
 
 ```ts
-const CollectionSchema = ats.schema('TopicsWrapper', {
-  topics: ats.collection('Topic', {
-    status: ats.enum(['draft', 'published', 'archived']),
-    createdOn: ats.date(),
-    tags: ats.array(ats.id()),
-  }), // Same as example TopicSchema above
+const Topic = aetherSchema('Topic', {
+  status: z.enum(['draft', 'published', 'archived']),
+  createdOn: z.date(),
+  tags: z.array(z.id()),
+})
+
+const CollectionSchema = aetherSchema('TopicsWrapper', {
+  topics: z.array(Topic), // Reuse the Topic schema as a way to define the array contents
 })
 ```
 
-> 💡 This is essentially the same as `ats.array(TopicSchema)`, except you can define it directly.
+> 💡 `z.array(Topic)` means that the array will contain only the earlier defined `Topic` objects. You could also use `z.array(z.object({ ... }))` to define the array contents inline, but that won't be as maintainable / useful when it comes to avoiding double definitions for GraphQL and Storybook.
 
-`type TopicsWrapper = Infer<typeof CollectionSchema>`
+`type TopicsWrapper = z.infer<typeof CollectionSchema>`
 
 ```ts
 // {
@@ -162,24 +166,24 @@ const CollectionSchema = ats.schema('TopicsWrapper', {
 
 ## Documenting with Schemas
 
-Any `ats` schema prop can also be chained with a `.docs()` command. You can use this to provide an example value and a description for your schema props in GraphQL and Storybook:
+Any `z` schema prop can also be chained with a `.describe()` command. You can use this to provide a description for your schema props in GraphQL and Storybook:
 
 ```ts
-const DocumentedPropsSchema = ats.schema('DocumentedProps', {
-  title: ats.string().docs(
-    'Hello World', // Example value
-    'Title to be displayed', // Optional prop description
-  ),
-  description: ats.string().optional().docs(
-    'Lorem Ipsum Dolor Sit Amet...', // example
-    'The body of text for this component.', // description
+const DocumentedPropsSchema = aetherSchema('DocumentedProps', {
+  title: z.string().describe('Title to be displayed'),
+  description: z.string().optional().describe(
+    'The body of text for this component.',
   ),
 })
 ```
 
-> 💡 e.g. Export your prop schemas as `getDocumentationProps` to make that component automatically documented in Storybook.
+> 💡 e.g. Export your prop schemas as `getDocumentationProps` to make that component automatically documented in Storybook. You'll generally want to assign this to the `.introspect()` method of your aetherSchema to opt into the automation script.
 
-Check out the Storybook 'Controls' addon tab or the ArgTables in 'Docs' pages for components if you'd like to see how this translates into actual Storybook documentation.
+```ts
+export const getDocumentationProps = DocumentedPropsSchema.introspect()
+```
+
+Check out the Storybook 'Controls' addon tab or the ArgTables in 'Docs' pages if you'd like to see how this translates into actual Storybook docs with interactive prop tables.
 
 <br/>
 
@@ -191,20 +195,20 @@ For GraphQL, with the automation script and introspection enabled, you can see t
 
 ## Schema Utilities
 
-Just like with Typescript, you can use existing datastructure descriptions to create new ones. Things like `pick()`, `omit()`, `partial()`, `extend()` were already available with `superstruct` and have been ported to `ats` to also work for full compatibility with Storybook and GraphQL.
+Just like with Typescript, you can use existing datastructure descriptions to create new ones. Things like `pick()`, `omit()`, `partial()`, `extend()` were already available with `zod` and have been ported to also work with `aetherSchema()` for full compatibility with Storybook and GraphQL.
 
-### `ats.extend()` - Extending a schema
+### `.extendSchema()` - Add new fields to a schema
 
-> 🤷‍♂️ Alternatively, you can use `ats.assign()` to achieve the same effect.
+> ⚠️ Note that it is always required to provide a new "key" as the first argument.
 
 ```ts
-const ExtendedSchema = ats.extend('FeaturedTopic', TopicSchema, {
-  isFeatured: ats.boolean().default(false),
-  featureText: ats.string().optional(),
+const ExtendedSchema = TopicSchema.extendSchema('FeaturedTopic', {
+  isFeatured: z.boolean().default(false),
+  featureText: z.string().optional(),
 })
 ```
 
-`type FeaturedTopic = Infer<typeof ExtendedSchema>`
+`type FeaturedTopic = z.infer<typeof ExtendedSchema>`
 
 ```ts
 // {
@@ -217,15 +221,15 @@ const ExtendedSchema = ats.extend('FeaturedTopic', TopicSchema, {
 // }
 ```
 
-### `ats.omit()` - Omitting props from a schema
+### `.omitSchema()` - Removing props from a schema
 
 Let's use the omit function to remove some properties again from our ExtendedSchema for Topics:
 
 ```ts
-const MinimalSchema = ats.omit('MinimalTopic', ExtendedSchema, ['createdOn', 'isFeatured'])
+const MinimalSchema = ExtendedSchema.omit('MinimalTopic', { createdOn: true, isFeatured: true })
 ```
 
-`type MinimalTopic = Infer<typeof MinimalSchema>`
+`type MinimalTopic = z.infer<typeof MinimalSchema>`
 
 ```ts
 // {
@@ -235,15 +239,15 @@ const MinimalSchema = ats.omit('MinimalTopic', ExtendedSchema, ['createdOn', 'is
 // }
 ```
 
-### `ats.pick()` - Picking props from a schema
+### `.pickSchema()` - Picking props from a schema
 
 Actually, let's achieve the same thing by just picking and choosing some props from our ExtendedSchema for Topics instead:
 
 ```ts
-const MinimalSchema = ats.pick('MinimalTopic', ExtendedSchema, ['status', 'tags', 'featureText'])
+const MinimalSchema = ExtendedSchema.pick('MinimalTopic', { status: true, tags: true, featureText: true })
 ```
 
-`type MinimalTopic = Infer<typeof MinimalSchema>`
+`type MinimalTopic = z.infer<typeof MinimalSchema>`
 
 ```ts
 // {
@@ -253,15 +257,19 @@ const MinimalSchema = ats.pick('MinimalTopic', ExtendedSchema, ['status', 'tags'
 // }
 ```
 
-### `ats.partial()` - Making all schema props optional
+### `makeSchemaPartial()` - Making all fields optional
 
 You know what? Let's make everything optional:
 
 ```ts
-const OptionalSchema = ats.partial('PartialTopic', ExtendedSchema)
+import { makeSchemaPartial } from 'aetherspace/schemas'
+
+// ...
+
+const OptionalSchema = makeSchemaPartial(ExtendedSchema, 'PartialTopic')
 ```
 
-`type PartialTopic = Infer<typeof OptionalSchema>`
+`type PartialTopic = z.infer<typeof OptionalSchema>`
 
 ```ts
 // {
@@ -271,7 +279,30 @@ const OptionalSchema = ats.partial('PartialTopic', ExtendedSchema)
 // }
 ```
 
-## Next Steps
+### `makeSchemaRequired()` - Make all fields required
 
+Let's make everything required again:
+
+```ts
+import { makeSchemaRequired } from 'aetherspace/schemas'
+
+// ...
+
+const RequiredSchema = makeSchemaRequired(OptionalSchema, 'RequiredTopic')
+```
+
+`type RequiredTopic = z.infer<typeof RequiredSchema>`
+
+```ts
+// {
+//     status: 'draft' | 'published' | 'archived',
+//     tags: string[],
+//     featureText: string,
+// }
+```
+
+## Possible Next Steps
+
+- Read the [official zod docs at zod.dev](https://zod.dev/) (or watch an [intro video](https://www.youtube.com/watch?v=L6BE-U3oy80))
 - [Writing flexible data resolvers with Schemas]() (TODO)
 - [Automation based on Schemas: Storybook & GraphQL](/packages/@registries/README.md)

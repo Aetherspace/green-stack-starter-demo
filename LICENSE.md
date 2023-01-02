@@ -8,19 +8,20 @@ Depending on the type of your legal entity and github sponsorship tier, you are 
 
 ## Free license
 
-Copyright (c) 2022 Thorr Stevens
+Copyright (c) 2023 Thorr Stevens
 
 ### Eligibility
 
 You are eligible to use the Aetherspace GREEN stack starter for personal and commercial use if granted access free of charge by the author (Thorr Stevens, a.k.a. [@codinsonn](https://github.com/sponsors/codinsonn)) AND while being any of the following:
 - a non-profit or not-for-profit organisation
 - a company currently employing the author (Thorr Stevens, a.k.a. [@codinsonn](https://github.com/sponsors/codinsonn))
+- an open-source maintainer of tech used by Aetherspace or sponsored by the author (see [list](https://github.com/codinsonn?tab=sponsoring))
 - evaluating whether the template repo is a good fit, and are not yet using it in a commercial way
 - an embassador of the project, linking to Aetherspace or the author in your app or README file
 
 ### Allowed use cases
 
-Permission is hereby granted, to any person eligible for the "Free", "Personal" or "Commercial" licenses, to use the software non-commercially or commercially for the purpose of creating repositories and kickstarting projects and to modify the software to their own liking, for the purpose of fulfilling their custom use case
+Permission is hereby granted, to any person eligible for the "Free", "Personal" or "Commercial" licenses, to use the software non-commercially or commercially for the purpose of creating repositories and kickstarting projects and to modify the software to their own liking, for the purpose of fulfilling their custom use case.
 
 ### Disallowed use cases
 
@@ -46,23 +47,21 @@ Support is provided on a best-we-can-do basis via GitHub Discussions or Github I
 
 ## Personal license
 
-Copyright (c) 2022 Thorr Stevens
+Copyright (c) 2023 Thorr Stevens
 
 You are required to obtain a personal license to use the Aetherspace GREEN stack starter if you are not within the group of entities eligible for a free license. You may acquire a personal license by sponsoring the author (Thorr Stevens, a.k.a. [@codinsonn](https://github.com/sponsors/codinsonn)) for the corresponding personal license amount through Github Sponsors. When eligable for the personal license, this license will enable you to use Aetherspace for the allowed use cases specified in the free license.
 
 ### Eligibility
 
 You are eligible to use the Aetherspace GREEN stack starter for personal and commercial use while sponsoring the author (Thorr Stevens, a.k.a. [@codinsonn](https://github.com/sponsors/codinsonn)) for the monthly corresponding amount for personal use through Github Sponsors AND while being any of the following:
-- an individual
+- an individual, freelancer or solopreneur
 - a for-profit organisation with up to 3 employees
-- a non-profit or not-for-profit organisation
-- evaluating whether the template repo is a good fit, and are not yet using it in a commercial way
 
 ## Commercial license
 
-Copyright (c) 2022 Thorr Stevens
+Copyright (c) 2023 Thorr Stevens
 
-You are required to obtain a company license to use the Aetherspace GREEN stack starter if you are not within the group of entities eligible for a personal license. You may acquire a commercial license by sponsoring the author (Thorr Stevens, a.k.a. [@codinsonn](https://github.com/sponsors/codinsonn)) for the corresponding commercial license amount through Github Sponsors. When eligable for the full commercial license, this license will enable you to use Aetherspace for the allowed use cases specified in the free and personal licenses.
+You are required to obtain a company license to use the Aetherspace GREEN stack starter if you are not within the group of entities eligible for a free or personal license. You may acquire a commercial license by sponsoring the author (Thorr Stevens, a.k.a. [@codinsonn](https://github.com/sponsors/codinsonn)) for the corresponding commercial license amount through Github Sponsors. When eligable for the full commercial license, this license will enable you to use Aetherspace for the allowed use cases specified in the free and personal licenses.
 
 ### Eligibility
 
@@ -72,6 +71,10 @@ This includes:
 - for-profit organisations with more than 3 employees
 
 ## License FAQ
+
+### This is weird, is this some sort of official license?
+
+I based a first draft of this license off of [Remotion](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md)'s custom license and made the rest up as I went along. It's designed to be a low effort, three tiered system that allows for free, small and unlimited commercial use whenever either of those makes sense. I'm not a lawyer, but it's the best I could come up with that's fair for every use case.
 
 ### Will you ever actually enforce the license in any way?
 
