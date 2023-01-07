@@ -184,11 +184,6 @@ if (!z.ZodString.prototype?.aetherType) {
   z.ZodString.prototype.ex = z.ZodString.prototype.example
 }
 
-// const str = z.string().eg('hello')
-// type str = z.infer<typeof str>
-// const strEx = str.exampleValue
-// console.log({ strEx, aetherType: str.aetherType })
-
 if (!z.ZodNumber.prototype.aetherType) {
   z.ZodNumber.prototype.aetherType = 'AetherNumber'
   z.ZodNumber.prototype.example = function (value: number) {
@@ -199,11 +194,6 @@ if (!z.ZodNumber.prototype.aetherType) {
   z.ZodNumber.prototype.ex = z.ZodNumber.prototype.example
 }
 
-// const num = z.number().eg(123)
-// type num = z.infer<typeof num>
-// const numEx = num.exampleValue
-// console.log({ numEx, aetherType: num.aetherType })
-
 if (!z.ZodBoolean.prototype.aetherType) {
   z.ZodBoolean.prototype.aetherType = 'AetherBoolean'
   z.ZodBoolean.prototype.example = function (value: boolean) {
@@ -213,11 +203,6 @@ if (!z.ZodBoolean.prototype.aetherType) {
   z.ZodBoolean.prototype.eg = z.ZodBoolean.prototype.example
   z.ZodBoolean.prototype.ex = z.ZodBoolean.prototype.example
 }
-
-// const bool = z.boolean().eg(true)
-// type bool = z.infer<typeof bool>
-// const boolEx = bool.exampleValue
-// console.log({ boolEx, aetherType: bool.aetherType })
 
 /* --- Advanced -------------------------------------------------------------------------------- */
 
@@ -231,11 +216,6 @@ if (!z.ZodDate.prototype.aetherType) {
   z.ZodDate.prototype.ex = z.ZodDate.prototype.example
 }
 
-// const date = z.date().eg(new Date())
-// type date = z.infer<typeof date>
-// const dateEx = date.exampleValue
-// console.log({ dateEx, aetherType: date.aetherType })
-
 if (!z.ZodEnum.prototype.aetherType) {
   z.ZodEnum.prototype.aetherType = 'AetherEnum'
   z.ZodEnum.prototype.example = function (value: string) {
@@ -245,11 +225,6 @@ if (!z.ZodEnum.prototype.aetherType) {
   z.ZodEnum.prototype.eg = z.ZodEnum.prototype.example
   z.ZodEnum.prototype.ex = z.ZodEnum.prototype.example
 }
-
-// const enum1 = z.enum(['a', 'b', 'c']).eg('a')
-// type enum1 = z.infer<typeof enum1>
-// const enum1Ex = enum1.exampleValue
-// console.log({ enum1Ex, aetherType: enum1.aetherType })
 
 if (!z.ZodTuple.prototype.aetherType) {
   z.ZodTuple.prototype.aetherType = 'AetherTuple'
@@ -261,11 +236,6 @@ if (!z.ZodTuple.prototype.aetherType) {
   z.ZodTuple.prototype.ex = z.ZodTuple.prototype.example
 }
 
-// const tuple = z.tuple([z.string(), z.number()]).eg(['hello', 123])
-// type tuple = z.infer<typeof tuple>
-// const tupleEx = tuple.exampleValue
-// console.log({ tupleEx, aetherType: tuple.aetherType })
-
 if (!z.ZodUnion.prototype.aetherType) {
   z.ZodUnion.prototype.aetherType = 'AetherUnion'
   z.ZodUnion.prototype.example = function (value: any) {
@@ -276,11 +246,6 @@ if (!z.ZodUnion.prototype.aetherType) {
   z.ZodUnion.prototype.ex = z.ZodUnion.prototype.example
 }
 
-// const union = z.union([z.string(), z.number()]).eg('hello')
-// type union = z.infer<typeof union>
-// const unionEx = union.exampleValue
-// console.log({ unionEx, aetherType: union.aetherType })
-
 if (!z.ZodArray.prototype.aetherType) {
   z.ZodArray.prototype.aetherType = 'AetherArray'
   z.ZodArray.prototype.example = function (value: any[]) {
@@ -290,11 +255,6 @@ if (!z.ZodArray.prototype.aetherType) {
   z.ZodArray.prototype.eg = z.ZodArray.prototype.example
   z.ZodArray.prototype.ex = z.ZodArray.prototype.example
 }
-
-// const arr = z.array(z.string()).eg(['hello', 'world'])
-// type arr = z.infer<typeof arr>
-// const arrEx = arr.exampleValue
-// console.log({ arrEx, aetherType: arr.aetherType })
 
 /** --- parseType() ---------------------------------------------------------------------------- */
 /** -i- Add correct fields like type & aetherType while converting a JSON schema prop definition to aetherspace prop definition. */
@@ -469,43 +429,3 @@ export const buildSchema = <T extends z.ZodRawShape>(
 ) => {
   return aetherSchema(schemaName, zodSchema.shape)
 }
-
-// const obj = z.object({ a: z.string().optional(), b: z.number() }).eg({ a: 'hello', b: 123 })
-// type obj = z.infer<typeof obj>
-// const objEx = obj.exampleValue
-// console.log({ objEx, aetherType: obj.aetherType })
-
-// const schm = buildSchema('MySchema', obj) // obj.nameSchema('MySchema')
-// type schm = z.infer<typeof schm>
-// const schmEx = schm.exampleValue
-// console.log({ schmEx, aetherType: schm.aetherType, schemaName: schm.schemaName })
-
-// const extended = schm.extendSchema('ExtendedSchema', { c: z.boolean() }).eg({ a: 'hello', b: 123, c: true }) // prettier-ignore
-// type extended = z.infer<typeof extended>
-// const extendedEx = extended.exampleValue
-// console.log({ extendedEx, aetherType: extended.aetherType, schemaName: extended.schemaName, extendedFrom: extended.extendedFrom }) // prettier-ignore
-
-// const picked = extended.pickSchema('PickedSchema', { a: true, c: true }).eg({ a: 'hello', c: true })
-// type picked = z.infer<typeof picked>
-// const pickedEx = picked.exampleValue
-// console.log({ pickedEx, aetherType: picked.aetherType, schemaName: picked.schemaName, extendedFrom: picked.extendedFrom }) // prettier-ignore
-
-// const omitted = extended.omitSchema('OmittedSchema', { a: true, c: true }).eg({ b: 123 })
-// type omitted = z.infer<typeof omitted>
-// const omittedEx = omitted.exampleValue
-// console.log({ omittedEx, aetherType: omitted.aetherType, schemaName: omitted.schemaName, extendedFrom: omitted.extendedFrom }) // prettier-ignore
-
-// const partial = extended.partialSchema('PartialSchema').eg({ a: 'hello' })
-// type partial = z.infer<typeof partial>
-// const partialEx = partial.exampleValue
-// console.log({ partialEx, aetherType: partial.aetherType, schemaName: partial.schemaName, extendedFrom: partial.extendedFrom }) // prettier-ignore
-
-// const deepPartial = extended.deepPartialSchema('DeepPartialSchema').eg({ a: 'hello' })
-// type deepPartial = z.infer<typeof deepPartial>
-// const deepPartialEx = deepPartial.exampleValue
-// console.log({ deepPartialEx, aetherType: deepPartial.aetherType, schemaName: deepPartial.schemaName, extendedFrom: deepPartial.extendedFrom }) // prettier-ignore
-
-// const required = extended.requiredSchema('RequiredSchema').eg({ a: 'hello', b: 123, c: true })
-// type required = z.infer<typeof required>
-// const requiredEx = required.exampleValue
-// console.log({ requiredEx, aetherType: required.aetherType, schemaName: required.schemaName, extendedFrom: required.extendedFrom }) // prettier-ignore
