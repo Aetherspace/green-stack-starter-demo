@@ -7,7 +7,7 @@ import { z } from 'zod'
 
 A core feature of Aetherspace as a starter template is taking what works and making it better. `aetherSchema()` is a tiny wrapper around `zod.object()`. You can use it to define your datastructures just once for the entire monorepo.
 
-> `zod` is a schema validation library, built with Typescript in mind. By extending it with `aetherSchema()`, we can leverage it's powerful features to create single sources of truth for GraphQL, Next.js and Storybook as well.
+> `zod` is a schema validation library built with Typescript in mind. By extending it with `aetherSchema()`, we can leverage it's powerful features to create single sources of truth for GraphQL, Next.js and Storybook as well.
 
 <br/>
 
@@ -226,7 +226,7 @@ const ExtendedSchema = TopicSchema.extendSchema('FeaturedTopic', {
 Let's use the omit function to remove some properties again from our ExtendedSchema for Topics:
 
 ```ts
-const MinimalSchema = ExtendedSchema.omit('MinimalTopic', { createdOn: true, isFeatured: true })
+const MinimalSchema = ExtendedSchema.omitSchema('MinimalTopic', { createdOn: true, isFeatured: true })
 ```
 
 `type MinimalTopic = z.infer<typeof MinimalSchema>`
@@ -244,7 +244,7 @@ const MinimalSchema = ExtendedSchema.omit('MinimalTopic', { createdOn: true, isF
 Actually, let's achieve the same thing by just picking and choosing some props from our ExtendedSchema for Topics instead:
 
 ```ts
-const MinimalSchema = ExtendedSchema.pick('MinimalTopic', { status: true, tags: true, featureText: true })
+const MinimalSchema = ExtendedSchema.pickSchema('MinimalTopic', { status: true, tags: true, featureText: true })
 ```
 
 `type MinimalTopic = z.infer<typeof MinimalSchema>`
@@ -257,7 +257,7 @@ const MinimalSchema = ExtendedSchema.pick('MinimalTopic', { status: true, tags: 
 // }
 ```
 
-### `makeSchemaPartial()` - Making all fields optional
+### `.partialSchema()` - Making all fields optional
 
 You know what? Let's make everything optional:
 
@@ -266,7 +266,7 @@ import { makeSchemaPartial } from 'aetherspace/schemas'
 
 // ...
 
-const OptionalSchema = makeSchemaPartial(ExtendedSchema, 'PartialTopic')
+const OptionalSchema = ExtendedSchema.partialSchema('PartialTopic')
 ```
 
 `type PartialTopic = z.infer<typeof OptionalSchema>`
@@ -279,16 +279,12 @@ const OptionalSchema = makeSchemaPartial(ExtendedSchema, 'PartialTopic')
 // }
 ```
 
-### `makeSchemaRequired()` - Make all fields required
+### `.requiredSchema()` - Make all fields required
 
 Let's make everything required again:
 
 ```ts
-import { makeSchemaRequired } from 'aetherspace/schemas'
-
-// ...
-
-const RequiredSchema = makeSchemaRequired(OptionalSchema, 'RequiredTopic')
+const RequiredSchema = OptionalSchema.requiredSchema('RequiredTopic')
 ```
 
 `type RequiredTopic = z.infer<typeof RequiredSchema>`
