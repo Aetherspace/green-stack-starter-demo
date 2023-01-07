@@ -7,11 +7,10 @@ input HealthCheckArgs {
 }
 
 type HealthCheckResponse {
-  alive: Boolean!
-  kicking: Boolean!
-
   """Echoes back the echo argument"""
   echo: String
+  alive: Boolean!
+  kicking: Boolean!
 
   """true if schema was saved to next-app root in dev mode"""
   didSaveGraphQLSchema: Boolean

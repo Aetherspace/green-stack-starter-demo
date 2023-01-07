@@ -83,7 +83,6 @@ const aetherSchemaArgTypes = (aetherSchema) => {
     AetherObject: createArgType('object', 'object'),
     // -- Arraylikes --
     AetherArray: createArgType('array', 'object'),
-    AetherCollection: createArgType('array', 'object'),
   })
 }
 
@@ -93,7 +92,7 @@ const aetherStoryDocs = (forComponent, getDocumentationProps: GetDocPropsType, a
   // Extract config
   const [componentName, Component] = Object.entries(forComponent)[0] as [string, AetherComponentType] // prettier-ignore
   // Figure out propSchema source
-  let propSchema = Component?.propSchema || getDocumentationProps || {}
+  let propSchema = (Component?.propSchema || getDocumentationProps || {}) as AetherSchemaType
   if (typeof getDocumentationProps === 'function') propSchema = getDocumentationProps(args)
   const argTypes = aetherSchemaArgTypes(propSchema)
   // Figure out story args

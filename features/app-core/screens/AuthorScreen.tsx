@@ -2,7 +2,7 @@ import React from 'react'
 // Navigation
 import { Link, useAetherNav } from 'aetherspace/navigation'
 // Schemas
-import { ats } from 'aetherspace/schemas'
+import { aetherSchema } from 'aetherspace/schemas'
 // Primitives
 import { View, Pressable, Text } from 'aetherspace/primitives'
 // Hooks
@@ -57,7 +57,7 @@ const AuthorScreen = () => {
 
 /* --- Documentation --------------------------------------------------------------------------- */
 
-export const getDocumentationProps = ats.schema('AuthorScreenProps', {})
+export const getDocumentationProps = aetherSchema('AuthorScreenProps', {}).introspect()
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
