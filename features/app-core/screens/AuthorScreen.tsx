@@ -2,7 +2,7 @@ import React from 'react'
 // Navigation
 import { Link, useAetherNav } from 'aetherspace/navigation'
 // Schemas
-import { ats } from 'aetherspace/schemas'
+import { aetherSchema } from 'aetherspace/schemas'
 // Primitives
 import { View, Pressable, Text } from 'aetherspace/primitives'
 // Hooks
@@ -33,7 +33,7 @@ const AuthorScreen = () => {
           tw="flex-row py-2.5 px-5 mx-3 bg-black items-center"
           onPress={goBack}
         >
-          <BackIcon width={16} height={16} />
+          <BackIcon width={16} height={16} fill="#FFFFFF" />
           <Text tw="text-white"> Go Back</Text>
         </Pressable>
         <Pressable
@@ -41,7 +41,7 @@ const AuthorScreen = () => {
           tw="flex-row py-2.5 px-5 mx-3 bg-black items-center"
           onPress={() => openLink('/')}
         >
-          <HomeIcon width={15} height={15} />
+          <HomeIcon width={15} height={15} fill="#FFFFFF" />
           <Text tw="text-white"> Home</Text>
         </Pressable>
       </View>
@@ -57,7 +57,7 @@ const AuthorScreen = () => {
 
 /* --- Documentation --------------------------------------------------------------------------- */
 
-export const getDocumentationProps = ats.schema('AuthorScreenProps', {})
+export const getDocumentationProps = aetherSchema('AuthorScreenProps', {}).introspect()
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

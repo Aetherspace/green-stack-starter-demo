@@ -10,7 +10,8 @@
         "documentation-reset": "node scripts/documentation-reset",
         "document-components": "node scripts/document-components",
         "dev-health-check": "NODE_ENV=development SAVE_GRAPHQL_SCHEMA=true node scripts/dev-health-check",
-        "schema-test": "node scripts/schema-test"
+        "schema-test": "node scripts/schema-test",
+        "extension-test": "yarn build && node schemas/zodExtensions"
     },
     "dependencies": {
         "@apollo/client": "^3.6.9",
@@ -25,7 +26,11 @@
         "graphql-request": "^5.0.0",
         "micro": "^9.4.1",
         "superstruct": "^0.15.3",
-        "twrnc": "^3.3.1"
+        "twrnc": "^3.3.1",
+        "zod": "^3.20.2",
+        "zod-to-json-schema": "^3.20.1"
     },
-    "devDependencies": {}
+    "devDependencies": {
+        "@types/json-schema": "^7.0.11"
+    }
 }

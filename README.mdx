@@ -92,13 +92,13 @@ Aetherspace is an opinionated framework that fills in the gaps of working and bu
 
 Just to name a few.
 
-While the stack itself is very powerful, figuring out how to get set up and do certain things in a write-once way can be frustrating and time consuming. To save you time figuring it all out on your own, _Aetherspace_ contains a bunch of packages, utils and best-practices to set you up for a free and easy ride to cross-platform success.
+While the stack itself is very powerful, figuring out how to get set up and do certain things in a write-once way can be frustrating and time consuming. To save you time figuring it all out on your own, _Aetherspace_ contains a bunch of packages, utils and best-practices to set you up for a quick and easy ride to cross-platform success.
 
 ## But why start with a turbo/monorepo? 🤖 <a name="why-turborepo"></a>
 
-One annoying thing about figuring this stack out on your own is when packages you're using require custom config for webpack, babel or otherwise. It often happens that updating e.g. a single `babel.config.js` used for both React-Native and Next.js will fix usage on either, but then break the other.
+One annoying thing about figuring this stack out on your own is when packages you're using require custom configs for babel, webpack or otherwise. With Expo and Next.js, it often happens that updating e.g. a single `babel.config.js` used for both React-Native and Next.js will fix usage on either, but then break the other.
 
-Using a monorepo with different entry points for Next.js and Expo allows us to keep configs more seperate, and therefore allow more confident updating of packages and configs without accidentally breaking other platforms.
+Using a monorepo with different entry points for Next.js and Expo allows us to keep configs more separate, and therefore allow more confident updating of packages and configs without accidentally breaking other platforms.
 
 In this starter template, we've opted to use turborepo with yarn workspaces. We'll list some basics in the next section, but for a deeper understanding please refer to their documentation for more info.
 
@@ -113,7 +113,7 @@ This starter monorepo has three types of workspaces:
 ```
 ├── apps/
 │   └── expo/ 👉 Where all Expo & mobile specific config for {app-name} lives
-│       └── app.json ➡️ Expo app config (e.g. landscape / tablet support)
+│       └── app.json ➡️ Expo app config (e.g. App name, icon, landscape / tablet support)
 │       └── App.tsx ➡️ Mobile Entrypoint & Navigation Setup (using 'app-core/screens/')
 │       └── babel.config.js ➡️ Babel transpilation config for Expo
 │       └── index.js ➡️ Mobile entrypoint loader for App.tsx
@@ -137,7 +137,7 @@ This starter monorepo has three types of workspaces:
 │       └── tsconfig.json ➡️ Typescript config for Next.js
 |
 |── features/
-│   └── app-core/ 👉 Where all cross-platform code for {app-name} lives
+│   └── app-core/ 👉 Where all core cross-platform code for {app-name} lives
 │       └── components/ ➡️ Molecules / Atoms / Common UI used in 'screens/'
 │       └── graphql/ ➡️ Shared code for the GraphQL API client (optional)
 │       └── resolvers/ ➡️ Shared resolvers used in both in API routes or GraphQL API
@@ -153,7 +153,8 @@ This starter monorepo has three types of workspaces:
 │       └── package.json ➡️ yarn-workspace config, list dependencies specific to this package
 │
 ├── node_modules/ ➡️ Contains all modules for this monorepo
-└── package.json  ➡️ Root yarn-workspaces configuration + helper scripts, core developer only dependencies
+├── package.json  ➡️ Root yarn-workspaces configuration + helper scripts, core developer only dependencies
+└── turbo.json  ➡️ Monorepo config, manages dependencies in build scripts + caching of tasks
 ```
 
 ```
@@ -171,13 +172,13 @@ For every app you're building in this monorepo, you'll need a few folders:
 - `/features/{app}-core` - Where most of your core app specific UI, logic and screens will live.
   Should list app dependencies not listed elsewhere.
 
-In each of these folders own `package.json` file, a `name` property should be specified to identify that workspace. This name can then be referenced during installs via e.g.
+In each of these folders own a `package.json` file, where a `name` property should be specified to identify that workspace. This name can then be referenced during installs via e.g.
 
 ```shell-script
 yarn workspace next add {package-name}
 ```
 
-#### To install expo modules for the specific SDK you're using:
+#### To install Expo modules for the specific Expo SDK you're using:
 
 ```shell-script
 yarn expo-cli install {package-name}
@@ -265,7 +266,7 @@ Full Cross Platform with GREEN stack ROI = 🕗🕗 -> 💰💰 to 💰💰💰
 - 🕗 Web (PWA & SSR & Web Vitals) + iOS + Android + Windows + MacOS + Linux 💰(💰💰💰💰💰)
 - 🕗 Back-End (REST + GraphQL + SSR + Static Exports + ISSG + universal JS utils thanks to Next.js) 💰
 
-**Key takeaway: Always upsell more plaforms / devices the app could run on**
+**Key takeaway: Always upsell more platforms / devices the app could run on**
 
 </details>
 

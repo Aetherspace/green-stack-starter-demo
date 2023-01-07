@@ -6,11 +6,13 @@ import type {
   GetStaticPathsContext,
   GetStaticPropsContext,
 } from 'next'
-import type { AetherSchemaType, Infer } from '../../schemas'
+import { ApolloError } from 'apollo-server-micro'
+import { z } from 'zod'
+// Schemas
+import '../../schemas/aetherSchemas'
 // Utils
 import { getApiParams, runMiddleWare, MiddlewareFnType } from './apiUtils'
 import { normalizeObjectProps, isEmpty } from '../index'
-import { ApolloError } from 'apollo-server-micro'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -54,36 +56,36 @@ export type ResolverExecutionParamsType<AT = any> = {
   res?: NextApiResponse | GetServerSidePropsContext['res']
 }
 
-export type AetherArgs<T extends unknown & { ARGS_TYPE: unknown }> = T['ARGS_TYPE']
+export type AetherArguments<T extends unknown & { ARGS_TYPE: unknown }> = T['ARGS_TYPE']
 export type AetherResponse<T extends unknown & { RESP_TYPE: unknown }> = T['RESP_TYPE']
 
-/* --- aetherResolver() ------------------------------------------------------------------------ */
-// -i- Wrap a server side resolver function for easy use in both graphQL & rest endpoints + provide error handling
+/** --- aetherResolver() ----------------------------------------------------------------------- **/
+/** -i- Wrap a server side resolver function for easy use in both graphQL & rest endpoints + provide error handling */
 export const aetherResolver = <
   TSAT = null, // Args type override
   TSRT = null, // Response type override
-  AST extends AetherSchemaType = any, // Args schema
-  RST extends AetherSchemaType = any, // Response schema
-  AT = TSAT extends null ? Infer<AST> : TSAT, // Args Type (Use override?)
-  RT = TSRT extends null ? Infer<RST> : TSRT // Resp Type (Use override?)
+  AST extends z.ZodRawShape = any, // Args schema
+  RST extends z.ZodRawShape = any, // Response schema
+  AT = TSAT extends null ? z.infer<z.ZodObject<AST>> : TSAT, // Args Type (Use override?)
+  RT = TSRT extends null ? z.infer<z.ZodObject<RST>> : TSRT // Resp Type (Use override?)
 >(
   resolverFn: (ctx: ResolverExecutionParamsType<AT>) => Promise<RT | unknown>,
-  options?: {
+  options: {
     paramKeys?: string
-    argsSchema?: AST
-    responseSchema?: RST
+    argsSchema: z.ZodObject<AST>
+    responseSchema: z.ZodObject<RST>
     isMutation?: boolean
   }
 ) => {
   // Extract options
-  const { paramKeys, argsSchema, responseSchema, isMutation } = options || {}
+  const { paramKeys, argsSchema, responseSchema, isMutation } = options
   // Build Resolver
   const resolverWrapper = (ctx?: ResolverInputType<AT>): Promise<RT> => {
     const { req, res, nextSsrContext, parent, args, context, info, cookies: _, ...resolverContext } = ctx || {} // prettier-ignore
     const { logErrors, respondErrors, allowFail, onError, ...restParams } = resolverContext
     // Collect params from all possible sources
     const { body, method } = (req as NextApiRequest) || {}
-    const schemaParamKeys = Object.keys(argsSchema?.schema ?? {})
+    const schemaParamKeys = Object.keys(argsSchema?.shape ?? {})
     const apiParamKeys = [ctx?.paramKeys, paramKeys || schemaParamKeys].flat().filter(Boolean).join(' ') // prettier-ignore
     const query = { ...nextSsrContext?.query, ...(req as NextApiRequest)?.query }
     const params = { ...restParams, ...nextSsrContext?.params, ...context, ...ctx?.params }
@@ -134,18 +136,18 @@ export const aetherResolver = <
   }
   // Return Resolver
   return Object.assign(resolverWrapper, {
-    argSchema: argsSchema || {},
-    resSchema: responseSchema || {}, // @ts-ignore
-    ARGS_TYPE: undefined as AT, // @ts-ignore
+    argSchema: argsSchema,
+    resSchema: responseSchema,
+    ARGS_TYPE: undefined as AT,
     RESP_TYPE: undefined as RT,
     isMutation,
   })
 }
 
-/* --- makeGraphQLResolver() ------------------------------------------------------------------- */
-// -i- Codegen: Build a graphQL resolver from aether an resolver
-export const makeGraphQLResolver = <AT, RT, AST, RST>(
-  resolver: ((ctx?: ResolverInputType<AT>) => Promise<RT>) & { argSchema: AST; resSchema: RST },
+/** --- makeGraphQLResolver() ------------------------------------------------------------------ **/
+/** -i- Codegen: Build a graphQL resolver from aether an resolver */
+export const makeGraphQLResolver = <AT, RT, AST extends z.ZodRawShape, RST extends z.ZodRawShape>(
+  resolver: ((ctx?: ResolverInputType<AT>) => Promise<RT>) & { argSchema: z.ZodObject<AST>; resSchema: z.ZodObject<RST> },
   options?: {
     config?: ResolverInputType['config']
   }
@@ -153,23 +155,26 @@ export const makeGraphQLResolver = <AT, RT, AST, RST>(
   const wrappedResolver = async (parent, args, context, info) => {
     const config = options?.config || {}
     try {
+      // Execute resolver
       const responseData = await resolver({ parent, args: args.args, context, info, config })
+      // Return response
       return responseData
     } catch (err) {
+      // Handle errors
       console.error(err) // @ts-ignore
       throw new ApolloError(err.message || err.toString())
     }
   }
   return Object.assign(wrappedResolver, {
-    argSchema: resolver.argSchema,
-    resSchema: resolver.resSchema,
+    argSchema: resolver.argSchema.introspect(),
+    resSchema: resolver.resSchema.introspect(),
     ARGS_TYPE: resolver['ARGS_TYPE'] as AT,
     RESP_TYPE: resolver['RESP_TYPE'] as AT,
   })
 }
 
-/* --- makeNextApiHandler() -------------------------------------------------------------------- */
-// -i- Codegen: Build next.js api request from an aether resolver
+/** --- makeNextApiHandler() ------------------------------------------------------------------- **/
+/** -i- Codegen: Build next.js api request from an aether resolver */
 export const makeNextApiHandler = <AT, RT, AST, RST>(
   resolver: ((ctx?: ResolverInputType<AT>) => Promise<RT>) & { argSchema: AST; resSchema: RST },
   options?: {

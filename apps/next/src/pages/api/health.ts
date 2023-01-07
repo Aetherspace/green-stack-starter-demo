@@ -1,8 +1,9 @@
 import { writeFileSync } from 'fs'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { printSchema } from 'graphql'
+import { z } from 'zod'
 // Schemas
-import { ats, aetherGraphSchema, ResolverMapType } from 'aetherspace/schemas'
+import { aetherSchema, aetherGraphSchema, ResolverMapType } from 'aetherspace/schemas'
 // Resolvers
 import * as resolvers from 'registries/resolvers.generated'
 // Middleware
@@ -11,24 +12,32 @@ import { withCors } from 'app/middleware'
 import {
   aetherResolver,
   makeNextApiHandler,
-  AetherArgs,
+  AetherArguments,
   AetherResponse,
   makeGraphQLResolver,
 } from 'aetherspace/utils/serverUtils'
 
 /* --- Schemas --------------------------------------------------------------------------------- */
 
-export const HealthCheckArgs = ats.schema('HealthCheckArgs', {
-  echo: ats.string().optional().docs('Hello World', 'Echoes back the echo argument'),
-  saveGraphQLSchema: ats.boolean().optional().docs(false, 'Saves graphql schema to app-next root in development mode'), // prettier-ignore
+export const HealthCheckArgs = aetherSchema('HealthCheckArgs', {
+  echo: z.string().optional().describe('Echoes back the echo argument'),
+  saveGraphQLSchema: z
+    .boolean()
+    .optional()
+    .describe('Saves graphql schema to app-next root in development mode'),
 })
 
-export const HealthCheckResponse = ats.schema('HealthCheckResponse', {
-  alive: ats.boolean(),
-  kicking: ats.boolean(),
-  echo: HealthCheckArgs.schema.echo,
-  didSaveGraphQLSchema: ats.boolean().optional().docs(false, 'true if schema was saved to next-app root in dev mode'), // prettier-ignore
-})
+export const HealthCheckResponse = HealthCheckArgs.pick({ echo: true }).extendSchema(
+  'HealthCheckResponse',
+  {
+    alive: z.boolean(),
+    kicking: z.boolean(),
+    didSaveGraphQLSchema: z
+      .boolean()
+      .optional()
+      .describe('true if schema was saved to next-app root in dev mode'),
+  }
+)
 
 /* --- Config ---------------------------------------------------------------------------------- */
 
@@ -66,7 +75,7 @@ const healthCheck = aetherResolver(async ({ args }) => {
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export type HealthCheckArgsType = AetherArgs<typeof healthCheck>
+export type HealthCheckArgsType = AetherArguments<typeof healthCheck>
 export type HealthCheckResType = AetherResponse<typeof healthCheck>
 export const graphResolver = makeGraphQLResolver(healthCheck) // Make resolver available to GraphQL
 export default makeNextApiHandler(healthCheck, { middleware: [withCors] })

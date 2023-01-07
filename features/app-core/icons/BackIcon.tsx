@@ -1,26 +1,32 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
-import { ats, Infer } from 'aetherspace/schemas'
+import { aetherSchema } from 'aetherspace/schemas'
+import { z } from 'zod'
 
 /* --- Schema ---------------------------------------------------------------------------------- */
 
-const PropSchema = ats.schema('BackIconProps', {
-  width: ats.number().optional().default(24, 'Icon width'),
-  height: ats.number().optional().default(24, 'Icon height'),
-  fill: ats.color().optional().default('#FFFFFF', 'Icon fill color', '#000000'),
+const BackIconProps = aetherSchema('BackIconProps', {
+  width: z.number().default(24).optional().describe('Icon width'),
+  height: z.number().default(24).optional().describe('Icon height'),
+  fill: z.string().default('#000000').optional().describe('Icon fill color'),
 })
 
 /* --- <BackIcon/> ----------------------------------------------------------------------------- */
 
-const BackIcon = (props: Infer<typeof PropSchema>) => (
-  <Svg width={24} height={24} viewBox="0 0 24 24" fill="#FFFFFF" {...props}>
-    <Path d="M16 4V20L8 12L16 4Z" />
-  </Svg>
-)
+const BackIcon = (props: z.infer<typeof BackIconProps>) => {
+  // Props
+  const svgProps = BackIconProps.parse(props)
+  // Render
+  return (
+    <Svg viewBox="0 0 24 24" {...svgProps}>
+      <Path d="M16 4V20L8 12L16 4Z" />
+    </Svg>
+  )
+}
 
 /* --- Documentation --------------------------------------------------------------------------- */
 
-export const getDocumentationProps = PropSchema
+export const getDocumentationProps = BackIconProps.introspect()
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

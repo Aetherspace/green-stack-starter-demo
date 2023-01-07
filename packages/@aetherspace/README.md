@@ -58,6 +58,7 @@ export const MyBlogPost = (props: { paragraphs: string[] }) => (
     <H2 tw="text-gray roboto-black">My post title</H2>
     <Image tw="w-full" src="/img/article-header.png">
     <Section tw="px-4 mb-4">
+      {/* render each paragraph as a <p> tag on web, or <Text> on mobile */}
       {props.paragraphs.map((paragraph) => <P tw="roboto-regular">{paragraph}</P>)}
     </Section>
   </Article>
@@ -72,7 +73,7 @@ export const MyBlogPost = (props: { paragraphs: string[] }) => (
 yarn dev:docs
 ```
 
-This will run the `dev` command in each app workspace in parallell with [Turbo](https://turbo.build/repo) 👇
+This will run the `dev` command in each app workspace in parallell with [Turborepo](https://turbo.build/repo) 👇
 
 ```shell-script
 ## Starts next.js web project + API routes on port 3000
@@ -105,24 +106,25 @@ expo-app:start: Your native app is running at exp://192.168.0.168:19000
 
 #### Define your data as _actual_ **single sources of truth**
 
-> 📐 Our `ats` schema builder enables you to __build for Typescript first__, but enables you to optionally ___generate documentation, validation logic, GraphQL typedefs___ and ___data resolvers___ from them later
+> 📐 Our `aetherSchema()` structure builder enables you to __build for Typescript first (with [Zod](https://zod.dev))__, but enables you to optionally ___generate documentation, validation logic, GraphQL typedefs___ and ___data resolvers___ from them as well.
 
 ```tsx
-import { ats, applySchema, Infer } from 'aetherspace/schemas'
+import { aetherSchema } from 'aetherspace/schemas'
+import { z } from 'zod'
 
 /* --- Schematypes ------------- */
 
-export const PropSchema = ats.schema('MyComponentProps', {
-  name: ats.string().optional(), // string | undefined
-  value: ats.number().default(1), // number
+export const PropSchema = aetherSchema('MyComponentProps', {
+  name: z.string().optional(), // string | undefined
+  value: z.number().default(1), // number
 })
 
 /* --- <MyComponent/> ---------- */
 
 // Infer types from schema with 'Infer' helper, or ...
-export const MyComponent = (props: Infer<typeof PropSchema>) => {
-    // Prop validation (optional: apply defaults? + also infers types)
-    const { name, value } = applySchema(props, PropSchema)
+export const MyComponent = (props: z.infer<typeof PropSchema>) => {
+    // Prop validation + apply defaults
+    const { name, value } = PropSchema.parse(props)
     // ...
 }
 ```
@@ -130,14 +132,14 @@ export const MyComponent = (props: Infer<typeof PropSchema>) => {
 #### Hook into automatic docgen
 
 > 📚 ___Documentation drives adoption___... and Storybook is a great way to do it.  
-> Just export your `ats` powered schema as a __`getDocumentationProps` export__ and our scripts will __automatically turn it into Storybook controls.__
+> Just assign your `aetherSchema()` & `zod` powered prop definition as a __`getDocumentationProps` export__ and our scripts will __automatically turn it into Storybook controls.__
 
 `../../components/MyComponent.tsx`
 
 ```tsx
-const PropSchema = ats.schema('MyComponentProps', {
-  name: ats.string().optional().docs('Example', 'Title of the component'),
-  value: ats.number().docs(1, 'Value of the component'),
+const PropSchema = aetherSchema('MyComponentProps', {
+  name: z.string().optional().describe('Title of the component'),
+  value: z.number().default(1).describe('Initial value of the component'),
 })
 
 /* --- <MyComponent/> ---------- */
@@ -146,7 +148,7 @@ const PropSchema = ats.schema('MyComponentProps', {
 
 /* --- Documenation ------------ */
 
-export const getDocumentationProps = PropsSchema
+export const getDocumentationProps = PropSchema.introspect()
 ```
 
 `// ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓`
@@ -161,23 +163,25 @@ next-app:dev: ✅ packages/@registries/docs/features/app-core/screens.stories.md
 
 #### Build flexible data resolvers (API routes + GraphQL)
 
-> 💪 Using `ats` to describe function arguments and responses opens it up to not just async / await, but Next.js API routes and GraphQL resolvers as well.
+> 💪 Using `aetherSchema()` & `zod` to describe function arguments and responses opens it up to not just easier regular function use with async / await, but Next.js API routes and GraphQL resolvers as well.
 
 `apps/next/src/pages/api/health.ts`
 
 ```ts
 // Schemas
-import { ats, aetherGraphSchema } from 'aetherspace/schemas'
+import { z } from 'zod'
+import { aetherSchema } from 'aetherspace/schemas'
 import { aetherResolver, makeNextApiHandler, makeGraphQLResolver } from 'aetherspace/utils/serverUtils'
 
 /* --- Schemas ----------- */
 
-export const HealthCheckArgs = ats.schema('HealthCheckArgs', {
-  echo: ats.string().optional().docs('Hello World', 'Echoes back the echo argument'),
+export const HealthCheckArgs = aetherSchema('HealthCheckArgs', {
+  echo: z.string().optional().describe('Echoes back the echo argument'),
 })
 
-export const HealthCheckResponse = ats.schema('HealthCheckResponse', {
-  echo: HealthCheckArgs.schema.echo, // <- You can reuse schema definitions 👀
+// (You can reuse schema definitions with pick / omit / extend commands as well)
+export const HealthCheckResponse = HealthCheckArgs.pickSchema('HealthCheckResponse', {
+  echo: true, // <- Pick the echo argument from the args schema, since we're echoing it back
 })
 
 /* --- Config ------------ */
@@ -190,7 +194,7 @@ const resolverConfig = {
 /* --- healthCheck() ----- */
 
 export const healthCheck = aetherResolver(async ({ args }) => ({
-    echo: args.echo, // Echo back the echo argument 🤷‍♂️
+    echo: args.echo, // <- Echo back the echo argument 🤷‍♂️
 }), resolverConfig)
 
 /* --- Exports ----------- */
@@ -220,14 +224,14 @@ next-app:dev: ✅ packages/@registries/resolvers.generated.ts
 
 Performing these 6 steps has provided us with a bunch of value in little time:
 
-- Hybrid component that is styled with tailwind, but actually native on iOS and Android
-- Hybrid component that is optimized for SEO, media queries and Web-Vitals on Web
+- Hybrid UI component that is styled with tailwind, but actually native on iOS and Android
+- Hybrid UI component that is optimized for SEO, media queries and Web-Vitals on Web
 - Storybook documentation without having to explicitly create it ourselves
 ---
 - 🤝 A single source of truth for all our props, args, responses, docs, types & defaults
 ---
-- A resolver function we can call from other data resolvers or API routes
-- A GraphQL API powered by Apollo-Server, with automatic typedefs
+- A Back-end resolver function we can call from other data resolvers or API routes
+- A GraphQL API powered by Apollo-Server, with automatically inferred type definitions
 - A Next.js powered REST API
 
 ## Learn more:
