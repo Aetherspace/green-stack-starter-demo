@@ -1,5 +1,5 @@
-import { ats, AetherSchemaType } from '../schemas'
-import { aetherSchema, makeSchemaDeepPartial, makeSchemaPartial, makeSchemaRequired } from '../schemas/zodSchemas'
+import { ats, AetherSchemaType, aetherSchema } from '../schemas'
+// import { aetherSchema, makeSchemaDeepPartial, makeSchemaPartial, makeSchemaRequired } from '../schemas/zodSchemas'
 import { z } from 'zod'
 
 enum TEST_ENUM {
@@ -216,47 +216,6 @@ console.log('--- ATS ---\n', JSON.stringify(finalSchema, null, 4))
 
 // /* --- Zod ------------------------------------------------------------------------------------- */
 
-// const aetherSchema = <K extends string, Z extends z.ZodRawShape>(key: K, zodSchemaDef: Z) => {
-//     const zodSchema = z.object(zodSchemaDef)
-//     const assignMethods = <AK extends string, ZO extends z.ZodObject<z.ZodRawShape>>(key: AK, schemaObj: ZO) => {
-//         return Object.assign(schemaObj, {
-//             key,
-//             name: key,
-//             describe: null as never,
-//             extendSchema: <EK extends string, EZ extends z.ZodRawShape>(key: EK, zodExtDef: EZ) => {
-//                 return aetherSchema(key, { ...zodExtDef, ...zodSchemaDef })
-//             },
-//             pickSchema: <PK extends string, PZ extends Parameters<typeof zodSchema.pick>[0]>(key: PK, picks: PZ) => {
-//                 const pickedSchema = zodSchema.pick(picks).describe(key)
-//                 return assignMethods(key, pickedSchema)
-//             },
-//             omitSchema: <OK extends string, OZ extends Parameters<typeof zodSchema.omit>[0]>(key: OK, omits: OZ) => {
-//                 const omittedSchema = zodSchema.omit(omits).describe(key)
-//                 return assignMethods(key, omittedSchema)
-//             },
-//             requiredSchema: <RK extends string>(key: RK) => {
-//                 const requiredSchema = zodSchema.required().describe(key)
-//                 return assignMethods(key, requiredSchema)
-//             },
-//             partialSchema: <PK extends string>(key: PK) => {
-//                 const partialSchema = zodSchema.partial().describe(key)
-//                 return assignMethods(key, partialSchema)
-//             },
-//             deepPartialSchema: <PK extends string>(key: PK) => {
-//                 const partialSchema = zodSchema.deepPartial().describe(key)
-//                 return assignMethods(key, partialSchema)
-//             },
-//             introspect: () => {
-//                 return {
-//                     result: parseSchema(zodToJsonSchema(schemaObj)),
-//                     jsonSchema: zodToJsonSchema(schemaObj),
-//                 }
-//             },
-//         })
-//     }
-//     return assignMethods(key, zodSchema.describe(key))
-// }
-
 const Primitives = aetherSchema('Primitives', {
     bln: z.boolean().optional().describe('A boolean'),
     str: z.string().optional().nullable().default('default').describe('A string'),
@@ -280,9 +239,9 @@ const ExtendedTodos = Advanced.extendSchema('ExtendedTodos', {
     amount: z.number().min(0).max(10).int().describe('Amount of todos'),
 })
 
-const PartialTodos = makeSchemaPartial(ExtendedTodos, 'PartialTodos')
-const DeepPartialTodos = makeSchemaDeepPartial(ExtendedTodos, 'DeepPartialTodos')
-const RequiredTodos = makeSchemaRequired(ExtendedTodos, 'RequiredTodos')
+const PartialTodos = ExtendedTodos.partialSchema('PartialTodos')
+const DeepPartialTodos = ExtendedTodos.deepPartialSchema('DeepPartialTodos')
+const RequiredTodos = ExtendedTodos.requiredSchema('RequiredTodos')
 
 const PickedTodos = ExtendedTodos.pickSchema('PickedTodos', { mainTodo: true, amount: true, todos: true })
 const OmittedTodos = ExtendedTodos.omitSchema('OmittedTodos', { mainTodo: true, amount: true, todos: true })

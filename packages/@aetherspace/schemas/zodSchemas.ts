@@ -121,137 +121,137 @@ const parseSchema = (schema: JSONSchema7) => {
   return resultSchema
 }
 
-/** --- extendFromSchema() --------------------------------------------------------------------- */
-/** -i- Add new properties to an eatherschema and give it a new name */
-export const extendFromSchema = <S extends z.ZodRawShape, E extends z.ZodRawShape>(
-  schema: ZodExtendedSchema<S>,
-  key: string,
-  extraProps: E
-) => {
-  return aetherSchema<S & E>(key, { ...schema.shape, ...extraProps })
-}
+// /** --- extendFromSchema() --------------------------------------------------------------------- */
+// /** -i- Add new properties to an eatherschema and give it a new name */
+// export const extendFromSchema = <S extends z.ZodRawShape, E extends z.ZodRawShape>(
+//   schema: ZodExtendedSchema<S>,
+//   key: string,
+//   extraProps: E
+// ) => {
+//   return aetherSchema<S & E>(key, { ...schema.shape, ...extraProps })
+// }
 
-/** --- pickFromSchema() ----------------------------------------------------------------------- */
-/** -i- Create new schema by picking properties from another */
-export const pickFromSchema = <
-  S extends z.ZodRawShape,
-  P extends Parameters<ZodExtendedSchema<S>['pick']>[0]
->(
-  schema: ZodExtendedSchema<S>,
-  key: string,
-  pickProps: P
-) => {
-  const pickedSchema = schema.pick(pickProps)
-  return pickedSchema.describe(key)
-}
+// /** --- pickFromSchema() ----------------------------------------------------------------------- */
+// /** -i- Create new schema by picking properties from another */
+// export const pickFromSchema = <
+//   S extends z.ZodRawShape,
+//   P extends Parameters<ZodExtendedSchema<S>['pick']>[0]
+// >(
+//   schema: ZodExtendedSchema<S>,
+//   key: string,
+//   pickProps: P
+// ) => {
+//   const pickedSchema = schema.pick(pickProps)
+//   return pickedSchema.describe(key)
+// }
 
-/** --- omitFromSchema() ----------------------------------------------------------------------- */
-/** -i- Create new schema by removing properties from another */
-export const omitFromSchema = <
-  S extends z.ZodRawShape,
-  O extends Parameters<ZodExtendedSchema<S>['omit']>[0]
->(
-  schema: ZodExtendedSchema<S>,
-  key: string,
-  omitProps: O
-) => {
-  const omittedSchema = schema.omit(omitProps)
-  return omittedSchema.describe(key)
-}
+// /** --- omitFromSchema() ----------------------------------------------------------------------- */
+// /** -i- Create new schema by removing properties from another */
+// export const omitFromSchema = <
+//   S extends z.ZodRawShape,
+//   O extends Parameters<ZodExtendedSchema<S>['omit']>[0]
+// >(
+//   schema: ZodExtendedSchema<S>,
+//   key: string,
+//   omitProps: O
+// ) => {
+//   const omittedSchema = schema.omit(omitProps)
+//   return omittedSchema.describe(key)
+// }
 
-/** --- makeSchemaRequired() ------------------------------------------------------------------- */
-/** -i- Create a new schema by making all properties from another schema required */
-export const makeSchemaRequired = <S extends z.ZodRawShape>(
-  schema: ZodExtendedSchema<S>,
-  key: string
-) => {
-  const requiredSchema = schema.required()
-  return requiredSchema.describe(key)
-}
+// /** --- makeSchemaRequired() ------------------------------------------------------------------- */
+// /** -i- Create a new schema by making all properties from another schema required */
+// export const makeSchemaRequired = <S extends z.ZodRawShape>(
+//   schema: ZodExtendedSchema<S>,
+//   key: string
+// ) => {
+//   const requiredSchema = schema.required()
+//   return requiredSchema.describe(key)
+// }
 
-/** --- makeSchemaPartial() -------------------------------------------------------------------- */
-/** -i- Create a new schema by making all properties from another schema optional */
-export const makeSchemaPartial = <S extends z.ZodRawShape>(
-  schema: ZodExtendedSchema<S>,
-  key: string
-) => {
-  const partialSchema = schema.partial()
-  return partialSchema.describe(key)
-}
+// /** --- makeSchemaPartial() -------------------------------------------------------------------- */
+// /** -i- Create a new schema by making all properties from another schema optional */
+// export const makeSchemaPartial = <S extends z.ZodRawShape>(
+//   schema: ZodExtendedSchema<S>,
+//   key: string
+// ) => {
+//   const partialSchema = schema.partial()
+//   return partialSchema.describe(key)
+// }
 
-/** --- makeSchemaDeepPartial() ---------------------------------------------------------------- */
-/** -i- Create a new schema by making all properties from another schema, including nested ones, optional */
-export const makeSchemaDeepPartial = <S extends z.ZodRawShape>(
-  schema: ZodExtendedSchema<S>,
-  key: string
-) => {
-  const partialSchema = schema.deepPartial()
-  return partialSchema.describe(key)
-}
+// /** --- makeSchemaDeepPartial() ---------------------------------------------------------------- */
+// /** -i- Create a new schema by making all properties from another schema, including nested ones, optional */
+// export const makeSchemaDeepPartial = <S extends z.ZodRawShape>(
+//   schema: ZodExtendedSchema<S>,
+//   key: string
+// ) => {
+//   const partialSchema = schema.deepPartial()
+//   return partialSchema.describe(key)
+// }
 
-/** --- assignDefs() --------------------------------------------------------------------------- */
-/** -i- Add key & schema definition to zod object */
-const assignDefs = <S extends z.ZodRawShape>(
-  zodSchema: ZodObjectSchema<S>,
-  key: string,
-  schemaDef: S
-) => {
-  return Object.assign(zodSchema, { key, schemaDef })
-}
+// /** --- assignDefs() --------------------------------------------------------------------------- */
+// /** -i- Add key & schema definition to zod object */
+// const assignDefs = <S extends z.ZodRawShape>(
+//   zodSchema: ZodObjectSchema<S>,
+//   key: string,
+//   schemaDef: S
+// ) => {
+//   return Object.assign(zodSchema, { key, schemaDef })
+// }
 
-/** --- assignMethods() ------------------------------------------------------------------------ */
-/** -i- Add ways to extend schemas from existing schemas */
-const assignMethods = <S extends z.ZodRawShape>(zodSchema: ZodExtendedSchema<S>) => {
-  return Object.assign(zodSchema as ZodExtendedSchema<S>, {
-    extendSchema: <E extends z.ZodRawShape>(key: string, extraProps: E) => {
-      return extendFromSchema(zodSchema, key, extraProps)
-    },
-    pickSchema: <P extends Parameters<ZodExtendedSchema<S>['pick']>[0]>(
-      key: string,
-      pickProps: P
-    ) => {
-      const pickSchema = pickFromSchema(zodSchema, key, pickProps).describe(key)
-      return assignMethods(pickSchema)
-    },
-    omitSchema: <O extends Parameters<ZodExtendedSchema<S>['pick']>[0]>(
-      key: string,
-      omitProps: O
-    ) => {
-      const omitSchema = omitFromSchema(zodSchema, key, omitProps).describe(key)
-      return assignMethods(omitSchema)
-    },
-    // -i- TODO: Make these play nice with Typescript -i-
-    // -!- They are why we have a "@ts-nocheck" at the top of this file -!-
-    // requiredSchema: (key: string) => {
-    //   const requiredSchema = makeSchemaRequired(zodSchema, key).describe(key)
-    //   return assignMethods(requiredSchema)
-    // },
-    // partialSchema: (key: string) => {
-    //   const partialSchema = makeSchemaPartial(zodSchema, key).describe(key)
-    //   return assignMethods(partialSchema)
-    // },
-    // deepPartialSchema: (key: string) => {
-    //   const deepPartialSchema = makeSchemaDeepPartial(zodSchema, key).describe(key)
-    //   return assignMethods(deepPartialSchema)
-    // },
-    introspect: () => parseSchema(zodToJsonSchema(zodSchema) as JSONSchema7),
-  })
-}
+// /** --- assignMethods() ------------------------------------------------------------------------ */
+// /** -i- Add ways to extend schemas from existing schemas */
+// const assignMethods = <S extends z.ZodRawShape>(zodSchema: ZodExtendedSchema<S>) => {
+//   return Object.assign(zodSchema as ZodExtendedSchema<S>, {
+//     extendSchema: <E extends z.ZodRawShape>(key: string, extraProps: E) => {
+//       return extendFromSchema(zodSchema, key, extraProps)
+//     },
+//     pickSchema: <P extends Parameters<ZodExtendedSchema<S>['pick']>[0]>(
+//       key: string,
+//       pickProps: P
+//     ) => {
+//       const pickSchema = pickFromSchema(zodSchema, key, pickProps).describe(key)
+//       return assignMethods(pickSchema)
+//     },
+//     omitSchema: <O extends Parameters<ZodExtendedSchema<S>['pick']>[0]>(
+//       key: string,
+//       omitProps: O
+//     ) => {
+//       const omitSchema = omitFromSchema(zodSchema, key, omitProps).describe(key)
+//       return assignMethods(omitSchema)
+//     },
+//     // -i- TODO: Make these play nice with Typescript -i-
+//     // -!- They are why we have a "@ts-nocheck" at the top of this file -!-
+//     // requiredSchema: (key: string) => {
+//     //   const requiredSchema = makeSchemaRequired(zodSchema, key).describe(key)
+//     //   return assignMethods(requiredSchema)
+//     // },
+//     // partialSchema: (key: string) => {
+//     //   const partialSchema = makeSchemaPartial(zodSchema, key).describe(key)
+//     //   return assignMethods(partialSchema)
+//     // },
+//     // deepPartialSchema: (key: string) => {
+//     //   const deepPartialSchema = makeSchemaDeepPartial(zodSchema, key).describe(key)
+//     //   return assignMethods(deepPartialSchema)
+//     // },
+//     introspect: () => parseSchema(zodToJsonSchema(zodSchema) as JSONSchema7),
+//   })
+// }
 
-/** --- aetherSchema() ------------------------------------------------------------------------- */
-/** -i- Defines your datastructure (Props, Args, Models) as a zod powered single source of truth */
-export const aetherSchema = <S extends z.ZodRawShape>(key: string, schemaDef: S) => {
-  // Attach key & schema definition
-  const zodSchema: ZodExtendedSchema<S> = assignDefs(z.object(schemaDef), key, schemaDef)
-  // Attach transform methods
-  return assignMethods(zodSchema.describe(key))
-}
+// /** --- aetherSchema() ------------------------------------------------------------------------- */
+// /** -i- Defines your datastructure (Props, Args, Models) as a zod powered single source of truth */
+// export const aetherSchema = <S extends z.ZodRawShape>(key: string, schemaDef: S) => {
+//   // Attach key & schema definition
+//   const zodSchema: ZodExtendedSchema<S> = assignDefs(z.object(schemaDef), key, schemaDef)
+//   // Attach transform methods
+//   return assignMethods(zodSchema.describe(key))
+// }
 
-/** --- buildSchema() -------------------------------------------------------------------------- */
-/** -i- Define your datastructure (Props, Args, Models) as a zod object and turn it into an aetherSchema */
-export const buildSchema = <S extends z.ZodRawShape>(key: string, schema: z.ZodObject<S>) => {
-  return aetherSchema(key, schema.shape)
-}
+// /** --- buildSchema() -------------------------------------------------------------------------- */
+// /** -i- Define your datastructure (Props, Args, Models) as a zod object and turn it into an aetherSchema */
+// export const buildSchema = <S extends z.ZodRawShape>(key: string, schema: z.ZodObject<S>) => {
+//   return aetherSchema(key, schema.shape)
+// }
 
 /* --- Test ------------------------------------------------------------------------------------ */
 
