@@ -11,7 +11,7 @@
         "document-components": "node scripts/document-components",
         "dev-health-check": "NODE_ENV=development SAVE_GRAPHQL_SCHEMA=true node scripts/dev-health-check",
         "schema-test": "node scripts/schema-test",
-        "extension-test": "yarn build && node schemas/zodExtensions"
+        "extension-test": "yarn build && node schemas/aetherSchemas"
     },
     "dependencies": {
         "@apollo/client": "^3.6.9",
