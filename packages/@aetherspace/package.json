@@ -25,7 +25,6 @@
         "graphql": "^16.5.0",
         "graphql-request": "^5.0.0",
         "micro": "^9.4.1",
-        "superstruct": "^0.15.3",
         "twrnc": "^3.3.1",
         "zod": "^3.20.2",
         "zod-to-json-schema": "^3.20.1"
