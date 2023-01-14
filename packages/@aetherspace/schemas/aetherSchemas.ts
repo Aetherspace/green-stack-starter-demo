@@ -126,6 +126,7 @@ declare module 'zod' {
 
   interface ZodTuple<T extends [] | [z.ZodTypeAny, ...z.ZodTypeAny[]]> {
     aetherType: 'AetherTuple'
+    schema?: AetherSchemaType[]
     example(value: z.infer<z.ZodTuple<T>>): z.ZodTuple<T>
     eg(value: z.infer<z.ZodTuple<T>>): z.ZodTuple<T>
     ex(value: z.infer<z.ZodTuple<T>>): z.ZodTuple<T>
@@ -142,7 +143,7 @@ declare module 'zod' {
 
   interface ZodArray<T extends z.ZodTypeAny> {
     aetherType: 'AetherArray'
-    schema?: unknown
+    schema?: AetherSchemaType
     example(value: z.infer<z.ZodArray<T>>): z.ZodArray<T>
     eg(value: z.infer<z.ZodArray<T>>): z.ZodArray<T>
     ex(value: z.infer<z.ZodArray<T>>): z.ZodArray<T>
@@ -459,6 +460,8 @@ if (!z.ZodTuple.prototype.aetherType) {
   z.ZodTuple.prototype.eg = z.ZodTuple.prototype.example
   z.ZodTuple.prototype.ex = z.ZodTuple.prototype.example
   z.ZodTuple.prototype.introspect = function () {
+    const innerItems = this.items.map((item) => item?.introspect())
+    this.schema = innerItems
     return introspectField(this)
   }
 }
@@ -683,8 +686,8 @@ export const buildSchema = <T extends z.ZodRawShape>(
 /* --- Tests ----------------------------------------------------------------------------------- */
 
 const testSchema = aetherSchema('TestSchema', {
-  date: z.date().min(new Date('2020-01-01')).max(new Date('2020-12-31')),
+  union: z.tuple([z.string(), z.number()]),
 })
 type testSchema = z.infer<typeof testSchema>
 console.log('testSchema', JSON.stringify(testSchema.introspect(), null, 2))
-console.log('testProp', JSON.stringify(testSchema.shape.date.introspect(), null, 2))
+console.log('testProp', JSON.stringify(testSchema.shape.union.introspect(), null, 2))
