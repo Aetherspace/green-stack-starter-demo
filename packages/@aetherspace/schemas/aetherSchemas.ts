@@ -108,6 +108,7 @@ declare module 'zod' {
 
   interface ZodDate {
     aetherType: 'AetherDate'
+    schema?: { minDate?: Date; maxDate?: Date }
     example(value: Date): z.ZodDate
     eg(value: Date): z.ZodDate
     ex(value: Date): z.ZodDate
@@ -116,7 +117,7 @@ declare module 'zod' {
 
   interface ZodEnum<T extends [string, ...string[]]> {
     aetherType: 'AetherEnum'
-    schema: Record<T[number], T[number]>
+    schema?: Record<T[number], T[number]>
     example(value: z.infer<z.ZodEnum<T>>): z.ZodEnum<T>
     eg(value: z.infer<z.ZodEnum<T>>): z.ZodEnum<T>
     ex(value: z.infer<z.ZodEnum<T>>): z.ZodEnum<T>
@@ -417,6 +418,9 @@ if (!z.ZodDate.prototype.aetherType) {
   z.ZodDate.prototype.eg = z.ZodDate.prototype.example
   z.ZodDate.prototype.ex = z.ZodDate.prototype.example
   z.ZodDate.prototype.introspect = function () {
+    this.schema = {}
+    if (this.minDate) this.schema.minDate = this.minDate
+    if (this.maxDate) this.schema.maxDate = this.maxDate
     return introspectField(this)
   }
 }
@@ -679,8 +683,8 @@ export const buildSchema = <T extends z.ZodRawShape>(
 /* --- Tests ----------------------------------------------------------------------------------- */
 
 const testSchema = aetherSchema('TestSchema', {
-  arr: z.array(z.string()),
+  date: z.date().min(new Date('2020-01-01')).max(new Date('2020-12-31')),
 })
 type testSchema = z.infer<typeof testSchema>
 console.log('testSchema', JSON.stringify(testSchema.introspect(), null, 2))
-console.log('testArr', JSON.stringify(testSchema.shape.arr.introspect(), null, 2))
+console.log('testProp', JSON.stringify(testSchema.shape.date.introspect(), null, 2))
