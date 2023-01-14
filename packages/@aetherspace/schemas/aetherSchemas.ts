@@ -4,7 +4,7 @@ import zodToJsonSchema from 'zod-to-json-schema'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-const AETHER_TYPE_MAP = Object.freeze({
+const ATS_TO_TYPE = Object.freeze({
   AetherBoolean: 'boolean',
   AetherNumber: 'number',
   AetherString: 'string',
@@ -19,7 +19,7 @@ const AETHER_TYPE_MAP = Object.freeze({
   AetherId: 'string',
 })
 
-const SCHEMA_MAP = Object.freeze({
+const TYPE_TO_ATS = Object.freeze({
   boolean: 'AetherBoolean',
   number: 'AetherNumber',
   string: 'AetherString',
@@ -33,9 +33,21 @@ const SCHEMA_MAP = Object.freeze({
   id: 'AetherId',
 })
 
+const ZOD_TO_ATS = Object.freeze({
+  ZodBoolean: 'AetherBoolean',
+  ZodNumber: 'AetherNumber',
+  ZodString: 'AetherString',
+  ZodDate: 'AetherDate',
+  ZodObject: 'AetherSchema',
+  ZodArray: 'AetherArray',
+  ZodEnum: 'AetherEnum',
+  ZodTuple: 'AetherTuple',
+  ZodUnion: 'AetherUnion',
+})
+
 export type AetherSchemaType<T = any> = {
-  type: keyof typeof SCHEMA_MAP
-  aetherType: typeof SCHEMA_MAP[keyof typeof SCHEMA_MAP]
+  type: keyof typeof TYPE_TO_ATS
+  aetherType: typeof TYPE_TO_ATS[keyof typeof TYPE_TO_ATS]
   description?: string
   defaultValue?: T
   exampleValue?: T
@@ -69,7 +81,9 @@ declare module 'zod' {
   }
 
   interface ZodString {
-    aetherType: 'AetherString'
+    aetherType: 'AetherString' | 'AetherId' | 'AetherColor'
+    id(): z.ZodString
+    color(): z.ZodString
     example(value: string): z.ZodString
     eg(value: string): z.ZodString
     ex(value: string): z.ZodString
@@ -102,6 +116,7 @@ declare module 'zod' {
 
   interface ZodEnum<T extends [string, ...string[]]> {
     aetherType: 'AetherEnum'
+    schema: Record<T[number], T[number]>
     example(value: z.infer<z.ZodEnum<T>>): z.ZodEnum<T>
     eg(value: z.infer<z.ZodEnum<T>>): z.ZodEnum<T>
     ex(value: z.infer<z.ZodEnum<T>>): z.ZodEnum<T>
@@ -126,6 +141,7 @@ declare module 'zod' {
 
   interface ZodArray<T extends z.ZodTypeAny> {
     aetherType: 'AetherArray'
+    schema?: unknown
     example(value: z.infer<z.ZodArray<T>>): z.ZodArray<T>
     eg(value: z.infer<z.ZodArray<T>>): z.ZodArray<T>
     ex(value: z.infer<z.ZodArray<T>>): z.ZodArray<T>
@@ -134,6 +150,7 @@ declare module 'zod' {
 
   interface ZodNullable<T extends z.ZodTypeAny> {
     aetherType?: string
+    schema?: unknown
     example(value: z.infer<z.ZodNullable<T>>): z.ZodNullable<T>
     eg(value: z.infer<z.ZodNullable<T>>): z.ZodNullable<T>
     ex(value: z.infer<z.ZodNullable<T>>): z.ZodNullable<T>
@@ -142,6 +159,7 @@ declare module 'zod' {
 
   interface ZodOptional<T extends z.ZodTypeAny> {
     aetherType?: string
+    schema?: unknown
     example(value: z.infer<z.ZodOptional<T>>): z.ZodOptional<T>
     eg(value: z.infer<z.ZodOptional<T>>): z.ZodOptional<T>
     ex(value: z.infer<z.ZodOptional<T>>): z.ZodOptional<T>
@@ -150,6 +168,7 @@ declare module 'zod' {
 
   interface ZodDefault<T extends z.ZodTypeAny> {
     aetherType?: string
+    schema?: unknown
     example(value: z.infer<z.ZodDefault<T>>): z.ZodDefault<T>
     eg(value: z.infer<z.ZodDefault<T>>): z.ZodDefault<T>
     ex(value: z.infer<z.ZodDefault<T>>): z.ZodDefault<T>
@@ -226,14 +245,22 @@ const introspectField = <T extends z.ZodTypeAny>(field: T): AetherSchemaType => 
   const schema = {} as AetherSchemaType
   schema.type = field._def.t // @ts-ignore
   if (field.aetherType) schema.aetherType = field.aetherType
-  if (schema.aetherType) schema.type = AETHER_TYPE_MAP[schema.aetherType]
+  if (schema.aetherType) schema.type = ATS_TO_TYPE[schema.aetherType]
   if (field.description) schema.description = field.description
   if (field.exampleValue) schema.exampleValue = field.exampleValue // @ts-ignore
-  if (field.safeParse(undefined).success) schema.defaultValue = field.safeParse(undefined).data
+  if (field.safeParse(undefined).success) schema.defaultValue = field.safeParse(undefined).data // @ts-ignore
+  if (field.schema) schema.schema = field.schema // @ts-ignore
   // Check for optionality
   schema.isNullable = field.isNullable()
   schema.isOptional = field.isOptional()
   return schema
+}
+
+/** --- getInnerMostType ---------------------------------------------------------------------------- */
+/** -i- Get inner zod type definition from .default(), .nullable() or .optional() wrapped values */
+const getInnerMostType = <T extends z.ZodTypeAny>(schema: T) => {
+  if (!schema._def.innerType) return schema
+  return getInnerMostType(schema._def.innerType)
 }
 
 /** --- assignAetherContext() ------------------------------------------------------------------------ */
@@ -245,13 +272,14 @@ const assignAetherContext = <
   schema: W,
   innerType: T
 ) => {
-  // @ts-ignore
-  if (innerType.aetherType) schema.aetherType = innerType.aetherType // @ts-ignore
-  if (innerType.exampleValue) schema.exampleValue = innerType.exampleValue // @ts-ignore
-  if (innerType.schemaName) schema.schemaName = innerType.schemaName // @ts-ignore
-  if (innerType.extendedFrom) schema.extendedFrom = innerType.extendedFrom
-  if (innerType._def.description) schema.describe(innerType._def.description)
-  if (innerType.description) schema.describe(innerType.description)
+  const innerMostType = getInnerMostType(innerType) // @ts-ignore
+  if (innerMostType.aetherType) schema.aetherType = innerMostType.aetherType // @ts-ignore
+  if (innerMostType.exampleValue) schema.exampleValue = innerMostType.exampleValue // @ts-ignore
+  if (innerMostType.schemaName) schema.schemaName = innerMostType.schemaName // @ts-ignore
+  if (innerMostType.extendedFrom) schema.extendedFrom = innerMostType.extendedFrom
+  if (innerMostType._def.description) schema.describe(innerMostType._def.description) // @ts-ignore
+  if (innerMostType._def.schema) schema.schema = innerMostType._def.schema
+  if (innerMostType.description) schema.describe(innerMostType.description) // @ts-ignore
   return schema
 }
 
@@ -271,6 +299,8 @@ if (!z.ZodOptional.prototype?.aetherType) {
   z.ZodOptional.prototype.eg = z.ZodOptional.prototype.example
   z.ZodOptional.prototype.ex = z.ZodOptional.prototype.example
   z.ZodOptional.prototype.introspect = function () {
+    const innerMostSchema = getInnerMostType(this).introspect?.().schema
+    if (innerMostSchema) this.schema = innerMostSchema
     return introspectField(this)
   }
 }
@@ -289,6 +319,8 @@ if (!z.ZodNullable.prototype?.aetherType) {
   z.ZodNullable.prototype.eg = z.ZodNullable.prototype.example
   z.ZodNullable.prototype.ex = z.ZodNullable.prototype.example
   z.ZodNullable.prototype.introspect = function () {
+    const innerMostSchema = getInnerMostType(this).introspect?.().schema
+    if (innerMostSchema) this.schema = innerMostSchema
     return introspectField(this)
   }
 }
@@ -307,6 +339,8 @@ if (!z.ZodDefault.prototype?.aetherType) {
   z.ZodDefault.prototype.eg = z.ZodDefault.prototype.example
   z.ZodDefault.prototype.ex = z.ZodDefault.prototype.example
   z.ZodDefault.prototype.introspect = function () {
+    const innerMostSchema = getInnerMostType(this).introspect?.().schema
+    if (innerMostSchema) this.schema = innerMostSchema
     return introspectField(this)
   }
 }
@@ -315,6 +349,14 @@ if (!z.ZodDefault.prototype?.aetherType) {
 
 if (!z.ZodString.prototype?.aetherType) {
   z.ZodString.prototype.aetherType = 'AetherString'
+  z.ZodString.prototype.id = function () {
+    this.aetherType = 'AetherId'
+    return this
+  }
+  z.ZodString.prototype.color = function () {
+    this.aetherType = 'AetherColor'
+    return this.min(4).max(9).regex(/^#/)
+  }
   z.ZodString.prototype.example = function (value: string) {
     this.exampleValue = value
     return this
@@ -392,6 +434,10 @@ if (!z.ZodEnum.prototype.aetherType) {
   z.ZodEnum.prototype.eg = z.ZodEnum.prototype.example
   z.ZodEnum.prototype.ex = z.ZodEnum.prototype.example
   z.ZodEnum.prototype.introspect = function () {
+    this.schema = this._def.values.reduce(
+      (acc, value) => ({ ...acc, [value]: value }),
+      {} as Record<string, string>
+    )
     return introspectField(this)
   }
 }
@@ -443,6 +489,8 @@ if (!z.ZodArray.prototype.aetherType) {
   z.ZodArray.prototype.eg = z.ZodArray.prototype.example
   z.ZodArray.prototype.ex = z.ZodArray.prototype.example
   z.ZodArray.prototype.introspect = function () {
+    const innerSchema = getInnerMostType(this)?.element?.introspect?.()
+    if (innerSchema) this.schema = innerSchema
     return introspectField(this)
   }
 }
@@ -451,6 +499,7 @@ const array = z.array(z.string()).optional().default(['a', 'b']).describe('an ar
 type array = z.infer<typeof array>
 console.log({ arrayDef: array.introspect() })
 
+// TODO: Replace this
 /** --- parseType() ---------------------------------------------------------------------------- */
 /** -i- Add correct fields like type & aetherType while converting a JSON schema prop definition to aetherspace prop definition. */
 const parseType = (propDef: JSONSchema7, propSchema: Record<string, unknown> = {}) => {
@@ -459,7 +508,7 @@ const parseType = (propDef: JSONSchema7, propSchema: Record<string, unknown> = {
   if (Array.isArray(propType)) {
     propSchema.isNullable = propType.includes('null')
     const leftoverType = propType.filter((type: string) => type !== 'null')[0]
-    propSchema.aetherType = SCHEMA_MAP[leftoverType]
+    propSchema.aetherType = TYPE_TO_ATS[leftoverType]
     propSchema.type = leftoverType
   } else if (propDef.format === 'date-time') {
     propSchema.aetherType = 'AetherDate'
@@ -479,13 +528,14 @@ const parseType = (propDef: JSONSchema7, propSchema: Record<string, unknown> = {
     propSchema.aetherType = 'AetherColor'
     propSchema.type = 'string'
   } else {
-    propSchema.aetherType = SCHEMA_MAP[propType!]
+    propSchema.aetherType = TYPE_TO_ATS[propType!]
     propSchema.type = propType
   }
   // Return
   return propSchema
 }
 
+// TODO: Replace this
 /** --- parseProp() ---------------------------------------------------------------------------- */
 /** -i- Convert a JSON schema prop definition to an aetherspace prop definition */
 const parseProp = (propKey: string, propDef: JSONSchema7, parseContext: { required: string[] }) => {
@@ -513,6 +563,7 @@ const parseProp = (propKey: string, propDef: JSONSchema7, parseContext: { requir
   return propSchema
 }
 
+// TODO: Replace this
 /** --- parseSchema() -------------------------------------------------------------------------- */
 /** -i- Convert a JSON schema object to an aetherspace compatible schema */
 const parseSchema = (schema: JSONSchema7) => {
@@ -624,3 +675,12 @@ export const buildSchema = <T extends z.ZodRawShape>(
 ) => {
   return aetherSchema(schemaName, zodSchema.shape)
 }
+
+/* --- Tests ----------------------------------------------------------------------------------- */
+
+const testSchema = aetherSchema('TestSchema', {
+  arr: z.array(z.string()),
+})
+type testSchema = z.infer<typeof testSchema>
+console.log('testSchema', JSON.stringify(testSchema.introspect(), null, 2))
+console.log('testArr', JSON.stringify(testSchema.shape.arr.introspect(), null, 2))
