@@ -49,6 +49,7 @@ const ComparedSchema = aetherSchema('ComparedSchema', {
     num: z.number().describe('A number'),
     bln: z.boolean().optional().describe('A boolean'),
     opt: z.enum(['A', 'B']).describe('An enum'),
+    clr: z.string().color(),
     obj: aetherSchema('StringObject', {
         str: z.string().nullable().describe('A string'),
     }),

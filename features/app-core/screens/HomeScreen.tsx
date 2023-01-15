@@ -20,7 +20,7 @@ import { GraphIcon, ReactIcon, ExpoIcon, StorybookIcon, NextIcon } from '../icon
 /* --- Schemas --------------------------------------------------------------------------------- */
 
 const HomeScreenProps = aetherSchema('HomeScreenProps', {
-  customGreeting: z.string().default('Hello GREEN stack 👋').optional().describe('A greeting for the user'), // prettier-ignore
+  customGreeting: z.string().optional().default('Hello GREEN stack 👋').describe('A greeting for the user'), // prettier-ignore
 })
 
 /* --- <HomeScreen/> --------------------------------------------------------------------------- */

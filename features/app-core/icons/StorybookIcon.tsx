@@ -6,9 +6,9 @@ import { z } from 'zod'
 /* --- Schema ---------------------------------------------------------------------------------- */
 
 const StorybookIconProps = aetherSchema('StorybookIconProps', {
-  width: z.number().default(24).optional().describe('Icon width'),
-  height: z.number().default(24).optional().describe('Icon height'),
-  fill: z.string().default('#ff4785').optional().describe('Icon fill color'),
+  width: z.number().optional().default(24).describe('Icon width'),
+  height: z.number().optional().default(24).describe('Icon height'),
+  fill: z.string().color().optional().default('#ff4785').describe('Icon fill color'),
 })
 
 /* --- <StorybookIcon/> ------------------------------------------------------------------------ */
