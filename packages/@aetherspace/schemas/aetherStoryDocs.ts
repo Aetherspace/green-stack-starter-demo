@@ -55,7 +55,6 @@ const aetherSchemaArgTypes = (aetherSchema) => {
           summary: [
             schemaConfig.schemaName || dataType,
             isNullable && 'null',
-            // isOptional && '(undefined)',
           ].filter(Boolean).join(' | '), // prettier-ignore
         },
       },

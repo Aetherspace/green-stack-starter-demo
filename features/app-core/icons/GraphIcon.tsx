@@ -6,9 +6,9 @@ import { z } from 'zod'
 /* --- Schema ---------------------------------------------------------------------------------- */
 
 const GraphIconProps = aetherSchema('GraphIconProps', {
-  width: z.number().default(24).optional().describe('Icon width'),
-  height: z.number().default(24).optional().describe('Icon height'),
-  fill: z.string().default('#e10098').optional().describe('Icon fill color'),
+  width: z.number().optional().default(24).describe('Icon width'),
+  height: z.number().optional().default(24).describe('Icon height'),
+  fill: z.string().color().optional().default('#e10098').describe('Icon fill color'),
 })
 
 /* --- <GraphIcon/> ----------------------------------------------------------------------------- */

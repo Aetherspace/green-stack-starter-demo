@@ -18972,11 +18972,6 @@ zen-observable@0.8.15:
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.15.tgz#96415c512d8e3ffd920afd3889604e30b9eaac15"
   integrity sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
 
-zod-to-json-schema@^3.20.1:
-  version "3.20.1"
-  resolved "https://registry.yarnpkg.com/zod-to-json-schema/-/zod-to-json-schema-3.20.1.tgz#4d387d7c1de6871ffcfd522ce25513f7597c03bc"
-  integrity sha512-U+zmNJUKqzv92E+LdEYv0g2LxBLks4HAwfC6cue8jXby5PAeSEPGO4xV9Sl4zmLYyFvJkm0FOfOs6orUO+AI1w==
-
 zod@^3.20.2:
   version "3.20.2"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.20.2.tgz#068606642c8f51b3333981f91c0a8ab37dfc2807"

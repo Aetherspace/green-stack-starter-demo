@@ -6,9 +6,9 @@ import { z } from 'zod'
 /* --- Schema ---------------------------------------------------------------------------------- */
 
 const HomeIconProps = aetherSchema('HomeIconProps', {
-  width: z.number().default(24).optional().describe('Icon width'),
-  height: z.number().default(24).optional().describe('Icon height'),
-  fill: z.string().default('#000000').optional().describe('Icon fill color'),
+  width: z.number().optional().default(24).describe('Icon width'),
+  height: z.number().optional().default(24).describe('Icon height'),
+  fill: z.string().color().optional().default('#000000').describe('Icon fill color'),
 })
 
 /* --- <HomeIcon/> ----------------------------------------------------------------------------- */
