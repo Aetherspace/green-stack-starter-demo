@@ -22,12 +22,8 @@ const checkHealth = async () => {
   }
   // Attempt to reach the API
   try {
-    // Setup
-    const isDev = process.env.NODE_ENV === 'development'
-    const requestsSchemaSave = process.env.SAVE_GRAPHQL_SCHEMA === 'true'
-    const saveGraphQLSchema = isDev && requestsSchemaSave
     // Check that the REST API is up
-    const restResponse = await axios.post(HEALTH_ENDPOINT, { echo: 'Hello World', saveGraphQLSchema })
+    const restResponse = await axios.post(HEALTH_ENDPOINT, { echo: 'Hello World' })
     const hasWorkingRestAPI = restResponse.data.alive && restResponse.data.kicking
     // Check that the GraphQL API is up
     const gqlHealthCheckQuery = gql`{ healthCheck { alive kicking } }`

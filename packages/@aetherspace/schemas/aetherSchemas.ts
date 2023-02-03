@@ -213,13 +213,13 @@ declare module 'zod' {
       z.objectInputType<Omit<T, K>, Catchall>
     >
     partialSchema(
-      schemaName: string
+      schemaName: string // @ts-ignore
     ): ReturnType<z.ZodObject<T, UnknownKeys, Catchall, Output, Input>['partial']>
     deepPartialSchema(
-      schemaName: string
+      schemaName: string // @ts-ignore
     ): ReturnType<z.ZodObject<T, UnknownKeys, Catchall, Output, Input>['deepPartial']>
     requiredSchema(
-      schemaName: string
+      schemaName: string // @ts-ignore
     ): ReturnType<z.ZodObject<T, UnknownKeys, Catchall, Output, Input>['required']>
     example(value: z.infer<z.ZodObject<T>>): z.ZodObject<T>
     eg(value: z.infer<z.ZodObject<T>>): z.ZodObject<T>

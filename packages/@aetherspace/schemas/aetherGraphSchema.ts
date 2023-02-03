@@ -27,7 +27,7 @@ type ResolverConfigType = {
 
 const SCHEMA_PRIMITIVE_MAPPER = Object.freeze({
   AetherString: 'String',
-  AetherNumber: 'Number',
+  AetherNumber: 'Float',
   AetherBoolean: 'Boolean',
   AetherId: 'String',
   AetherColor: 'String',
@@ -44,12 +44,12 @@ const aetherSchemaDefinitions = (aetherSchema: ResolverSchemaType, prefix = 'typ
     const isNullable = [schemaConfig.isOptional, schemaConfig.isNullable].includes(true)
     const requiredState = isNullable ? '' : '!'
     const description = schemaConfig.description ? `"""${schemaConfig.description}"""\n` : ''
-    if (gqlType === 'Schema') {
+    if (gqlType === 'Schema' && schemaConfig?.schemaName) {
       schemaDefinitions = [...schemaDefinitions, ...aetherSchemaDefinitions(schemaConfig)]
       return [description, `${name}: ${schemaConfig.schemaName}${requiredState}`].join('')
     } else if (gqlType === 'Array') {
       const primitiveType = SCHEMA_PRIMITIVE_MAPPER[schemaConfig.schema.aetherType]
-      const arrayEntryType = primitiveType || schemaConfig.schema.schemaName
+      const arrayEntryType = primitiveType || schemaConfig.schema?.schemaName
       if (!primitiveType) {
         schemaDefinitions = [...schemaDefinitions, ...aetherSchemaDefinitions(schemaConfig.schema)]
       }
@@ -61,7 +61,7 @@ const aetherSchemaDefinitions = (aetherSchema: ResolverSchemaType, prefix = 'typ
   const schemaMap = aetherSchemaPlugin(aetherSchema, {
     // -- Primitives --
     AetherString: createDefinition('String'),
-    AetherNumber: createDefinition('Number'),
+    AetherNumber: createDefinition('Float'),
     AetherBoolean: createDefinition('Boolean'),
     // -- Single values --
     AetherId: createDefinition('String'),

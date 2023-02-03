@@ -3,12 +3,13 @@
 // - https://nextjs.org/docs/api-reference/next/image
 import React, { useMemo, forwardRef, ComponentProps } from 'react'
 import { Image as RNImage, ImageURISource } from 'react-native'
-import Image from 'next/image'
+import Image, { ImageProps } from 'next/image'
 // Context
 import { useAetherContext } from '../../context/AetherContextManager'
 // Components
 import AetherView from '../AetherView' // @ts-ignore
 import AetherImageExpo from './AetherImage.tsx'
+import useAetherStyles from '../../hooks/useAetherStyles'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -16,11 +17,11 @@ interface AetherImageType extends Partial<ComponentProps<typeof RNImage>> {
   style?: ComponentProps<typeof RNImage>['style']
   tw?: string | (string | null | undefined | false | 0)[]
   twID?: string
-  src?: string
+  src?: string | ImageProps['src']
   alt?: string
   width?: number
   height?: number
-  quality?: ComponentProps<typeof Image>['quality']
+  quality?: ImageProps['quality']
   priority?: boolean
   loading?: 'lazy' | 'eager'
 }
@@ -28,9 +29,19 @@ interface AetherImageType extends Partial<ComponentProps<typeof RNImage>> {
 /* --- <AetherImage/> -------------------------------------------------------------------------- */
 
 const AetherImage = forwardRef<typeof Image, AetherImageType>((props, ref) => {
+  // Hooks
+  const bindStyles = useAetherStyles<typeof Image>(props as ComponentProps<typeof Image>) // { style, tw }
+
   // Props
-  const { tw, style, width, height, quality, priority, loading } = props
-  const bindStyles = { style, tw }
+  const {
+    width = bindStyles.style?.width,
+    height = bindStyles.style?.height,
+    quality,
+    priority,
+    loading,
+  } = props
+
+  // Vars
   const source = props.source as ImageURISource
   const src = props.src || source?.uri
 
@@ -54,7 +65,10 @@ const AetherImage = forwardRef<typeof Image, AetherImageType>((props, ref) => {
   // -- Render --
 
   return (
-    <AetherView {...bindStyles}>
+    <AetherView
+      style={bindStyles.style as ComponentProps<typeof RNImage>['style']}
+      nativeID={bindStyles.nativeID}
+    >
       <Image
         src={src!} // @ts-ignore
         ref={ref}
