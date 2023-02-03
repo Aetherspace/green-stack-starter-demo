@@ -1,6 +1,6 @@
 import { useMemo, ComponentProps, JSXElementConstructor } from 'react'
 // Context
-import { BreakPointsType } from '../../context/AetherContextManager'
+import { BreakPointsType } from '../../context/AetherContextManager/aetherContext'
 import { useAetherContext } from '../../context/AetherContextManager/useAetherContext'
 // Styles
 import { addMediaQuery } from '../../styles'
