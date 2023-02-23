@@ -99,3 +99,8 @@ const withAutomation = () => {
 Most of these scripts contain of 2 steps to create their results:
 1. Collect all relevant filePaths with `glob`
 2. Analyse, filter & generate template code from their file contents
+
+## Learn more:
+
+- [Single Sources of Truth for your Web & Mobile apps](/packages/@aetherspace/schemas/README.md)
+- [Deploy your web & mobile apps + documentation with Github Actions](/.github/workflows/README.md)

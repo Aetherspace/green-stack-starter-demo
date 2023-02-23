@@ -22,6 +22,7 @@ const StorybookLinkTransformer = (props) => {
     transformLinks({
       '?path=/packages/@registries/README.md': '?path=/docs/aetherspace-automation--page',
       '?path=/packages/@aetherspace/schemas/README.md': '?path=/docs/aetherspace-single-sources-of-truth--page', // prettier-ignore
+      '?path=/.github/workflows/README.md': '?path=/docs/aetherspace-deployment--page',
     })
   }, [])
 

@@ -16,7 +16,7 @@ jobs:
 
       - name: 'Warn required secrets'
         if: ${{ steps.check-secrets.outputs.has-secrets == 'false' }}
-        run: echo 'EXPO_ACCESS_TOKEN missing in Github secrets. Skipping Storybook deployment.'
+        run: echo 'EXPO_ACCESS_TOKEN missing in Github secrets. Skipping Expo deployment with EAS update.'
 
       - name: Setup Node
         if: ${{ steps.check-secrets.outputs.has-secrets == 'true' }}

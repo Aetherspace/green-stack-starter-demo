@@ -8,6 +8,7 @@ module.exports = {
         './docs/Quickstart.stories.mdx',
         './docs/Schemas.stories.mdx',
         './docs/Automation.stories.mdx',
+        './docs/Deployment.stories.mdx',
         './other/License.stories.mdx',
         // -- Other documentation --
         '../apps/**/*.stories.mdx', 
