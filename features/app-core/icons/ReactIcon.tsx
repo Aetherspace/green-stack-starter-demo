@@ -8,7 +8,8 @@ import { z } from 'zod'
 const ReactIconProps = aetherSchema('ReactIconProps', {
   width: z.number().optional().default(24).describe('Icon width'),
   height: z.number().optional().default(24).describe('Icon height'),
-  fill: z.string().color().optional().default('#61dafb').describe('Icon fill color'),
+  // fill: z.string().color().optional().default('#61dafb').describe('Icon fill color'),
+  fill: z.string().optional().default('#61dafb').describe('Icon fill color'),
 })
 
 /* --- <ReactIcon/> ---------------------------------------------------------------------------- */

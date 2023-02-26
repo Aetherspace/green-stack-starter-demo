@@ -76,14 +76,15 @@ export const useAetherNav = () => {
     WebBrowser.openBrowserAsync(webDestination) // Open external links in internal browser?
   }
 
+  const goBack = () => navigation.goBack()
+
   // -- Return --
 
   return {
-    navigation,
-    goBack: navigation.goBack,
     webDomain,
     getDestination,
     openLink,
+    goBack,
   }
 }
 

@@ -33,7 +33,7 @@ const TYPE_TO_ATS = Object.freeze({
 
 export type AetherSchemaType<T = any> = {
   type: keyof typeof TYPE_TO_ATS
-  aetherType: typeof TYPE_TO_ATS[keyof typeof TYPE_TO_ATS]
+  aetherType: (typeof TYPE_TO_ATS)[keyof typeof TYPE_TO_ATS]
   description?: string
   defaultValue?: T
   exampleValue?: T
@@ -166,7 +166,7 @@ declare module 'zod' {
 
   interface ZodObject<
     T extends z.ZodRawShape,
-    UnknownKeys extends 'passthrough' | 'strict' | 'strip' = 'strip',
+    UnknownKeys extends z.UnknownKeysParam = z.UnknownKeysParam,
     Catchall extends z.ZodTypeAny = z.ZodTypeAny,
     Output = z.objectOutputType<T, Catchall>,
     Input = z.objectInputType<T, Catchall>
@@ -192,13 +192,7 @@ declare module 'zod' {
     >(
       schemaName: string,
       picks: P
-    ): z.ZodObject<
-      Pick<T, K>,
-      UnknownKeys,
-      Catchall,
-      z.objectOutputType<Pick<T, K>, Catchall>,
-      z.objectInputType<Pick<T, K>, Catchall>
-    >
+    ): z.ZodObject<Pick<T, K>, UnknownKeys, Catchall, Output, Input>
     omitSchema<
       P extends Parameters<z.ZodObject<T>['omit']>[0],
       K extends Exclude<Exclude<keyof P, undefined>, symbol>

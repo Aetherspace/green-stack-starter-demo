@@ -20,7 +20,6 @@
         "apollo-server-micro": "^3.10.0",
         "axios": "^1.3.4",
         "expo-linking": "~4.0.1",
-        "expo-next-react-navigation": "^2.0.2",
         "expo-web-browser": "~12.1.1",
         "graphql": "^16.5.0",
         "graphql-request": "^5.0.0",

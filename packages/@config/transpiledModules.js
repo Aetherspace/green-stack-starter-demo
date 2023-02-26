@@ -3,6 +3,6 @@ module.exports = [
     'aetherspace',
     'app',
     // - Modules -
-    'expo-next-react-navigation',
     'twrnc',
+    '@react-native/assets',
 ];

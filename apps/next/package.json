@@ -9,10 +9,10 @@
         "deploy": "yarn --cwd ../../ deploy"
     },
     "dependencies": {
-        "@expo/next-adapter": "^4.0.13",
+        "@expo/next-adapter": "^5.0.2",
         "aetherspace": "*",
         "app": "*",
-        "next": "^13.0.3",
+        "next": "^13.2.1",
         "next-fonts": "^1.5.1",
         "next-images": "^1.8.4",
         "next-pwa": "^5.6.0",
@@ -22,8 +22,8 @@
         "setimmediate": "^1.0.5"
     },
     "devDependencies": {
-        "@expo/next-adapter": "^4.0.12",
-        "@expo/webpack-config": "^0.17.0",
+        "@expo/next-adapter": "^5.0.2",
+        "@expo/webpack-config": "^18.0.1",
         "file-loader": "^6.2.0"
     }
 }

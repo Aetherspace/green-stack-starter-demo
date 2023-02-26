@@ -8,7 +8,8 @@ import { z } from 'zod'
 const GraphIconProps = aetherSchema('GraphIconProps', {
   width: z.number().optional().default(24).describe('Icon width'),
   height: z.number().optional().default(24).describe('Icon height'),
-  fill: z.string().color().optional().default('#e10098').describe('Icon fill color'),
+  // fill: z.string().color().optional().default('#e10098').describe('Icon fill color'),
+  fill: z.string().optional().default('#e10098').describe('Icon fill color'),
 })
 
 /* --- <GraphIcon/> ----------------------------------------------------------------------------- */
