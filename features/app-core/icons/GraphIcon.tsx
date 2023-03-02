@@ -1,15 +1,13 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
-import { aetherSchema } from 'aetherspace/schemas'
-import { z } from 'zod'
+import { z, aetherSchema } from 'aetherspace/schemas'
 
 /* --- Schema ---------------------------------------------------------------------------------- */
 
 const GraphIconProps = aetherSchema('GraphIconProps', {
   width: z.number().optional().default(24).describe('Icon width'),
   height: z.number().optional().default(24).describe('Icon height'),
-  // fill: z.string().color().optional().default('#e10098').describe('Icon fill color'),
-  fill: z.string().optional().default('#e10098').describe('Icon fill color'),
+  fill: z.string().color().optional().default('#e10098').describe('Icon fill color'),
 })
 
 /* --- <GraphIcon/> ----------------------------------------------------------------------------- */

@@ -12,7 +12,7 @@
         "@expo/next-adapter": "^5.0.2",
         "aetherspace": "*",
         "app": "*",
-        "next": "^13.2.1",
+        "next": "^13.2.3",
         "next-fonts": "^1.5.1",
         "next-images": "^1.8.4",
         "next-pwa": "^5.6.0",

@@ -584,3 +584,7 @@ export const buildSchema = <T extends z.ZodRawShape>(
 ) => {
   return aetherSchema(schemaName, zodSchema.shape)
 }
+
+/* --- Reexports ------------------------------------------------------------------------------- */
+
+export { z } from 'zod'

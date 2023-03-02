@@ -1,8 +1,7 @@
 # Schemas 📐
 
 ```ts
-import { aetherSchema } from 'aetherspace/schemas'
-import { z } from 'zod'
+import { z, aetherSchema } from 'aetherspace/schemas'
 ```
 
 A core feature of Aetherspace as a starter template is taking what works and making it better. `aetherSchema()` is a tiny wrapper around `zod.object()`. You can use it to define your datastructures just once for the entire monorepo.
