@@ -61,7 +61,7 @@
     "collect-resolvers": "yarn turbo run aetherspace#collect-resolvers",
     "document-components": "yarn turbo run aetherspace#document-components",
     "lint": "turbo run lint",
-    "build": "yarn expo run create-next-manifest && yarn turbo run aetherspace#collect-assets build",
+    "build": "yarn workspace expo-app create-next-manifest && yarn turbo run aetherspace#collect-assets build",
     "build-storybook": "build-storybook",
     "deploy:web:vercel": "vercel --prod --no-clipboard",
     "deploy:mobile:publish": "yarn workspace expo-app run deploy:publish",
