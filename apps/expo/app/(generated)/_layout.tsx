@@ -14,6 +14,9 @@ import useLoadFonts from 'app/hooks/useLoadFonts'
 const ExpoRootLayout = () => {
   // Hide app when fonts not yet loaded
   const fontsLoaded = useLoadFonts()
+
+  // -- Splash --
+
   if (!fontsLoaded) return null
 
   // -- Render --

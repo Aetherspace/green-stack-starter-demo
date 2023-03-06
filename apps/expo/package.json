@@ -24,7 +24,6 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "@react-native/assets-registry": "^0.72.0",
     "@react-navigation/core": "^6.4.7",
     "@react-navigation/native": "^6.1.5",
     "@react-navigation/stack": "^6.3.15",

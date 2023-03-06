@@ -13,7 +13,7 @@ import {
 const useLoadFonts = () => {
   // -- Google Fonts ---
 
-  const [googleFontsLoaded, googleFontsError] = useFonts({
+  const fontsToLoad = {
     Roboto: Roboto_400Regular,
     RobotoLight: Roboto_300Light,
     RobotoRegular: Roboto_400Regular,
@@ -28,9 +28,11 @@ const useLoadFonts = () => {
     Roboto700: Roboto_700Bold,
     Roboto800: Roboto_900Black, // Fallback
     Roboto900: Roboto_900Black,
-  })
+  }
 
-  if (googleFontsError) console.error(googleFontsError)
+  const [googleFontsLoaded, googleFontsError] = useFonts(fontsToLoad)
+
+  if (googleFontsError) console.error('googleFontsError:', googleFontsError)
 
   // -- Return --
 
