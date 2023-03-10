@@ -1,5 +1,4 @@
-import { aetherSchema } from '../schemas'
-import { z } from 'zod'
+import { z, aetherSchema } from '../schemas'
 
 const Primitives = aetherSchema('Primitives', {
     bln: z.boolean().optional().describe('A boolean'),

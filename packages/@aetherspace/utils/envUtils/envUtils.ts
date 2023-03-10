@@ -1,10 +1,8 @@
-import Constants from 'expo-constants'
+import { expoEnv, localURI } from '../../constants/manifest'
 
 /* --- getDebuggerURL() ---------------------------------------------------------------------------- */
 // -i- Get the IP based URL with specified port where the Expo command is running from if local
 export const getDebuggerURL = (port?: number) => {
-  const expoDebuggerHost = Constants?.manifest?.debuggerHost || Constants.manifest2?.extra?.expoGo?.debuggerHost // prettier-ignore
-  const localURI = expoDebuggerHost?.split?.(':').shift()
   if (!localURI) return null
   return `http://${[localURI, port].join(':')}`
 }
@@ -39,7 +37,6 @@ export const getEnvVar = (key: string) => {
     `EXPO_${key}`,
     `REACT_NATIVE_${key}`,
   ]
-  const expoEnv = Constants.expoConfig?.extra?.env || Constants.manifest2?.extra?.expoClient?.extra?.env // prettier-ignore
   const checkEnv = (k) => process.env[k] || expoEnv?.[k] || getGlobal(__PUBLIC_ENV)?.[k]
   return possibleKeys.map(checkEnv).find((envVar) => typeof envVar !== 'undefined')
 }

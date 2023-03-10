@@ -3,10 +3,10 @@
 // import 'expo-dev-launcher';
 import 'expo/build/Expo.fx';
 import 'expo/build/Expo.fx.web';
-import { activateKeepAwake } from 'expo-keep-awake';
+import { activateKeepAwakeAsync } from 'expo-keep-awake';
 
 /* --- Start ----------------------------------------------------------------------------------- */
 // -i- Expo Router setup
 import 'expo-router/entry';
 
-if (__DEV__) activateKeepAwake();
+if (__DEV__) activateKeepAwakeAsync();

@@ -1,8 +1,8 @@
 module.exports = [
+    // - Modules -
+    'twrnc',
+    '@react-native/assets',
     // - Workspaces -
     'aetherspace',
     'app',
-    // - Modules -
-    'expo-next-react-navigation',
-    'twrnc',
 ];

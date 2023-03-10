@@ -61,6 +61,7 @@ const nextConfig = {
     reactStrictMode: true,
     experimental: {
         appDir: true,
+        // transpilePackages: transpiledModules,
     },
 }
 

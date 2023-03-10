@@ -1,4 +1,4 @@
-import { use } from 'react'
+import { use, useEffect } from 'react'
 import { SWRConfig } from 'swr'
 
 /* --- Types ----------------------------------------------------------------------------------- */
@@ -16,12 +16,20 @@ export const AetherPage = (props: AetherPageProps) => {
   const { PageScreen, fetcher, fetchKey } = props
   const isServer = typeof window === 'undefined'
 
+  // -- Effects --
+
+  useEffect(() => {
+    // Remove the server-side injected initial data.
+    const $ssrData = document.querySelector('#ssr-data')
+    if ($ssrData) $ssrData.parentElement?.removeChild($ssrData)
+  }, [])
+
   // -- Browser --
 
   if (!isServer) {
     const $ssrData = document.getElementById('ssr-data')
     const ssrDataText = $ssrData?.getAttribute('data-ssr')
-    const data = ssrDataText ? JSON.parse(ssrDataText) : null
+    const data = ssrDataText ? (JSON.parse(ssrDataText) as Record<string, any>) : null
     const fallback = data ? { [fetchKey]: data } : {}
 
     return (

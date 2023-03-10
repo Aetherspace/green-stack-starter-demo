@@ -7,7 +7,7 @@ import type {
   GetStaticPropsContext,
 } from 'next'
 import { ApolloError } from 'apollo-server-micro'
-import { z } from 'zod'
+import { z } from 'aetherspace/schemas'
 // Schemas
 import '../../schemas/aetherSchemas'
 // Utils

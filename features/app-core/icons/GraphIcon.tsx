@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
-import { aetherSchema } from 'aetherspace/schemas'
-import { z } from 'zod'
+import { z, aetherSchema } from 'aetherspace/schemas'
 
 /* --- Schema ---------------------------------------------------------------------------------- */
 

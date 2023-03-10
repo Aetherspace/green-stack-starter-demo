@@ -1,6 +1,5 @@
-import { z } from 'zod'
 // Schemas
-import { aetherSchema } from 'aetherspace/schemas'
+import { z, aetherSchema } from 'aetherspace/schemas'
 // Middleware
 import { withCors } from 'app/middleware'
 // Utils
