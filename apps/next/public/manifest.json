@@ -1,8 +1,9 @@
 {
   "background_color": "#ffffff",
+  "description": "Set up your Web, iOS & Android app in minutes, and blow away the competition with write-once components that run on all platforms. Powered by Expo & Next.js",
   "display": "standalone",
   "lang": "en",
-  "name": "app",
-  "short_name": "app",
+  "name": "aetherspace-starter-app",
+  "short_name": "aetherspace-starter-app",
   "start_url": "/?utm_source=web_app_manifest"
 }

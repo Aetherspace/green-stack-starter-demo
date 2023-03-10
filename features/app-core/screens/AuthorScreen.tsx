@@ -18,7 +18,7 @@ const AuthorScreen = () => {
   const { goBack, openLink } = useAetherNav()
   // Render
   return (
-    <View tw="flex-1 bg-white items-center justify-center">
+    <View tw="relative flex w-full h-full items-center justify-center">
       <Pressable
         accessibilityRole="button"
         tw="items-center"

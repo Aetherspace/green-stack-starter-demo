@@ -16,10 +16,10 @@ const collectResolvers = () => {
       const importPath = resolverPath.replace('.ts', '').replace('../../apps/', '../../apps/')
       // Skip files that don't export an aetherResolver
       const pathContents = fs.readFileSync(resolverPath, 'utf8')
-      const usesAetherSchemas = pathContents.includes("'aetherspace/schemas'")
+      // const usesAetherSchemas = pathContents.includes("'aetherspace/schemas'")
       const exportsAetherResolver = pathContents.includes('makeGraphQLResolver')
       const exportsGraphQLResolver = pathContents.includes('export const graphResolver')
-      if (!usesAetherSchemas || !exportsAetherResolver || !exportsGraphQLResolver) return acc
+      if (!exportsAetherResolver || !exportsGraphQLResolver) return acc
       // Find the resolver name
       const loc = pathContents.split('\n')
       const graphResolverLine = loc.find((line) => {

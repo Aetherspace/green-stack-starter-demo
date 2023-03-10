@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { AetherContext } from './AetherContextManager'
+import { AetherContext } from './aetherContext'
 
 /* --- useAetherContext() ---------------------------------------------------------------------- */
 

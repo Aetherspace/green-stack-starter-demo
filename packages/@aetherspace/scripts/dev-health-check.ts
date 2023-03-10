@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { request, gql } from 'graphql-request'
 
+/* --- Constants ------------------------------------------------------------------------------- */
+
 const ENDPOINT = process.env.ENDPOINT || 'http://localhost:3000'
 const HEALTH_ENDPOINT = process.env.HEALTH_ENDPOINT || `${ENDPOINT}/api/health`
 const GRAPHQL_ENDPOINT = process.env.GRAPHQL_ENDPOINT || `${ENDPOINT}/api/graphql`
@@ -22,16 +24,12 @@ const checkHealth = async () => {
   }
   // Attempt to reach the API
   try {
-    // Setup
-    const isDev = process.env.NODE_ENV === 'development'
-    const requestsSchemaSave = process.env.SAVE_GRAPHQL_SCHEMA === 'true'
-    const saveGraphQLSchema = isDev && requestsSchemaSave
     // Check that the REST API is up
-    const restResponse = await axios.post(HEALTH_ENDPOINT, { echo: 'Hello World', saveGraphQLSchema })
+    const restResponse = await axios.post(HEALTH_ENDPOINT, { echo: 'Hello World' })
     const hasWorkingRestAPI = restResponse.data.alive && restResponse.data.kicking
     // Check that the GraphQL API is up
     const gqlHealthCheckQuery = gql`{ healthCheck { alive kicking } }`
-    const graphQLResponse = await request(GRAPHQL_ENDPOINT, gqlHealthCheckQuery)
+    const graphQLResponse = await request(GRAPHQL_ENDPOINT, gqlHealthCheckQuery) // @ts-ignore
     const hasWorkingGraphQLAPI = graphQLResponse.healthCheck.alive && graphQLResponse.healthCheck.kicking
     // Check that the responses are correct
     if (hasWorkingRestAPI && hasWorkingGraphQLAPI) {

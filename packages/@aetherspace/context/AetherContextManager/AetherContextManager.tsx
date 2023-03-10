@@ -1,94 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useMemo, createContext, FC } from 'react'
-import { View, Platform, Dimensions, TextProps } from 'react-native'
-import tailwind, { create as createTailwindWithConfig, TwConfig, TailwindFn } from 'twrnc'
+import React, { useMemo } from 'react'
+import { View, Platform, Dimensions } from 'react-native'
+import tailwind, { create as createTailwindWithConfig } from 'twrnc'
+// Context
+import { AetherContext, DEFAULT_AETHER_CONTEXT, AetherContextType } from './aetherContext'
 // Hooks
 import { useLayoutInfo } from '../../hooks/useLayoutInfo'
-
-/* --- Types ----------------------------------------------------------------------------------- */
-
-export interface NamedIconType extends TextProps {
-  /**
-   * Size of the icon, can also be passed as fontSize in the style object.
-   *
-   * @default 12
-   */
-  size?: number
-  /**
-   * Color of the icon
-   *
-   */
-  color?: string
-}
-
-export interface IconProps<GLYPHS extends string> extends NamedIconType {
-  /**
-   * Name of the icon to show
-   *
-   * See Icon Explorer app
-   * {@link https://expo.github.io/vector-icons/}
-   */
-  name: GLYPHS
-}
-
-export interface LinkContextType {
-  [pagePath: string]: string
-}
-
-export interface AssetsType {
-  [assetKey: string]: NodeRequire
-}
-
-export interface IconsType {
-  [iconKey: string]: FC<NamedIconType> | FC<IconProps<string>>
-}
-
-export type BreakPointsType = {
-  xs?: number
-  sm?: number
-  md?: number
-  lg?: number
-  xl?: number
-  xxl?: number
-}
-
-export interface AetherContextType {
-  assets: AssetsType
-  icons: IconsType
-  linkContext?: LinkContextType
-  tw?: string
-  style?: any
-  isWeb?: boolean
-  isExpo?: boolean
-  isNextJS?: boolean
-  isServer?: boolean
-  isDesktop?: boolean
-  isMobile?: boolean
-  isAndroid?: boolean
-  isIOS?: boolean
-  isMobileWeb?: boolean
-  isTabletWeb?: boolean
-  isPhoneSize?: boolean
-  isTabletSize?: boolean
-  isLaptopSize?: boolean
-  breakpoints?: BreakPointsType
-  twPrefixes?: string[]
-  mediaPrefixes?: string[]
-  children?: any | any[]
-  tailwind?: TailwindFn
-  twConfig?: TwConfig
-}
-
-/* --- AetherContext --------------------------------------------------------------------------- */
-
-export const DEFAULT_AETHER_CONTEXT = { assets: {}, icons: {}, linkContext: {}, tailwind }
-export const AetherContext = createContext<AetherContextType>(DEFAULT_AETHER_CONTEXT)
 
 /* --- <AetherContextManager/> ----------------------------------------------------------------- */
 
 const AetherContextManager = (props: AetherContextType) => {
   // Props
-  const { children, isNextJS, isExpo, isDesktop, twConfig } = props
+  const { children, isNextJS, isExpo, isAppDir, isDesktop, twConfig } = props
 
   // Layout
   const { layoutInfo, measureOnLayout } = useLayoutInfo()
@@ -101,15 +24,6 @@ const AetherContextManager = (props: AetherContextType) => {
 
   // Links (used for mobile navigation only)
   const linkContext = useMemo(() => props.linkContext || DEFAULT_AETHER_CONTEXT.linkContext, [])
-
-  // Styles
-  const [globalStyles, setGlobalStyles] = useState({})
-
-  // -- Handlers --
-
-  const registerStyles = (newStyles: Record<string, unknown>) => {
-    return setGlobalStyles((currStyles) => ({ ...newStyles, ...currStyles }))
-  }
 
   // -- ContextValue --
 
@@ -164,6 +78,7 @@ const AetherContextManager = (props: AetherContextType) => {
       server: flags.isServer,
       next: isNextJS,
       expo: isExpo,
+      app: isAppDir,
       desktop: isDesktop,
     }
     const twPrefixes = Object.entries(twPrefixObj).filter(([, val]) => !!val).map(([k]) => k) // prettier-ignore
@@ -175,12 +90,13 @@ const AetherContextManager = (props: AetherContextType) => {
       linkContext,
       isNextJS,
       isExpo,
+      isAppDir,
       isDesktop,
       breakpoints,
       twPrefixes,
       mediaPrefixes,
-      styles: globalStyles,
-      registerStyles,
+      // styles: globalStyles,
+      // registerStyles,
       appWidth,
       appHeight,
       tailwind: twConfig ? createTailwindWithConfig(twConfig) : tailwind,
@@ -194,7 +110,7 @@ const AetherContextManager = (props: AetherContextType) => {
       <View
         style={{
           ...props.style,
-          ...contextValue.tailwind`${['w-full h-full', props.tw].filter(Boolean).join(' ')}`,
+          ...contextValue.tailwind`${['flex min-h-full min-w-full', props.tw].filter(Boolean).join(' ')}`, // prettier-ignore
         }}
         onLayout={measureOnLayout('app')}
       >

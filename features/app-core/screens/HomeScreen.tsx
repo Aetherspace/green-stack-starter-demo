@@ -1,10 +1,9 @@
 import React from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { z } from 'zod'
 // Navigation
 import { Link, useAetherNav } from 'aetherspace/navigation'
 // Schemas
-import { aetherSchema } from 'aetherspace/schemas'
+import { z, aetherSchema } from 'aetherspace/schemas'
 // Primitives
 import { View, Text, Image, Pressable } from 'aetherspace/primitives'
 // SEO
@@ -46,7 +45,7 @@ const HomeScreen = (props: z.infer<typeof HomeScreenProps>) => {
   // -- Render --
 
   return (
-    <View tw="flex-1 bg-white items-center justify-center">
+    <View tw="relative flex w-full h-full items-center justify-center">
       <StatusBar style="auto" />
       <Link to="https://aetherspace-green-stack-starter.vercel.app/author">
         <Image

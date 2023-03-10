@@ -4,12 +4,13 @@
     "slug": "aetherspace-starter-app",
     "version": "1.0.0",
     "privacy": "public",
-    "sdkVersion": "47.0.0",
+    "sdkVersion": "48.0.0",
     "orientation": "default",
     "icon": "../next/public/icon.png",
     "description": "Set up your Web, iOS & Android app in minutes, and blow away the competition with write-once components that run on all platforms. Powered by Expo & Next.js",
     "owner": "thorrstevens",
     "githubUrl": "https://github.com/Aetherspace/green-stack-starter",
+    "scheme": "aetherspace-starter-app",
     "splash": {
       "image": "../next/public/splash.png",
       "resizeMode": "contain",
@@ -19,7 +20,7 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "../**/*"
+      "../../**/*"
     ],
     "ios": {
       "supportsTablet": true

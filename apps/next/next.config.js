@@ -57,6 +57,12 @@ const nextConfig = {
         // Return config
         return config
     },
+    // App dir support
+    reactStrictMode: true,
+    experimental: {
+        appDir: true,
+        // transpilePackages: transpiledModules,
+    },
 }
 
 // Apply plugins to next config, avoiding next-compose-plugins:
