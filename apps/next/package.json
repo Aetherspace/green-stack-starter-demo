@@ -24,7 +24,7 @@
     },
     "devDependencies": {
         "@expo/next-adapter": "^5.0.2",
-        "@expo/webpack-config": "^18.0.1",
+        "@expo/webpack-config": "^0.17.2",
         "file-loader": "^6.2.0"
     }
 }

@@ -1,5 +1,7 @@
 const path = require('path')
 const { withUnimodules } = require('@expo/webpack-config/addons')
+// const createWebpackConfigAsync = require('@expo/webpack-config')
+// const { merge } = require('webpack-merge')
 
 module.exports = {
     stories: [
@@ -42,6 +44,14 @@ module.exports = {
         config.resolve.alias['aetherspace/navigation'] = require.resolve('./__mocks__/aetherspaceNavigation.tsx')
         config.resolve.alias['aetherspace/context'] = require.resolve('./__mocks__/aetherspaceContext.tsx')
         config.resolve.extensions.push('.ts', '.tsx')
+        config.resolve.fallback = {
+          ...config.resolve.fallback,
+          https: false,
+          os: false,
+          zlib: false,
+          http: false,
+          stream: false,
+        }
         // Compatibility
         config.optimization = {
           ...config.optimization,
@@ -51,6 +61,13 @@ module.exports = {
         const finalConfig = withUnimodules(config, {
           projectRoot: path.resolve(__dirname, '../'),
         })
+        // -i- TODO: Figure out how to make this work with @expo/webpack-config 18.0.0
+        // const expoWebpackConfig = createWebpackConfigAsync({
+        //   projectRoot: path.resolve(__dirname, '../'),
+        //   mode: 'development'
+        // })
+        // const finalConfig = merge(config, expoWebpackConfig)
+        // console.log('finalConfig', finalConfig)
         // Return updated config
         return finalConfig
     },

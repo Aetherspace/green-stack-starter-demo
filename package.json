@@ -12,7 +12,7 @@
   ],
   "devDependencies": {
     "@a110/storybook-expand-all": "^1.1.1",
-    "@expo/webpack-config": "^18.0.1",
+    "@expo/webpack-config": "^0.17.2",
     "@react-native-community/eslint-config": "^3.2.0",
     "@storybook/addon-controls": "^6.5.16",
     "@storybook/addon-docs": "^6.5.16",
@@ -21,11 +21,11 @@
     "@storybook/manager-webpack5": "^6.5.16",
     "@storybook/mdx2-csf": "^0.0.4",
     "@storybook/react": "^6.5.16",
-    "@typescript-eslint/eslint-plugin": "^5.53.0",
-    "@typescript-eslint/parser": "^5.53.0",
+    "@typescript-eslint/eslint-plugin": "^5.54.1",
+    "@typescript-eslint/parser": "^5.54.1",
     "chromatic": "^6.17.1",
-    "eslint": "^8.34.0",
-    "eslint-config-next": "^13.2.1",
+    "eslint": "^8.35.0",
+    "eslint-config-next": "^13.2.4",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-no-secrets": "^0.8.9",
     "eslint-plugin-prettier": "^4.2.1",
@@ -36,15 +36,16 @@
     "patch-package": "^6.5.1",
     "prettier": "^2.8.4",
     "prettier-eslint": "^15.0.1",
-    "turbo": "^1.8.2",
-    "webpack": "*"    
+    "turbo": "^1.8.3",
+    "webpack": "*",
+    "webpack-merge": "^5.8.0"
   },
   "resolutions": {
     "typescript": "^4.9.5",
     "@babel/core": "^7.20.0",
     "@expo/config": "^7.0.2",
     "@types/react": "~18.0.28",
-    "@expo/webpack-config": "^18.0.1"
+    "@expo/webpack-config": "^0.17.2"
   },
   "scripts": {
     "dev": "yarn turbo run next-app#dev expo-app#start",
