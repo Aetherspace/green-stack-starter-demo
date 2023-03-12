@@ -1,53 +1,53 @@
-import { use, useEffect } from 'react'
-import { SWRConfig } from 'swr'
+import { use } from 'react'
+import { SWRConfig, unstable_serialize } from 'swr'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
 type AetherPageProps = {
-  PageScreen: React.FC<Record<string, any>>
-  fetcher: (fetchKey?: string) => Promise<Record<string, any>>
-  fetchKey: string
+  params?: Record<string, any>
+  screen: React.FC<Record<string, any>>
+  screenConfig: any
 }
 
 /* --- <AetherPage/> --------------------------------------------------------------------------- */
 
 export const AetherPage = (props: AetherPageProps) => {
   // Props
-  const { PageScreen, fetcher, fetchKey } = props
+  const { params, screen, screenConfig, ...restProps } = props
+  const { query, getGraphqlVars, getGraphqlData } = screenConfig
+
+  // Screen
+  const PageScreen = screen
+
+  // Vars
+  const variables = getGraphqlVars(params)
+  const fallbackKey = unstable_serialize([query, variables])
   const isServer = typeof window === 'undefined'
-
-  // -- Effects --
-
-  useEffect(() => {
-    // Remove the server-side injected initial data.
-    const $ssrData = document.querySelector('#ssr-data')
-    if ($ssrData) $ssrData.parentElement?.removeChild($ssrData)
-  }, [])
 
   // -- Browser --
 
   if (!isServer) {
     const $ssrData = document.getElementById('ssr-data')
     const ssrDataText = $ssrData?.getAttribute('data-ssr')
-    const data = ssrDataText ? (JSON.parse(ssrDataText) as Record<string, any>) : null
-    const fallback = data ? { [fetchKey]: data } : {}
+    const hydrationData = ssrDataText ? (JSON.parse(ssrDataText) as Record<string, any>) : null
+    const fallback = hydrationData ? { [fallbackKey]: hydrationData } : {}
 
     return (
       <SWRConfig value={{ fallback }}>
-        {!!data && <div id="ssr-data" data-ssr={ssrDataText} />}
-        <PageScreen {...data} />
+        {!!hydrationData && <div id="ssr-data" data-ssr={ssrDataText} />}
+        <PageScreen {...restProps} {...hydrationData} />
       </SWRConfig>
     )
   }
 
   // -- Server --
 
-  const data = use(fetcher(fetchKey))
+  const ssrData: Record<string, any> = use(getGraphqlData(query, variables))
 
   return (
-    <SWRConfig value={{ fallback: { [fetchKey]: data } }}>
-      {!!data && <div id="ssr-data" data-ssr={JSON.stringify(data)} />}
-      <PageScreen {...data} />
+    <SWRConfig value={{ fallback: { [fallbackKey]: ssrData } }}>
+      {!!ssrData && <div id="ssr-data" data-ssr={JSON.stringify(ssrData)} />}
+      <PageScreen {...restProps} {...ssrData} />
     </SWRConfig>
   )
 }

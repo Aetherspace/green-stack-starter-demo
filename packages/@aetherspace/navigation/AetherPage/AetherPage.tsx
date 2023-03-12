@@ -1,18 +1,21 @@
 /* --- Types ----------------------------------------------------------------------------------- */
 
 type AetherPageProps = {
-  PageScreen: React.FC<Record<string, any>>
-  fetcher: (fetchKey?: string) => Promise<Record<string, any>>
-  fetchKey: string
+  params?: Record<string, any>
+  screen: React.FC<Record<string, any>>
+  screenConfig: any
 }
 
 /* --- <AetherPage/> --------------------------------------------------------------------------- */
 
 export const AetherPage = (props: AetherPageProps) => {
   // Props
-  const { PageScreen } = props
+  const { params, screen, screenConfig, ...restProps } = props
+
+  // Screen
+  const PageScreen = screen
 
   // -- Browser --
 
-  return <PageScreen />
+  return <PageScreen params={params} {...restProps} />
 }

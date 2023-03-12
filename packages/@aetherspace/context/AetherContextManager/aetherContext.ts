@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { GraphQLSchema } from 'graphql'
 import { createContext, FC } from 'react'
 import { TextProps } from 'react-native'
 import tailwind, { TwConfig, TailwindFn } from 'twrnc'
@@ -76,6 +77,7 @@ export interface AetherContextType {
   children?: any | any[]
   tailwind?: TailwindFn
   twConfig?: TwConfig
+  importSchema?: () => Promise<GraphQLSchema>
 }
 
 /* --- AetherContext --------------------------------------------------------------------------- */

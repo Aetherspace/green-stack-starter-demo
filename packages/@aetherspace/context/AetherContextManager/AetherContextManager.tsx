@@ -100,6 +100,7 @@ const AetherContextManager = (props: AetherContextType) => {
       appWidth,
       appHeight,
       tailwind: twConfig ? createTailwindWithConfig(twConfig) : tailwind,
+      importSchema: props.importSchema,
     }
   }, [Platform.OS, appWidth, typeof window === 'undefined'])
 
