@@ -1,9 +1,9 @@
-/* --- fillNumberGaps() ------------------------------------------------------------------------ */
-// -i- Fills null values in arrays of numbers with their interpolated values
-// -i- e.g. fillNumberGaps([0, null, 10]) => [0, 5, 10]
-// -i- Skips starting and ending null gaps
-// -i- e.g. fillNumberGaps([null, 1, null, null, null, 5, null]) => [null, 1, 2, 3, 4, 5, null]
-// -i- Handy for bridging gaps in charts with missing data
+/** --- fillNumberGaps() ----------------------------------------------------------------------- */
+/** -i- Fills null values in arrays of numbers with their interpolated values
+ ** e.g. fillNumberGaps([0, null, 10]) => [0, 5, 10]
+ ** Skips starting and ending null gaps
+ ** e.g. fillNumberGaps([null, 1, null, null, null, 5, null]) => [null, 1, 2, 3, 4, 5, null]
+ ** Handy for bridging gaps in charts with missing data */
 export const fillNumberGaps = (numberArray: (number | null)[]) => {
   // Start with empty gap info
   let gap: Record<string, number> & { nextNumbers?: (number | null)[] } = {}

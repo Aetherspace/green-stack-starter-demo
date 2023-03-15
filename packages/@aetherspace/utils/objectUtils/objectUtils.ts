@@ -3,11 +3,10 @@ import { isValidNumber } from '../numberUtils'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-type ObjectType = { [key: string]: any }
+type ObjectType = Record<string, any>
 
-/* --- objectifier() --------------------------------------------------------------------------- */
-// -i- Utility method to get and set nested objects that may or may not exist
-// -i- (Drop in replacement for optional chaining until we add support for it)
+/** --- objectifier() -------------------------------------------------------------------------- */
+/** -i- Utility method to get and set nested objects that may or may not exist */
 export const objectifier = (
   contextTree: ObjectType,
   parts: string[],
@@ -35,9 +34,9 @@ export const objectifier = (
   return branch
 }
 
-/* --- setProp() ------------------------------------------------------------------------------ */
-// -i- Set potentially nested property by keys like 'a.b.c'
-// -!- Mutates the object directly, but also returns it again
+/** --- setProp() ------------------------------------------------------------------------------ */
+/** -i- Set potentially nested property by keys like 'a.b.c'
+ ** -!- Mutates the object directly, but also returns it again */
 export const setProp = (obj: ObjectType, key: string, val: unknown): ObjectType => {
   const parts = key.split('.')
   const last = parts.pop()
@@ -46,9 +45,8 @@ export const setProp = (obj: ObjectType, key: string, val: unknown): ObjectType 
   return obj
 }
 
-/* --- getProp() ------------------------------------------------------------------------------ */
-// -i- Retrieve potentially nested property by keys like 'prop.subProp.valueYouWant'
-// -i- (Drop in replacement for optional chaining until we add support for it)
+/** --- getProp() ------------------------------------------------------------------------------ */
+/** -i- Retrieve potentially nested property by keys like 'prop.subProp.valueYouWant' */
 export const getProp = <T extends ObjectType>(
   obj: ObjectType | null,
   key: string
@@ -60,15 +58,15 @@ export const getProp = <T extends ObjectType>(
   return result && last ? result[last] : undefined
 }
 
-/* --- getFromSources() ------------------------------------------------------------------------ */
-// -i- Get a property from a preferred source of options (= objects)
+/** --- getFromSources() ----------------------------------------------------------------------- */
+/** -i- Get a property from a preferred source of options (= objects) */
 export const getFromSources = (key: string, sources: { [key: string]: any }[]) => {
   const [result] = sources.map((srcObj) => srcObj?.[key]).filter(Boolean)
   return result
 }
 
-/* --- normalizeObjectProps() ------------------------------------------------------------------ */
-// -i- Parses object properties like "1" to 1, and "true" to true
+/** --- normalizeObjectProps() ----------------------------------------------------------------- */
+/** -i- Parses object properties like "1" to 1, and "true" to true */
 export const normalizeObjectProps = (
   objToValidate: ObjectType = {},
   ignoredKeys: string[] = []

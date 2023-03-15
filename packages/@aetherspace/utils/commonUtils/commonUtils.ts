@@ -1,5 +1,5 @@
-/* --- isEmpty() ------------------------------------------------------------------------------- */
-// -i- checks for null, undefined & empty strings, objects or arrays
+/** --- isEmpty() ------------------------------------------------------------------------------ */
+/** -i- checks for null, undefined & empty strings, objects or arrays */
 type ObjectType<T = any> = { [key: string]: T }
 export const isEmpty = (
   val: string | any[] | ObjectType | null,

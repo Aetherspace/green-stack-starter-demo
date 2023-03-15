@@ -6,12 +6,12 @@ export const dashToSnake = (str: string) => str.replace(/-/g, '_')
 export const camelToSnake = (str: string) => str.replace(/[\w]([A-Z])/g, (m) => `${m[0]}_${m[1]}`).toLowerCase() // prettier-ignore
 export const camelToDash = (str: string) => str.replace(/[\w]([A-Z])/g, (m) => `${m[0]}-${m[1]}`).toLowerCase() // prettier-ignore
 
-/* --- uppercaseFirstChar() -------------------------------------------------------------------- */
-// -i- Uppercase the first character of a string
+/** --- uppercaseFirstChar() ------------------------------------------------------------------- */
+/** -i- Uppercase the first character of a string */
 export const uppercaseFirstChar = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
 
-/* --- getAssetKey() --------------------------------------------------------------------------- */
-// -i- Transform a file path like '/imgs/someImage.png' into an object key like 'ImgsSomeImagePng'
+/** --- getAssetKey() -------------------------------------------------------------------------- */
+/** -i- Transform a file path like '/imgs/someImage.png' into an object key like 'ImgsSomeImagePng' */
 export const getAssetKey = (srcAttrPath: string) => {
   const [ext, src] = srcAttrPath.split('.').reverse()
   const srcParts = src.split('/')
@@ -19,8 +19,8 @@ export const getAssetKey = (srcAttrPath: string) => {
   return dashToCamel(key)
 }
 
-/* --- replaceStringVars() --------------------------------------------------------------------- */
-// -i- Replaces placeholders like {somevar} or [somevar] with values from injectables
+/** --- replaceStringVars() -------------------------------------------------------------------- */
+/** -i- Replaces placeholders like {somevar} or [somevar] with values from injectables */
 export const replaceStringVars = (
   stringWithPlaceholders: string,
   injectables: Record<string, string | number>
@@ -33,8 +33,8 @@ export const replaceStringVars = (
   return result
 }
 
-/* --- findTargetString() ---------------------------------------------------------------------- */
-// -i- Finds a $target$ string inside another string
+/** --- findTargetString() --------------------------------------------------------------------- */
+/** -i- Finds a $target$ string inside another string */
 export const findTargetString = (source: string, search = '($target$)') => {
   const [preTarget, postTarget] = search.split('$target$')
   const parts = source.split(preTarget)

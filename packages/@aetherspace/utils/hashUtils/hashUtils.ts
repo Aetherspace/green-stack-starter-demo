@@ -1,19 +1,19 @@
-/* --- hashCode() ------------------------------------------------------------------------------ */
-// -i- Turns any string into a short unique identifier / number
+/** --- hashCode() ----------------------------------------------------------------------------- */
+/** -i- Turns any string into a short unique identifier / number */
 export const hashCode = (str: string) => {
   return Array.from(str).reduce((s, c) => Math.imul(31, s) + c.charCodeAt(0), 0)
 }
 
-/* --- createKey() ----------------------------------------------------------------------------- */
-// -i- Creates a react key by strigifying an object
-// -i- Used for invalidating keys (creating new component instance) when needing to synch state & props
+/** --- createKey() ------------------------------------------------------------------------------ */
+/** -i- Creates a react key by strigifying an object
+ ** Used for invalidating keys (creating new component instance) when needing to synch state & prop */
 export const createKey = (obj: any, hash = true) => {
   const keyString = JSON.stringify(obj).replace(/([\s.*+?^=!:$,<>{}()|[\]/\\"])/g, '')
   return hash ? hashCode(keyString) : keyString
 }
 
-/* --- uuid() ---------------------------------------------------------------------------------- */
-// -i- Create a unique id
+/** --- uuid() --------------------------------------------------------------------------------- */
+/** -i- Create a unique id */
 export const uuid = () => {
   let d = new Date().getTime()
   // @ts-ignore

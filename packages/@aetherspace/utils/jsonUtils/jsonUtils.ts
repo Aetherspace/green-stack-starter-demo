@@ -1,5 +1,5 @@
-/* --- validateJSON() ------------------------------------------------------------------------------ */
-// -i- Checks whether a json string is valid
+/** --- validateJSON() ------------------------------------------------------------------------- */
+/** -i- Checks whether a json string is valid */
 export const validateJSON = (maybeJSON: string) => {
   try {
     JSON.parse(maybeJSON)
@@ -9,8 +9,8 @@ export const validateJSON = (maybeJSON: string) => {
   }
 }
 
-/* --- parseIfJSON() ---------------------------------------------------------------------- */
-// Attempt to parse a string if it's valid JSON
+/** --- parseIfJSON() -------------------------------------------------------------------------- */
+/** -i- Attempt to parse a string if it's valid JSON */
 export const parseIfJSON = (maybeJSON: string | any) => {
   return validateJSON(maybeJSON) ? JSON.parse(maybeJSON) : maybeJSON
 }
