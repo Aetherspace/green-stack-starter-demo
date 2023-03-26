@@ -2,13 +2,7 @@ import React, { useMemo, forwardRef, ComponentProps } from 'react'
 import { Platform, Text } from 'react-native'
 import * as Linking from 'expo-linking'
 import * as WebBrowser from 'expo-web-browser'
-import {
-  Link as RouterLink,
-  useRouter,
-  useSearchParams,
-  usePathname,
-  useNavigation,
-} from 'expo-router'
+import { Link as RouterLink, useRouter, usePathname, useNavigation } from 'expo-router'
 // Primitives
 import { AetherView, AetherText } from '../../primitives'
 // Utils
@@ -46,26 +40,17 @@ interface AetherLinkRouteType extends AetherLinkBaseType {
 type AetherLinkType = AetherLinkToType | AetherLinkHrefType | AetherLinkRouteType
 type any$Todo = any
 
-type LinkPropsType = {
-  [key: string]: unknown
-  params?: Record<string, unknown>
-}
-
 /* --- useAetherNav() -------------------------------------------------------------------------- */
 
-export const useAetherNav = (props: LinkPropsType = {}) => {
+export const useAetherNav = () => {
   // Hooks
   const navigation = useNavigation()
   const router = useRouter()
-  const urlParams = useSearchParams()
   const pathname = usePathname()
 
   // Vars
   const APP_LINKS: string[] = useMemo(() => getEnvVar('APP_LINKS')?.split('|') || [], [])
   const [webDomain] = APP_LINKS.filter((link) => link.includes('://'))
-
-  // Params
-  const params = { ...props.params, ...urlParams }
 
   // -- Handlers --
 
@@ -95,8 +80,6 @@ export const useAetherNav = (props: LinkPropsType = {}) => {
   // -- Return --
 
   return {
-    params,
-    urlParams,
     pathname,
     webDomain,
     getDestination,

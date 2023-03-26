@@ -95,7 +95,7 @@ const HomeScreen = (props: z.infer<typeof HomeScreenProps>) => {
           <Text tw="text-white roboto-bold text-sm">GraphQL ✅</Text>
         </Pressable>
       </View>
-      <Link href="/author" tw="roboto-bold pt-5 text-center text-sm" asText>
+      <Link href="/author" tw="roboto-bold pt-5 text-center text-sm text-black">
         Test Navigation
       </Link>
       <Link to={`${docsURI}?path=/story/readme-md--page`} tw="text-xs roboto-bold my-4 px-5">

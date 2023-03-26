@@ -2,7 +2,7 @@
 import React, { useMemo, forwardRef, ComponentProps } from 'react'
 import { Platform, Text } from 'react-native'
 import NextLink from 'next/link'
-import { useRouter, useSearchParams, usePathname } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import * as Linking from 'expo-linking'
 import * as WebBrowser from 'expo-web-browser'
 // Primitives
@@ -42,29 +42,24 @@ interface AetherLinkRouteType extends AetherLinkBaseType {
 type AetherLinkType = AetherLinkToType | AetherLinkHrefType | AetherLinkRouteType
 type any$Todo = any
 
-type LinkPropsType = {
-  [key: string]: unknown
-  params?: Record<string, unknown>
+/* --- Helpers --------------------------------------------------------------------------------- */
+
+const linkResetStyles = {
+  textDecoration: 'none',
+  color: 'inherit',
+  cursor: 'pointer',
 }
 
 /* --- useAetherNav() -------------------------------------------------------------------------- */
 
-export const useAetherNav = (props: LinkPropsType = {}) => {
-  // Props
-  const routeParams = props.params || {}
-
+export const useAetherNav = () => {
   // Hooks
   const router = useRouter()
-  const search = useSearchParams()
   const pathname = usePathname()
 
   // Vars
   const APP_LINKS: string[] = useMemo(() => getEnvVar('APP_LINKS')?.split('|') || [], [])
   const [webDomain] = APP_LINKS.filter((link) => link.includes('://'))
-
-  // Params
-  const urlParams = Object.fromEntries(search.entries())
-  const params = { ...routeParams, ...urlParams }
 
   // -- Handlers --
 
@@ -94,8 +89,6 @@ export const useAetherNav = (props: LinkPropsType = {}) => {
   // -- Return --
 
   return {
-    params,
-    urlParams,
     pathname,
     webDomain,
     getDestination,
@@ -124,30 +117,38 @@ const AetherLink = forwardRef<typeof Text | typeof Text, AetherLinkType>((props,
 
   const onLinkPress = () => openLink(destination, isBlank)
 
+  // -- Render as Web link --
+
+  if (isExternal) {
+    return isText ? (
+      <AetherText {...restProps} {...bindStyles} ref={ref as any$Todo} onPress={onLinkPress}>
+        <a href={destination} target="_blank" rel="noreferrer" style={linkResetStyles}>
+          {children}
+        </a>
+      </AetherText>
+    ) : (
+      <a href={destination} target="_blank" rel="noreferrer" style={linkResetStyles}>
+        <AetherView {...bindStyles}>{children}</AetherView>
+      </a>
+    )
+  }
+
   // -- Render as Text --
 
   if (isText) {
     return (
       <AetherText {...restProps} {...bindStyles} ref={ref as any$Todo} onPress={onLinkPress}>
-        {children}
+        <NextLink href={destination} style={linkResetStyles}>
+          {children}
+        </NextLink>
       </AetherText>
-    )
-  }
-
-  // -- Render as Web link --
-
-  if (isExternal) {
-    return (
-      <a href={destination} target="_blank" rel="noreferrer">
-        <AetherView {...bindStyles}>{children}</AetherView>
-      </a>
     )
   }
 
   // -- Render as View wrapped with Next Link --
 
   return (
-    <NextLink href={destination}>
+    <NextLink href={destination} style={linkResetStyles}>
       <AetherView {...bindStyles}>{children}</AetherView>
     </NextLink>
   )

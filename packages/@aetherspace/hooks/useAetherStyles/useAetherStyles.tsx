@@ -33,7 +33,6 @@ const useAetherStyles = <
   const {
     tailwind,
     isWeb,
-    isServer,
     breakpoints = {},
     twPrefixes = [],
     mediaPrefixes = [],
@@ -68,7 +67,7 @@ const useAetherStyles = <
       }
       // If there's match in browser or mobile, add the tailwind class to the list of classes to apply on the front-end
       const didMatch = twPrefixes.includes(twPrefix)
-      if (didMatch && !isServer) return [classes, className].join(' ')
+      if (didMatch && !isWeb) return [classes, className].join(' ')
       // Otherwise, keep the original string
       return classes
     }, '')

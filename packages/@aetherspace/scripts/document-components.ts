@@ -70,6 +70,7 @@ const documentComponents = () => {
       const pathContents = fs.readFileSync(componentPath, 'utf8')
       // Skip files that don't export getDocumentationProps
       if (!pathContents.includes('getDocumentationProps')) return acc
+      if (pathContents.includes('// export const getDocumentationProps')) return acc
       // Add component folder to the documented folders list
       const [componentFile, ...componentFolderTree] = componentPath.split('/').reverse()
       const componentFolder = componentFolderTree.reverse().join('/')

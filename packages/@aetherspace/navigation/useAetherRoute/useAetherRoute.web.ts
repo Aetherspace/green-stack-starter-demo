@@ -1,6 +1,4 @@
 import useSWR from 'swr'
-// Navigation
-import { useRouteParams } from '../useRouteParams'
 // Schemas
 import { z } from 'aetherspace/schemas'
 
@@ -33,11 +31,8 @@ export const useAetherRoute = <
   // Props
   const { params: routeParams, segment, ...screenDataProps } = props
 
-  // Hooks
-  const { params: navParams } = useRouteParams(props)
-
   // Vars
-  const params = paramSchema.optional().parse({ ...routeParams, ...navParams })
+  const params = paramSchema.optional().parse(routeParams)
   const variables = getGraphqlVars(params!)
 
   // -- Fetching --

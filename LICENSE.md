@@ -14,7 +14,7 @@ Copyright (c) 2023 Thorr Stevens
 
 You are eligible to use the Aetherspace GREEN stack starter for personal and commercial use if granted access free of charge by the author (Thorr Stevens, a.k.a. [@codinsonn](https://github.com/sponsors/codinsonn)) AND while being any of the following:
 - a non-profit or not-for-profit organisation
-- a company currently employing the author (Thorr Stevens, a.k.a. [@codinsonn](https://github.com/sponsors/codinsonn))
+- a company currently or previously employing the author (Thorr Stevens, a.k.a. [@codinsonn](https://github.com/sponsors/codinsonn))
 - an open-source maintainer of tech used by Aetherspace or sponsored by the author (see [list](https://github.com/codinsonn?tab=sponsoring))
 - evaluating whether the template repo is a good fit, and are not yet using it in a commercial way
 - an embassador of the project, linking to Aetherspace or the author in your app or README file
@@ -61,7 +61,7 @@ You are eligible to use the Aetherspace GREEN stack starter for personal and com
 
 Copyright (c) 2023 Thorr Stevens
 
-You are required to obtain a company license to use the Aetherspace GREEN stack starter if you are not within the group of entities eligible for a free or personal license. You may acquire a commercial license by sponsoring the author (Thorr Stevens, a.k.a. [@codinsonn](https://github.com/sponsors/codinsonn)) for the corresponding commercial license amount through Github Sponsors. When eligable for the full commercial license, this license will enable you to use Aetherspace for the allowed use cases specified in the free and personal licenses.
+You are required to obtain a company license to use the Aetherspace GREEN stack starter if you are not within the group of entities eligible for a free or personal license. You may acquire a commercial license by sponsoring the author (Thorr Stevens, a.k.a. [@codinsonn](https://github.com/sponsors/codinsonn)) for any of the corresponding commercial license amounts through Github Sponsors. When eligable for the full commercial license, this license will enable you to use Aetherspace for the allowed use cases specified in the free and personal licenses.
 
 ### Eligibility
 
