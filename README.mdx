@@ -61,10 +61,10 @@ Run with Storybook docs: `yarn dev:docs`
 In short GREEN stands for these 5 core technologies:
 
 - **G**raphQL for typed and self documenting APIs
-- **R**eact-Native and React-Native-Web for write-once UI
-- **E**vergreen components (extendable, themable, accessible, with docs & tests)
-- **E**xpo for easy web + mobile dev, deploys and testing
-- **N**ext.js for SEO, Static Exports, API, SSR & Web-Vitals
+- **R**eact & React-Native for write-once UI
+- **E**vergreen components (extendable, themable, with docs, types & tests)
+- **E**xpo for easy mobile development, deployment and testing
+- **N**ext.js for web, SEO, Static & Server rendering, API & Web-Vitals
 
 The core idea is writing your app code or features just once with Typescript and React-Native, yet make it available on any platform or device without double implementations or the need for different development teams.
 
@@ -85,9 +85,9 @@ The core idea is writing your app code or features just once with Typescript and
 Aetherspace is an opinionated framework that fills in the gaps of working and building with the GREEN stack:
 
 - How should I handle responsive design?
-- How do I avoid SSR layout shift when react-native styling does not support media queries or classnames?
+- How do I avoid web layout shift when react-native styling does not support media queries or classnames?
 - How can I expose / read public env vars across multiple platforms?
-- Wait, how do I take advantage of next/image on the web when that's not available in React-Native?
+- How do I take advantage of optimisations like `next/image` on web when that's not available in React-Native?
 - What's the best way to style and animate my UI elements for both web and mobile?
 
 Just to name a few.
@@ -96,7 +96,7 @@ While the stack itself is very powerful, figuring out how to get set up and do c
 
 ## But why start with a turbo/monorepo? 🤖 <a name="why-turborepo"></a>
 
-One annoying thing about figuring this stack out on your own is when packages you're using require custom configs for babel, webpack or otherwise. With Expo and Next.js, it often happens that updating e.g. a single `babel.config.js` used for both React-Native and Next.js will fix usage on either, but then break the other.
+One annoying thing about figuring this stack out on your own is when packages you're using require custom configs for babel, webpack or otherwise. With Expo and Next.js, it often happens that updating e.g. a single `babel.config.js` used for both Expo and Next.js will fix usage on either, but then break the other.
 
 Using a monorepo with different entry points for Next.js and Expo allows us to keep configs more separate, and therefore allow more confident updating of packages and configs without accidentally breaking other platforms.
 
@@ -108,13 +108,16 @@ This starter monorepo has three types of workspaces:
 
 - `/apps/*` for all expo & next.js versions of your apps (consumes `'features'` 👇)
 - `/features/*` features of your app, grouped together by feature name (consumes `'packages'` 👇)
-- `/packages/*` for all shared dependencies / library code used in multiple apps
+- `/packages/*` for all shared dependencies / library code used in multiple apps or features
 
 ```
 ├── apps/
 │   └── expo/ 👉 Where all Expo & mobile specific config for {app-name} lives
 │       └── app.json ➡️ Expo app config (e.g. App name, icon, landscape / tablet support)
-│       └── App.tsx ➡️ Mobile Entrypoint & Navigation Setup (using 'app-core/screens/')
+│       └── app/ ➡️ File-based Routing & Navigation Setup for mobile (using 'app-core/screens/')
+│           └── (generated)/ ➡️ File based routing generated from `routes/` in features or packages
+│               └── _layout.tsx ➡️ Root layout for all app screens (e.g. tab bar, drawer, etc.)
+│               └── index.tsx ➡️ Home & starting screen for the app
 │       └── babel.config.js ➡️ Babel transpilation config for Expo
 │       └── index.js ➡️ Mobile entrypoint loader for App.tsx
 │       └── metro.config.js ➡️ Metro bundler config for react-native
@@ -124,13 +127,15 @@ This starter monorepo has three types of workspaces:
 │
 │   └── next/ 👉 Where all Next.js, Server & API config for {app-name} lives
 │       └── public/ ➡️ favicon, app icons & other static assets (e.g. images & fonts)
+│       └── app/ ➡️ File-based Routing & Navigation Setup for Web (using 'app-core/screens/')
+│           └── (generated)/ ➡️ File based routing generated from `routes/` in features or packages
+│               └── head.tsx ➡️ HTML wrapper for head & meta tags (+ SSR styles)
+│               └── layout.tsx ➡️ Root layout for all web pages (e.g. headers / footers / nav)
+│               └── page.tsx ➡️ Web Homepage (e.g. using 'app-core/screens/HomeScreen.tsx')
 │       └── src/
 │           └── pages/ ➡️ directory based routes (using 'app-core/screens/')
 │               └── api/ ➡️ directory based api routes (using 'app-core/resolvers/')
 │                   └── graphql.ts ➡️ GraphQL client from 'app-core/graphql/'
-│               └── _app.tsx ➡️ App Layout Wrapper (e.g. headers / footers / navigation)
-│               └── _document.tsx ➡️ HTML wrapper for head, body & meta tags (+ SSR styles)
-│               └── index.tsx ➡️ Homepage (e.g. using 'app-core/screens/HomeScreen.tsx')
 │       └── babel.config.js ➡️ Babel transpilation config for Next.js
 │       └── next.config.js ➡️ Next.js config, modules to transpile & plugins to support
 │       └── package.json ➡️ yarn-workspaces config, lists core next.js dependencies
@@ -142,17 +147,19 @@ This starter monorepo has three types of workspaces:
 │       └── graphql/ ➡️ Shared code for the GraphQL API client (optional)
 │       └── resolvers/ ➡️ Shared resolvers used in both in API routes or GraphQL API
 │       └── screens/ ➡️ Page templates used in App.tsx and next.js's 'pages/' directory
+│       └── routes/ ➡️ Write-once routing for both web & mobile (see 'app/(generated)/' in expo & next)
 │       └── package.json ➡️ config required by yarn-workspaces, lists dependencies that don't fit anywhere else
 │   └── {app-feature}/ 👉 Code shared across apps, ideally same structure as 'features/app-core'
 │       └── package.json ➡️ config required by yarn-workspaces, list dependencies specific to this feature
 │
 ├── packages/
 │   └── @aetherspace/ ➡️ Primitives, utils & helpers for working with the GREEN stack
+│       └── schemas/ ➡️ A set of Zod powered schema utils for building single sources of truth
 │   └── @config/ ➡️ list of ts & other configs to use / extend from in next or expo apps
 │   └── {comp-lib}/ 👉 Code shared across apps, ideally same structure as 'features/app-core'
 │       └── package.json ➡️ yarn-workspace config, list dependencies specific to this package
 │
-├── node_modules/ ➡️ Contains all modules for this monorepo
+├── node_modules/ ➡️ Contains all modules for the entire monorepo
 ├── package.json  ➡️ Root yarn-workspaces configuration + helper scripts, core developer only dependencies
 └── turbo.json  ➡️ Monorepo config, manages dependencies in build scripts + caching of tasks
 ```
@@ -204,9 +211,24 @@ Possible next steps:
 - Animate UI elements with `react-native-reanimated` or `moti`
 - Add auth with [AuthSession](https://docs.expo.dev/versions/latest/sdk/auth-session/) ([Expo Examples](https://docs.expo.dev/guides/authentication/))
 
-## 💼 Why this makes sense from a business perspective 💸 <a name="why-this-makes-sense-from-a-business-perspective"></a>
+## 💼 Why this makes sense from a user, dev & business perspective <a name="why-this-makes-sense-from-a-business-perspective"></a>
 
-Whether you're a startup or established company, having both web and mobile apps is a great competitive advantage. There are many stories of market leaders suddenly being overtaken because the competition were able to move faster or had more devices their solution was available on for their customers.
+**For users:**
+- Solutions built for how they prefer to use software, whether that's on a phone, tablet or desktop.
+- Can share any page or feature with a link, which will open in the correct app or browser.
+- Full feature parity across all platforms.
+
+**For developers:**
+- Write-once UI, logic, routing, data fetching & resolvers
+- Easily onboard new devs to the project with auto-generated Storybook docs
+- Save time & reduce risk by defining data structure once, instead of 4 times for types, graphql, docs & validation
+
+**For businesses:**
+- Speed and flexibility to build/update features and pages for any platform.
+- Reach more users by being available on more devices.
+- Free organic leads from web SEO, which you can easily guide to mobile where higher conversions happen.
+
+> Whether you're a startup or established company, having both web and mobile apps is a great competitive advantage. There are many stories of market leaders suddenly being overtaken because the competition were able to move faster or had more devices their solution was available on for their customers.
 
 This stack makes it near effortless to enable extra platforms. It helps keep teams small and enables them to move fast when building new pages or features for phones, tablets and/or the web.
 
@@ -261,12 +283,12 @@ Full Cross Platform with Separate Dev Teams ROI = 🕗🕗🕗🕗🕗🕗🕗 
 - 🕗 Linux App Dev Team 💰
 - 🕗 API Back-End (REST / GraphQL) 💰
 
-Full Cross Platform with GREEN stack ROI = 🕗🕗 -> 💰💰 to 💰💰💰💰💰💰💰
+Full Cross Platform with GREEN stack ROI = 🕗🕗 -> 💰💰 to 💰💰💰💰💰💰💰
 
 - 🕗 Web (PWA & SSR & Web Vitals) + iOS + Android + Windows + MacOS + Linux 💰(💰💰💰💰💰)
 - 🕗 Back-End (REST + GraphQL + SSR + Static Exports + ISSG + universal JS utils thanks to Next.js) 💰
 
-**Key takeaway: Always upsell more platforms / devices the app could run on**
+**Key takeaway: Always build or upsell more platforms / devices the app could run on**
 
 </details>
 
@@ -278,7 +300,6 @@ The GREEN stack is unlikely to be the best fit when your project...
 - ... will always be mobile only 👉 Use `Expo`
 - ... will always be desktop only 👉 Use `Electron` + `React` / `Vue` / `Svelte`
 - ... is very Bluetooth / AR / VR / XR heavy 👉 Go native with `Swift` / `Java`
-- ... is a console game 👉 Use [`Unity`](https://unity.com/download) instead
 - ... is not using React 👉 Use `Svelte` / `Vue` + `Ionic`
 - ... has no real need for Server Rendering, SEO or Web-Vitals 👉 Use `Expo` (+ Web Support)
 - ... is using React, but the project is too far along and has no budget, time or people to refactor 🤷‍♂️
@@ -291,10 +312,10 @@ If your project has required dependencies / SDKs / libraries that are either not
 
 ## 📚 Further reading / Relevant docs: <a name="relevant-docs"></a>
 
-- [Expo](https://docs.expo.dev/), [React Native](https://reactnative.dev/docs/getting-started), [React Navigation docs](https://reactnavigation.org/docs/getting-started)
+- [Expo](https://docs.expo.dev/), [React Native](https://reactnative.dev/docs/getting-started), [Expo-Router docs](https://expo.github.io/router/docs/)
 - [Yarn Workspaces](https://classic.yarnpkg.com/lang/en/docs/workspaces/), [Turborepo docs](https://turborepo.org/docs)
-- [Next.js](https://nextjs.org/docs/getting-started), [React-Native-Web docs](https://necolas.github.io/react-native-web/docs/)
-- [Apollo GraphQL docs](https://www.apollographql.com/docs/)
+- [Next.js](https://nextjs.org/docs/getting-started), [app-directory](https://beta.nextjs.org/docs/getting-started), [React-Native-Web docs](https://necolas.github.io/react-native-web/docs/)
+- [Apollo Server docs](https://www.apollographql.com/docs/apollo-server/)
 
 ## Frequently Asked Questions 🤔
 

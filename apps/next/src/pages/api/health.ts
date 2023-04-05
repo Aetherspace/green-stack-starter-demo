@@ -17,13 +17,10 @@ export const HealthCheckArgs = aetherSchema('HealthCheckArgs', {
   echo: z.string().optional().describe('Echoes back the echo argument'),
 })
 
-export const HealthCheckResponse = HealthCheckArgs.pick({ echo: true }).extendSchema(
-  'HealthCheckResponse',
-  {
-    alive: z.boolean(),
-    kicking: z.boolean(),
-  }
-)
+export const HealthCheckResponse = HealthCheckArgs.extendSchema('HealthCheckResponse', {
+  alive: z.boolean(),
+  kicking: z.boolean(),
+})
 
 /* --- Config ---------------------------------------------------------------------------------- */
 
