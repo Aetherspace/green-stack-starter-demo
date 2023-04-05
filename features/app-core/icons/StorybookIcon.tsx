@@ -1,18 +1,18 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
-import { z, aetherSchema } from 'aetherspace/schemas'
+import { z, aetherSchema, AetherProps } from 'aetherspace/schemas'
 
 /* --- Schema ---------------------------------------------------------------------------------- */
 
 const StorybookIconProps = aetherSchema('StorybookIconProps', {
-  width: z.number().optional().default(24).describe('Icon width'),
-  height: z.number().optional().default(24).describe('Icon height'),
-  fill: z.string().color().optional().default('#ff4785').describe('Icon fill color'),
+  width: z.number().default(24).describe('Icon width'),
+  height: z.number().default(24).describe('Icon height'),
+  fill: z.string().color().default('#ff4785').describe('Icon fill color'),
 })
 
 /* --- <StorybookIcon/> ------------------------------------------------------------------------ */
 
-const StorybookIcon = (props: z.infer<typeof StorybookIconProps>) => {
+const StorybookIcon = (props: AetherProps<typeof StorybookIconProps>) => {
   // Props
   const svgProps = StorybookIconProps.parse(props)
   const { fill } = svgProps

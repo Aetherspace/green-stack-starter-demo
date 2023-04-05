@@ -1,7 +1,7 @@
 # Schemas 📐
 
 ```ts
-import { z, aetherSchema } from 'aetherspace/schemas'
+import { z, aetherSchema, AetherProps } from 'aetherspace/schemas'
 ```
 
 A core feature of Aetherspace as a starter template is taking what works and making it better. `aetherSchema()` is a tiny wrapper around `zod.object()`. You can use it to define your datastructures just once for the entire monorepo.
@@ -55,9 +55,9 @@ const PropSchema = aetherSchema('ComponentProps', {
 })
 ```
 
-`type ComponentProps = z.infer<typeof PropSchema>`
+`type ComponentProps = AetherProps<typeof PropSchema>`
 
-> 💡 Note: `z.infer` is a type helper type that extracts the type from a schema. It's a neat part of Zod and essentially the same as doing `typeof PropSchema['_output']`
+> 💡 Note: `AetherProps` is a type helper type that extracts the input type from a Zod / Aetherspace schema. It's a neat alternative to Zod's `z.infer` and essentially the same as doing `typeof PropSchema['_input']`
 
 ```ts
 // {

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-/* --- Types ----------------------------------------------------------------------------------- */
+/* --- Constants ------------------------------------------------------------------------------- */
 
 const ATS_TO_TYPE = Object.freeze({
   AetherBoolean: 'boolean',
@@ -31,6 +31,8 @@ const TYPE_TO_ATS = Object.freeze({
   id: 'AetherId',
 })
 
+/* --- Types ----------------------------------------------------------------------------------- */
+
 export type AetherSchemaType<T = any> = {
   type: keyof typeof TYPE_TO_ATS
   aetherType: (typeof TYPE_TO_ATS)[keyof typeof TYPE_TO_ATS]
@@ -60,6 +62,10 @@ export type SchemaPluginMap = {
   // -- Arraylikes --
   AetherArray: (name: string, schema: AetherSchemaType) => unknown
 }
+
+export type AetherProps<T extends { _input: unknown }> = T['_input']
+export type AetherInput<T extends { _input: unknown }> = T['_input']
+export type AetherParams<T extends { _input: unknown }> = T['_input']
 
 declare module 'zod' {
   interface ZodType<Output> {
@@ -218,7 +224,7 @@ declare module 'zod' {
     example(value: z.infer<z.ZodObject<T>>): z.ZodObject<T>
     eg(value: z.infer<z.ZodObject<T>>): z.ZodObject<T>
     ex(value: z.infer<z.ZodObject<T>>): z.ZodObject<T>
-    introspect(): AetherSchemaType
+    introspect(): AetherSchemaType<z.infer<z.ZodObject<T>>>
   }
 }
 

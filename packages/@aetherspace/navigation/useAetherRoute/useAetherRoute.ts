@@ -2,18 +2,18 @@ import useSWR from 'swr'
 // Navigation
 import { useRouteParams } from '../useRouteParams'
 // Schemas
-import { z } from 'aetherspace/schemas'
+import { z, AetherProps } from 'aetherspace/schemas'
 
-/** --- useAetherRout() ------------------------------------------------------------------------ */
+/** --- useAetherRoute() ----------------------------------------------------------------------- */
 /** -i- Get the route data and params for any route related screen */
 export const useAetherRoute = <
   PARAMS_DEF extends z.ZodRawShape,
   PROPS_DEF extends z.ZodRawShape,
-  PARAMS = z.infer<z.ZodObject<PARAMS_DEF>>,
+  PARAMS = z.ZodObject<PARAMS_DEF>['_input'],
   PROPS extends Record<string, unknown> & {
     params?: Record<string, unknown> & PARAMS
     segment?: string
-  } = z.infer<z.ZodObject<PROPS_DEF>>
+  } = AetherProps<z.ZodObject<PROPS_DEF>>
 >(
   props: Partial<PROPS>,
   {

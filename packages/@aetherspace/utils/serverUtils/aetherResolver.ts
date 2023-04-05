@@ -66,8 +66,8 @@ export const aetherResolver = <
   TSRT = null, // Response type override
   AST extends z.ZodRawShape = any, // Args schema
   RST extends z.ZodRawShape = any, // Response schema
-  AT = TSAT extends null ? z.infer<z.ZodObject<AST>> : TSAT, // Args Type (Use override?)
-  RT = TSRT extends null ? z.infer<z.ZodObject<RST>> : TSRT // Resp Type (Use override?)
+  AT = TSAT extends null ? z.ZodObject<AST>['_input'] : TSAT, // Args Type (Use override?)
+  RT = TSRT extends null ? z.ZodObject<RST>['_output'] : TSRT // Resp Type (Use override?)
 >(
   resolverFn: (ctx: ResolverExecutionParamsType<AT>) => Promise<RT | unknown>,
   options: {

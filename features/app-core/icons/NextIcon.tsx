@@ -1,18 +1,18 @@
 import * as React from 'react'
 import Svg, { Defs, LinearGradient, Stop, Circle, Mask, Use, G, Path } from 'react-native-svg'
-import { z, aetherSchema } from 'aetherspace/schemas'
+import { z, aetherSchema, AetherProps } from 'aetherspace/schemas'
 
 /* --- Schema ---------------------------------------------------------------------------------- */
 
 const NextIconProps = aetherSchema('NextIconProps', {
-  width: z.number().optional().default(24).describe('Icon width'),
-  height: z.number().optional().default(24).describe('Icon height'),
-  fill: z.string().color().optional().default('#000000').describe('Icon fill color'),
+  width: z.number().default(24).describe('Icon width'),
+  height: z.number().default(24).describe('Icon height'),
+  fill: z.string().color().default('#000000').describe('Icon fill color'),
 })
 
 /* --- <NextIcon/> ----------------------------------------------------------------------------- */
 
-const NextIcon = (props: z.infer<typeof NextIconProps>) => {
+const NextIcon = (props: AetherProps<typeof NextIconProps>) => {
   // Props
   const svgProps = NextIconProps.parse(props)
   // Render

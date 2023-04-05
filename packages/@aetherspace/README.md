@@ -109,7 +109,7 @@ expo-app:start: Your native app is running at exp://192.168.0.168:19000
 > 📐 Our `aetherSchema()` structure builder enables you to __build for Typescript first (with [Zod](https://zod.dev))__, but enables you to optionally ___generate documentation, validation logic, GraphQL typedefs___ and ___data resolvers___ from them as well.
 
 ```tsx
-import { z, aetherSchema } from 'aetherspace/schemas'
+import { z, aetherSchema, AetherProps } from 'aetherspace/schemas'
 
 /* --- Schematypes ------------- */
 
@@ -120,8 +120,8 @@ export const PropSchema = aetherSchema('MyComponentProps', {
 
 /* --- <MyComponent/> ---------- */
 
-// Infer types from schema with 'Infer' helper, or ...
-export const MyComponent = (props: z.infer<typeof PropSchema>) => {
+// Infer types from props schema with 'AetherProps' type helper, or ...
+export const MyComponent = (props: AetherProps<typeof PropSchema>) => {
     // Prop validation + apply defaults
     const { name, value } = PropSchema.parse(props)
     // ...

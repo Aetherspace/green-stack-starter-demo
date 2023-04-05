@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar'
 // Navigation
 import { Link, useAetherNav } from 'aetherspace/navigation'
 // Schemas
-import { z, aetherSchema } from 'aetherspace/schemas'
+import { z, aetherSchema, AetherProps } from 'aetherspace/schemas'
 // Primitives
 import { View, Text, Image, Pressable } from 'aetherspace/primitives'
 // SEO
@@ -19,12 +19,12 @@ import { GraphIcon, ReactIcon, ExpoIcon, StorybookIcon, NextIcon } from '../icon
 /* --- Schemas --------------------------------------------------------------------------------- */
 
 const HomeScreenProps = aetherSchema('HomeScreenProps', {
-  customGreeting: z.string().optional().default('Hello GREEN stack 👋').describe('A greeting for the user'), // prettier-ignore
+  customGreeting: z.string().default('Hello GREEN stack 👋').describe('A greeting for the user'), // prettier-ignore
 })
 
 /* --- <HomeScreen/> --------------------------------------------------------------------------- */
 
-const HomeScreen = (props: z.infer<typeof HomeScreenProps>) => {
+const HomeScreen = (props: AetherProps<typeof HomeScreenProps>) => {
   // Props
   const { customGreeting } = HomeScreenProps.parse(props)
 
