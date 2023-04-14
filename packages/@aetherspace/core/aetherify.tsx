@@ -6,6 +6,8 @@ import { useAetherStyles } from '../hooks'
 type AetherPropsType = {
   tw?: string | (string | null | undefined | false | 0)[]
   twID?: string
+  class?: string | (string | null | undefined | false | 0)[]
+  className?: string | (string | null | undefined | false | 0)[]
 }
 
 /* --- aetherify() ----------------------------------------------------------------------------- */

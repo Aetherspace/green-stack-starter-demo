@@ -12,6 +12,8 @@ interface AetherViewType extends ComponentProps<typeof View> {
   style?: ComponentProps<typeof View>['style']
   tw?: string | (string | null | undefined | false | 0)[]
   twID?: string
+  class?: string | (string | null | undefined | false | 0)[]
+  className?: string | (string | null | undefined | false | 0)[]
 }
 
 /* --- <AetherView/> --------------------------------------------------------------------------- */

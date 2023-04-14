@@ -10,6 +10,7 @@ import { useAetherContext } from '../../context/AetherContextManager'
 import AetherView from '../AetherView' // @ts-ignore
 import AetherImageExpo from './AetherImage.tsx'
 import useAetherStyles from '../../hooks/useAetherStyles'
+import { Overwrite } from '../../types'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -17,6 +18,8 @@ interface AetherImageType extends Partial<ComponentProps<typeof RNImage>> {
   style?: ComponentProps<typeof RNImage>['style']
   tw?: string | (string | null | undefined | false | 0)[]
   twID?: string
+  class?: string | (string | null | undefined | false | 0)[]
+  className?: string | (string | null | undefined | false | 0)[]
   src?: string | ImageProps['src']
   alt?: string
   width?: number
@@ -60,7 +63,16 @@ const AetherImage = forwardRef<typeof Image, AetherImageType>((props, ref) => {
 
   // -- Render as React-Native Image --
 
-  if (!isNextJS || isExpo) return <AetherImageExpo {...bindStyles} src={src} />
+  if (!isNextJS || isExpo)
+    return (
+      <AetherImageExpo
+        {...(bindStyles as Overwrite<
+          typeof bindStyles,
+          { style: ComponentProps<typeof RNImage>['style'] }
+        >)}
+        src={src as string}
+      />
+    )
 
   // -- Render --
 

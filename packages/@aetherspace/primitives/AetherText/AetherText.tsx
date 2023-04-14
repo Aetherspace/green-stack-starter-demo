@@ -12,6 +12,8 @@ interface AetherTextType extends ComponentProps<typeof Text> {
   style?: ComponentProps<typeof Text>['style']
   tw?: string | (string | null | undefined | false | 0)[]
   twID?: string
+  class?: string | (string | null | undefined | false | 0)[]
+  className?: string | (string | null | undefined | false | 0)[]
   children?: any
 }
 

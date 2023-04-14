@@ -7,10 +7,12 @@ import { addMediaQuery } from '../../styles'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-type StylePropsType<C extends JSXElementConstructor<any>> = {
+export type StylePropsType<C extends JSXElementConstructor<any>> = {
   style?: ComponentProps<C>['style']
   tw?: string | (string | null | undefined | false | 0)[]
   twID?: string
+  class?: string | (string | null | undefined | false | 0)[]
+  className?: string | (string | null | undefined | false | 0)[]
   nativeID?: string
   children?: any
 }
@@ -24,7 +26,8 @@ const useAetherStyles = <
   props: P
 ) => {
   // Props
-  const { style, tw } = props
+  const { style } = props
+  const tw = props.tw || props.className || props.class
 
   // Normalisation of ways to define the tw prop
   const twStrings = Array.isArray(tw) ? tw.filter(Boolean).join(' ') : tw
@@ -79,6 +82,7 @@ const useAetherStyles = <
     } as unknown as ComponentProps<C>['style']
     // Return the styles
     return [memoStyles, breakpointIds] as [ComponentProps<C>['style'], string]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [style, twStrings, prefixKey])
 
   // -- bindStyles --
