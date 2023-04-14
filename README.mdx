@@ -118,12 +118,9 @@ This starter monorepo has three types of workspaces:
 │           └── (generated)/ ➡️ File based routing generated from `routes/` in features or packages
 │               └── _layout.tsx ➡️ Root layout for all app screens (e.g. tab bar, drawer, etc.)
 │               └── index.tsx ➡️ Home & starting screen for the app
-│       └── babel.config.js ➡️ Babel transpilation config for Expo
 │       └── index.js ➡️ Mobile entrypoint loader for App.tsx
 │       └── metro.config.js ➡️ Metro bundler config for react-native
 │       └── package.json ➡️ yarn-workspace config, lists core expo & react-native dependencies
-│       └── tsconfig.json ➡️ Typescript config for Expo
-│       └── webpack.config.js ➡️ Enables PWA browser testing with Expo (no SSR)
 │
 │   └── next/ 👉 Where all Next.js, Server & API config for {app-name} lives
 │       └── public/ ➡️ favicon, app icons & other static assets (e.g. images & fonts)
@@ -136,10 +133,8 @@ This starter monorepo has three types of workspaces:
 │           └── pages/ ➡️ directory based routes (using 'app-core/screens/')
 │               └── api/ ➡️ directory based api routes (using 'app-core/resolvers/')
 │                   └── graphql.ts ➡️ GraphQL client from 'app-core/graphql/'
-│       └── babel.config.js ➡️ Babel transpilation config for Next.js
 │       └── next.config.js ➡️ Next.js config, modules to transpile & plugins to support
 │       └── package.json ➡️ yarn-workspaces config, lists core next.js dependencies
-│       └── tsconfig.json ➡️ Typescript config for Next.js
 |
 |── features/
 │   └── app-core/ 👉 Where all core cross-platform code for {app-name} lives
