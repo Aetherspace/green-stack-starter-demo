@@ -6,11 +6,15 @@ import { camelToDash, createKey } from '../utils'
 const mediaQueries: { [id: string]: string } = {}
 const AETHER_QUERIES = 'AetherQueries'
 
+/* --- Constants ------------------------------------------------------------------------------- */
+
+const PX_PROPERTIES = ['margin', 'padding', 'fontSize', 'lineHeight']
+
 /* --- getUnit() ------------------------------------------------------------------------------- */
 
 const getUnit = (classKey: string) => {
   let unit = ''
-  if (['margin', 'padding'].some((cssKey) => classKey.includes(cssKey))) unit = 'px'
+  if (PX_PROPERTIES.some((cssKey) => classKey.includes(cssKey))) unit = 'px'
   return unit
 }
 

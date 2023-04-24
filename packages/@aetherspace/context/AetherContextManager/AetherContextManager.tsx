@@ -32,7 +32,8 @@ const AetherContextManager = (props: AetherContextType) => {
 
   const contextValue = useMemo(() => {
     const breakpoints = {
-      sm: props.breakpoints?.sm || 640,
+      xs: props.breakpoints?.xs || 320,
+      sm: props.breakpoints?.sm || 576,
       md: props.breakpoints?.md || 768,
       lg: props.breakpoints?.lg || 1024,
       xl: props.breakpoints?.xl || 1280,
@@ -60,6 +61,7 @@ const AetherContextManager = (props: AetherContextType) => {
       isLaptopSize: !!appWidth && appWidth >= breakpoints.md,
     }
     const mediaPrefixObj = {
+      xs: !!appWidth && appWidth >= breakpoints.xs,
       sm: !!appWidth && appWidth >= breakpoints.sm,
       md: !!appWidth && appWidth >= breakpoints.md,
       lg: !!appWidth && appWidth >= breakpoints.lg,

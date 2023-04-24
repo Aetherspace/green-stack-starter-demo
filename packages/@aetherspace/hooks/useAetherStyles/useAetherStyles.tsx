@@ -60,7 +60,8 @@ const useAetherStyles = <
       // Split up into a) the prefix to check for & b) the tailwind class to apply
       const [twPrefix, className] = twClass.split(':')
       // Add a media query to the server-side style object?
-      if (isWeb && mediaPrefixes.includes(twPrefix)) {
+      const shouldAddMediaQuery = isWeb && mediaPrefixes.includes(twPrefix)
+      if (shouldAddMediaQuery) {
         const breakpointStyles = tailwind!`${className}` || {}
         const breakpointId = addMediaQuery(
           breakpoints[twPrefix as keyof BreakPointsType]!,
@@ -68,9 +69,9 @@ const useAetherStyles = <
         )
         breakpointIds = `${breakpointIds}${!breakpointIds ? '' : ' '}${breakpointId}`
       }
-      // If there's match in browser or mobile, add the tailwind class to the list of classes to apply on the front-end
-      const didMatch = twPrefixes.includes(twPrefix)
-      if (didMatch && !isWeb) return [classes, className].join(' ')
+      // If we're not solving with Media Queries, add the tailwind class to the list of classes to apply on the front-end
+      const didMatchPrefix = twPrefixes.includes(twPrefix)
+      if (didMatchPrefix && !isWeb) return [classes, className].join(' ')
       // Otherwise, keep the original string
       return classes
     }, '')

@@ -62,11 +62,11 @@ In short GREEN stands for these 5 core technologies:
 
 - **G**raphQL for typed and self documenting APIs
 - **R**eact & React-Native for write-once UI
-- **E**vergreen components (extendable, themable, with docs, types & tests)
+- **E**vergreen components (extendable, themable, with docs & types)
 - **E**xpo for easy mobile development, deployment and testing
 - **N**ext.js for web, SEO, Static & Server rendering, API & Web-Vitals
 
-The core idea is writing your app code or features just once with Typescript and React-Native, yet make it available on any platform or device without double implementations or the need for different development teams.
+The core idea is writing your app code or features just once with Typescript and React-Native, yet make it available on any platform or device without double implementations without the need for different development teams.
 
 ## How does 'Aetherspace' help, exactly? 🚀 <a name="what-is-aetherspace"></a>
 
@@ -261,7 +261,7 @@ React-Native Mobile App ROI = 🕗🕗 -> 💰💰 to 💰💰💰
 - 🕗 iOS + Android App with RN 💰(💰)
 - 🕗 API Back-End (REST / GraphQL) 💰
 
-Expo Mobile + PWA ROI = 🕗🕗 ->💰💰 to 💰💰💰💰
+Expo Mobile + PWA ROI = 🕗🕗 -> 💰💰 to 💰💰💰💰
 
 - 🕗 iOS + Android + PWA with Expo & RN (Web without SSR) 💰(💰💰)
 - 🕗 API Back-End (REST / GraphQL) 💰
@@ -294,23 +294,21 @@ The GREEN stack is unlikely to be the best fit when your project...
 - ... will always be web only 👉 Use `next.js`
 - ... will always be mobile only 👉 Use `Expo`
 - ... will always be desktop only 👉 Use `Electron` + `React` / `Vue` / `Svelte`
-- ... is very Bluetooth / AR / VR / XR heavy 👉 Go native with `Swift` / `Java`
+- ... needs advanced platform or hardware features 👉 Go native with `Swift` / `Java` (*)
 - ... is not using React 👉 Use `Svelte` / `Vue` + `Ionic`
-- ... has no real need for Server Rendering, SEO or Web-Vitals 👉 Use `Expo` (+ Web Support)
-- ... is using React, but the project is too far along and has no budget, time or people to refactor 🤷‍♂️
+- ... has no real need for Server Rendering, SEO or Web-Vitals 👉 Use `Expo` (for Web)
+- ... is too far along and has no budget, time or people to refactor 🤷‍♂️
+
+> *For advanced platform or hardware features, such as Widgets, App Clips, AR/VR/XR, Fingerprint, it is still possible to use Expo and add those specific features through native code with [Expo Config Plugins](https://www.npmjs.com/package/@expo/config-plugins).
 
 If your project has required dependencies / SDKs / libraries that are either not available in JS, are not extractable to API calls or cannot function cross-platform, this may also not be a good solution for your use-case\*.
-
-```
-🛠 * However, for JS libs, you could always try adding cross platform support yourself with `patch-package`
-```
 
 ## 📚 Further reading / Relevant docs: <a name="relevant-docs"></a>
 
 - [Expo](https://docs.expo.dev/), [React Native](https://reactnative.dev/docs/getting-started), [Expo-Router docs](https://expo.github.io/router/docs/)
 - [Yarn Workspaces](https://classic.yarnpkg.com/lang/en/docs/workspaces/), [Turborepo docs](https://turborepo.org/docs)
 - [Next.js](https://nextjs.org/docs/getting-started), [app-directory](https://beta.nextjs.org/docs/getting-started), [React-Native-Web docs](https://necolas.github.io/react-native-web/docs/)
-- [Apollo Server docs](https://www.apollographql.com/docs/apollo-server/)
+- [GraphQL](https://graphql.org), [Apollo Server docs](https://www.apollographql.com/docs/apollo-server/)
 
 ## Frequently Asked Questions 🤔
 

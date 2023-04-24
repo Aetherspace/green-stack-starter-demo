@@ -44,7 +44,7 @@ interface AetherLinkRouteType extends AetherLinkBaseType {
 type AetherLinkType = AetherLinkToType | AetherLinkHrefType | AetherLinkRouteType
 type any$Todo = any
 
-/* --- Helpers --------------------------------------------------------------------------------- */
+/* --- Styles ---------------------------------------------------------------------------------- */
 
 const linkResetStyles = {
   textDecoration: 'none',

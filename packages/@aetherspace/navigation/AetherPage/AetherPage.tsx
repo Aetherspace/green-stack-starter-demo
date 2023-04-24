@@ -1,8 +1,10 @@
+import { ScrollView } from 'react-native'
+
 /* --- Types ----------------------------------------------------------------------------------- */
 
 type AetherPageProps = {
   params?: Record<string, any>
-  screen: React.FC<Record<string, any>>
+  screen: React.FC<Record<string, any>> | ((props: any) => JSX.Element | null)
   screenConfig: any
 }
 
@@ -17,5 +19,9 @@ export const AetherPage = (props: AetherPageProps) => {
 
   // -- Browser --
 
-  return <PageScreen params={params} {...restProps} />
+  return (
+    <ScrollView contentContainerStyle={{ width: '100%', minHeight: '100%' }}>
+      <PageScreen params={params} {...restProps} />
+    </ScrollView>
+  )
 }
