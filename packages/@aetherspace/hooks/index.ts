@@ -1,5 +1,5 @@
 export * from './useLayoutInfo'
 export * from './useAetherStyles'
-export * from './usePrefferredURL'
+export * from './usePreferredURL'
 // export * from './useApiData'
 // export * from './useGraphQL'

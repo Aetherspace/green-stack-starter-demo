@@ -1,5 +1,5 @@
 // Hooks
-import { usePrefferredURL } from '../hooks'
+import { usePreferredURL } from '../hooks'
 // Utils
 import { getDebuggerURL, getEnvVar } from '../utils/envUtils'
 
@@ -7,7 +7,7 @@ import { getDebuggerURL, getEnvVar } from '../utils/envUtils'
 
 const useAPICheck = (fallbackURLs: string[] = []) => {
   // Determine the API URL
-  const healthEndpoint = usePrefferredURL(
+  const healthEndpoint = usePreferredURL(
     [
       'http://localhost:3000/api/health',
       `${getDebuggerURL(3000)}/api/health`,
@@ -16,7 +16,7 @@ const useAPICheck = (fallbackURLs: string[] = []) => {
     `${getEnvVar('BACKEND_URL') || getDebuggerURL(3000) || ''}/api/health`
   )
   // Determine the GraphQL endpoint
-  const graphQLEndpoint = usePrefferredURL(
+  const graphQLEndpoint = usePreferredURL(
     [
       'http://localhost:3000/api/graphql',
       `${getDebuggerURL(3000)}/api/graphql`,

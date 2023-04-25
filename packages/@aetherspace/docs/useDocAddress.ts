@@ -1,5 +1,5 @@
 // Hooks
-import { usePrefferredURL } from '../hooks'
+import { usePreferredURL } from '../hooks'
 // Utils
 import { getDebuggerURL, getEnvVar } from '../utils/envUtils'
 
@@ -24,7 +24,7 @@ const useDocAddress = (...preferredDocURIs: string[]) => {
     // Official docs
     DOC_SOURCES.officialDocs,
   ]
-  const docsURI = usePrefferredURL(urlsToCheck)
+  const docsURI = usePreferredURL(urlsToCheck)
   return docsURI || DOC_SOURCES.officialDocs
 }
 

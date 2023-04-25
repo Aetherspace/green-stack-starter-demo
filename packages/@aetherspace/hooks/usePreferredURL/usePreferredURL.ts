@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-/* --- usePrefferredURL() ------------------------------------------------------------------- */
+/* --- usePreferredURL() ------------------------------------------------------------------- */
 
-const usePrefferredURL = (preferredURLS: string[] = [], forcedFallback?: string) => {
+const usePreferredURL = (preferredURLS: string[] = [], forcedFallback?: string) => {
   // State
   const [firstAvailableURL, setFirstAvailableURL] = useState('')
 
@@ -46,5 +46,5 @@ const usePrefferredURL = (preferredURLS: string[] = [], forcedFallback?: string)
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export { usePrefferredURL }
-export default usePrefferredURL
+export { usePreferredURL }
+export default usePreferredURL
