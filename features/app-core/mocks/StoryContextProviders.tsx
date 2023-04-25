@@ -20,6 +20,7 @@ const StoryContextProviders = ({ children }) => {
       icons={{}}
       twConfig={tailwindConfig}
       tw="relative flex flex-col min-h-full min-w-full bg-white"
+      isStorybook
     >
       {children}
     </AetherContextManager>

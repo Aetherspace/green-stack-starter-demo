@@ -32,7 +32,7 @@ export const setPublicEnvVars = (publicEnvVars: { [key: string]: any }) => {
 /** -i- Get expo / next / public env var */
 export const getEnvVar = (key: string) => {
   const possibleKeys = [
-    // Private env var, as exact matches only happen in node server envs
+    // Private env var, as exact matches only happen in node server environments
     key,
     // Public env var, needs prefix to hook into front-end next / expo env var system
     `NEXT_PUBLIC_${key}`,

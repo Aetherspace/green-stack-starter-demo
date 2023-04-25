@@ -11,7 +11,7 @@ import { useLayoutInfo } from '../../hooks/useLayoutInfo'
 
 const AetherContextManager = (props: AetherContextType) => {
   // Props
-  const { children, isNextJS, isExpo, isAppDir, isDesktop, twConfig } = props
+  const { children, isNextJS, isExpo, isAppDir, isDesktop, isStorybook, twConfig } = props
 
   // Layout
   const { layoutInfo, measureOnLayout } = useLayoutInfo()
@@ -54,11 +54,12 @@ const AetherContextManager = (props: AetherContextType) => {
       isLG: !!appWidth && appWidth >= breakpoints.lg && appWidth < breakpoints.xl,
       isXL: !!appWidth && appWidth >= breakpoints.xl && appWidth < breakpoints.xxl,
       isXXL: !!appWidth && appWidth >= breakpoints.xxl,
-      isMobileWeb: props.isMobileWeb,
-      isTabletWeb: props.isTabletWeb,
+      isMobileWeb: !!props.isMobileWeb,
+      isTabletWeb: !!props.isTabletWeb,
       isPhoneSize: !!appWidth && appWidth < breakpoints.sm,
       isTabletSize: !!appWidth && appWidth >= breakpoints.sm && appWidth <= breakpoints.lg,
       isLaptopSize: !!appWidth && appWidth >= breakpoints.md,
+      isStorybook,
     }
     const mediaPrefixObj = {
       xs: !!appWidth && appWidth >= breakpoints.xs,
@@ -82,6 +83,7 @@ const AetherContextManager = (props: AetherContextType) => {
       expo: isExpo,
       app: isAppDir,
       desktop: isDesktop,
+      docs: isStorybook,
     }
     const twPrefixes = Object.entries(twPrefixObj).filter(([, val]) => !!val).map(([k]) => k) // prettier-ignore
     const mediaPrefixes = Object.keys(mediaPrefixObj)
@@ -94,6 +96,7 @@ const AetherContextManager = (props: AetherContextType) => {
       isExpo,
       isAppDir,
       isDesktop,
+      isStorybook,
       breakpoints,
       twPrefixes,
       mediaPrefixes,

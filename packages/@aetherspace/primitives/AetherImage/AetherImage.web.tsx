@@ -11,6 +11,7 @@ import AetherView from '../AetherView' // @ts-ignore
 import AetherImageExpo from './AetherImage.tsx'
 import useAetherStyles from '../../hooks/useAetherStyles'
 import { Overwrite } from '../../types'
+import { getEnvVar } from '../..'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -49,7 +50,7 @@ const AetherImage = forwardRef<typeof Image, AetherImageType>((props, ref) => {
   const src = props.src || source?.uri
 
   // Context
-  const { isNextJS, isExpo } = useAetherContext()
+  const { isServer, isNextJS, isExpo, isStorybook } = useAetherContext()
 
   // -- Memoizations --
 
@@ -61,18 +62,27 @@ const AetherImage = forwardRef<typeof Image, AetherImageType>((props, ref) => {
     return { fill: true } as const
   }, [height, width])
 
+  const srcString = useMemo(() => {
+    if (typeof src !== 'string') return ''
+    if (!isStorybook) return src as string
+    // Determine back-end URL
+    if (!isServer && window?.location?.href?.includes('localhost')) return `http://localhost:3000${src}` // prettier-ignore
+    if (getEnvVar('BACK_END_URL')) return `${getEnvVar('BACK_END_URL')}${src}`
+  }, [src, isServer, isStorybook])
+
   // -- Render as React-Native Image --
 
-  if (!isNextJS || isExpo)
+  if (!isNextJS || isExpo || isStorybook) {
     return (
       <AetherImageExpo
         {...(bindStyles as Overwrite<
           typeof bindStyles,
           { style: ComponentProps<typeof RNImage>['style'] }
         >)}
-        src={src as string}
+        src={srcString}
       />
     )
+  }
 
   // -- Render --
 

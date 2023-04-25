@@ -71,6 +71,7 @@ export interface AetherContextType {
   isPhoneSize?: boolean
   isTabletSize?: boolean
   isLaptopSize?: boolean
+  isStorybook?: boolean
   breakpoints?: BreakPointsType
   twPrefixes?: string[]
   mediaPrefixes?: string[]
