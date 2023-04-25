@@ -563,12 +563,15 @@ if (!z.ZodObject.prototype.aetherType) {
   z.ZodObject.prototype.ex = z.ZodObject.prototype.example
   // Documentation
   z.ZodObject.prototype.introspect = function () {
+    // Save object example values as possible override
+    const exampleValues = this.exampleValue
     // Determine the schema for each property
     this.schema = Object.entries(this.shape).reduce((propSchema, [propKey, propDef]) => {
       // @ts-ignore
       if (!propDef.introspect) return propSchema // @ts-ignore
       const schema = propDef.introspect() // @ts-ignore
       if (schema.aetherType === 'AetherSchema') schema.schema = getInnerMostType(propDef).introspect() // prettier-ignore
+      if (exampleValues?.[propKey]) schema.exampleValue = exampleValues[propKey]
       return { ...propSchema, [propKey]: schema }
     }, {})
     // Return the full introspected schema

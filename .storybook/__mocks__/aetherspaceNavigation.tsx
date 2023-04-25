@@ -3,6 +3,8 @@ import React from 'react'
 import { useMemo } from 'react'
 import { action } from '@storybook/addon-actions'
 import { AetherText, AetherView } from '../../packages/@aetherspace/primitives'
+import { useAetherRoute } from '../../packages/@aetherspace/navigation/useAetherRoute'
+import { fetchAetherProps } from '../../packages/@aetherspace/navigation/fetchAetherProps'
 import { getEnvVar } from '../../packages/@aetherspace/utils'
 
 /* --- useAetherNav() -------------------------------------------------------------------------- */
@@ -34,6 +36,7 @@ export const useAetherNav = () => {
         webDomain,
         getDestination,
         openLink,
+        pathName: '/',
     }
 }
 
@@ -77,4 +80,5 @@ export const AetherLink = (props) => {
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
+export { useAetherRoute, fetchAetherProps }
 export const Link = AetherLink

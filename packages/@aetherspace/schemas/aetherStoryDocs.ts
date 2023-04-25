@@ -97,7 +97,7 @@ const aetherStoryDocs = (forComponent, getDocumentationProps: GetDocPropsType, a
   // Figure out story args
   const storyArgs = Object.entries(argTypes).reduce((acc, [propKey, argType]) => {
     const defaultValue = argType.table.defaultValue?.summary
-    const exampleValue = propSchema?.schema?.[propKey]?.example
+    const exampleValue = propSchema?.schema?.[propKey]?.exampleValue
     const storyValue = args[propKey] ?? exampleValue ?? defaultValue ?? argType.options?.[0]
     return typeof storyValue !== 'undefined' ? { ...acc, [propKey]: storyValue } : acc
   }, {})
