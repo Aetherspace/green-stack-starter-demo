@@ -4,14 +4,17 @@
 import React, { useMemo, forwardRef, ComponentProps } from 'react'
 import { Image as RNImage, ImageURISource } from 'react-native'
 import Image, { ImageProps } from 'next/image'
+// Types
+import { Overwrite } from '../../types'
 // Context
 import { useAetherContext } from '../../context/AetherContextManager'
 // Components
 import AetherView from '../AetherView' // @ts-ignore
 import AetherImageExpo from './AetherImage.tsx'
+// Hooks
 import useAetherStyles from '../../hooks/useAetherStyles'
-import { Overwrite } from '../../types'
-import { getEnvVar } from '../..'
+// Utils
+import { getEnvList, getEnvVar } from '../../utils/envUtils'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -63,11 +66,14 @@ const AetherImage = forwardRef<typeof Image, AetherImageType>((props, ref) => {
   }, [height, width])
 
   const srcString = useMemo(() => {
+    // Keep empty or as is?
     if (typeof src !== 'string') return ''
     if (!isStorybook || src.includes('http')) return src as string
     // Determine back-end URL
+    const APP_URLS = getEnvList('APP_LINKS').filter((url) => url.includes('http')) || []
+    const BACKEND_URL = getEnvVar('BACKEND_URL') || getEnvVar('STORYBOOK_BACKEND_URL') || APP_URLS[0] // prettier-ignore
     if (!isServer && window?.location?.href?.includes('localhost')) return `http://localhost:3000${src}` // prettier-ignore
-    if (getEnvVar('STORYBOOK_BACKEND_URL')) return `${getEnvVar('STORYBOOK_BACKEND_URL')}${src}`
+    if (BACKEND_URL) return `${BACKEND_URL}${src}`
   }, [src, isServer, isStorybook])
 
   // -- Render as React-Native Image --

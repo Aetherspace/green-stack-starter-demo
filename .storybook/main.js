@@ -77,5 +77,10 @@ module.exports = {
     features: {
       previewMdx2: true, // 👈 MDX 2 enabled here (https://storybook.js.org/docs/react/writing-docs/mdx#mdx-2)
     },
+    env: (config) => ({
+      ...config,
+      STORYBOOK_BACKEND_URL: process.env.STORYBOOK_BACKEND_URL || process.env.BACKEND_URL,
+      BACKEND_URL: process.env.STORYBOOK_BACKEND_URL || process.env.BACKEND_URL,
+    }),
     framework: '@storybook/react',
 }
