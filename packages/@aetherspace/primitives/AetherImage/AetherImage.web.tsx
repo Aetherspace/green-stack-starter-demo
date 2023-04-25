@@ -64,10 +64,10 @@ const AetherImage = forwardRef<typeof Image, AetherImageType>((props, ref) => {
 
   const srcString = useMemo(() => {
     if (typeof src !== 'string') return ''
-    if (!isStorybook) return src as string
+    if (!isStorybook || src.includes('http')) return src as string
     // Determine back-end URL
     if (!isServer && window?.location?.href?.includes('localhost')) return `http://localhost:3000${src}` // prettier-ignore
-    if (getEnvVar('BACK_END_URL')) return `${getEnvVar('BACK_END_URL')}${src}`
+    if (getEnvVar('STORYBOOK_BACKEND_URL')) return `${getEnvVar('STORYBOOK_BACKEND_URL')}${src}`
   }, [src, isServer, isStorybook])
 
   // -- Render as React-Native Image --
