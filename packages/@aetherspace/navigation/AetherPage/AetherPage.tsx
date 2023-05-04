@@ -1,16 +1,10 @@
 import { ScrollView } from 'react-native'
-
-/* --- Types ----------------------------------------------------------------------------------- */
-
-type AetherPageProps = {
-  params?: Record<string, any>
-  screen: React.FC<Record<string, any>> | ((props: any) => JSX.Element | null)
-  screenConfig: any
-}
+// Types
+import { AetherPageProps, AetherScreenConfig } from './AetherPage.types'
 
 /* --- <AetherPage/> --------------------------------------------------------------------------- */
 
-export const AetherPage = (props: AetherPageProps) => {
+export const AetherPage = <SC extends AetherScreenConfig>(props: AetherPageProps<SC>) => {
   // Props
   const { params, screen, screenConfig, ...restProps } = props
 
@@ -20,7 +14,10 @@ export const AetherPage = (props: AetherPageProps) => {
   // -- Browser --
 
   return (
-    <ScrollView contentContainerStyle={{ width: '100%', minHeight: '100%' }}>
+    <ScrollView
+      style={{ backgroundColor: screenConfig.backgroundColor || 'transparent' }}
+      contentContainerStyle={{ width: '100%', minHeight: '100%' }}
+    >
       <PageScreen params={params} {...restProps} />
     </ScrollView>
   )

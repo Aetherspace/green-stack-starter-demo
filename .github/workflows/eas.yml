@@ -57,4 +57,5 @@ jobs:
         run: cd apps/expo && eas update --auto
         env:
           ENV: staging
+          BACKEND_URL: ${{ secrets.BACKEND_URL }}
           NEXT_PUBLIC_APP_LINKS: ${{ secrets.NEXT_PUBLIC_APP_LINKS }}

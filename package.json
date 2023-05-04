@@ -42,6 +42,7 @@
   },
   "resolutions": {
     "typescript": "^4.9.5",
+    "zod": "~3.20.6",
     "@babel/core": "^7.20.0",
     "@expo/config": "^7.0.2",
     "@types/react": "~18.0.28",

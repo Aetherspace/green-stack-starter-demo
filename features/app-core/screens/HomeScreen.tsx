@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'expo-status-bar'
 // Navigation
-import { Link, useAetherNav } from 'aetherspace/navigation'
+import { Link, fetchAetherProps, useAetherNav, useAetherRoute } from 'aetherspace/navigation'
 // Schemas
 import { z, aetherSchema, AetherProps } from 'aetherspace/schemas'
 // Primitives
@@ -16,17 +16,61 @@ import { getEnvList } from 'aetherspace/utils'
 // Icons
 import { GraphIcon, ReactIcon, ExpoIcon, StorybookIcon, NextIcon } from '../icons'
 
-/* --- Schemas --------------------------------------------------------------------------------- */
+/* --- Schemas & Types ------------------------------------------------------------------------- */
 
-const HomeScreenProps = aetherSchema('HomeScreenProps', {
+const HomePropsSchema = aetherSchema('HomeScreenProps', {
   customGreeting: z.string().default('Hello GREEN stack 👋').describe('A greeting for the user'), // prettier-ignore
+  alive: z.boolean().default(true),
+  kicking: z.boolean().default(true),
 })
+
+const HomeParamsSchema = aetherSchema('HomeScreenParams', {
+  echo: z.string().default('Hello GREEN stack 👋').describe('Echo argument for the GraphQL health endpoint'), // prettier-ignore
+})
+
+export type HomeScreenProps = AetherProps<typeof HomePropsSchema>
+export type HomeScreenParams = AetherProps<typeof HomeParamsSchema>
+
+/* --- GraphQL & Data Fetching ----------------------------------------------------------------- */
+
+const getScreenDataQuery = `
+  query($healthCheckArgs: HealthCheckArgs!) {
+    healthCheck(args: $healthCheckArgs) {
+      alive
+      kicking
+      echo
+    }
+  }
+`
+
+const getHomeScreenArgs = (params: HomeScreenParams = {}) => ({
+  healthCheckArgs: HomeParamsSchema.parse(params),
+})
+
+const getHomeScreenData = async (queryKey: string, queryVariables?: HomeScreenParams) => {
+  const queryData = queryKey || getScreenDataQuery
+  const queryInput = queryVariables || getHomeScreenArgs() // Use defaults if not defined
+  const { data } = await fetchAetherProps(queryData, queryInput)
+  const { alive, kicking, echo } = data?.healthCheck || {}
+  return { alive, kicking, customGreeting: echo } as HomeScreenProps
+}
+
+export const screenConfig = {
+  query: getScreenDataQuery,
+  getGraphqlVars: getHomeScreenArgs,
+  getGraphqlData: getHomeScreenData,
+  paramSchema: HomeParamsSchema,
+  propSchema: HomePropsSchema,
+  refetchOnMount: false,
+  backgroundColor: '#FFFFFF',
+}
 
 /* --- <HomeScreen/> --------------------------------------------------------------------------- */
 
-const HomeScreen = (props: AetherProps<typeof HomeScreenProps>) => {
-  // Props
-  const { customGreeting } = HomeScreenProps.parse(props)
+export const HomeScreen = (props: AetherProps<typeof HomePropsSchema>) => {
+  // Props & Data
+  const [pageData] = useAetherRoute(props, screenConfig)
+  const { customGreeting, alive, kicking } = pageData
 
   // Environment
   const appURIs = getEnvList('APP_LINKS').filter((url) => url.includes('http')) || [] // prettier-ignore
@@ -83,17 +127,17 @@ const HomeScreen = (props: AetherProps<typeof HomeScreenProps>) => {
       <View class="flex-row pt-3">
         <Pressable
           class="flex-row py-1 px-2 mx-1 bg-gray-700 items-center rounded-md"
-          onPress={() => openLink(healthEndpoint || '/api/health')}
-          accessibilityRole="button"
-        >
-          <Text class="text-white roboto-bold text-sm">REST ✅</Text>
-        </Pressable>
-        <Pressable
-          class="flex-row py-1 px-2 mx-1 bg-gray-700 items-center rounded-md"
           onPress={() => openLink(graphQLEndpoint || '/api/graphql')}
           accessibilityRole="button"
         >
-          <Text class="text-white roboto-bold text-sm">GraphQL ✅</Text>
+          <Text class="text-white roboto-bold text-sm">{alive ? 'GraphQL ✅' : 'GraphQL 🔄'}</Text>
+        </Pressable>
+        <Pressable
+          class="flex-row py-1 px-2 mx-1 bg-gray-700 items-center rounded-md"
+          onPress={() => openLink(healthEndpoint || '/api/health')}
+          accessibilityRole="button"
+        >
+          <Text class="text-white roboto-bold text-sm">{kicking ? 'REST ✅' : 'REST 🔄'}</Text>
         </Pressable>
       </View>
       <Link href="/author" class="roboto-bold pt-5 text-center text-sm text-black">
@@ -111,7 +155,7 @@ const HomeScreen = (props: AetherProps<typeof HomeScreenProps>) => {
 
 /* --- Documentation --------------------------------------------------------------------------- */
 
-export const getDocumentationProps = HomeScreenProps.introspect()
+export const getDocumentationProps = HomePropsSchema.introspect()
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

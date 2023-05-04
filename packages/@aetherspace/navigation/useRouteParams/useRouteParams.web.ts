@@ -1,11 +1,6 @@
 import { useSearchParams } from 'next/navigation'
-
-/* --- Types ----------------------------------------------------------------------------------- */
-
-type RoutePropsType = {
-  [key: string]: unknown
-  params?: Record<string, unknown>
-}
+// Types
+import { RoutePropsType } from './useRouteParams.types'
 
 /** --- useRouteParams() ----------------------------------------------------------------------- */
 /** -i- Get the route params from the expo (mobile) or next (web) router */

@@ -1,48 +1,17 @@
 // @ts-ignore
-import React, { useMemo, forwardRef, ComponentProps } from 'react'
+import React, { useMemo, forwardRef } from 'react'
 import { Platform, Text } from 'react-native'
 import NextLink from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
 import * as Linking from 'expo-linking'
 import * as WebBrowser from 'expo-web-browser'
+// Types
+import { AetherLinkType } from './AetherLink.types'
+import { any$Todo } from '../../types/typeHelpers'
 // Primitives
 import { AetherView, AetherText } from '../../primitives'
 // Utils
 import { getEnvVar } from '../../utils'
-
-/* --- Types ----------------------------------------------------------------------------------- */
-
-interface AetherLinkBaseType extends Partial<ComponentProps<typeof Text>> {
-  style?: ComponentProps<typeof Text>['style']
-  tw?: string | (string | null | undefined | false | 0)[]
-  twID?: string
-  class?: string | (string | null | undefined | false | 0)[]
-  className?: string | (string | null | undefined | false | 0)[]
-  asText?: boolean
-  isText?: boolean
-  isBlank?: boolean
-  target?: string
-  children?: any | any[] // TODO: Fix this
-}
-
-interface AetherLinkToType extends AetherLinkBaseType {
-  to: string
-  href?: never
-  routeName?: never
-}
-interface AetherLinkHrefType extends AetherLinkBaseType {
-  href: string
-  to?: never
-  routeName?: never
-}
-interface AetherLinkRouteType extends AetherLinkBaseType {
-  routeName: string
-  to?: never
-  href?: never
-}
-
-type AetherLinkType = AetherLinkToType | AetherLinkHrefType | AetherLinkRouteType
-type any$Todo = any
 
 /* --- Styles ---------------------------------------------------------------------------------- */
 
@@ -70,7 +39,7 @@ export const useAetherNav = () => {
     const internalDomainMatch = APP_LINKS.find((appUrl) => path.includes(appUrl))
     if (internalDomainMatch) return path.replace(`${internalDomainMatch}/`, '')
     // Remove leading slash?
-    const hasLeadingSlash = path !== '/' && path[0] === '/'
+    const hasLeadingSlash = path !== '/' && path?.[0] === '/'
     return hasLeadingSlash ? path.slice(1) : path
   }
 

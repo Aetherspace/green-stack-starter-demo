@@ -3,7 +3,9 @@
 // - https://nextjs.org/docs/api-reference/next/image
 import React, { useMemo, forwardRef, ComponentProps } from 'react'
 import { Image as RNImage, ImageURISource } from 'react-native'
-import Image, { ImageProps } from 'next/image'
+import Image from 'next/image'
+// Types
+import { AetherImageType } from './AetherImage.types'
 // Types
 import { Overwrite } from '../../types'
 // Context
@@ -15,23 +17,6 @@ import AetherImageExpo from './AetherImage.tsx'
 import useAetherStyles from '../../hooks/useAetherStyles'
 // Utils
 import { getEnvList, getEnvVar } from '../../utils/envUtils'
-
-/* --- Types ----------------------------------------------------------------------------------- */
-
-interface AetherImageType extends Partial<ComponentProps<typeof RNImage>> {
-  style?: ComponentProps<typeof RNImage>['style']
-  tw?: string | (string | null | undefined | false | 0)[]
-  twID?: string
-  class?: string | (string | null | undefined | false | 0)[]
-  className?: string | (string | null | undefined | false | 0)[]
-  src?: string | ImageProps['src']
-  alt?: string
-  width?: number
-  height?: number
-  quality?: ImageProps['quality']
-  priority?: boolean
-  loading?: 'lazy' | 'eager'
-}
 
 /* --- <AetherImage/> -------------------------------------------------------------------------- */
 

@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import { View, Platform, Dimensions } from 'react-native'
 import tailwind, { create as createTailwindWithConfig } from 'twrnc'
 // Context
 import { AetherContext, DEFAULT_AETHER_CONTEXT, AetherContextType } from './aetherContext'
 // Hooks
 import { useLayoutInfo } from '../../hooks/useLayoutInfo'
+// Utils
+import { setGlobal } from '../../utils'
 
 /* --- <AetherContextManager/> ----------------------------------------------------------------- */
 
@@ -24,6 +26,12 @@ const AetherContextManager = (props: AetherContextType) => {
 
   // Links (used for mobile navigation only)
   const linkContext = useMemo(() => props.linkContext || DEFAULT_AETHER_CONTEXT.linkContext, [])
+
+  // -- DidMount --
+
+  useEffect(() => {
+    if (isStorybook) setGlobal('IS_STORYBOOK', true)
+  }, [])
 
   // -- ContextValue --
 

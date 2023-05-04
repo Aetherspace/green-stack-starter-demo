@@ -8,6 +8,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { schemaDefs, schema } from 'app/graphql/schema'
 // Resolvers
 import { withCors } from 'app/middleware'
+// Utils
 import { runMiddleWare } from 'aetherspace/utils/serverUtils'
 
 /* --- Debug ----------------------------------------------------------------------------------- */

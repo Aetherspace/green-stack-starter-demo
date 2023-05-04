@@ -28,22 +28,15 @@ const AuthorScreen = () => {
         <Text tw="font-bold text-lg">thorr@codinsonn.dev</Text>
       </Pressable>
       <View tw="flex-row items-center content-center justify-center my-5">
-        <Pressable
-          accessibilityRole="button"
-          tw="flex-row py-2.5 px-5 mx-3 bg-black items-center"
-          onPress={goBack}
-        >
+        <Link tw="flex-row px-4 py-2 bg-black items-center" to="/" onPress={goBack}>
           <BackIcon width={16} height={16} fill="#FFFFFF" />
           <Text tw="text-white"> Go Back</Text>
-        </Pressable>
-        <Pressable
-          accessibilityRole="button"
-          tw="flex-row py-2.5 px-5 mx-3 bg-black items-center"
-          onPress={() => openLink('/')}
-        >
+        </Link>
+        <View tw="w-4" />
+        <Link tw="flex-row px-4 py-2 bg-black items-center" href="/" onPress={() => openLink('/')}>
           <HomeIcon width={15} height={15} fill="#FFFFFF" />
           <Text tw="text-white"> Home</Text>
-        </Pressable>
+        </Link>
       </View>
       <Link
         to={`${docsURI}?path=/story/readme-md--page`}

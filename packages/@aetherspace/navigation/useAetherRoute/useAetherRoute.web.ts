@@ -1,6 +1,8 @@
 import useSWR from 'swr'
 // Schemas
 import { AetherProps, z } from 'aetherspace/schemas'
+// Utils
+import { isEmpty } from '../../utils'
 
 /** --- useAetherRoute() ----------------------------------------------------------------------- */
 /** -i- Get the route data and params for any route related screen */
@@ -10,6 +12,7 @@ export const useAetherRoute = <
   PARAMS = z.ZodObject<PARAMS_DEF>['_input'],
   PROPS extends Record<string, unknown> & {
     params?: Record<string, unknown> & PARAMS
+    searchParams?: Record<string, unknown> & PARAMS
     segment?: string
   } = AetherProps<z.ZodObject<PROPS_DEF>>
 >(
@@ -20,26 +23,33 @@ export const useAetherRoute = <
     getGraphqlData,
     paramSchema,
     propSchema,
+    refetchOnMount,
   }: {
     query: string
     getGraphqlVars: (params: z.infer<z.ZodObject<PARAMS_DEF>>) => unknown
     getGraphqlData: (query: string, variables: PARAMS) => Promise<PROPS>
     paramSchema: z.ZodObject<PARAMS_DEF>
     propSchema: z.ZodObject<PROPS_DEF>
+    refetchOnMount?: boolean
   }
 ) => {
   // Props
-  const { params: routeParams, segment, ...screenDataProps } = props
+  const { params: routeParams, segment, searchParams, ...screenDataProps } = props
 
   // Vars
-  const params = paramSchema.optional().parse(routeParams)
+  const params = paramSchema.optional().parse({ ...searchParams, ...routeParams })
   const variables = getGraphqlVars(params!)
+  const isServer = typeof window === 'undefined'
+  const shouldFetch = isServer || isEmpty(screenDataProps) || refetchOnMount
 
   // -- Fetching --
 
-  const swrCall = useSWR<PROPS>([query, variables], ([gqlQuery, gqlParams]) => {
-    return getGraphqlData(gqlQuery, gqlParams)
-  })
+  const swrCall = useSWR<PROPS>(
+    shouldFetch ? [query, variables] : null,
+    ([gqlQuery, gqlParams]) => {
+      return getGraphqlData(gqlQuery, gqlParams)
+    }
+  )
 
   // -- Data --
 

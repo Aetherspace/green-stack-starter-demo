@@ -4,7 +4,7 @@ import { isEmpty } from 'aetherspace/utils/commonUtils'
 // -i- Auto generated with "yarn document-components"
 // Components hooking into the storybook auto-documentation script
 import { default as AuthorScreen, getDocumentationProps as getAuthorScreenProps } from '../../../../../features/app-core/screens/AuthorScreen.tsx'
-import { default as HomeScreen, getDocumentationProps as getHomeScreenProps } from '../../../../../features/app-core/screens/HomeScreen.tsx'
+import { HomeScreen, getDocumentationProps as getHomeScreenProps } from '../../../../../features/app-core/screens/HomeScreen.tsx'
 // Mocks
 import StoryContextProviders from '../../../../../features/app-core/mocks/StoryContextProviders'
 
@@ -47,7 +47,7 @@ export const HomeScreenDocs = createDocs(HomeScreen)
 export const HomeScreenConfig = aetherStoryDocs({ HomeScreen }, getHomeScreenProps)
 
 ```typescript
-import HomeScreen from 'features/app-core/screens/HomeScreen'
+import { HomeScreen } from 'features/app-core/screens/HomeScreen'
 ```
 
 

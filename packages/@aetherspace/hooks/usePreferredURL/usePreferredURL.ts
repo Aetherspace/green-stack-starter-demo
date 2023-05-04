@@ -22,9 +22,7 @@ const usePreferredURL = (preferredURLS: string[] = [], forcedFallback?: string) 
         }
         // Attempt to contact docs
         const response = await axios.head(urlsToCheck[index], {
-          headers: {
-            // Origin: 'same-origin',
-          },
+          headers: { 'Access-Control-Allow-Origin': '*' },
         })
         // If unavailable, check the next URI
         if (response?.status !== 200) return checkUriIndex(index + 1)
