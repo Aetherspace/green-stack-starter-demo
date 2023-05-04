@@ -381,6 +381,8 @@ Continue with >>> <b><a href="https://main--62c9a236ee16e6611d719e94.chromatic.c
 
 ...
 
-> This repo is just a fork for demo and conference talk purposes. While usable, this template may therefore be outdated. I often make this demo repo public for about 1 month after any related conf talk, so it might also dissapear soon. 👀 (Until then, any repos created from this template fall under the [free / demo licence](https://github.com/Aetherspace/green-stack-starter-demo/blob/main/LICENSE.md#free-license))  
-  
-> ***For an always available, always updated version 👉 [Aetherspace/green-stack-starter](https://github.com/sponsors/codinsonn)***
+> This repo is a ***free ambassador version*** of the [GREEN stack starter](https://github.com/sponsors/codinsonn). Keep the disclaimer above somewhere in your main README (or mention Aetherspace in your front-end) so this repo and any repos created from this template continue to fall under the [free ambassador licence](https://github.com/Aetherspace/green-stack-starter-demo/blob/main/LICENSE.md#free-license)  
+
+> ***For optional plugin branches, and an always updated version 👉 [Aetherspace/green-stack-starter](https://github.com/sponsors/codinsonn)***
+
+...
