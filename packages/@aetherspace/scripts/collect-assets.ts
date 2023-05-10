@@ -26,10 +26,10 @@ const collectAssets = () => {
     }, '// -i- Auto generated with "yarn collect-assets"\n')
     // Write barrel file to 'packages/@registries/assets.generated.ts'
     fs.writeFileSync('../../packages/@registries/assets.generated.ts', assetRegistry)
-    console.log(
-      '-i- Successfully created asset registry at:',
-      '\n✅ packages/@registries/assets.generated.ts'
-    )
+    console.log('-----------------------------------------------------------------')
+    console.log('-i- Successfully created asset registry at:')
+    console.log('-----------------------------------------------------------------')
+    console.log(' ✅ packages/@registries/assets.generated.ts')
   } catch (err) {
     console.error(err)
     process.exit(1)

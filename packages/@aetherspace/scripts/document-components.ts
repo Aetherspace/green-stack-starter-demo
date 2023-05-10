@@ -95,7 +95,11 @@ const documentComponents = () => {
       }
     }, {})
     // Log out doc creation process
-    if (!isEmpty(documentedFolders)) console.log("-i- Auto documenting with 'yarn document-components' ...") // prettier-ignore
+    if (!isEmpty(documentedFolders)) {
+      console.log('-----------------------------------------------------------------')
+      console.log("-i- Auto documenting with 'yarn document-components' ...") // prettier-ignore
+      console.log('-----------------------------------------------------------------')
+    }
     // Make .stories.mdx files for each folder with components in it
     Object.keys(documentedFolders).forEach((componentFolder) => {
       const componentsList = Object.values(documentedFolders[componentFolder]) as Record<string, string>[] // prettier-ignore
@@ -144,7 +148,7 @@ const documentComponents = () => {
       const storyFilePath = `${rootFolderPath}/${componentFolderName}.stories.mdx`
       fs.mkdirSync(rootFolderPath, { recursive: true })
       fs.writeFileSync(storyFilePath, finalStoryFile)
-      console.log(`✅ ${storyFilePath.replace('../../', '')}`)
+      console.log(` ✅ ${storyFilePath.replace('../../', '')}`)
     })
   } catch (err) {
     console.log(err)

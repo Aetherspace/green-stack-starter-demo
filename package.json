@@ -59,6 +59,7 @@
     "storybook:wait": "yarn turbo run aetherspace#dev-health-check && yarn storybook",
     "expo-cli": "yarn workspace expo-app expo-cli",
     "eas-cli": "yarn workspace expo-app eas-cli",
+    "link-routes": "yarn turbo run aetherspace#link-routes",
     "collect-assets": "yarn turbo run aetherspace#collect-assets",
     "collect-resolvers": "yarn turbo run aetherspace#collect-resolvers",
     "document-components": "yarn turbo run aetherspace#document-components",

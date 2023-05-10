@@ -34,10 +34,10 @@ const collectResolvers = () => {
     }, '// -i- Auto generated with "yarn build-schema"\n')
     // Write barrel file to 'packages/@registries/resolvers.generated.ts'
     fs.writeFileSync('../../packages/@registries/resolvers.generated.ts', resolverRegistry)
-    console.log(
-      '-i- Successfully created resolver registry at:',
-      '\n✅ packages/@registries/resolvers.generated.ts'
-    )
+    console.log('-----------------------------------------------------------------')
+    console.log('-i- Successfully created resolver registry at:')
+    console.log('-----------------------------------------------------------------')
+    console.log(' ✅ packages/@registries/resolvers.generated.ts')
   } catch (err) {
     console.log(err)
     console.error(err)

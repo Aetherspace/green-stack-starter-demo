@@ -19,7 +19,9 @@ const checkHealth = async () => {
   timesTried += 1
   // Exit with error when max amount of tries exceeded
   if (timesTried > MAX_TRIES) {
+    console.log('\n-----------------------------------------------------------------')
     console.error(`❌ Exceeded ${MAX_TRIES} health checks, something may be wrong, aborting.`)
+    console.log('-----------------------------------------------------------------\n')
     process.exit(1)
   }
   // Attempt to reach the API
@@ -33,7 +35,9 @@ const checkHealth = async () => {
     const hasWorkingGraphQLAPI = graphQLResponse.healthCheck.alive && graphQLResponse.healthCheck.kicking
     // Check that the responses are correct
     if (hasWorkingRestAPI && hasWorkingGraphQLAPI) {
+      console.log('-----------------------------------------------------------------')
       console.log(`✅ Health check #${timesTried} succeeded: Server, API routes & GraphQL up and running.`)
+      console.log('-----------------------------------------------------------------')
       process.exit(0)
     }
   } catch (err) {

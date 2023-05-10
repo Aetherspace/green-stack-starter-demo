@@ -11,6 +11,17 @@
         "**/*.ts"
       ]
     },
+    "aetherspace#link-routes": {
+      "dependsOn": ["aetherspace#build"],
+      "outputs": ["../../apps/**/app/(generated)/**"],
+      "inputs": [
+        "../../features/**/routes/**/*.tsx",
+        "../../features/**/routes/**/*.ts",
+        "../../packages/**/routes/**/*.tsx",
+        "../../packages/**/routes/**/*.ts"
+      ],
+      "cache": false
+    },
     "aetherspace#collect-assets": {
       "dependsOn": ["aetherspace#build"],
       "outputs": ["../@registries/assets.generated.js"],

@@ -1,1 +1,1 @@
-export { default } from 'app/routes/'
+export { default } from 'app/routes/index'
