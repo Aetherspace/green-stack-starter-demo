@@ -1,3 +1,4 @@
+import { NextResponse } from 'next/server'
 // Types
 import type {
   NextApiRequest,
@@ -6,7 +7,7 @@ import type {
   GetStaticPathsContext,
   GetStaticPropsContext,
 } from 'next'
-import { ApolloError } from 'apollo-server-micro'
+import { GraphQLError } from 'graphql'
 import { z } from 'aetherspace/schemas'
 // Schemas
 import '../../schemas/aetherSchemas'
@@ -17,8 +18,8 @@ import { normalizeObjectProps, isEmpty } from '../index'
 /* --- Types ----------------------------------------------------------------------------------- */
 
 export type ResolverInputType<AT = any> = {
-  req?: NextApiRequest | GetServerSidePropsContext['req']
-  res?: NextApiResponse | GetServerSidePropsContext['res']
+  req?: NextApiRequest | Request | GetServerSidePropsContext['req']
+  res?: NextApiResponse | Response | GetServerSidePropsContext['res']
   nextSsrContext?: GetServerSidePropsContext
   nextStaticPathsContext?: GetStaticPathsContext
   nextStaticPropsContext?: GetStaticPropsContext
@@ -53,7 +54,7 @@ export type ResolverExecutionParamsType<AT = any> = {
     allowFail?: boolean
     [key: string]: any
   }
-  res?: NextApiResponse | GetServerSidePropsContext['res']
+  res?: NextApiResponse | Response | GetServerSidePropsContext['res']
 }
 
 export type AetherArguments<T extends unknown & { ARGS_TYPE: unknown }> = T['ARGS_TYPE']
@@ -88,7 +89,7 @@ export const aetherResolver = <
     const schemaParamKeys = Object.keys(argsSchema?.shape ?? {})
     const apiParamKeys = [ctx?.paramKeys, paramKeys || schemaParamKeys].flat().filter(Boolean).join(' ') // prettier-ignore
     const query = { ...nextSsrContext?.query, ...(req as NextApiRequest)?.query }
-    const params = { ...restParams, ...nextSsrContext?.params, ...context, ...ctx?.params }
+    const params = { ...restParams, ...nextSsrContext?.params, ...context, ...ctx?.params } // @ts-ignore
     const cookies = nextSsrContext?.req?.cookies || req?.cookies || ctx?.cookies
     const relatedArgs = apiParamKeys ? getApiParams(apiParamKeys, { query, params, body, args, context }) : {} // prettier-ignore
     const normalizedArgs = normalizeObjectProps(relatedArgs)
@@ -162,7 +163,7 @@ export const makeGraphQLResolver = <AT, RT, AST extends z.ZodRawShape, RST exten
     } catch (err) {
       // Handle errors
       console.error(err) // @ts-ignore
-      throw new ApolloError(err.message || err.toString())
+      throw new GraphQLError(err.message || err.toString())
     }
   }
   return Object.assign(wrappedResolver, {
@@ -174,7 +175,7 @@ export const makeGraphQLResolver = <AT, RT, AST extends z.ZodRawShape, RST exten
 }
 
 /** --- makeNextApiHandler() ------------------------------------------------------------------- **/
-/** -i- Codegen: Build next.js api request from an aether resolver */
+/** -i- Codegen: Build next.js pages dir api route from an aether resolver */
 export const makeNextApiHandler = <AT, RT, AST, RST>(
   resolver: ((ctx?: ResolverInputType<AT>) => Promise<RT>) & { argSchema: AST; resSchema: RST },
   options?: {
@@ -202,6 +203,26 @@ export const makeNextApiHandler = <AT, RT, AST, RST>(
       console.error(err)
       return res.status(500).json({ success: false, errors: [err] })
     }
+  }
+}
+
+/** --- makeNextRouteHandler() ----------------------------------------------------------------- */
+/** -i- Codegen: Build next.js app dir api route from an aether resolver  */
+export const makeNextRouteHandler = (handler) => {
+  return async (req: Request, { params }) => {
+    // Parse query params
+    const url = req.url
+    const queryString = url.split('?')[1] || ''
+    const query = normalizeObjectProps(Object.fromEntries(new URLSearchParams(queryString)))
+    // Parse body?
+    let args = { ...query, ...params }
+    if (['POST', 'PUT', 'PATCH'].includes(req.method)) {
+      const body = await req.json()
+      args = { ...query, ...body, ...params }
+    }
+    // Run handler & return response
+    const responseData = await handler({ req, params, args })
+    return NextResponse.json(responseData)
   }
 }
 

@@ -9,14 +9,32 @@ const collectResolvers = () => {
   try {
     // General filter helpers
     const excludeDirs = (pth) => pth.split('/').pop().includes('.')
+    const excludeModules = (pth) => !pth.includes('node_modules')
+
     // Get all resolver file paths in the next app's api folder
-    const nextAPIPaths = glob.sync('../../apps/next/**/api/**/*.ts').filter(excludeDirs)
+    const featureAPIRoutes = glob.sync('../../features/**/routes/api/**/route.ts').filter(excludeDirs) // prettier-ignore
+    const packageAPIRoutes = glob.sync('../../packages/**/routes/api/**/*.ts').filter(excludeDirs) // prettier-ignore
+    const allAPIRoutes = [...featureAPIRoutes, ...packageAPIRoutes]
+
+    // Figure out import paths from each workspace
+    const packageConfigPaths = glob.sync('../../packages/**/package.json').filter(excludeModules)
+    const featureConfigPaths = glob.sync('../../features/**/package.json').filter(excludeModules)
+    const packageJSONPaths = [...packageConfigPaths, ...featureConfigPaths]
+    const workspaceImports = packageJSONPaths.reduce((acc, pth) => {
+      const packageJSON = JSON.parse(fs.readFileSync(pth, 'utf8'))
+      const workspaceMatcher = pth.replace('../../', '').replace('/package.json', '')
+      return { ...acc, [workspaceMatcher]: packageJSON.name }
+    }, {}) as Record<string, string>
+
     // Filter out the next.js api paths that don't work with aether schemas
-    const resolverRegistry = nextAPIPaths.reduce((acc, resolverPath) => {
-      const importPath = resolverPath.replace('.ts', '').replace('../../apps/', '../../apps/')
+    const resolverRegistry = allAPIRoutes.reduce((acc, resolverPath) => {
+      // Figure out the workspace import
+      const [packageParts, routeParts] = resolverPath.split('/routes') as [string, string]
+      const workspaceMatcher = packageParts.replace('../../', '')
+      const workspaceImport = workspaceImports[workspaceMatcher]
+      const importPath = `${workspaceImport}/routes${routeParts.replace('.ts', '')}`
       // Skip files that don't export an aetherResolver
       const pathContents = fs.readFileSync(resolverPath, 'utf8')
-      // const usesAetherSchemas = pathContents.includes("'aetherspace/schemas'")
       const exportsAetherResolver = pathContents.includes('makeGraphQLResolver')
       const exportsGraphQLResolver = pathContents.includes('export const graphResolver')
       if (!exportsAetherResolver || !exportsGraphQLResolver) return acc
@@ -31,7 +49,7 @@ const collectResolvers = () => {
       const exportLine = `export { graphResolver as ${resolverName} } from '${importPath}'`
       // Add the resolver to the registry
       return `${acc}${exportLine}\n`
-    }, '// -i- Auto generated with "yarn build-schema"\n')
+    }, '// -i- Auto generated with "yarn collect-resolvers" -- /packages/@aetherspace/scripts/collect-resolvers.ts\n') // prettier-ignore
     // Write barrel file to 'packages/@registries/resolvers.generated.ts'
     fs.writeFileSync('../../packages/@registries/resolvers.generated.ts', resolverRegistry)
     console.log('-----------------------------------------------------------------')

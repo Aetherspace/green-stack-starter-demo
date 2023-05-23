@@ -23,7 +23,7 @@ const collectAssets = () => {
       const assetKey = getAssetKey(relSrcPath)
       const exportLine = `export const ${assetKey} = require('${requirePath}');`
       return `${acc}${exportLine}\n`
-    }, '// -i- Auto generated with "yarn collect-assets"\n')
+    }, '// -i- Auto generated with "yarn collect-assets" -- /packages/@aetherspace/scripts/collect-assets.ts \n') // prettier-ignore
     // Write barrel file to 'packages/@registries/assets.generated.ts'
     fs.writeFileSync('../../packages/@registries/assets.generated.ts', assetRegistry)
     console.log('-----------------------------------------------------------------')

@@ -1,2 +1,2 @@
-// -i- Auto generated with "yarn build-schema"
-export { graphResolver as healthCheck } from '../../apps/next/src/pages/api/health'
+// -i- Auto generated with "yarn collect-resolvers" -- /packages/@aetherspace/scripts/collect-resolvers.ts
+export { graphResolver as healthCheck } from 'app/routes/api/health/route'
