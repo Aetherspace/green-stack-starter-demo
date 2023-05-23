@@ -57,7 +57,7 @@ const useAetherStyles = <
     // Determine tailwind classes
     const twClasses = twStrings!.split(' ').sort((a) => (a.includes(':') ? 1 : -1))
     // Check for serverside media queries?
-    const usedClasses = twClasses.reduce((classes, twClass, i) => {
+    const usedClasses = twClasses.reduce((classes, twClass) => {
       // If there's no "{prefix/breakpoint}:tw-class" in the string, there's nothing to check further
       if (!twClass.includes(':')) return [classes, twClass].join(' ')
       // Split up into a) the prefix to check for & b) the tailwind class to apply

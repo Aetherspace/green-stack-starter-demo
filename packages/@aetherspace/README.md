@@ -164,14 +164,14 @@ next-app:dev: ✅ packages/@registries/docs/features/app-core/screens.stories.md
 
 > 💪 Using `aetherSchema()` & `zod` to describe function arguments and responses opens it up to not just easier regular function use with async / await, but Next.js API routes and GraphQL resolvers as well.
 
-`apps/next/src/pages/api/health.ts`
+`features/app-core/routes/api/health/route.ts`
 
 ```ts
 // Schemas
 import { z, aetherSchema } from 'aetherspace/schemas'
 import { aetherResolver, makeNextApiHandler, makeGraphQLResolver } from 'aetherspace/utils/serverUtils'
 
-/* --- Schemas ----------- */
+/* --- Schemas ------------- */
 
 export const HealthCheckArgs = aetherSchema('HealthCheckArgs', {
   echo: z.string().optional().describe('Echoes back the echo argument'),
@@ -182,25 +182,30 @@ export const HealthCheckResponse = HealthCheckArgs.pickSchema('HealthCheckRespon
   echo: true, // <- Pick the echo argument from the args schema, since we're echoing it back
 })
 
-/* --- Config ------------ */
+/* --- Config -------------- */
 
 const resolverConfig = {
   argsSchema: HealthCheckArgs,
   responseSchema: HealthCheckResponse,
 }
 
-/* --- healthCheck() ----- */
+/* --- healthCheck() ------- */
 
+// Our actual business logic
 export const healthCheck = aetherResolver(async ({ args }) => ({
     echo: args.echo, // <- Echo back the echo argument 🤷‍♂️
 }), resolverConfig)
 
-/* --- Exports ----------- */
+/* --- Next.js API Routes -- */
+
+export const GET = makeNextRouteHandler(healthCheck)
+
+export const POST = makeNextRouteHandler(healthCheck)
+
+/* --- GraphQL ------------- */
 
 // Make resolver available to GraphQL (picked up by automation)
 export const graphResolver = makeGraphQLResolver(healthCheck)
-// Export as Next.js API route
-export default makeNextApiHandler(healthCheck, { /* options */ })
 ```
 
 [example >>> REST](https://aetherspace-green-stack-starter.vercel.app/api/health) (e.g. at `/api/health`)  

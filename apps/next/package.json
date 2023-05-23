@@ -8,14 +8,19 @@
         "build": "next build",
         "deploy": "yarn --cwd ../../ deploy"
     },
+    "browser": {
+        "fs": false,
+        "os": false,
+        "path": false
+    },
     "dependencies": {
         "@expo/next-adapter": "^5.0.2",
         "aetherspace": "*",
         "app": "*",
         "encoding": "^0.1.13",
-        "next": "^13.2.3",
+        "next": "^13.4.3",
         "next-fonts": "^1.5.1",
-        "next-images": "^1.8.4",
+        "next-images": "^1.8.5",
         "next-pwa": "^5.6.0",
         "next-transpile-modules": "^10.0.0",
         "raf": "^3.4.1",
