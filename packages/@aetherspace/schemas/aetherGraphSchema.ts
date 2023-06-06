@@ -2,6 +2,11 @@ import { gql } from '@apollo/client'
 import { aetherSchemaPlugin } from './aetherSchemaPlugin'
 import { AetherSchemaType } from './aetherSchemas'
 
+/* --- Scalars --------------------------------------------------------------------------------- */
+
+// TODO: Remove Schema scalar
+const CUSTOM_SCALARS = ['scalar Date']
+
 /* --- Types ----------------------------------------------------------------------------------- */
 
 type ResolverSchemaType = AetherSchemaType & {
@@ -29,7 +34,7 @@ const SCHEMA_PRIMITIVE_MAPPER = Object.freeze({
   AetherString: 'String',
   AetherNumber: 'Float',
   AetherBoolean: 'Boolean',
-  AetherId: 'String',
+  AetherId: 'ID',
   AetherColor: 'String',
   AetherDate: 'Date',
   AetherEnum: 'String',
@@ -43,7 +48,7 @@ const aetherSchemaDefinitions = (aetherSchema: ResolverSchemaType, prefix = 'typ
   const createDefinition = (gqlType) => (name, schemaConfig) => {
     const isNullable = [schemaConfig.isOptional, schemaConfig.isNullable].includes(true)
     const requiredState = isNullable ? '' : '!'
-    const description = schemaConfig.description ? `"""${schemaConfig.description}"""\n` : ''
+    const description = schemaConfig.description ? `"""\n        ${schemaConfig.description}\n        """\n        ` : '' // prettier-ignore
     if (gqlType === 'Schema' && schemaConfig?.schemaName) {
       schemaDefinitions = [...schemaDefinitions, ...aetherSchemaDefinitions(schemaConfig)]
       return [description, `${name}: ${schemaConfig.schemaName}${requiredState}`].join('')
@@ -64,7 +69,7 @@ const aetherSchemaDefinitions = (aetherSchema: ResolverSchemaType, prefix = 'typ
     AetherNumber: createDefinition('Float'),
     AetherBoolean: createDefinition('Boolean'),
     // -- Single values --
-    AetherId: createDefinition('String'),
+    AetherId: createDefinition('ID'),
     AetherColor: createDefinition('String'),
     AetherDate: createDefinition('Date'),
     AetherEnum: createDefinition('String'),
@@ -136,8 +141,9 @@ const aetherGraphSchema = (aetherResolvers: ResolverMapType) => {
   const hasQueries = queryDefs.length > 0
   const mutation = hasMutations ? `type Mutation {\n    ${mutationDefs.join('\n    ')}\n}` : ''
   const query = hasQueries ? `type Query {\n    ${queryDefs.join('\n    ')}\n}` : ''
-  const allTypeDefs = [...dataTypeDefs, mutation, query].filter(Boolean)
-  const graphqlSchemaDefs = gql`${allTypeDefs.join('\n\n')}` // prettier-ignore
+  const allTypeDefs = [...CUSTOM_SCALARS, ...dataTypeDefs, mutation, query].filter(Boolean)
+  const typeDefsString = allTypeDefs.join('\n\n')
+  const graphqlSchemaDefs = gql`${typeDefsString}` // prettier-ignore
   const rebuildFromConfig = (handlers, { resolverName, resolver }) => ({
     ...handlers,
     [resolverName]: resolver,

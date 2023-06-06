@@ -10,6 +10,11 @@
     "features/*",
     "packages/*"
   ],
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false
+  },
   "devDependencies": {
     "@a110/storybook-expand-all": "^1.1.1",
     "@expo/webpack-config": "^0.17.2",
