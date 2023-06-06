@@ -3,6 +3,11 @@
     "main": "index.ts",
     "version": "1.0.0",
     "license": "MIT",
+    "browser": {
+        "fs": false,
+        "os": false,
+        "path": false
+    },
     "scripts": {
         "build": "tsc --project .",
         "link-routes": "node scripts/link-routes",
