@@ -18,13 +18,14 @@ if (process.env.NODE_ENV === 'development') {
 const server = new ApolloServer({
   typeDefs: schemaDefs.typeDefs,
   resolvers: schemaDefs.resolvers,
-  plugins: [],
   introspection: true,
 })
 
-const handler = startServerAndCreateNextHandler(server)
+const handler = startServerAndCreateNextHandler(server, {
+  context: async (req: Request) => ({ req }),
+})
 
-/* --- /api/labs/graphql ----------------------------------------------------------------------- */
+/* --- /api/graphql ---------------------------------------------------------------------------- */
 
 export const GET = (req: Request) => handler(req)
 

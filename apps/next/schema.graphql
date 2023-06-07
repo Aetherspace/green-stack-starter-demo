@@ -1,13 +1,85 @@
+scalar Date
+
 input HealthCheckArgs {
   """Echoes back the echo argument"""
   echo: String
+
+  """Extra documentation URLs to check against"""
+  docsURLs: [String]
 }
 
 type HealthCheckResponse {
   """Echoes back the echo argument"""
   echo: String
+
+  """Extra documentation URLs to check against"""
+  docsURLs: [String]
+
+  """The status of the server"""
+  status: String!
+
+  """Indicates if the server is alive"""
   alive: Boolean!
+
+  """Indicates if the server is kicking"""
   kicking: Boolean!
+
+  """The request URL"""
+  requestURL: String
+
+  """The base URL"""
+  baseURL: String
+
+  """The path all API routes are under"""
+  apiURL: String
+
+  """The GraphQL URL"""
+  graphURL: String
+
+  """The docs URL"""
+  docsURL: String
+
+  """The port the server is running on"""
+  port: Float
+
+  """The debug port the server is running on"""
+  debugPort: Float
+
+  """The current server time"""
+  now: Date!
+
+  """Time since the server or lambda has started"""
+  aliveSince: Date!
+
+  """Time since the server or lambda has started in milliseconds"""
+  aliveTime: Float!
+
+  """The timezone of the server"""
+  timezone: String
+
+  """The node version"""
+  nodeVersion: String
+
+  """The v8 version"""
+  v8Version: String
+
+  """The system architecture"""
+  systemArch: String
+
+  """The system platform"""
+  systemPlatform: String
+
+  """The system release"""
+  systemRelease: String
+
+  """The system free memory in bytes"""
+  systemFreeMemory: Float
+
+  """The system total memory in bytes"""
+  systemTotalMemory: Float
+
+  """The system load average"""
+  systemLoadAverage: [Float]
 }
 
 type Query {

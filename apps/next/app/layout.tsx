@@ -17,6 +17,8 @@ import { setPublicEnvVars } from 'aetherspace/utils'
 // -!- Use only for public env vars (client-side any process.env.SOME_KEY without NEXT_PUBLIC_ would be undefined)
 setPublicEnvVars({
   APP_LINKS: process.env.NEXT_PUBLIC_APP_LINKS,
+  BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL,
+  DOCS_URL: process.env.NEXT_PUBLIC_DOCS_URL,
 })
 
 /* --- <NextRootLayout/> ----------------------------------------------------------------------- */
