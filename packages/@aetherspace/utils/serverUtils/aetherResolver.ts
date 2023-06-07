@@ -12,7 +12,7 @@ import { z } from 'aetherspace/schemas'
 // Schemas
 import '../../schemas/aetherSchemas'
 // Utils
-import { getApiParams, runMiddleWare, MiddlewareFnType } from './apiUtils'
+import { getApiParams, runMiddleWare, MiddlewareFnType, getUrlParams } from './apiUtils'
 import { normalizeObjectProps, isEmpty } from '../index'
 
 /* --- Types ----------------------------------------------------------------------------------- */
@@ -54,6 +54,7 @@ export type ResolverExecutionParamsType<AT = any> = {
     allowFail?: boolean
     [key: string]: any
   }
+  req?: NextApiRequest | Request | GetServerSidePropsContext['req']
   res?: NextApiResponse | Response | GetServerSidePropsContext['res']
 }
 
@@ -126,6 +127,7 @@ export const aetherResolver = <
     }
     // Return resolver
     return resolverFn({
+      req,
       res,
       args: normalizedArgs as AT,
       config,
@@ -157,7 +159,10 @@ export const makeGraphQLResolver = <AT, RT, AST extends z.ZodRawShape, RST exten
     const config = options?.config || {}
     try {
       // Execute resolver
-      const responseData = await resolver({ parent, args: args.args, context, info, config })
+      const req = context?.req as NextApiRequest
+      const res = context?.res as NextApiResponse
+      const resolverContext = { parent, args: args.args, context, info, config, req, res }
+      const responseData = await resolver(resolverContext)
       // Return response
       return responseData
     } catch (err) {
@@ -211,9 +216,7 @@ export const makeNextApiHandler = <AT, RT, AST, RST>(
 export const makeNextRouteHandler = (handler) => {
   return async (req: Request, { params }) => {
     // Parse query params
-    const url = req.url
-    const queryString = url.split('?')[1] || ''
-    const query = normalizeObjectProps(Object.fromEntries(new URLSearchParams(queryString)))
+    const query = getUrlParams(req.url)
     // Parse body?
     let args = { ...query, ...params }
     if (['POST', 'PUT', 'PATCH'].includes(req.method)) {

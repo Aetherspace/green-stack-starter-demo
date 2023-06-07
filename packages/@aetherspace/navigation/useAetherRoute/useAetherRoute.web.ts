@@ -40,7 +40,8 @@ export const useAetherRoute = <
   const params = paramSchema.optional().parse({ ...searchParams, ...routeParams })
   const variables = getGraphqlVars(params!)
   const isServer = typeof window === 'undefined'
-  const shouldFetch = isServer || isEmpty(screenDataProps) || refetchOnMount
+  const hasScreenProps = !isEmpty(screenDataProps)
+  const shouldFetch = isServer || !hasScreenProps || refetchOnMount
 
   // -- Fetching --
 

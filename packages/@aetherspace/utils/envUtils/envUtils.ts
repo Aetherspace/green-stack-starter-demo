@@ -1,4 +1,4 @@
-import { expoEnv, localURI } from '../../constants/manifest'
+import { expoEnv, localURL } from '../../constants/manifest'
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
@@ -7,9 +7,13 @@ const __PUBLIC_ENV = '__PUBLIC_ENV'
 /** --- getDebuggerURL() ----------------------------------------------------------------------- */
 /** -i- Get the IP based URL with specified port where the Expo command is running from if local */
 export const getDebuggerURL = (port?: number) => {
-  if (!localURI) return null
-  return `http://${[localURI, port].join(':')}`
+  if (!localURL) return null
+  return `http://${[localURL, port].join(':')}`
 }
+
+/** --- getBaseUrl() --------------------------------------------------------------------------- */
+/** -i- Get the base URL to contact out back-end with */
+export const getBaseUrl = () => getDebuggerURL(3000) || getEnvVar('BACKEND_URL') || ''
 
 /** --- setGlobal() ---------------------------------------------------------------------------- */
 /** -i- Set a global variable on the "globalThis" object */
@@ -30,7 +34,7 @@ export const setPublicEnvVars = (publicEnvVars: { [key: string]: any }) => {
 
 /** --- getEnvVar() ---------------------------------------------------------------------------- */
 /** -i- Get expo / next / public env var */
-export const getEnvVar = (key: string) => {
+export const getEnvVar = (key: string): string => {
   const possibleKeys = [
     // Private env var, as exact matches only happen in node server environments
     key,
