@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+// Utils
+import { checkURLs } from '../../utils'
 
 /* --- usePreferredURL() ------------------------------------------------------------------- */
 
@@ -13,29 +14,14 @@ const usePreferredURL = (preferredURLS: string[] = [], forcedFallback?: string) 
     // Filter out falsy URLs
     const urlsToCheck = preferredURLS.filter((url) => !!url && !url.includes('null'))
     // Check URL, move on to next if unavailable
-    const checkUriIndex = async (index = 0) => {
-      try {
-        // If we've hit the end, stop checking
-        if (index >= urlsToCheck.length) {
-          if (forcedFallback) setFirstAvailableURL(forcedFallback)
-          return
-        }
-        // Attempt to contact docs
-        const response = await axios.head(urlsToCheck[index], {
-          headers: { 'Access-Control-Allow-Origin': '*' },
-        })
-        // If unavailable, check the next URI
-        if (response?.status !== 200) return checkUriIndex(index + 1)
-        // If we do get a response, set as docs URI
-        return setFirstAvailableURL(urlsToCheck[index])
-      } catch (error) {
-        // Failed to fetch, check next URI
-        return checkUriIndex(index + 1)
-      }
+    const checkAll = async () => {
+      const [result] = await checkURLs(urlsToCheck)
+      setFirstAvailableURL(result || forcedFallback || '')
     }
     // Kickoff checking the list
-    checkUriIndex(0)
-  }, [preferredURLS.join('-')])
+    checkAll()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // -- Return --
 
