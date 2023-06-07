@@ -10,6 +10,9 @@
     "features/*",
     "packages/*"
   ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "browser": {
     "fs": false,
     "os": false,
