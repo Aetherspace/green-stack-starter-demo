@@ -9,44 +9,53 @@ import { View, Text, Image, Pressable } from 'aetherspace/primitives'
 // SEO
 import { H1 } from 'aetherspace/html-elements'
 // Hooks
-import { useDocAddress, useAPICheck } from 'aetherspace/docs'
 import { useAetherContext } from 'aetherspace/context'
 // Utils
-import { getEnvList } from 'aetherspace/utils'
+import { getBaseUrl } from 'aetherspace/utils'
 // Icons
 import { GraphIcon, ReactIcon, ExpoIcon, StorybookIcon, NextIcon } from '../icons'
+
+/* --- Constants ------------------------------------------------------------------------------- */
+
+const BASE_URL = getBaseUrl()
 
 /* --- Schemas & Types ------------------------------------------------------------------------- */
 
 const HomePropsSchema = aetherSchema('HomeScreenProps', {
-  customGreeting: z.string().default('Hello GREEN stack 👋').describe('A greeting for the user'), // prettier-ignore
+  customGreeting: z.string().default('Hello GREEN stack 👋').describe('A greeting for the user'),
   alive: z.boolean().default(true),
   kicking: z.boolean().default(true),
+  baseURL: z.string().default(BASE_URL).describe('The base URL for the app'),
 })
+
+export type HomeScreenProps = AetherProps<typeof HomePropsSchema>
 
 const HomeParamsSchema = aetherSchema('HomeScreenParams', {
   echo: z.string().default('Hello GREEN stack 👋').describe('Echo argument for the GraphQL health endpoint'), // prettier-ignore
 })
 
-export type HomeScreenProps = AetherProps<typeof HomePropsSchema>
 export type HomeScreenParams = AetherProps<typeof HomeParamsSchema>
 
 /* --- GraphQL & Data Fetching ----------------------------------------------------------------- */
 
+/** -i- GraphQL query that will fetch all data we need for this screen */
 const getScreenDataQuery = `
   query($healthCheckArgs: HealthCheckArgs!) {
     healthCheck(args: $healthCheckArgs) {
       alive
       kicking
       echo
+      baseURL
     }
   }
 `
 
+/** -i- Function to get the GraphQL variables that will be used to fetch the data for this screen */
 const getHomeScreenArgs = (params: HomeScreenParams = {}) => ({
   healthCheckArgs: HomeParamsSchema.parse(params),
 })
 
+/** -i- Function to actually fetch the data for this screen, where queryKey is likely the GQL query */
 const getHomeScreenData = async (queryKey: string, queryVariables?: HomeScreenParams) => {
   const queryData = queryKey || getScreenDataQuery
   const queryInput = queryVariables || getHomeScreenArgs() // Use defaults if not defined
@@ -55,6 +64,7 @@ const getHomeScreenData = async (queryKey: string, queryVariables?: HomeScreenPa
   return { alive, kicking, customGreeting: echo } as HomeScreenProps
 }
 
+/** -i- Bundled config for getting the screen data, including query, variables, and data fetcher */
 export const screenConfig = {
   query: getScreenDataQuery,
   getGraphqlVars: getHomeScreenArgs,
@@ -68,17 +78,17 @@ export const screenConfig = {
 /* --- <HomeScreen/> --------------------------------------------------------------------------- */
 
 export const HomeScreen = (props: AetherProps<typeof HomePropsSchema>) => {
-  // Props & Data
+  // Props & Screen Data Fetching (from screenConfig 👇)
   const [pageData] = useAetherRoute(props, screenConfig)
-  const { customGreeting, alive, kicking } = pageData
+  const { customGreeting, alive, kicking, baseURL = BASE_URL } = pageData
 
   // Environment
-  const appURIs = getEnvList('APP_LINKS').filter((url) => url.includes('http')) || [] // prettier-ignore
+  const graphQLEndpoint = `${baseURL}/api/graphql`
+  const healthEndpoint = `${baseURL}/api/health`
+  const preferredDocsURL = baseURL?.replace?.('3000', '6006') // local storybook (if running)
 
   // Hooks
   const { isPhoneSize } = useAetherContext()
-  const docsURI = useDocAddress()
-  const { healthEndpoint, graphQLEndpoint } = useAPICheck(appURIs)
   const { openLink } = useAetherNav()
 
   // Vars
@@ -143,7 +153,7 @@ export const HomeScreen = (props: AetherProps<typeof HomePropsSchema>) => {
       <Link href="/author" class="roboto-bold pt-5 text-center text-sm text-black">
         Test Navigation
       </Link>
-      <Link to={`${docsURI}?path=/story/readme-md--page`} class="text-xs roboto-bold my-4 px-5">
+      <Link to={`/api/docs?preferredURL=${preferredDocsURL}`} class="text-xs roboto-bold my-4 px-5">
         Read the Docs
       </Link>
       <Link to="/author" class="m-2 text-xs text-gray-500">

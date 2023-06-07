@@ -5,16 +5,20 @@ import { Link, useAetherNav } from 'aetherspace/navigation'
 import { aetherSchema } from 'aetherspace/schemas'
 // Primitives
 import { View, Pressable, Text } from 'aetherspace/primitives'
-// Hooks
-import { useDocAddress } from 'aetherspace/docs'
+// Utils
+import { getBaseUrl } from 'aetherspace/utils'
 // Icons
 import { BackIcon, HomeIcon } from '../icons'
+
+/* --- Constants ------------------------------------------------------------------------------- */
+
+const baseURL = getBaseUrl()
+const preferredDocsURL = baseURL?.replace?.('3000', '6006')
 
 /* --- <AuthorScreen/> ------------------------------------------------------------------------- */
 
 const AuthorScreen = () => {
   // Hooks
-  const docsURI = useDocAddress()
   const { goBack, openLink } = useAetherNav()
   // Render
   return (
@@ -39,7 +43,7 @@ const AuthorScreen = () => {
         </Link>
       </View>
       <Link
-        to={`${docsURI}?path=/story/readme-md--page`}
+        to={`/api/docs?preferredURL=${preferredDocsURL}`}
         tw="text-xs roboto-bold py-2.5 px-5 mx-3 "
       >
         {'Read the Docs'}
