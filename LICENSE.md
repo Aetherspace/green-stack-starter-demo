@@ -23,13 +23,45 @@ You are eligible to use the Aetherspace GREEN stack starter for personal and com
 
 Permission is hereby granted, to any person eligible for the "Free", "Personal" or "Commercial" licenses, to use the software non-commercially or commercially for the purpose of creating repositories and kickstarting projects and to modify the software to their own liking, for the purpose of fulfilling their custom use case.
 
+Meaning you can:
+- Use the Aetherspace Template, Components or Plugin Branches to create unlimited End Products.
+- Modify the Aetherspace Template, Components or Plugin Branches to create derivative components and templates for internal use. Those components and templates are subject to this license.
+- Use the Aetherspace Template, Components or Plugin Branches to create unlimited End Products for unlimited Clients.
+- Use the Aetherspace Template, Components or Plugin Branches to create End Products where the End Product is sold to End Users.
+- Use the Aetherspace Template, Components or Plugin Branches to create End Products that are open source and freely available to End Users. (Excluding public template repositories or publicly published / relicensed reusable UI kits or Design Systems)
+
+Examples of allowed use cases:
+- Creating a personal website and/or mobile app.
+- Creating a web and/or mobile application for a client that will be owned by that client.
+- Creating a commercial SaaS application (like an AI generation app for example) where end users have to pay a fee to use the application.
+- Creating a commercial self-hosted web and/or mobile application that is sold to end users for a one-time fee.
+- Creating a web and/or mobile application where the primary purpose is clearly not to simply re-distribute the components (like an event or organization app that uses the components for its UI for example) that is free and open source, where the source code is publicly available but not reproducible as it's own template repository.
+
+**In summary, you are allowed to use the Aetherspace Template, Components or Plugin Branches for any purpose, as long as you are not competing with Aetherspace or using it for anything that is illegal or harms others.**
+
+These allowed usecases apply to all licenses, including the personal and commercial licenses.
+
 ### Disallowed use cases
 
 It is not allowed to copy or modify Aetherspace code for the purpose of selling, renting, licensing, relicensing, sublicensing your own derivate of the GREEN stack starter template.
 
-It is not allowed to use Aetherspace for the purpose of kickstarting any project promoting or supporting the use of illegal drugs, weapons, or any other illegal activity.
+Meaning you cannot:
+- Use the Aetherspace Template, Components or Plugin Branches to create End Products that designed to allow an End User to build their own End Products using the Template, Components or Plugin Branches or derivatives of the Template, Components or Plugin Branches.
+- Re-distribute the Aetherspace Template, Components or Plugin Branches or derivatives of the Aetherspace Template, Components or Plugin Branches separately from an End Product, neither in code or as design asset.
+- Use the Aetherspace Template, Components or Plugin Branches to produce anything that may be deemed by Aetherspace Digital, in their sole and absolute discretion, to be competitive or in conflict with the business of Aetherspace Digital as a provider of premium starter templates, components and plugin branches.
 
-It is not allowed to use Aetherspace for the purpose of kickstarting any project promoting or supporting the use of cryptocurrency. We disallow this usecase because the climate impact of cryptocurrency is too high to be considered sustainable.
+Examples of disallowed use cases:
+- Forking the Aetherspace starter repository as a public template repo published for others to use. (Private forks are encouraged instead)
+- Creating a publicly available or relicensed UI kit or design system from the Aetherspace components. (Private UI kits and design systems are encouraged instead)
+- Creating a theme, template, or project starter kit from the Aetherspace GREEN stack starter and making it available either for sale or for free.
+
+**In summary, don't use the Aetherspace Template, its Components or Plugin Branches for competing with Aetherspace or use it for anything that is illegal or harms others.**
+
+These disallowed usecases apply to all licenses, including the personal and commercial licenses.
+
+### Enforcement
+
+If you are found to be in violation of the license, access to your Tailwind UI account will be terminated and you will be banned from purchasing any future licenses. You are granted only the permissions described in this license. You will be required to remove any Github projects that fall under the disallowed usecases, or take down any promotional websites advertising your derivative of the Aetherspace Template, Components or Plugin Branches. No refund will be provided.
 
 ### Warranty notice
 
@@ -41,15 +73,25 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-### Support
+### Liability
 
-Support is provided on a best-we-can-do basis via GitHub Discussions or Github Issues
+Aetherspace Digital’s liability to you for costs, damages, or other losses arising from your use of the Aetherspace Template, Components or Plugin Branches — including third-party claims against you — is limited to a refund of your license fee. Aetherspace Digital may not be held liable for any consequential damages related to your use of the Aetherspace Template, Components or Plugin Branches.
+
+### Support or Questions?
+
+Unsure which license you need, or unsure if your use case is covered by our licenses?
+
+Email [thorr@codinsonn.dev](https://codinsonn.dev) with your questions.
+
+Support is provided on a best-we-can-do basis via GitHub Discussions or Github Issues.
 
 ## Personal license
 
 Copyright (c) 2023 Thorr Stevens
 
 You are required to obtain a personal license to use the Aetherspace GREEN stack starter if you are not within the group of entities eligible for a free license. You may acquire a personal license by sponsoring the author (Thorr Stevens, a.k.a. [@codinsonn](https://github.com/sponsors/codinsonn)) for the corresponding personal license amount through Github Sponsors. When eligable for the personal license, this license will enable you to use Aetherspace for the allowed use cases specified in the free license.
+
+The personal license grants permission to individuals or up to three individuals in the same company (the Licensees) to access and use the Template Repo, its Components and Plugin Branches.
 
 ### Eligibility
 
@@ -70,6 +112,18 @@ You are eligible to use the Aetherspace GREEN stack starter for full commercial 
 This includes:
 - for-profit organisations with more than 3 employees
 
+## License Definitions
+
+**Licensee(s)** - The individual(s) who have purchased a Personal License. Or the company, organization or any of their employees that have purchased a Commercial License.
+
+**End Product** - A website, web application, mobile application, desktop application, or any other product that the End User can interact with, that incorporates the Aetherspace Template, Components or Plugin Branches as well as other software, technologies, or content not created by Aetherspace Digital.
+
+**End User** - The person or entity that uses the End Product.
+
+**Client** - The person or entity that owns the End Product.
+
+**Sublicense / Relicense** - To grant to any third party a right to use the Aetherspace Template, Components or Plugin Branches for free or for a fee.
+
 ## License FAQ
 
 ### This is weird, is this some sort of official license?
@@ -78,15 +132,15 @@ I based a first draft of this license off of [Remotion](https://github.com/remot
 
 ### Will you ever actually enforce the license in any way?
 
-**As long as you're not using it for any of the disallowed usecases**, I don't care what you do with it or how you got access to it. **I'm not going to sue you or anything.** I just want to make sure that the template repo is not used to somehow (promote) harm (to) others or worsen the climate crisis.
+**As long as you're not using it for any of the disallowed usecases**, I don't care what you do with it or how you got access to it. **I'm not going to sue you or anything.** I just want to make sure that the template repo is not used to compete with my business or somehow (promote) harm (to) others.
 
 If you have the means, I would appreciate it if you would sponsor me on Github Sponsors, but I'm not going to force you to do so.
 
-### Can I still use Aetherspace if I no longer sponsor the author?
+### Can I still use a personal derivative of Aetherspace if I no longer sponsor the author?
 
-Yes. As long as you paid **at least once** at some point in the past, **you are allowed to keep a copy** of the Aetherspace GREEN-stack template repo (kept "as-is" or customised) and use it for the **allowed usecases**.
+Yes. As long as you paid **at least once** at some point in the past, **you are allowed to keep any copies and custom derivatives** of the Aetherspace GREEN-stack template repo and use it for the **allowed usecases**.
 
-However, **you will lose access to the original repo** and any further updates / patches / bugfixes / new features which are added after you've stopped sponsoring.
+However, **you will lose access to the original template repo** and any further updates / patches / bugfixes / new plugin branches or features which are added after you've stopped sponsoring.
 
 ### Can I use the template repo for free if I include a link to the project or your sponsor page?
 
