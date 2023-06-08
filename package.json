@@ -10,6 +10,9 @@
     "features/*",
     "packages/*"
   ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "browser": {
     "fs": false,
     "os": false,
@@ -38,10 +41,10 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-native": "^4.0.0",
     "eslint-plugin-react-native-a11y": "^3.3.0",
-    "patch-package": "^6.5.1",
+    "patch-package": "^7.0.0",
     "prettier": "^2.8.4",
     "prettier-eslint": "^15.0.1",
-    "turbo": "^1.8.3",
+    "turbo": "^1.10.2",
     "webpack": "*",
     "webpack-merge": "^5.8.0"
   },
@@ -60,7 +63,7 @@
     "web": "yarn turbo run next-app#dev",
     "ios": "yarn turbo run next-app#dev expo-app#ios",
     "android": "yarn turbo run next-app#dev expo-app#android",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006",
     "storybook:wait": "yarn turbo run aetherspace#dev-health-check && yarn storybook",
     "expo-cli": "yarn workspace expo-app expo-cli",
     "eas-cli": "yarn workspace expo-app eas-cli",
