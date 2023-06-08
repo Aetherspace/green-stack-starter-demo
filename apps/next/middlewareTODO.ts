@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+// -i- currently not supported in Next 13.4.4
+// -i- https://github.com/vercel/next.js/discussions/45384
+
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next()
 
