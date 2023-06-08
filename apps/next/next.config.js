@@ -61,6 +61,8 @@ const nextConfig = {
         config.experiments.topLevelAwait = true
         // Silence warnings about "unexpected" resolutions (file-loader)
         config.infrastructureLogging = { level: "error" }
+        // Aliases for web support (https://github.com/expo/expo/issues/21469#issuecomment-1576001543)
+        config.resolve.alias['expo-asset'] = 'expo-asset-web'
         // Return config
         return config
     },
