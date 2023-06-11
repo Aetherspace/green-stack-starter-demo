@@ -7,7 +7,7 @@ import { Link as RouterLink, useRouter, usePathname, useNavigation } from 'expo-
 import { AetherLinkType } from './AetherLink.types'
 import { any$Todo } from '../../types/typeHelpers'
 // Primitives
-import { AetherView, AetherText } from '../../primitives'
+import { AetherPressable, AetherText } from '../../primitives'
 // Utils
 import { getBaseUrl, getEnvVar } from '../../utils'
 
@@ -96,8 +96,8 @@ const AetherLink = forwardRef<typeof RouterLink | typeof Text, AetherLinkType>((
   // -- Render as View with Router Navigation --
 
   return (
-    <RouterLink href={destination}>
-      <AetherView {...bindStyles}>{children}</AetherView>
+    <RouterLink href={destination} asChild>
+      <AetherPressable {...bindStyles}>{children}</AetherPressable>
     </RouterLink>
   )
 })

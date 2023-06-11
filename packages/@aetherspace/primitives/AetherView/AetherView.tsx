@@ -3,18 +3,17 @@
 // - https://necolas.github.io/react-native-web/docs/view/
 import React, { ComponentProps, forwardRef } from 'react'
 import { View } from 'react-native'
+// Schemas
+import { TAetherStyleProps } from '../../schemas/ats'
 // Hooks
 import { useAetherStyles } from '../../hooks/useAetherStyles'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-interface AetherViewType extends ComponentProps<typeof View> {
-  style?: ComponentProps<typeof View>['style']
-  tw?: string | (string | null | undefined | false | 0)[]
-  twID?: string
-  class?: string | (string | null | undefined | false | 0)[]
-  className?: string | (string | null | undefined | false | 0)[]
-}
+type AetherViewType = ComponentProps<typeof View> &
+  TAetherStyleProps & {
+    style?: ComponentProps<typeof View>['style']
+  }
 
 /* --- <AetherView/> --------------------------------------------------------------------------- */
 

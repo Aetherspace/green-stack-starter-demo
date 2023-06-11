@@ -3,25 +3,24 @@
 // - https://necolas.github.io/react-native-web/docs/text/
 import React, { createContext, useContext, forwardRef, ComponentProps } from 'react'
 import { Text } from 'react-native'
+// Schemas
+import { TAetherStyleProps } from '../../schemas/ats'
 // Hooks
 import { useAetherStyles } from '../../hooks'
-
-/* --- Types ----------------------------------------------------------------------------------- */
-
-interface AetherTextType extends ComponentProps<typeof Text> {
-  style?: ComponentProps<typeof Text>['style']
-  tw?: string | (string | null | undefined | false | 0)[]
-  twID?: string
-  class?: string | (string | null | undefined | false | 0)[]
-  className?: string | (string | null | undefined | false | 0)[]
-  children?: any
-}
 
 /* --- Context --------------------------------------------------------------------------------- */
 
 const DEFAULT_TEXT_CONTEXT = { color: null } as { color: string | null }
 const TextContext = createContext(DEFAULT_TEXT_CONTEXT)
 export const useTextContext = () => useContext(TextContext)
+
+/* --- Types ----------------------------------------------------------------------------------- */
+
+type AetherTextType = ComponentProps<typeof Text> &
+  TAetherStyleProps & {
+    style?: ComponentProps<typeof Text>['style']
+    children?: any
+  }
 
 /* --- useAetherText --------------------------------------------------------------------------- */
 

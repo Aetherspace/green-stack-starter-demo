@@ -3,18 +3,17 @@
 // - https://necolas.github.io/react-native-web/docs/pressable/
 import React, { ComponentProps, forwardRef } from 'react'
 import { View, Pressable } from 'react-native'
+// Schemas
+import { TAetherStyleProps } from '../../schemas/ats'
 // Hooks
 import { useAetherStyles } from '../../hooks'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-interface AetherPressableType extends ComponentProps<typeof Pressable> {
-  style?: ComponentProps<typeof Pressable>['style']
-  tw?: string | (string | null | undefined | false | 0)[]
-  twID?: string
-  class?: string | (string | null | undefined | false | 0)[]
-  className?: string | (string | null | undefined | false | 0)[]
-}
+type AetherPressableType = ComponentProps<typeof Pressable> &
+  TAetherStyleProps & {
+    style?: ComponentProps<typeof Pressable>['style']
+  }
 
 /* --- <AetherPressable/> ---------------------------------------------------------------------- */
 

@@ -30,6 +30,7 @@
     "app": "*",
     "expo": "~48.0.4",
     "expo-font": "~11.1.1",
+    "expo-image": "~1.0.1",
     "expo-router": "^1.0.1",
     "expo-status-bar": "~1.4.4",
     "expo-updates": "~0.16.3",

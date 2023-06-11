@@ -1,32 +1,31 @@
 import { ComponentProps } from 'react'
 import { Text } from 'react-native'
+// Schemas
+import { TAetherStyleProps } from '../../schemas/ats'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-export interface AetherLinkBaseType extends Partial<ComponentProps<typeof Text>> {
-  style?: ComponentProps<typeof Text>['style']
-  tw?: string | (string | null | undefined | false | 0)[]
-  twID?: string
-  class?: string | (string | null | undefined | false | 0)[]
-  className?: string | (string | null | undefined | false | 0)[]
-  asText?: boolean
-  isText?: boolean
-  isBlank?: boolean
-  target?: string
-  children?: any | any[] // TODO: Fix this
-}
+export type AetherLinkBaseType = Partial<ComponentProps<typeof Text>> &
+  TAetherStyleProps & {
+    style?: ComponentProps<typeof Text>['style']
+    asText?: boolean
+    isText?: boolean
+    isBlank?: boolean
+    target?: string
+    children?: any | any[] // TODO: Fix this
+  }
 
-export interface AetherLinkToType extends AetherLinkBaseType {
+export type AetherLinkToType = AetherLinkBaseType & {
   to: string
   href?: never
   routeName?: never
 }
-export interface AetherLinkHrefType extends AetherLinkBaseType {
+export type AetherLinkHrefType = AetherLinkBaseType & {
   href: string
   to?: never
   routeName?: never
 }
-export interface AetherLinkRouteType extends AetherLinkBaseType {
+export type AetherLinkRouteType = AetherLinkBaseType & {
   routeName: string
   to?: never
   href?: never
