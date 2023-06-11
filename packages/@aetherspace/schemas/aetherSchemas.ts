@@ -289,15 +289,21 @@ const assignAetherContext = <
   schema: W,
   innerType: T
 ) => {
-  const innerMostType = getInnerMostType(innerType) // @ts-ignore
+  const innerMostType = getInnerMostType(innerType)
+  // Assign aetherspace context
   if (innerMostType.aetherType) schema.aetherType = innerMostType.aetherType // @ts-ignore
   if (innerMostType.defaultValue) schema.defaultValue = innerMostType.defaultValue // @ts-ignore
   if (innerMostType.exampleValue) schema.exampleValue = innerMostType.exampleValue // @ts-ignore
   if (innerMostType.schemaName) schema.schemaName = innerMostType.schemaName // @ts-ignore
   if (innerMostType.extendedFrom) schema.extendedFrom = innerMostType.extendedFrom
-  if (innerMostType._def.description) schema.describe(innerMostType._def.description) // @ts-ignore
+  // Special cases
   if (innerMostType._def.schema) schema.schema = innerMostType._def.schema
-  if (innerMostType.description) schema.describe(innerMostType.description) // @ts-ignore
+  // Check for context to reassign on wrapper type
+  if (innerType.exampleValue) schema.exampleValue = innerType.exampleValue // @ts-ignore
+  if (innerType.defaultValue) schema.defaultValue = innerType.defaultValue // @ts-ignore
+  if (innerType.schemaName) schema.schemaName = innerType.schemaName // @ts-ignore
+  if (innerType.extendedFrom) schema.extendedFrom = innerType.extendedFrom
+  // Return schema with context
   return schema
 }
 
@@ -310,6 +316,11 @@ if (!z.ZodOptional.prototype?.aetherType) {
     return assignAetherContext(originalCreate(innerType), innerType)
   }
   z.ZodOptional.prototype.aetherType = 'AetherOptional'
+  z.ZodOptional.prototype.describe = function (description: string) {
+    const This = (this as any).constructor
+    const newSchema = new This({ ...this._def, description })
+    return assignAetherContext(newSchema, this)
+  }
   z.ZodOptional.prototype.example = function (value: any) {
     if (this._def.innerType.aetherType) this.aetherType = this._def.innerType.aetherType
     this.exampleValue = value
@@ -333,6 +344,11 @@ if (!z.ZodNullable.prototype?.aetherType) {
     return assignAetherContext(originalCreate(innerType), innerType)
   }
   z.ZodNullable.prototype.aetherType = 'AetherNullable'
+  z.ZodNullable.prototype.describe = function (description: string) {
+    const This = (this as any).constructor
+    const newSchema = new This({ ...this._def, description })
+    return assignAetherContext(newSchema, this)
+  }
   z.ZodNullable.prototype.example = function (value: any) {
     if (this._def.innerType.aetherType) this.aetherType = this._def.innerType.aetherType
     this.exampleValue = value
@@ -355,6 +371,11 @@ if (!z.ZodDefault.prototype?.aetherType) {
     return assignAetherContext(originalCreate(innerType, defaultValue), innerType)
   }
   z.ZodDefault.prototype.aetherType = 'AetherDefault'
+  z.ZodDefault.prototype.describe = function (description: string) {
+    const This = (this as any).constructor
+    const newSchema = new This({ ...this._def, description })
+    return assignAetherContext(newSchema, this)
+  }
   z.ZodDefault.prototype.example = function (value: any) {
     if (this._def.innerType.aetherType) this.aetherType = this._def.innerType.aetherType
     this.exampleValue = value
@@ -378,6 +399,11 @@ if (!z.ZodDefault.prototype?.aetherType) {
 
 if (!z.ZodString.prototype?.aetherType) {
   z.ZodString.prototype.aetherType = 'AetherString'
+  z.ZodString.prototype.describe = function (description: string) {
+    const This = (this as any).constructor
+    const newSchema = new This({ ...this._def, description })
+    return assignAetherContext(newSchema, this)
+  }
   z.ZodString.prototype.id = function () {
     this.aetherType = 'AetherId'
     return this
@@ -400,6 +426,11 @@ if (!z.ZodString.prototype?.aetherType) {
 
 if (!z.ZodNumber.prototype.aetherType) {
   z.ZodNumber.prototype.aetherType = 'AetherNumber'
+  z.ZodNumber.prototype.describe = function (description: string) {
+    const This = (this as any).constructor
+    const newSchema = new This({ ...this._def, description })
+    return assignAetherContext(newSchema, this)
+  }
   z.ZodNumber.prototype.example = function (value: number) {
     this.exampleValue = value
     return this
@@ -413,6 +444,11 @@ if (!z.ZodNumber.prototype.aetherType) {
 
 if (!z.ZodBoolean.prototype.aetherType) {
   z.ZodBoolean.prototype.aetherType = 'AetherBoolean'
+  z.ZodBoolean.prototype.describe = function (description: string) {
+    const This = (this as any).constructor
+    const newSchema = new This({ ...this._def, description })
+    return assignAetherContext(newSchema, this)
+  }
   z.ZodBoolean.prototype.example = function (value: boolean) {
     this.exampleValue = value
     return this
@@ -428,6 +464,11 @@ if (!z.ZodBoolean.prototype.aetherType) {
 
 if (!z.ZodDate.prototype.aetherType) {
   z.ZodDate.prototype.aetherType = 'AetherDate'
+  z.ZodDate.prototype.describe = function (description: string) {
+    const This = (this as any).constructor
+    const newSchema = new This({ ...this._def, description })
+    return assignAetherContext(newSchema, this)
+  }
   z.ZodDate.prototype.example = function (value: Date) {
     this.exampleValue = value
     return this
@@ -444,6 +485,11 @@ if (!z.ZodDate.prototype.aetherType) {
 
 if (!z.ZodEnum.prototype.aetherType) {
   z.ZodEnum.prototype.aetherType = 'AetherEnum'
+  z.ZodEnum.prototype.describe = function (description: string) {
+    const This = (this as any).constructor
+    const newSchema = new This({ ...this._def, description })
+    return assignAetherContext(newSchema, this)
+  }
   z.ZodEnum.prototype.example = function (value: string) {
     this.exampleValue = value
     return this
@@ -461,6 +507,11 @@ if (!z.ZodEnum.prototype.aetherType) {
 
 if (!z.ZodTuple.prototype.aetherType) {
   z.ZodTuple.prototype.aetherType = 'AetherTuple'
+  z.ZodTuple.prototype.describe = function (description: string) {
+    const This = (this as any).constructor
+    const newSchema = new This({ ...this._def, description })
+    return assignAetherContext(newSchema, this)
+  }
   z.ZodTuple.prototype.example = function (value: any[]) {
     this.exampleValue = value
     return this
@@ -476,6 +527,11 @@ if (!z.ZodTuple.prototype.aetherType) {
 
 if (!z.ZodUnion.prototype.aetherType) {
   z.ZodUnion.prototype.aetherType = 'AetherUnion'
+  z.ZodUnion.prototype.describe = function (description: string) {
+    const This = (this as any).constructor
+    const newSchema = new This({ ...this._def, description })
+    return assignAetherContext(newSchema, this)
+  }
   z.ZodUnion.prototype.example = function (value: any) {
     this.exampleValue = value
     return this
@@ -494,6 +550,11 @@ if (!z.ZodUnion.prototype.aetherType) {
 
 if (!z.ZodArray.prototype.aetherType) {
   z.ZodArray.prototype.aetherType = 'AetherArray'
+  z.ZodArray.prototype.describe = function (description: string) {
+    const This = (this as any).constructor
+    const newSchema = new This({ ...this._def, description })
+    return assignAetherContext(newSchema, this)
+  }
   z.ZodArray.prototype.example = function (value: any[]) {
     this.exampleValue = value
     return this
@@ -587,7 +648,7 @@ if (!z.ZodObject.prototype.aetherType) {
         const innerMostType = getInnerMostType(propDef)
         schema.schema = innerMostType.introspect() // prettier-ignore
         // -i- This only happens with .nullish(), which calls .nullable().optional() internally
-        if (schema.schema.schema) schema.schema = schema.schema.schema
+        if (schema.schema.schema) schema.schema = { ...schema.schema, ...schema.schema.schema }
       }
       if (exampleValues?.[propKey]) schema.exampleValue = exampleValues[propKey]
       return { ...propSchema, [propKey]: schema }

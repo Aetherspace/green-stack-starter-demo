@@ -90,7 +90,10 @@ const AetherLink = forwardRef<typeof Text | typeof Text, AetherLinkType>((props,
 
   // -- Handler --
 
-  const onLinkPress = () => openLink(destination, isBlank)
+  const onLinkPress = (e: any) => {
+    e?.preventDefault?.() // Stop regular propagation
+    openLink(destination, isBlank)
+  }
 
   // -- Render as Web link --
 
