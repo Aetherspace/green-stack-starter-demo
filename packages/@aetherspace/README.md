@@ -158,7 +158,7 @@ next-app:dev: ✅ packages/@registries/docs/features/app-core/icons.stories.mdx
 next-app:dev: ✅ packages/@registries/docs/features/app-core/screens.stories.mdx
 ```
 
-[example >>> icon docs](https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/docs/features-app-core-icons)
+[example >>> icon docs](https://main--63e8ae7f443d84f16518d4e5.chromatic.com//?path=/docs/features-app-core-icons)
 
 #### Build flexible data resolvers (API routes + GraphQL)
 

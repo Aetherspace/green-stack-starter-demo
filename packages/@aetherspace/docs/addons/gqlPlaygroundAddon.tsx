@@ -1,6 +1,8 @@
 import { createElement } from 'react'
 import { addons, types } from '@storybook/addons'
 
+/* --- GraphQL Storybook Plugin ---------------------------------------------------------------- */
+
 addons.register('/graphql', () => {
   addons.add('graphql-playground/tab', {
     type: types.TAB,

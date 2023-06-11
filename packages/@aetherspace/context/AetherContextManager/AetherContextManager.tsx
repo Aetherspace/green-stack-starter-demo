@@ -108,8 +108,6 @@ const AetherContextManager = (props: AetherContextType) => {
       breakpoints,
       twPrefixes,
       mediaPrefixes,
-      // styles: globalStyles,
-      // registerStyles,
       appWidth,
       appHeight,
       tailwind: twConfig ? createTailwindWithConfig(twConfig) : tailwind,

@@ -7,7 +7,7 @@ import { isEmpty } from '../utils/commonUtils'
 /* --- templates ------------------------------------------------------------------------------- */
 
 const mdxTemplate = `import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs'
-import { aetherStoryDocs } from 'aetherspace/schemas'
+import { aetherStoryDocs } from 'aetherspace/schemas/utils'
 import { isEmpty } from 'aetherspace/utils/commonUtils'
 // -i- Auto generated with "yarn document-components"
 // Components hooking into the storybook auto-documentation script

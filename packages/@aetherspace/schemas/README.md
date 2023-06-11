@@ -261,10 +261,6 @@ const MinimalSchema = ExtendedSchema.pickSchema('MinimalTopic', { status: true, 
 You know what? Let's make everything optional:
 
 ```ts
-import { makeSchemaPartial } from 'aetherspace/schemas'
-
-// ...
-
 const OptionalSchema = ExtendedSchema.partialSchema('PartialTopic')
 ```
 

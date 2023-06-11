@@ -8,17 +8,17 @@ type LayoutInfo = LayoutRectangle & {
   pageY?: number
 }
 
-/* --- useLayoutInfo() ------------------------------------------------------------------------- */
-// -i- Save & use layout info for components under string keys, e.g.:
-//
-//      import useLayoutInfo from '../useLayoutInfo()'
-//
-//      const { measureOnLayout, layoutInfo } = useLayoutInfo()
-//
-//      <View onLayout={measureOnLayout('MyCustomView')} />
-//
-//      const viewHeight = layoutInfo.MyCustomView?.height
-//
+/** --- useLayoutInfo() ------------------------------------------------------------------------ */
+/** -i- Save & use layout info for components under string keys, e.g.:
+ **
+ **      import useLayoutInfo from '../useLayoutInfo()'
+ **
+ **      const { measureOnLayout, layoutInfo } = useLayoutInfo()
+ **
+ **      <View onLayout={measureOnLayout('MyCustomView')} />
+ **
+ **      const viewHeight = layoutInfo.MyCustomView?.height
+ ** */
 const useLayoutInfo = () => {
   // State
   const [layoutInfo, setLayoutInfo] = useState<{ [componentKey: string]: LayoutInfo }>({}) // prettier-ignore

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = require("react");
 var addons_1 = require("@storybook/addons");
+/* --- GraphQL Storybook Plugin ---------------------------------------------------------------- */
 addons_1.addons.register('/graphql', function () {
     addons_1.addons.add('graphql-playground/tab', {
         type: addons_1.types.TAB,

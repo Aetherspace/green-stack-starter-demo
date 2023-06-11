@@ -1,18 +1,10 @@
 import React, { forwardRef, ComponentType } from 'react'
 import { useAetherStyles } from '../hooks'
+import { TAetherStyleProps } from '../schemas/ats'
 
-/* --- Types ----------------------------------------------------------------------------------- */
-
-type AetherPropsType = {
-  tw?: string | (string | null | undefined | false | 0)[]
-  twID?: string
-  class?: string | (string | null | undefined | false | 0)[]
-  className?: string | (string | null | undefined | false | 0)[]
-}
-
-/* --- aetherify() ----------------------------------------------------------------------------- */
-// -i- Wraps with useAetherStyles(), which will add server-side media query support to avoid layout shift on web
-// -i- Inspired by https://github.com/nandorojo/moti/blob/master/packages/core/src/motify.tsx
+/** --- aetherify() ---------------------------------------------------------------------------- */
+/** -i- Wraps with useAetherStyles(), which will add server-side media query support to avoid layout shift on web
+ ** Inspired by https://github.com/nandorojo/moti/blob/master/packages/core/src/motify.tsx */
 const aetherify = <Style, Props extends { style?: Style }, Ref, ExtraProps>(
   Component: ComponentType<Props>
 ) => {
@@ -21,7 +13,7 @@ const aetherify = <Style, Props extends { style?: Style }, Ref, ExtraProps>(
     // Turn into component with aether style support
     const Aetherified = forwardRef<
       Ref,
-      Props & ExtraProps & AetherPropsType & { children?: React.ReactNode }
+      Props & ExtraProps & TAetherStyleProps & { children?: React.ReactNode }
     >(function Aether({ tw, twID, style, ...props }, ref) {
       // -i- useAetherStyles() will add server-side media query support to avoid layout shift on web
       const bindStyles = useAetherStyles({ tw, twID, style: style as any, ...props }) // @ts-ignore

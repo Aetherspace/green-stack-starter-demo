@@ -13,12 +13,11 @@ const usePreferredURL = (preferredURLS: string[] = [], forcedFallback?: string) 
   useEffect(() => {
     // Filter out falsy URLs
     const urlsToCheck = preferredURLS.filter((url) => !!url && !url.includes('null'))
-    // Check URL, move on to next if unavailable
+    // Check all URLs, but only set the first available one
     const checkAll = async () => {
       const [result] = await checkURLs(urlsToCheck)
       setFirstAvailableURL(result || forcedFallback || '')
     }
-    // Kickoff checking the list
     checkAll()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

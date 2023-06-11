@@ -1,4 +1,6 @@
 import { useMemo, ComponentProps, JSXElementConstructor } from 'react'
+// Schemas
+import { TAetherStyleProps } from '../../schemas/ats'
 // Context
 import { BreakPointsType } from '../../context/AetherContextManager/aetherContext'
 import { useAetherContext } from '../../context/AetherContextManager/useAetherContext'
@@ -7,12 +9,8 @@ import { addMediaQuery } from '../../styles'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-export type StylePropsType<C extends JSXElementConstructor<any>> = {
+export type StylePropsType<C extends JSXElementConstructor<any>> = TAetherStyleProps & {
   style?: ComponentProps<C>['style']
-  tw?: string | (string | null | undefined | false | 0)[]
-  twID?: string
-  class?: string | (string | null | undefined | false | 0)[]
-  className?: string | (string | null | undefined | false | 0)[]
   nativeID?: string
   children?: any
 }
