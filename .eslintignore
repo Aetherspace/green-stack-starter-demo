@@ -1,5 +1,6 @@
 node_modules
 **/*test.ts
+**/(generated)/**/*
 **/*.generated.*
 **/*.d.ts
 **/*.js
