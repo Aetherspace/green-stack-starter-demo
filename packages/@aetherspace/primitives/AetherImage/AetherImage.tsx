@@ -1,5 +1,4 @@
 import React, { useMemo, forwardRef } from 'react'
-// import { Image, ImageRequireSource } from 'react-native'
 import { Image, ImageSource } from 'expo-image'
 // Types
 import { AetherImageType } from './AetherImage.types'

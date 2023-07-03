@@ -23,7 +23,7 @@ export const useAetherNav = () => {
         const internalDomainMatch = APP_LINKS.find((appUrl) => path.includes(appUrl))
         if (internalDomainMatch) return path.replace(`${internalDomainMatch}/`, '')
         // Remove leading slash?
-        const hasLeadingSlash = path !== '/' && path[0] === '/'
+        const hasLeadingSlash = path !== '/' && path?.[0] === '/'
         return hasLeadingSlash ? path.slice(1) : path
     }
 
