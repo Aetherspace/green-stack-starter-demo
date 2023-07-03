@@ -1,14 +1,12 @@
 import glob from 'glob'
 import fs from 'fs'
+// Utils
+import { excludeDirs, listWorkspaceImports } from './helpers/scriptUtils'
 
 /* --- link-routes ----------------------------------------------------------------------------- */
 
 const linkRoutes = () => {
   try {
-    // General filter helpers
-    const excludeDirs = (pth) => pth.split('/').pop().includes('.')
-    const excludeModules = (pth) => !pth.includes('node_modules')
-
     // Get all route paths in the features & package folders
     const packageRoutePaths = glob.sync('../../packages/**/routes/**/*.{ts,tsx}').filter(excludeDirs) // prettier-ignore
     const featureRoutePaths = glob.sync('../../features/**/routes/**/*.{ts,tsx}').filter(excludeDirs) // prettier-ignore
@@ -26,14 +24,7 @@ const linkRoutes = () => {
     const paramRoutes = allRoutePaths.filter((pth) => pth.includes('].ts')) // e.g. "/**/[slug].tsx"
 
     // Figure out import paths from each workspace
-    const packageConfigPaths = glob.sync('../../packages/**/package.json').filter(excludeModules)
-    const featureConfigPaths = glob.sync('../../features/**/package.json').filter(excludeModules)
-    const packageJSONPaths = [...packageConfigPaths, ...featureConfigPaths]
-    const workspaceImports = packageJSONPaths.reduce((acc, pth) => {
-      const packageJSON = JSON.parse(fs.readFileSync(pth, 'utf8'))
-      const workspaceMatcher = pth.replace('../../', '').replace('/package.json', '')
-      return { ...acc, [workspaceMatcher]: packageJSON.name }
-    }, {}) as Record<string, string>
+    const workspaceImports = listWorkspaceImports()
 
     // Parse & match each route path to a workspace import
     const parsePath = (pth, autoDefault = true) => {
@@ -84,9 +75,9 @@ const linkRoutes = () => {
       const importPath = `${workspaceImport}/routes${routeSegments}index`
       const expoExportLine = `export { ${expoExports.join(', ')} } from '${importPath}'\n`
       const nextExportLine = `'use client'\nexport { ${nextExports.join(', ')} } from '${importPath}'\n` // prettier-ignore
-      console.log(` ✅ ${routeSegments}   -- Generated from "${pth}"`)
       fs.mkdirSync(`../../apps/expo/app/(generated)${routeSegments}`, { recursive: true })
       fs.writeFileSync(`../../apps/expo/app/(generated)${routeSegments}index.tsx`, expoExportLine, {}) // prettier-ignore
+      console.log(` ✅ ${routeSegments}   -- Generated from "${pth}"`)
       console.log(`      └── /apps/expo/app/(generated)${routeSegments}index.tsx`)
       fs.mkdirSync(`../../apps/next/app/(generated)${routeSegments}`, { recursive: true })
       fs.writeFileSync(`../../apps/next/app/(generated)${routeSegments}page.tsx`, nextExportLine)
@@ -101,9 +92,9 @@ const linkRoutes = () => {
       const importPath = `${workspaceImport}/routes${routeSegments}${routeParam}`
       const expoExportLine = `export { ${expoExports.join(', ')} } from '${importPath}'\n`
       const nextExportLine = `'use client'\nexport { ${nextExports.join(', ')} } from '${importPath}'\n` // prettier-ignore
-      console.log(` ✅ ${routeSegments}${routeParam}/   -- Generated from "${pth}"`)
       fs.mkdirSync(`../../apps/expo/app/(generated)${routeSegments}${routeParam}`, { recursive: true }) // prettier-ignore
       fs.writeFileSync(`../../apps/expo/app/(generated)${routeSegments}${routeParam}/index.tsx`, expoExportLine) // prettier-ignore
+      console.log(` ✅ ${routeSegments}${routeParam}/   -- Generated from "${pth}"`)
       console.log(`      └── /apps/expo/app/(generated)${routeSegments}${routeParam}/index.tsx`)
       fs.mkdirSync(`../../apps/next/app/(generated)${routeSegments}${routeParam}`, { recursive: true }) // prettier-ignore
       fs.writeFileSync(`../../apps/next/app/(generated)${routeSegments}${routeParam}/page.tsx`, nextExportLine) //  prettier-ignore
@@ -120,9 +111,9 @@ const linkRoutes = () => {
       if (!isRootLayout) {
         const importPath = `${workspaceImport}/routes${routeSegments}layout`
         const exportLine = `'use client'\nexport { default } from '${importPath}'\n`
-        console.log(` ✅ ${routeSegments}   -- Layout from "${pth}"`)
         fs.mkdirSync(`../../apps/expo/app/(generated)${routeSegments}`, { recursive: true })
         fs.writeFileSync(`../../apps/expo/app/(generated)${routeSegments}_layout.tsx`, exportLine)
+        console.log(` ✅ ${routeSegments}   -- Layout from "${pth}"`)
         console.log(`      └── /apps/expo/app/(generated)${routeSegments}_layout.tsx`)
         fs.mkdirSync(`../../apps/next/app/(generated)${routeSegments}`, { recursive: true })
         fs.writeFileSync(`../../apps/next/app/(generated)${routeSegments}layout.tsx`, exportLine)
@@ -137,9 +128,9 @@ const linkRoutes = () => {
       if (!isRootLayout) {
         const importPath = `${workspaceImport}/routes${routeSegments}template`
         const exportLine = `'use client'\nexport { default } from '${importPath}'\n`
-        console.log(` ✅ ${routeSegments}   -- Template from "${pth}"`)
         fs.mkdirSync(`../../apps/expo/app/(generated)${routeSegments}`, { recursive: true })
         fs.writeFileSync(`../../apps/expo/app/(generated)${routeSegments}_layout.tsx`, exportLine)
+        console.log(` ✅ ${routeSegments}   -- Template from "${pth}"`)
         console.log(`      └── /apps/expo/app/(generated)${routeSegments}_layout.tsx`)
         fs.mkdirSync(`../../apps/next/app/(generated)${routeSegments}`, { recursive: true })
         fs.writeFileSync(`../../apps/next/app/(generated)${routeSegments}template.tsx`, exportLine)
@@ -152,9 +143,9 @@ const linkRoutes = () => {
       const routeSegments = routeParts.split('head.ts')[0]
       const importPath = `${workspaceImport}/routes${routeSegments}head`
       const exportLine = `export { default } from '${importPath}'\n`
-      console.log(` ✅ ${routeSegments}   -- Head from "${pth}"`)
       fs.mkdirSync(`../../apps/next/app/(generated)${routeSegments}`, { recursive: true })
       fs.writeFileSync(`../../apps/next/app/(generated)${routeSegments}head.tsx`, exportLine)
+      console.log(` ✅ ${routeSegments}   -- Head from "${pth}"`)
       console.log(`      └── /apps/next/app/(generated)${routeSegments}head.tsx`)
     })
 
@@ -166,9 +157,9 @@ const linkRoutes = () => {
       const routeSegments = routeParts.split('route.ts')[0]
       const importPath = `${workspaceImport}/routes${routeSegments}route`
       const nextExportLine = `export { ${nextExports.join(', ')} } from '${importPath}'\n` // prettier-ignore
-      console.log(` ✅ ${routeSegments}   -- API Route from "${pth}"`)
       fs.mkdirSync(`../../apps/next/app/(generated)${routeSegments}`, { recursive: true })
       fs.writeFileSync(`../../apps/next/app/(generated)${routeSegments}route.ts`, nextExportLine)
+      console.log(` ✅ ${routeSegments}   -- API Route from "${pth}"`)
       console.log(`      └── /apps/next/app/(generated)${routeSegments}route.ts`)
     })
   } catch (err) {

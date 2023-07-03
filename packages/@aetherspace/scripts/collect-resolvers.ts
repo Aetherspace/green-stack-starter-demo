@@ -2,29 +2,19 @@ import glob from 'glob'
 import fs from 'fs'
 // Utils
 import { findTargetString } from '../utils/stringUtils'
+import { excludeDirs, listWorkspaceImports } from './helpers/scriptUtils'
 
 /* --- collect-resolvers ---------------------------------------------------------------------- */
 
 const collectResolvers = () => {
   try {
-    // General filter helpers
-    const excludeDirs = (pth) => pth.split('/').pop().includes('.')
-    const excludeModules = (pth) => !pth.includes('node_modules')
-
     // Get all resolver file paths in the next app's api folder
     const featureAPIRoutes = glob.sync('../../features/**/routes/api/**/route.ts').filter(excludeDirs) // prettier-ignore
     const packageAPIRoutes = glob.sync('../../packages/**/routes/api/**/*.ts').filter(excludeDirs) // prettier-ignore
     const allAPIRoutes = [...featureAPIRoutes, ...packageAPIRoutes]
 
     // Figure out import paths from each workspace
-    const packageConfigPaths = glob.sync('../../packages/**/package.json').filter(excludeModules)
-    const featureConfigPaths = glob.sync('../../features/**/package.json').filter(excludeModules)
-    const packageJSONPaths = [...packageConfigPaths, ...featureConfigPaths]
-    const workspaceImports = packageJSONPaths.reduce((acc, pth) => {
-      const packageJSON = JSON.parse(fs.readFileSync(pth, 'utf8'))
-      const workspaceMatcher = pth.replace('../../', '').replace('/package.json', '')
-      return { ...acc, [workspaceMatcher]: packageJSON.name }
-    }, {}) as Record<string, string>
+    const workspaceImports = listWorkspaceImports()
 
     // Filter out the next.js api paths that don't work with aether schemas
     const resolverRegistry = allAPIRoutes.reduce((acc, resolverPath) => {

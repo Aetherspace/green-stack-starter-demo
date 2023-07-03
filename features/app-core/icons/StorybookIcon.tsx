@@ -5,8 +5,7 @@ import { z, aetherSchema, AetherProps } from 'aetherspace/schemas'
 /* --- Schema ---------------------------------------------------------------------------------- */
 
 const StorybookIconProps = aetherSchema('StorybookIconProps', {
-  width: z.number().default(24).describe('Icon width'),
-  height: z.number().default(24).describe('Icon height'),
+  size: z.number().default(24).describe('Icon dimensions, maps to both width and height'),
   fill: z.string().color().default('#ff4785').describe('Icon fill color'),
 })
 
@@ -14,11 +13,10 @@ const StorybookIconProps = aetherSchema('StorybookIconProps', {
 
 const StorybookIcon = (props: AetherProps<typeof StorybookIconProps>) => {
   // Props
-  const svgProps = StorybookIconProps.parse(props)
-  const { fill } = svgProps
+  const { size, fill, ...svgProps } = StorybookIconProps.applyDefaults(props)
   // Render
   return (
-    <Svg viewBox="0 0 32 32" {...svgProps}>
+    <Svg viewBox="0 0 32 32" width={size} height={size} {...svgProps}>
       <Path
         d="m20.735 5.442.133-3.173 2.72-.168.122 3.23a.216.216 0 0 1-.047.143.21.21 0 0 1-.3.029l-1.05-.82-1.243.934a.212.212 0 0 1-.3-.04.206.206 0 0 1-.035-.135Z"
         fill="#fff"

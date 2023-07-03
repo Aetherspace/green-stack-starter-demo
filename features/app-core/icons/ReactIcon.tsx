@@ -5,8 +5,7 @@ import { z, aetherSchema, AetherProps } from 'aetherspace/schemas'
 /* --- Schema ---------------------------------------------------------------------------------- */
 
 const ReactIconProps = aetherSchema('ReactIconProps', {
-  width: z.number().default(24).describe('Icon width'),
-  height: z.number().default(24).describe('Icon height'),
+  size: z.number().default(24).describe('Icon dimensions, maps to both width and height'),
   fill: z.string().color().default('#61dafb').describe('Icon fill color'),
 })
 
@@ -14,11 +13,11 @@ const ReactIconProps = aetherSchema('ReactIconProps', {
 
 const ReactIcon = (props: AetherProps<typeof ReactIconProps>) => {
   // Props
-  const svgProps = ReactIconProps.parse(props)
+  const { size, ...svgProps } = ReactIconProps.applyDefaults(props)
   const { fill } = svgProps
   // Render
   return (
-    <Svg viewBox="-11.5 -10.23174 23 20.46348" {...svgProps}>
+    <Svg viewBox="-11.5 -10.23174 23 20.46348" width={size} height={size} {...svgProps}>
       <Circle r={2.05} />
       {/* @ts-ignore */}
       <G stroke={fill} fill="none">

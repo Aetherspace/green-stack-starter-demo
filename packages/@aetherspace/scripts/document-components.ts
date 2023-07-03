@@ -1,6 +1,7 @@
 import glob from 'glob'
 import fs from 'fs'
 // Utils
+import { excludeDirs, listWorkspaceImports } from './helpers/scriptUtils'
 import { replaceStringVars } from '../utils/stringUtils'
 import { isEmpty } from '../utils/commonUtils'
 
@@ -36,6 +37,7 @@ const storyTemplate = `
 export const {componentNameDocs} = createDocs({componentName})
 export const {componentNameConfig} = aetherStoryDocs({ {componentName} }, {getDocumentationProps})
 
+{filePath}
 {importExample}
 
 <Canvas>
@@ -53,12 +55,15 @@ export const {componentNameConfig} = aetherStoryDocs({ {componentName} }, {getDo
 {{stories}}
 `
 
+
+
 /* --- document-components --------------------------------------------------------------------- */
 
 const documentComponents = () => {
   try {
-    // General filter helpers
-    const excludeDirs = (pth) => pth.split('/').pop().includes('.')
+    // Figure out import paths from each workspace
+    const workspaceImports = listWorkspaceImports()
+
     // Get all component file paths
     const appComponentPaths = glob.sync('../../apps/**/*.tsx')
     const featureComponentPaths = glob.sync('../../features/**/*.tsx')
@@ -117,8 +122,11 @@ const documentComponents = () => {
         const storyImportLine = `import { ${storyComponentAlias}, getDocumentationProps as ${storyPropsAlias} } from '${storyImportPath}'` // prettier-ignore
         // Build component import example
         const importStatement = hasNamedExport ? `{ ${componentName} }` : componentName
-        const componentImportPath = `${componentFolder.replace('../../', '')}/${componentName}`
-        const importExample = `import ${importStatement} from '${componentImportPath}'`
+        const componentFilePath = `${componentFolder.replace('../../', '')}/${componentName}`
+        const [workspaceType, workspaceFolderName, componentFolderName] = componentFilePath.split('/')
+        const workspaceFolder = [workspaceType, workspaceFolderName].join('/') // e.g. 'packages/@aetherspace'
+        const workspaceImport = workspaceImports[workspaceFolder] // e.g. 'aetherspace'
+        const importExample = `import ${importStatement} from '${workspaceImport}/${componentFolderName}/${componentName}'` // prettier-ignore
         // Add import statement to the imports list
         let updatedStoryFile = acc.replace('{{imports}}\n', `${storyImportLine}\n{{imports}}\n`)
         // Build story
@@ -127,6 +135,7 @@ const documentComponents = () => {
           componentNameDocs: `${componentName}Docs`,
           componentNameConfig: `${componentName}Config`,
           getDocumentationProps: storyPropsAlias,
+          filePath: `\`${componentFilePath}\``,
           importExample: '```typescript\n' + importExample + '\n```\n',
         })
         // Add story to the stories list

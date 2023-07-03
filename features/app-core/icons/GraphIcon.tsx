@@ -5,8 +5,7 @@ import { z, aetherSchema, AetherProps } from 'aetherspace/schemas'
 /* --- Schema ---------------------------------------------------------------------------------- */
 
 const GraphIconProps = aetherSchema('GraphIconProps', {
-  width: z.number().default(24).describe('Icon width'),
-  height: z.number().default(24).describe('Icon height'),
+  size: z.number().default(24).describe('Icon dimensions, maps to both width and height'),
   fill: z.string().color().default('#e10098').describe('Icon fill color'),
 })
 
@@ -14,10 +13,10 @@ const GraphIconProps = aetherSchema('GraphIconProps', {
 
 const GraphIcon = (props: AetherProps<typeof GraphIconProps>) => {
   // Props
-  const svgProps = GraphIconProps.parse(props)
+  const { size, ...svgProps } = GraphIconProps.applyDefaults(props)
   // Render
   return (
-    <Svg viewBox="0 0 134 134" {...svgProps}>
+    <Svg viewBox="0 0 134 134" width={size} height={size} {...svgProps}>
       <Path
         d="M-.43 12.534h22.901v1.187H-.43z"
         transform="rotate(-59.999 45.918 54.695) scale(4.16667)"

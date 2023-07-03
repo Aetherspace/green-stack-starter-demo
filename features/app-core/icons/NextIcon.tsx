@@ -5,8 +5,7 @@ import { z, aetherSchema, AetherProps } from 'aetherspace/schemas'
 /* --- Schema ---------------------------------------------------------------------------------- */
 
 const NextIconProps = aetherSchema('NextIconProps', {
-  width: z.number().default(24).describe('Icon width'),
-  height: z.number().default(24).describe('Icon height'),
+  size: z.number().default(24).describe('Icon dimensions, maps to both width and height'),
   fill: z.string().color().default('#000000').describe('Icon fill color'),
 })
 
@@ -14,10 +13,10 @@ const NextIconProps = aetherSchema('NextIconProps', {
 
 const NextIcon = (props: AetherProps<typeof NextIconProps>) => {
   // Props
-  const svgProps = NextIconProps.parse(props)
+  const { size, ...svgProps } = NextIconProps.applyDefaults(props)
   // Render
   return (
-    <Svg viewBox="0 0 256 256" {...svgProps}>
+    <Svg viewBox="0 0 256 256" width={size} height={size} {...svgProps}>
       <Defs>
         {/* @ts-ignore */}
         <LinearGradient x1="55.633%" y1="56.385%" x2="83.228%" y2="96.08%" id="c">
