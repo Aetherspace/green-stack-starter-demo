@@ -8,8 +8,12 @@ module.exports = {
         // -- Aetherspace docs --
         '../README.stories.mdx',
         './docs/Quickstart.stories.mdx',
+        './docs/CoreConcepts.stories.mdx',
         './docs/Schemas.stories.mdx',
+        './docs/UniversalRouting.stories.mdx',
+        './docs/GraphQL.stories.mdx',
         './docs/Automation.stories.mdx',
+        './docs/Icons.stories.mdx',
         './docs/Deployment.stories.mdx',
         './other/License.stories.mdx',
         // -- Other documentation --
@@ -26,6 +30,10 @@ module.exports = {
       '@a110/storybook-expand-all',
       'aetherspace/docs/addons',
     ],
+    staticDirs: [
+      './public',
+      '../apps/next/public',
+    ],
     webpackFinal: (config) => {
         // Add TS & react-native-web support
         config.module.rules.push({
@@ -39,9 +47,10 @@ module.exports = {
             },
           ],
         })
-        // Aliases for web support (https://github.com/expo/expo/issues/21469#issuecomment-1576001543)
-        config.resolve.alias['expo-asset'] = 'expo-asset-web'
+        // Transform all direct `react-native` imports to `react-native-web`
         config.resolve.alias['react-native$'] = require.resolve('react-native-web')
+        // Other aliases for web support (https://github.com/expo/expo/issues/21469#issuecomment-1576001543)
+        config.resolve.alias['expo-asset'] = 'expo-asset-web'
         config.resolve.alias['aetherspace/navigation'] = require.resolve('./__mocks__/aetherspaceNavigation.tsx')
         config.resolve.extensions.push('.ts', '.tsx')
         config.resolve.fallback = {
