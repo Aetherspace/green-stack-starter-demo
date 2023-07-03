@@ -1,0 +1,107 @@
+import React from 'react'
+// Navigation
+import { useAetherRoute, fetchAetherProps } from 'aetherspace/navigation'
+// Schemas
+import { z, aetherSchema, AetherParams, AetherProps } from 'aetherspace/schemas'
+// Components
+import { View } from 'aetherspace/primitives'
+// SEO
+import { H1 } from 'aetherspace/html-elements'
+
+/* --- Descriptions ---------------------------------------------------------------------------- */
+
+const d = {
+  echo: 'Dummy echo param to test the route with. Returned as prop if present in the route params.',
+}
+
+/* --- Schemas & Types ------------------------------------------------------------------------- */
+
+// -i- TODO: Change these schemas to match your route's parameter needs
+const {{ScreenName}}Params = aetherSchema('{{ScreenName}}Params', {
+  echo: z.string().default('Hello World').describe(d.echo), // dummy echo param to test the route with
+})
+
+// -i- TODO: Change these schemas to match your screen's prop needs
+const {{ScreenName}}Props = aetherSchema('{{ScreenName}}Props', {
+  echo: z.string().default('Hello World').describe(d.echo), // dummy title prop to test the route with
+})
+
+export type T{{ScreenName}}Params = AetherParams<typeof {{ScreenName}}Params>
+export type T{{ScreenName}}Props = AetherProps<typeof {{ScreenName}}Props>
+
+/* --- GraphQL & Data Fetching ----------------------------------------------------------------- */
+
+/// -i- TODO: Figure out which data you need at /api/graphql and replace this dummy data in the query below
+/** -i- GraphQL query that will fetch all data we need for this screen */
+const {{screenName}}DataQuery = `
+  query($healthCheckArgs: HealthCheckArgs!) {
+    healthCheck(args: $healthCheckArgs) {
+      alive
+      kicking
+      echo
+      baseURL
+    }
+  }
+`
+
+/** -i- Function to get the GraphQL variables that will be used to fetch the data for this screen */
+const get{{ScreenName}}Args = (params: T{{ScreenName}}Params = {}) => ({
+  healthCheckArgs: {{ScreenName}}Params.parse(params), // example
+})
+
+/** -i- Function to actually fetch the data for this screen, where queryKey is likely the GQL query */
+const get{{ScreenName}}Props = async (queryKey: string, queryVariables?: T{{ScreenName}}Params) => {
+  const queryData = queryKey || {{screenName}}DataQuery
+  const queryInput = queryVariables || get{{ScreenName}}Args() // example, uses defaults if not defined
+  const { data } = await fetchAetherProps(queryData, queryInput)
+  return { echo: data?.healthCheck.echo } as T{{ScreenName}}Props // example
+}
+
+/** -i- Bundled config for getting the screen data, including query, variables, and data fetcher */
+export const {{ScreenName}}RouteDataConfig = {
+  query: {{screenName}}DataQuery,
+  getGraphqlVars: get{{ScreenName}}Args,
+  getGraphqlData: get{{ScreenName}}Props,
+  paramSchema: {{ScreenName}}Params,
+  propSchema: {{ScreenName}}Props,
+  // backgroundColor: '#FFF',
+}
+
+/* --- Route Segments -------------------------------------------------------------------------- */
+
+// -i- https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
+export const dynamic = 'auto' // 'auto' | 'force-dynamic' | 'error' | 'force-static'
+
+{{{screenTitleDivider}}}
+
+export const {{ScreenName}} = (props: T{{ScreenName}}Props) => {
+  // Props & Data
+  const [screenData, { error }] = useAetherRoute(props, {{ScreenName}}RouteDataConfig)
+  const { echo } = screenData
+
+  // -- Guards --
+
+  if (error) {
+    return (
+      <View tw="w-full h-full items-center justify-center">
+        <H1 tw="text-red-500">Error: {error.message}</H1>
+      </View>
+    )
+  }
+
+  // -- Render --
+
+  return (
+    <View tw="w-full h-full items-center justify-center">
+      <H1 tw="text-xl text-black">{echo}</H1>
+    </View>
+  )
+}
+
+/* --- Documentation --------------------------------------------------------------------------- */
+
+export const getDocumentationProps = {{ScreenName}}Props.introspect()
+
+/* --- Exports --------------------------------------------------------------------------------- */
+
+export default {{ScreenName}}
