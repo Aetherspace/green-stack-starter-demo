@@ -224,6 +224,7 @@ declare module 'zod' {
     example(value: z.infer<z.ZodObject<T>>): z.ZodObject<T>
     eg(value: z.infer<z.ZodObject<T>>): z.ZodObject<T>
     ex(value: z.infer<z.ZodObject<T>>): z.ZodObject<T>
+    applyDefaults<D extends Record<string, unknown>>(data: D): D & z.infer<z.ZodObject<T>>
     introspect(): AetherSchemaType<z.infer<z.ZodObject<T>>>
   }
 }
@@ -634,7 +635,14 @@ if (!z.ZodObject.prototype.aetherType) {
   }
   z.ZodObject.prototype.eg = z.ZodObject.prototype.example
   z.ZodObject.prototype.ex = z.ZodObject.prototype.example
-  // Documentation
+  // Allow safe parsing
+  z.ZodObject.prototype.applyDefaults = function <D extends Record<string, unknown>>(data: D) {
+    const thisSchema = this.extend({})
+    const result = thisSchema.safeParse(data)
+    if (!result.success) console.warn(result.error) // @ts-ignore
+    return { ...data, ...result.data } as D & (typeof thisSchema)['_type']
+  }
+  // Allow Introspection
   z.ZodObject.prototype.introspect = function () {
     // Save object example values as possible override
     const exampleValues = this.exampleValue
