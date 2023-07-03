@@ -29,6 +29,7 @@
     "@storybook/manager-webpack5": "^6.5.16",
     "@storybook/mdx2-csf": "^0.0.4",
     "@storybook/react": "^6.5.16",
+    "@turbo/gen": "^1.10.3",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
     "@typescript-eslint/parser": "^5.54.1",
     "chromatic": "^6.17.1",

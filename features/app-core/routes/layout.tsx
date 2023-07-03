@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 // Primitives
 import { View } from 'aetherspace/primitives'

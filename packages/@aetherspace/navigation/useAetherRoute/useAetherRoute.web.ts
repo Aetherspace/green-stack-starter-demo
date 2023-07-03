@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 // Schemas
-import { AetherProps, z } from 'aetherspace/schemas'
+import { AetherProps, z } from '../../schemas'
 // Utils
 import { isEmpty } from '../../utils'
 

@@ -2,7 +2,10 @@ module.exports = [
     // - Modules -
     'twrnc',
     '@react-native/assets',
-    // - Workspaces -
+    '@expo/vector-icons',
+    // - Packages -
+    'registries',
     'aetherspace',
+    // - Features -
     'app',
-];
+]

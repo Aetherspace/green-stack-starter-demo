@@ -1,4 +1,4 @@
-import { getDebuggerURL, getEnvVar } from 'aetherspace/utils/envUtils'
+import { getDebuggerURL, getEnvVar } from '../../utils/envUtils'
 import axios from 'axios'
 
 /* --- Constants ------------------------------------------------------------------------------- */

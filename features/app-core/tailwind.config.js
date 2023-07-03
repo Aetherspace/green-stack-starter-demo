@@ -33,22 +33,23 @@ module.exports = {
 /* --- Intellisense Setup ---------------------------------------------------------------------- */
 // Enable intellisense by installing the "Tailwind CSS Intellisense" vscode plugin
 // Also add the following to your vscode's .settings file to get the addon to work properly:
-// --
-// "tailwindCSS.classAttributes": [
-//   "class",
-//   "className",
-//   "tw",
-//   "tailwind",
-//   "style"
-// ],
-// "tailwindCSS.experimental.classRegex": [
-//   "tw`([^`]*)", // tw`...`
-//   "tw=\"([^\"]*)", // <div tw="..." />
-//   "tw={\"([^\"}]*)", // <div tw={"..."} />
-//   "tw\\.\\w+`([^`]*)", // tw.xxx`...`
-//   "tw\\(.*?\\)`([^`]*)" // tw(Component)`...`
-// ],
-// "tailwindCSS.includeLanguages": {
-//   "typescript": "javascript",
-//   "typescriptreact": "javascript"
-// },
+/* --
+    "tailwindCSS.classAttributes": [
+        "class",
+        "className",
+        "tw",
+        "tailwind",
+        "style"
+    ],
+    "tailwindCSS.experimental.classRegex": [
+        "tw`([^`]*)", // tw`...`
+        "tw=\"([^\"]*)", // <div tw="..." />
+        "tw={\"([^\"}]*)", // <div tw={"..."} />
+        "tw\\.\\w+`([^`]*)", // tw.xxx`...`
+        "tw\\(.*?\\)`([^`]*)" // tw(Component)`...`
+    ],
+    "tailwindCSS.includeLanguages": {
+        "typescript": "javascript",
+        "typescriptreact": "javascript"
+    },
+-- */

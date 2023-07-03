@@ -1,4 +1,4 @@
-import { getEnvList, getEnvVar, getGlobal } from 'aetherspace/utils/envUtils'
+import { getEnvList, getEnvVar, getGlobal } from '../../utils/envUtils'
 import axios from 'axios'
 import { graphql } from 'graphql'
 

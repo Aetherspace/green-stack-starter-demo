@@ -5,8 +5,7 @@ import { z, aetherSchema, AetherProps } from 'aetherspace/schemas'
 /* --- Schema ---------------------------------------------------------------------------------- */
 
 const BackIconProps = aetherSchema('BackIconProps', {
-  width: z.number().default(24).describe('Icon width'),
-  height: z.number().default(24).describe('Icon height'),
+  size: z.number().default(24).describe('Icon dimensions, maps to both width and height'),
   fill: z.string().color().default('#000000').describe('Icon fill color'),
 })
 
@@ -14,10 +13,10 @@ const BackIconProps = aetherSchema('BackIconProps', {
 
 const BackIcon = (props: AetherProps<typeof BackIconProps>) => {
   // Props
-  const svgProps = BackIconProps.parse(props)
+  const { size, ...svgProps } = BackIconProps.applyDefaults(props)
   // Render
   return (
-    <Svg viewBox="0 0 24 24" {...svgProps}>
+    <Svg viewBox="0 0 24 24" width={size} height={size} {...svgProps}>
       <Path d="M16 4V20L8 12L16 4Z" />
     </Svg>
   )

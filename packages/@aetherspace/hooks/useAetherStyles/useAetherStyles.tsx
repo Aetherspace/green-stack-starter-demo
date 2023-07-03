@@ -49,7 +49,7 @@ const useAetherStyles = <
     // Start off without breakpoints
     let breakpointIds = ''
     // Return nothing when no style related props were found
-    if (!style && !twStrings) return [null, breakpointIds]
+    if (!style && !twStrings) return [undefined, breakpointIds]
     // Return regular styles when no tailwind classes were passed
     if (!twStrings) return [style as unknown as ComponentProps<C>['style'], breakpointIds]
     // Determine tailwind classes

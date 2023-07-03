@@ -5,8 +5,7 @@ import { z, aetherSchema, AetherProps } from 'aetherspace/schemas'
 /* --- Schema ---------------------------------------------------------------------------------- */
 
 const HomeIconProps = aetherSchema('HomeIconProps', {
-  width: z.number().default(24).describe('Icon width'),
-  height: z.number().default(24).describe('Icon height'),
+  size: z.number().default(24).describe('Icon dimensions, maps to both width and height'),
   fill: z.string().color().default('#000000').describe('Icon fill color'),
 })
 
@@ -14,10 +13,10 @@ const HomeIconProps = aetherSchema('HomeIconProps', {
 
 const HomeIcon = (props: AetherProps<typeof HomeIconProps>) => {
   // Props
-  const svgProps = HomeIconProps.parse(props)
+  const { size, ...svgProps } = HomeIconProps.applyDefaults(props)
   // Render
   return (
-    <Svg viewBox="0 0 24 24" {...svgProps}>
+    <Svg viewBox="0 0 24 24" width={size} height={size} {...svgProps}>
       <Path
         d="M19 8.89L12 3 5 8.89V21c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V8.89z"
         clipRule="evenodd"

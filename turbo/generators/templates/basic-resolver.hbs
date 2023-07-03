@@ -1,0 +1,21 @@
+import { aetherResolver } from 'aetherspace/utils/serverUtils'
+// Schemas
+import { {{ResolverName}}APIConfig, T{{ResolverName}}Response } from '../schemas/{{ResolverName}}Resolver' // prettier-ignore
+
+{{jsDocResolverHeader}}
+export const {{resolverName}} = aetherResolver(async ({ args, handleError }) => {
+  try {
+    // Args
+    const { test } = args
+
+    // ... Add business logic ...
+
+    // -- Respond --
+
+    return {
+      test: test || 'test' // dummy echo response to test the resolver
+    } as T{{ResolverName}}Response
+  } catch (err) {
+    throw handleErrsor(err)
+  }
+}, {{ResolverName}}APIConfig)

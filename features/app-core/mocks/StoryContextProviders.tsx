@@ -19,7 +19,7 @@ const StoryContextProviders = ({ children }) => {
       assets={{}}
       icons={{}}
       twConfig={tailwindConfig}
-      tw="relative flex flex-col min-h-full min-w-full bg-white"
+      tw="h-full relative"
       isStorybook
     >
       {children}

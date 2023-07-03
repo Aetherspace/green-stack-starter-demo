@@ -45,6 +45,7 @@ Run with Storybook docs: `yarn dev:docs`
 
 > 🐦 [Anouncement post](https://dev.to/codinsonn/how-to-compete-with-elons-twitter-a-dev-perspective-4j64)  
 > ⚡️ [Quickstart example](https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/story/aetherspace-quickstart--page)  
+> 📚 [Core Concepts](/packages/@aetherspace/core/README.md)
 
 ### Table of contents
 
@@ -66,7 +67,7 @@ In short GREEN stands for these 5 core technologies:
 - **E**xpo for easy mobile development, deployment and testing
 - **N**ext.js for web, SEO, Static & Server rendering, API & Web-Vitals
 
-The core idea is writing your app code or features just once with Typescript and React-Native, yet make it available on any platform or device without double implementations without the need for different development teams.
+The core idea is writing your app code or features just once with Typescript and React-Native, yet make it available on any platform or device without double implementations or the need for different development teams.
 
 ## How does 'Aetherspace' help, exactly? 🚀 <a name="what-is-aetherspace"></a>
 
@@ -118,9 +119,12 @@ This starter monorepo has three types of workspaces:
 │           └── (generated)/ ➡️ File based routing generated from `routes/` in features or packages
 │               └── _layout.tsx ➡️ Root layout for all app screens (e.g. tab bar, drawer, etc.)
 │               └── index.tsx ➡️ Home & starting screen for the app
+│       └── babel.config.js ➡️ Babel transpilation config for Expo
 │       └── index.js ➡️ Mobile entrypoint loader for App.tsx
 │       └── metro.config.js ➡️ Metro bundler config for react-native
 │       └── package.json ➡️ yarn-workspace config, lists core expo & react-native dependencies
+│       └── tsconfig.json ➡️ Typescript config for Expo
+│       └── webpack.config.js ➡️ Enables PWA browser testing with Expo (no SSR)
 │
 │   └── next/ 👉 Where all Next.js, Server & API config for {app-name} lives
 │       └── public/ ➡️ favicon, app icons & other static assets (e.g. images & fonts)
@@ -133,15 +137,17 @@ This starter monorepo has three types of workspaces:
 │           └── pages/ ➡️ directory based routes (using 'app-core/screens/')
 │               └── api/ ➡️ directory based api routes (using 'app-core/resolvers/')
 │                   └── graphql.ts ➡️ GraphQL client from 'app-core/graphql/'
+│       └── babel.config.js ➡️ Babel transpilation config for Next.js
 │       └── next.config.js ➡️ Next.js config, modules to transpile & plugins to support
 │       └── package.json ➡️ yarn-workspaces config, lists core next.js dependencies
+│       └── tsconfig.json ➡️ Typescript config for Next.js
 |
 |── features/
 │   └── app-core/ 👉 Where all core cross-platform code for {app-name} lives
 │       └── components/ ➡️ Molecules / Atoms / Common UI used in 'screens/'
 │       └── graphql/ ➡️ Shared code for the GraphQL API client (optional)
 │       └── resolvers/ ➡️ Shared resolvers used in both in API routes or GraphQL API
-│       └── screens/ ➡️ Page templates used in App.tsx and next.js's 'pages/' directory
+│       └── screens/ ➡️ Page templates used in App.tsx and next.js's 'app/' directory
 │       └── routes/ ➡️ Write-once routing for both web & mobile (see 'app/(generated)/' in expo & next)
 │       └── package.json ➡️ config required by yarn-workspaces, lists dependencies that don't fit anywhere else
 │   └── {app-feature}/ 👉 Code shared across apps, ideally same structure as 'features/app-core'
@@ -159,9 +165,7 @@ This starter monorepo has three types of workspaces:
 └── turbo.json  ➡️ Monorepo config, manages dependencies in build scripts + caching of tasks
 ```
 
-```
-💡 `{app-feature}`, `{app-name}` & `{comp-lib}` are just placeholders and you **can** have multiple of these
-```
+> 💡 `{app-feature}`, `{app-name}` & `{comp-lib}` are just placeholders and you **can** have multiple of these
 
 #### 📦 Keep your apps seperate with `/apps/*` & `/features/*` workspaces:
 
@@ -196,10 +200,10 @@ Here's a list of what you can start doing out of the box:
 
 - Link pages and screens cross platform with the `<Link>` component from `aetherspace/navigation`
 - Use tailwind to style UI responsively on web / mobile with `<AetherView tw="sm:px-2">` / `tailwind-rn`
-- Add illustrations or icons with `react-native-svg`
+- Add illustrations or [icons with `react-native-svg`](/packages/@aetherspace/components/AetherIcon/README.md)
 - Bring the power of GraphQL to JSON or REST apis with `aetherResolver()` and schemas as single sources of truth.
 - Document your components and APIs with Storybook.
-- Deploy to vercel with `yarn deploy` or `vercel --prod --no-clipboard` ([view live](https://aetherspace-green-stack-starter.vercel.app/))
+- Deploy to vercel by importing your repo in their UI ([view live example](https://aetherspace-green-stack-starter.vercel.app/))
 - Deploy to netlify [via this guide](https://www.netlify.com/blog/2020/11/30/how-to-deploy-next.js-sites-to-netlify/) ([view live](https://aetherspace-green-stack-starter.netlify.app/))
 
 Possible next steps:
@@ -209,19 +213,19 @@ Possible next steps:
 ## 💼 Why this makes sense from a user, dev & business perspective <a name="why-this-makes-sense-from-a-business-perspective"></a>
 
 **For users:**
-- Solutions built for how they prefer to use software, whether that's on a phone, tablet or desktop
-- Can share any page or feature with a link that opens on the recievers browser or app out of the box
-- All features available across all platforms in a familiar way
+- Solutions built for how they prefer to use software, whether that's on a phone, tablet or desktop.
+- Can share any page or feature with a link, which will open in the correct app or browser.
+- Full feature parity across all platforms.
 
 **For developers:**
-- Write-once navigation, UI, logic, data fetching & resolvers
+- Write-once UI, logic, routing, data fetching & resolvers
 - Easily onboard new devs to the project with auto-generated Storybook docs
-- Save time & reduce risk by defining data structure once, vs. separately for types, graphql, docs & validation
+- Save time & reduce risk by defining data structure once, instead of 4 times for types, graphql, docs & validation
 
 **For businesses:**
-- Speed and flexibility to build and update features for any platform
-- Reach more users by being available on more devices
-- Free organic leads from web SEO, which you can easily guide to mobile where higher conversions happen
+- Speed and flexibility to build/update features and pages for any platform.
+- Reach more users by being available on more devices.
+- Free organic leads from web SEO, which you can easily guide to mobile where higher conversions happen.
 
 > Whether you're a startup or established company, having both web and mobile apps is a great competitive advantage. There are many stories of market leaders suddenly being overtaken because the competition were able to move faster or had more devices their solution was available on for their customers.
 
@@ -261,7 +265,7 @@ React-Native Mobile App ROI = 🕗🕗 -> 💰💰 to 💰💰💰
 - 🕗 iOS + Android App with RN 💰(💰)
 - 🕗 API Back-End (REST / GraphQL) 💰
 
-Expo Mobile + PWA ROI = 🕗🕗 -> 💰💰 to 💰💰💰💰
+Expo Mobile + PWA ROI = 🕗🕗 ->💰💰 to 💰💰💰💰
 
 - 🕗 iOS + Android + PWA with Expo & RN (Web without SSR) 💰(💰💰)
 - 🕗 API Back-End (REST / GraphQL) 💰
@@ -294,27 +298,41 @@ The GREEN stack is unlikely to be the best fit when your project...
 - ... will always be web only 👉 Use `next.js`
 - ... will always be mobile only 👉 Use `Expo`
 - ... will always be desktop only 👉 Use `Electron` + `React` / `Vue` / `Svelte`
-- ... needs advanced platform or hardware features 👉 Go native with `Swift` / `Java` (*)
+- ... is very Bluetooth / AR / VR / XR heavy 👉 Go native with `Swift` / `Java`
 - ... is not using React 👉 Use `Svelte` / `Vue` + `Ionic`
-- ... has no real need for Server Rendering, SEO or Web-Vitals 👉 Use `Expo` (for Web)
-- ... is too far along and has no budget, time or people to refactor 🤷‍♂️
-
-> *For advanced platform or hardware features, such as Widgets, App Clips, AR/VR/XR, Fingerprint, it is still possible to use Expo and add those specific features through native code with [Expo Config Plugins](https://www.npmjs.com/package/@expo/config-plugins).
+- ... has no real need for Server Rendering, SEO or Web-Vitals 👉 Use `Expo` (+ Web Support)
+- ... is using React, but the project is too far along and has no budget, time or people to refactor 🤷‍♂️
 
 If your project has required dependencies / SDKs / libraries that are either not available in JS, are not extractable to API calls or cannot function cross-platform, this may also not be a good solution for your use-case\*.
+
+```
+🛠 * However, for JS libs, you could always try adding cross platform support yourself with `patch-package`
+```
 
 ## 📚 Further reading / Relevant docs: <a name="relevant-docs"></a>
 
 - [Expo](https://docs.expo.dev/), [React Native](https://reactnative.dev/docs/getting-started), [Expo-Router docs](https://expo.github.io/router/docs/)
 - [Yarn Workspaces](https://classic.yarnpkg.com/lang/en/docs/workspaces/), [Turborepo docs](https://turborepo.org/docs)
 - [Next.js](https://nextjs.org/docs/getting-started), [app-directory](https://beta.nextjs.org/docs/getting-started), [React-Native-Web docs](https://necolas.github.io/react-native-web/docs/)
-- [GraphQL](https://graphql.org), [Apollo Server docs](https://www.apollographql.com/docs/apollo-server/)
+- [Apollo Server docs](https://www.apollographql.com/docs/apollo-server/)
 
 ## Frequently Asked Questions 🤔
 
+#### What's the benefit of using this over X-solution?
+
+See the [Core Concepts](/packages/@aetherspace/core/README.md) section
+
+#### How can I apply the same navigation and deeplinks between web and mobile?
+
+Deeplinks on mobile come out of the box with Expo-Router, which Aetherspace's [Universal Routing](/packages/@aetherspace/navigation/README.md) uses under the hood.
+
 #### How does automatic docgen work?
 
-See the README on [Automation](/packages/@registries/README.md) or the [Anouncement post](https://dev.to/codinsonn/how-to-compete-with-elons-twitter-a-dev-perspective-4j64) 
+See the README on [Automation](/packages/@aetherspace/scripts/README.md) or the [Anouncement post](https://dev.to/codinsonn/how-to-compete-with-elons-twitter-a-dev-perspective-4j64) 
+
+#### How should I manage my icons?
+
+See the [Icon Management](/packages/@aetherspace/components/AetherIcon/README.md) README
 
 #### I have a question about the license.
 

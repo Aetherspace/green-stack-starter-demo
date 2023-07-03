@@ -60,9 +60,16 @@ const aetherSchemaArgTypes = (aetherSchema) => {
       },
       control: { type: controlType },
     }
-    // Fill in extra table values
-    if (dataType === 'enum') argType.options = Object.values(schemaConfig.schema)
-    if (schemaConfig?.defaultValue) argType.table.defaultValue = { summary: schemaConfig.defaultValue } // prettier-ignore
+    // Provide options from schema?
+    if (dataType === 'enum') {
+      argType.options = Object.values(schemaConfig.schema).filter((opt) => {
+        return !['displayName', '__docgenInfo'].includes(opt as string)
+      })
+    }
+    // Fill in default value?
+    if (schemaConfig?.defaultValue) {
+      argType.table.defaultValue = { summary: schemaConfig.defaultValue }
+    }
     // Return final result
     return argType
   }

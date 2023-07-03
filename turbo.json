@@ -27,6 +27,14 @@
       "outputs": ["../@registries/assets.generated.js"],
       "inputs": ["../../apps/next/public/**"]
     },
+    "aetherspace#collect-icons": {
+      "dependsOn": ["aetherspace#build"],
+      "outputs": ["../@registries/icons.generated.js"],
+      "inputs": [
+        "../../features/**/icons/registry.tsx",
+        "../../packages/**/icons/registry.tsx"
+      ]
+    },
     "aetherspace#collect-resolvers": {
       "dependsOn": ["aetherspace#build"],
       "outputs": ["../@registries/resolvers.generated.js"],

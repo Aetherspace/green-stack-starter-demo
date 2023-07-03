@@ -17,6 +17,9 @@ const collectAssets = () => {
     fs.mkdirSync('../../apps/expo/assets/generated', { recursive: true })
     // Map asset paths to asset keys and turn into barrel file body for 'assets.generated.ts'
     const assetRegistry = assetPaths.reduce((acc, assetPath) => {
+      // Skip assets with unsupported file extensions
+      if (!assetPath.match(/\.(png|jpe?g|svg|webp)$/)) return acc
+      // Copy the asset to the expo app's assets folder
       const requirePath = assetPath.replace('/next/public', '/expo/assets/generated')
       fs.cpSync(assetPath, requirePath, { recursive: true })
       const relSrcPath = assetPath.replace('apps/next/public', '')

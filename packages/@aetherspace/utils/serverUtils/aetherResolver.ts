@@ -8,7 +8,7 @@ import type {
   GetStaticPropsContext,
 } from 'next'
 import { GraphQLError } from 'graphql'
-import { z } from 'aetherspace/schemas'
+import { z } from '../../schemas'
 // Schemas
 import '../../schemas/aetherSchemas'
 // Utils
