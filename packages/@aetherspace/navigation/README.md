@@ -113,6 +113,7 @@ For example:
 
 ## Learn more about Aetherspace:
 
+- [Styling your components and screens with Tailwind](/packages/@aetherspace/styles/README.md)
 - [Single Sources of Truth for your Web & Mobile apps](/packages/@aetherspace/schemas/README.md)
 - [Getting data from GraphQL into your Screens](/packages/@aetherspace/navigation/AetherPage/README.md)
 - [Automation based on Single Sources of Truth and the File System](/packages/@aetherspace/scripts/README.md)

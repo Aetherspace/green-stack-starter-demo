@@ -5,7 +5,7 @@ import { TAetherStyleProps } from '../../schemas/ats'
 import { BreakPointsType } from '../../context/AetherContextManager/aetherContext'
 import { useAetherContext } from '../../context/AetherContextManager/useAetherContext'
 // Styles
-import { addMediaQuery } from '../../styles'
+import { addMediaQuery } from '../../styles/aetherQueries'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 

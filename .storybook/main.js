@@ -10,6 +10,7 @@ module.exports = {
         './docs/Quickstart.stories.mdx',
         './docs/CoreConcepts.stories.mdx',
         './docs/Schemas.stories.mdx',
+        './docs/Styling.stories.mdx',
         './docs/UniversalRouting.stories.mdx',
         './docs/GraphQL.stories.mdx',
         './docs/Automation.stories.mdx',
