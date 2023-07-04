@@ -1,43 +1,4 @@
-import {
-  Article,
-  Aside,
-  B,
-  BlockQuote,
-  BR,
-  Caption,
-  Code,
-  Del,
-  EM,
-  Footer,
-  H1,
-  H2,
-  H3,
-  H4,
-  H5,
-  H6,
-  Header,
-  HR,
-  I,
-  Main,
-  Mark,
-  Nav,
-  P,
-  Pre,
-  Q,
-  S,
-  Section,
-  Strong,
-  Table,
-  TBody,
-  TD,
-  TFoot,
-  TH,
-  THead,
-  TR,
-  Time,
-  UL,
-  LI,
-} from '@expo/html-elements'
+import * as HTML from '@expo/html-elements'
 import { aetherify } from '../core'
 import { AetherLink } from '../navigation'
 
@@ -47,54 +8,54 @@ import { AetherLink } from '../navigation'
 // -i- Renders as semantic HTML on web & server, but as Text / View / etc. on mobile
 // -i- Bringing the power of tailwind 'tw' prefixes & media query support to web
 
-const AetherArticle = aetherify(Article)()
-const AetherAside = aetherify(Aside)()
+const AetherArticle = aetherify(HTML.Article)()
+const AetherAside = aetherify(HTML.Aside)()
 
-const AetherB = aetherify(B)()
-const AetherBlockQuote = aetherify(BlockQuote)()
-const AetherBR = aetherify(BR)()
+const AetherB = aetherify(HTML.B)()
+const AetherBlockQuote = aetherify(HTML.BlockQuote)()
+const AetherBR = aetherify(HTML.BR)()
 
-const AetherCaption = aetherify(Caption)()
-const AetherCode = aetherify(Code)()
+const AetherCaption = aetherify(HTML.Caption)()
+const AetherCode = aetherify(HTML.Code)()
 
-const AetherDel = aetherify(Del)()
-const AetherEM = aetherify(EM)()
-const AetherFooter = aetherify(Footer)()
+const AetherDel = aetherify(HTML.Del)()
+const AetherEM = aetherify(HTML.EM)()
+const AetherFooter = aetherify(HTML.Footer)()
 
-const AetherH1 = aetherify(H1)()
-const AetherH2 = aetherify(H2)()
-const AetherH3 = aetherify(H3)()
-const AetherH4 = aetherify(H4)()
-const AetherH5 = aetherify(H5)()
-const AetherH6 = aetherify(H6)()
+const AetherH1 = aetherify(HTML.H1)()
+const AetherH2 = aetherify(HTML.H2)()
+const AetherH3 = aetherify(HTML.H3)()
+const AetherH4 = aetherify(HTML.H4)()
+const AetherH5 = aetherify(HTML.H5)()
+const AetherH6 = aetherify(HTML.H6)()
 
-const AetherHeader = aetherify(Header)()
-const AetherHR = aetherify(HR)()
-const AetherI = aetherify(I)()
+const AetherHeader = aetherify(HTML.Header)()
+const AetherHR = aetherify(HTML.HR)()
+const AetherI = aetherify(HTML.I)()
 
-const AetherMain = aetherify(Main)()
-const AetherMark = aetherify(Mark)()
-const AetherNav = aetherify(Nav)()
+const AetherMain = aetherify(HTML.Main)()
+const AetherMark = aetherify(HTML.Mark)()
+const AetherNav = aetherify(HTML.Nav)()
 
-const AetherP = aetherify(P)()
-const AetherPre = aetherify(Pre)()
-const AetherQ = aetherify(Q)()
-const AetherS = aetherify(S)()
+const AetherP = aetherify(HTML.P)()
+const AetherPre = aetherify(HTML.Pre)()
+const AetherQ = aetherify(HTML.Q)()
+const AetherS = aetherify(HTML.S)()
 
-const AetherSection = aetherify(Section)()
-const AetherStrong = aetherify(Strong)()
+const AetherSection = aetherify(HTML.Section)()
+const AetherStrong = aetherify(HTML.Strong)()
 
-const AetherTable = aetherify(Table)()
-const AetherTBody = aetherify(TBody)()
-const AetherTD = aetherify(TD)()
-const AetherTFoot = aetherify(TFoot)()
-const AetherTH = aetherify(TH)()
-const AetherTHead = aetherify(THead)()
-const AetherTR = aetherify(TR)()
+const AetherTable = aetherify(HTML.Table)()
+const AetherTBody = aetherify(HTML.TBody)()
+const AetherTD = aetherify(HTML.TD)()
+const AetherTFoot = aetherify(HTML.TFoot)()
+const AetherTH = aetherify(HTML.TH)()
+const AetherTHead = aetherify(HTML.THead)()
+const AetherTR = aetherify(HTML.TR)()
 
-const AetherTime = aetherify(Time)()
-const AetherUL = aetherify(UL)()
-const AetherLI = aetherify(LI)()
+const AetherTime = aetherify(HTML.Time)()
+const AetherUL = aetherify(HTML.UL)()
+const AetherLI = aetherify(HTML.LI)()
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

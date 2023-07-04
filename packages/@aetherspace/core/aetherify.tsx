@@ -5,7 +5,7 @@ import { TAetherStyleProps } from '../schemas/ats'
 /** --- aetherify() ---------------------------------------------------------------------------- */
 /** -i- Wraps with useAetherStyles(), which will add server-side media query support to avoid layout shift on web
  ** Inspired by https://github.com/nandorojo/moti/blob/master/packages/core/src/motify.tsx */
-const aetherify = <Style, Props extends { style?: Style }, Ref, ExtraProps>(
+export const aetherify = <Style, Props extends { style?: Style }, Ref, ExtraProps>(
   Component: ComponentType<Props>
 ) => {
   // Use higher order component to attach aether style support
