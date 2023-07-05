@@ -1,15 +1,28 @@
 # Managing Icons
 
-There’s many different ways to use icons and icon sets in Aetherspace. Here’s the full list by order of recommendation:
+There’s many different ways to use icons and icon sets in Aetherspace. Here’s the full list:
 
-1. Third party SVG component icon libraries, like `@nandorojo/iconic` or `@nandorojo/heroicons`  
+- Third party SVG component icon libraries, like `@nandorojo/iconic` or `@nandorojo/heroicons`  
 → SSR support, fast & easy, no layout shift on web, limited options
-2. Custom SVG components using `react-native-svg`  
+- Custom SVG components using `react-native-svg`  
 → SSR support, can [convert from .svg file](https://transform.tools/svg-to-react-native), but could be more time-consuming
-3. Third party iconfont libraries, such as `@expo/vector-icons`  
+- Third party iconfont libraries, such as `@expo/vector-icons`  
 → Fast & easy, needs icon font preloaded, layout shift on web, locked out of SWC
-4. Image icons through src urls  
+- Image icons through src urls  
 → Straight forward, easy to implement, not super optimised, layout shift on web  
+
+### Best practices
+
+With each of these solutions, [be careful to not accidentally bloat your bundle size](https://twitter.com/Baconbrix/status/1676329985064435712). Especially with iconfont libraries or adding SVG components to barrel files, which can easily add a few MB to your bundle size.
+
+In essence, you'll want to avoid:
+- combining multiple icon-fonts or icon-libraries, stick to one for consistency and bundle size
+- importing the entire icon library, especially from a single import path
+- converting all your SVG files to React components and importing them all in a barrel file
+
+Instead, you'll want to:
+- Only import / convert / register the icons you need, ideally from an import path for that specific icon
+- Consider using `AetherImage` + the `/assets/` folder src path for .svg icons that don't need dynamic colors
 
 ## SVG icon libraries with `@green-stack/icons`
 
@@ -48,23 +61,24 @@ import { AetherImage } from 'aetherspace/primitives'
 import { registerIconRenderer } from 'aetherspace/utils'
 
 export const iconRegistry = {
-	'some-icon-key': MySvgComponent, // Make sure it has a 'size' & 'fill' prop
-	// - OR -
-	'some-img-icon': ({ size, ...restIconProps }) => (
-		<AetherImage
-			src="/img/icon.svg"
-			width={size}
-			height={size}
-			{...restIconProps}
-		/>
-	)
-	// - OR -
-	...registerIconRenderer(
-		['caret-up', 'caret-down', ...] as const,
-		({ name, size, fill, ...restIconProps }) => (
-			<ThirdPartyIconLib name={name} size={size}, color={fill} {...restIconProps} />
-		),
-	),
+  // Make sure components have 'size' & 'fill' props
+  'some-icon-key': MySvgComponent,
+  // - OR -
+  'some-img-icon': ({ size, ...restIconProps }) => (
+    <AetherImage
+      src="/img/icon.svg"
+      width={size}
+      height={size}
+      {...restIconProps}
+    />
+  )
+  // - OR -
+  ...registerIconRenderer(
+    ['caret-up', 'caret-down', ...] as const,
+    ({ name, size, fill, ...restIconProps }) => (
+      <ThirdPartyIconLib name={name} size={size}, color={fill} {...restIconProps} />
+    ),
+  ),
 }
 ```
 
@@ -92,8 +106,8 @@ import { iconRegistry as somePackageIcons } from '../../packages/some-package/ic
 /* --- Exports --------------------------------------------------------------------------------- */
 
 export const REGISTERED_ICONS = {
-    ...someFeatureIcons,
-    ...somePackageIcons,
+  ...someFeatureIcons,
+  ...somePackageIcons,
 } as const // prettier-ignore
 ```
 
@@ -130,8 +144,9 @@ import MySvgComponent from '../icons/SvgCompont'
 
 Benefits of this strategy:
 
+- Since it’s using SVG jsx under the hood, this works and shows immediately during SSR.
 - It’s just another react component, use it in JSX and add props to it.
-- Since it’s using SVG jsx under the hood, this works and show immediately with SSR.
+- e.g. You can make the colors and sizes dynamic using props
 - Can be used for more than just icons, can be entire illustrations.
 
 Downsides of this strategy:
@@ -153,7 +168,7 @@ Benefits of using this strategy:
 Downsides of using icon fonts under the hood:
 
 - You’ll need to preload your icon font somehow, easy on mobile but harder on web
-- Meaning you might not see the icon immediately if the icon font isn’t loaded yet
+- Loading flicker, meaning you might not see the icon immediately if the icon font isn’t loaded yet
 - Cannot use Next.js’s SWC compiler when using any of the @expo/vector-icons (no loader for importing .ttf files)
 
 Example usage:
@@ -231,6 +246,16 @@ export const iconRegistry = {
 ```tsx
 <AetherIcon name="caretup" size={24} fill="#333333" />
 ```
+
+## Using `AetherImage` with `.svg` files
+
+> Using `AetherImage` with `.svg` files might be the most bundle size friendly way of using SVGs in your app. Since it will always result in only using the SVGs that you actually use in your app.
+
+```tsx
+<AetherImage src="/icons/my-icon.svg" width={24} height={24} />
+```
+
+The one major downside of using this approach though, is that colors won't be editable through props and like with icon fonts, it might introduce some loading flickering.
 
 ## Continue learning:
 

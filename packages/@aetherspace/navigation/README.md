@@ -97,10 +97,6 @@ For example:
       └── /apps/next/app/(generated)/bio/[slug]/page.tsx
 --- 
 
- ✅ /   -- Head from "../../features/app-core/routes/head.tsx"
-      └── /apps/next/app/(generated)/head.tsx
---- 
-
  ✅ /api/aetherspace/commerce/shopify/products/   -- API Route from "../../packages/@aetherspace-commerce/routes/api/aetherspace/commerce/shopify/products/route.ts"
       └── /apps/next/app/(generated)/api/aetherspace/commerce/shopify/products/route.ts
  ✅ /api/graphql/   -- API Route from "../../features/app-core/routes/api/graphql/route.ts"
@@ -111,9 +107,48 @@ For example:
       └── /apps/next/app/(generated)/api/bio/[slug]/route.ts
 ```
 
+## Filename conventions for routes:
+
+The filename conventions for routes are based on Next.js file conventions, but for the relevant parts, also apply to Expo-Router:
+- [https://nextjs.org/docs/app/api-reference/file-conventions](https://nextjs.org/docs/app/api-reference/file-conventions)
+- [https://expo.github.io/router/docs/features/routing](https://expo.github.io/router/docs/features/routing)
+
+The main difference is that you define the routes on a workspace level in different `/routes/` folders in `/features/` or `/packages/` workspaces.
+
+We chose this way of working to facilitate the ability to copy-paste the entire feature or package between projects, while still having the routes become automatically available in both the Expo and Next.js targets of said project.
+
+> Read more on recommended folder structure and our "Design for Copy-Paste" methodology in the [Core Concepts](/packages/@aetherspace/core/README.md) page.
+
+## Linking and Front-End Navigation
+
+Use `AetherLink` from `aetherspace/navigation` to link to a route in your app:
+
+```tsx
+import { Link } from 'aetherspace/nagivation'
+
+// e.g. for a /bio/[slug] route which could've come from e.g /{workspace}/routes/bio/[slug].tsx
+
+<Link to="/bio/codinsonn">
+     View links in bio page
+</Link>
+```
+
+## Accessing the route parameters
+
+In Screens, you can access the route parameters via the `useRoute` hook from `aetherspace/navigation`:
+
+```tsx
+import { useAetherRoute } from 'aetherspace/navigation'
+
+const { params } = useAetherRoute(props, screenConfig)
+```
+
+If you're wondering what the `screenConfig` should contain, or are wondering how to access API route parameters, we suggest you continue with [GraphQL and Data-Fetching](/packages/@aetherspace/navigation/AetherPage/README.md)
+
 ## Learn more about Aetherspace:
 
 - [Styling your components and screens with Tailwind](/packages/@aetherspace/styles/README.md)
 - [Single Sources of Truth for your Web & Mobile apps](/packages/@aetherspace/schemas/README.md)
 - [Getting data from GraphQL into your Screens](/packages/@aetherspace/navigation/AetherPage/README.md)
+- [Aetherspace Core Concepts for cross-platform success](/packages/@aetherspace/core/README.md)
 - [Automation based on Single Sources of Truth and the File System](/packages/@aetherspace/scripts/README.md)
