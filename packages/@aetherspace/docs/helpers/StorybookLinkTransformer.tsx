@@ -27,16 +27,17 @@ const StorybookLinkTransformer = (props) => {
   useEffect(() => {
     transformLinks({
       // - Images -
+      '/packages/@aetherspace/assets/AetherspaceLogo.svg': '/AetherspaceLogo.svg',
       '/.storybook/public/TransformToolsExampleRNSVG.png': '/TransformToolsExampleRNSVG.png',
       // - Hrefs -
       '?path=/packages/@aetherspace/README.md': '?path=/docs/aetherspace-quickstart--page',
       '?path=/packages/@aetherspace/core/README.md': '?path=/docs/aetherspace-core-concepts--page',
-      '?path=/packages/@aetherspace/styles/README.md': '?path=/story/aetherspace-cross-platform-styling--page',
-      '?path=/packages/@aetherspace/navigation/README.md': '?path=/docs/aetherspace-universal-routing--page',
-      '?path=/packages/@aetherspace/navigation/AetherPage/README.md': '?path=/docs/aetherspace-graphql-data-fetching--page',
-      '?path=/packages/@aetherspace/components/AetherIcon/README.md': '?path=/docs/aetherspace-icon-management--page',
+      '?path=/packages/@aetherspace/styles/README.md': '?path=/story/aetherspace-cross-platform-styling--page', // prettier-ignore
+      '?path=/packages/@aetherspace/navigation/README.md': '?path=/docs/aetherspace-universal-routing--page', // prettier-ignore
+      '?path=/packages/@aetherspace/navigation/AetherPage/README.md': '?path=/docs/aetherspace-graphql-data-fetching--page', // prettier-ignore
+      '?path=/packages/@aetherspace/components/AetherIcon/README.md': '?path=/docs/aetherspace-icon-management--page', // prettier-ignore
       '?path=/packages/@aetherspace/scripts/README.md': '?path=/docs/aetherspace-automation--page',
-      '?path=/packages/@aetherspace/schemas/README.md': '?path=/docs/aetherspace-single-sources-of-truth--page',
+      '?path=/packages/@aetherspace/schemas/README.md': '?path=/docs/aetherspace-single-sources-of-truth--page', // prettier-ignore
       '?path=/.github/workflows/README.md': '?path=/docs/aetherspace-deployment--page',
       '?path=/LICENSE.md': '?path=/docs/aetherspace-license--page',
     })

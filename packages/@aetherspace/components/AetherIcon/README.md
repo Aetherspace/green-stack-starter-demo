@@ -63,7 +63,7 @@ import { registerIconRenderer } from 'aetherspace/utils'
 export const iconRegistry = {
   // Make sure components have 'size' & 'fill' props
   'some-icon-key': MySvgComponent,
-  // - OR -
+  // - OR, if you don't need to change the color through props -
   'some-img-icon': ({ size, ...restIconProps }) => (
     <AetherImage
       src="/img/icon.svg"
@@ -76,7 +76,7 @@ export const iconRegistry = {
   ...registerIconRenderer(
     ['caret-up', 'caret-down', ...] as const,
     ({ name, size, fill, ...restIconProps }) => (
-      <ThirdPartyIconLib name={name} size={size}, color={fill} {...restIconProps} />
+      <ThirdPartyIconLib name={name} size={size} color={fill} {...restIconProps} />
     ),
   ),
 }

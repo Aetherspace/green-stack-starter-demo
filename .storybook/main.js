@@ -33,6 +33,7 @@ module.exports = {
     ],
     staticDirs: [
       './public',
+      '../packages/@aetherspace/assets',
       '../apps/next/public',
     ],
     webpackFinal: (config) => {

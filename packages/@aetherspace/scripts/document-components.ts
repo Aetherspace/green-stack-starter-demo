@@ -55,8 +55,6 @@ export const {componentNameConfig} = aetherStoryDocs({ {componentName} }, {getDo
 {{stories}}
 `
 
-
-
 /* --- document-components --------------------------------------------------------------------- */
 
 const documentComponents = () => {
@@ -123,7 +121,7 @@ const documentComponents = () => {
         // Build component import example
         const importStatement = hasNamedExport ? `{ ${componentName} }` : componentName
         const componentFilePath = `${componentFolder.replace('../../', '')}/${componentName}`
-        const [workspaceType, workspaceFolderName, componentFolderName] = componentFilePath.split('/')
+        const [workspaceType, workspaceFolderName, componentFolderName] = componentFilePath.split('/') // prettier-ignore
         const workspaceFolder = [workspaceType, workspaceFolderName].join('/') // e.g. 'packages/@aetherspace'
         const workspaceImport = workspaceImports[workspaceFolder] // e.g. 'aetherspace'
         const importExample = `import ${importStatement} from '${workspaceImport}/${componentFolderName}/${componentName}'` // prettier-ignore
@@ -135,7 +133,7 @@ const documentComponents = () => {
           componentNameDocs: `${componentName}Docs`,
           componentNameConfig: `${componentName}Config`,
           getDocumentationProps: storyPropsAlias,
-          filePath: `\`${componentFilePath}\``,
+          filePath: `\`/${componentFilePath}.tsx\``,
           importExample: '```typescript\n' + importExample + '\n```\n',
         })
         // Add story to the stories list
