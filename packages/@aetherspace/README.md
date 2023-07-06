@@ -1,6 +1,8 @@
+<img src="/packages/@aetherspace/assets/AetherspaceLogo.svg" width="50" height="50" />
+
 # GREEN stack quickstart ⚡
 
-> Welcome! Set up your Web, iOS & Android app in minutes, and blow away the competition with write-once components that run on all platforms. Powered by GraphQL, React, Expo & Next.js
+> Welcome to Aetherspace! Set up your Web, iOS & Android app in minutes, and blow away the competition with write-once components that run on all platforms. Powered by GraphQL, React, Expo & Next.js
 
 ## Kickstart for Web & Mobile with Aetherspace
 

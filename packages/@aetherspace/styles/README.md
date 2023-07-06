@@ -34,9 +34,9 @@ Under the hood we are adding tailwind support to react-native with the twrnc lib
 
 ```tsx
 // You can use utility classes for things like paddings and margins
-<View tw="px-4" /> // => style={{ padding-left: '16px', padding-right: '16px' }}
-<View tw="my-2" /> // => style={{ margin-top: '8px', margin-bottom: '8px' }}
-<Text tw="text-black" /> // => style={{ text-color: '#000000' }}
+<View tw="px-4" /> // => style={{ paddingLeft: '16px', paddingRight: '16px' }}
+<View tw="my-2" /> // => style={{ marginTop: '8px', marginBottom: '8px' }}
+<Text tw="text-black" /> // => style={{ textColor: '#000000' }}
 
 // You can also pass specific values using bracket syntax
 <View tw="w-[200px]" /> // => style={{ width: '200px' }}
