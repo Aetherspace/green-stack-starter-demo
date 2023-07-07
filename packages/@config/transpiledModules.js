@@ -1,7 +1,7 @@
 module.exports = [
     // - Modules -
     'twrnc',
-    '@react-native/assets',
+    '@react-native/assets-registry',
     '@expo/vector-icons',
     // - Packages -
     'registries',
