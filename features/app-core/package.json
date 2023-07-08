@@ -9,6 +9,6 @@
         "@expo-google-fonts/roboto": "^0.2.3",
         "cors": "^2.8.5",
         "registries": "*",
-        "swr": "^2.0.0"
+        "swr": "^2.2.0"
     }
 }

@@ -24,15 +24,15 @@ yarn document-components # runs `packages/@aetherspace/scripts/document-componen
 
 ## Explaining the magic
 
-Most of these scripts contain of 2 steps to create their results:
+Most of these scripts contain 2 simple steps to create their results:
 1. Collect all relevant filePaths with `glob`
 2. Analyse, filter & generate template code from their file contents
 
 Some examples of what these scripts enable:
-- File based routing for Next.js & Expo right from your feature / package modules
-- Automatic Storybook docgen for all components in the monorepo
-- GraphQL from your resolvers & schema files
-- Asset and Icon management through registries
+- File based routing for Next.js & Expo right from your feature / package modules -- with `yarn link-routes`
+- Automatic Storybook docgen for all components in the monorepo -- with `yarn document-components`
+- GraphQL from your resolvers & schema files -- with `yarn collect-resolvers`
+- Asset and Icon management through registries -- with `yarn collect-assets` and `yarn collect-icons`
 
 ## Deduplicated Routing between Expo & Next.js
 
