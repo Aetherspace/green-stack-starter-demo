@@ -1,3 +1,5 @@
+<img src="/packages/@aetherspace/assets/AetherspaceLogo.svg" width="50" height="50" />
+
 # Move fast and Build things
 
 <p>
@@ -133,8 +135,6 @@ This starter monorepo has three types of workspaces:
 │               └── head.tsx ➡️ HTML wrapper for head & meta tags (+ SSR styles)
 │               └── layout.tsx ➡️ Root layout for all web pages (e.g. headers / footers / nav)
 │               └── page.tsx ➡️ Web Homepage (e.g. using 'app-core/screens/HomeScreen.tsx')
-│       └── src/
-│           └── pages/ ➡️ directory based routes (using 'app-core/screens/')
 │               └── api/ ➡️ directory based api routes (using 'app-core/resolvers/')
 │                   └── graphql.ts ➡️ GraphQL client from 'app-core/graphql/'
 │       └── babel.config.js ➡️ Babel transpilation config for Next.js
