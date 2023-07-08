@@ -4,9 +4,11 @@
 import 'expo/build/Expo.fx';
 import 'expo/build/Expo.fx.web';
 import { activateKeepAwakeAsync } from 'expo-keep-awake';
+import { Logs } from 'expo';
 
 /* --- Start ----------------------------------------------------------------------------------- */
 // -i- Expo Router setup
 import 'expo-router/entry';
 
+if (__DEV__) Logs.disableExpoCliLogging();
 if (__DEV__) activateKeepAwakeAsync();

@@ -79,7 +79,7 @@ const AetherImage = forwardRef<typeof Image, AetherImageType>((props, ref) => {
   return (
     <AetherView
       style={bindStyles.style as ComponentProps<typeof ExpoImage>['style']}
-      nativeID={bindStyles.nativeID}
+      id={bindStyles.id}
     >
       <Image
         src={src!} // @ts-ignore

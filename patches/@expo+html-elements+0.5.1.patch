@@ -1,0 +1,25 @@
+diff --git a/node_modules/@expo/html-elements/.DS_Store b/node_modules/@expo/html-elements/.DS_Store
+new file mode 100644
+index 0000000..e69de29
+diff --git a/node_modules/@expo/html-elements/build/.DS_Store b/node_modules/@expo/html-elements/build/.DS_Store
+new file mode 100644
+index 0000000..e69de29
+diff --git a/node_modules/@expo/html-elements/build/elements/Headings.js b/node_modules/@expo/html-elements/build/elements/Headings.js
+index 775b8d0..2ec94e4 100644
+--- a/node_modules/@expo/html-elements/build/elements/Headings.js
++++ b/node_modules/@expo/html-elements/build/elements/Headings.js
+@@ -5,12 +5,12 @@ import Text from '../primitives/Text';
+ function createHeadingComponent(level) {
+     const nativeProps = Platform.select({
+         web: {
+-            accessibilityLevel: level,
++            'aria-level': level,
+         },
+         default: {},
+     });
+     return forwardRef((props, ref) => {
+-        return (React.createElement(Text, { ...nativeProps, accessibilityRole: "header", ...props, style: [styles[`h${level}`], props.style], ref: ref }));
++        return (React.createElement(Text, { ...nativeProps, role: "heading", ...props, style: [styles[`h${level}`], props.style], ref: ref }));
+     });
+ }
+ export const H1 = createHeadingComponent(1);

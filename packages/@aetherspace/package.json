@@ -24,22 +24,21 @@
         "add-route": "cd ../.. && yarn gen aether-route"
     },
     "dependencies": {
-        "@apollo/client": "^3.6.9",
-        "@apollo/server": "^4.7.1",
-        "@as-integrations/next": "^2.0.0",
-        "@expo/html-elements": "^0.2.0",
-        "@graphql-tools/schema": "^9.0.1",
-        "axios": "^1.3.4",
-        "expo-linking": "~4.0.1",
-        "expo-web-browser": "~12.1.1",
-        "graphql": "^16.6.0",
-        "graphql-request": "^5.2.0",
-        "micro": "^9.4.1",
-        "swr": "^2.0.4",
-        "twrnc": "^3.6",
+        "@apollo/client": "^3.7.16",
+        "@apollo/server": "^4.7.5",
+        "@as-integrations/next": "^2.0.1",
+        "@expo/html-elements": "^0.5.1",
+        "@graphql-tools/schema": "^10.0.0",
+        "axios": "^1.4.0",
+        "expo-linking": "~5.0.2",
+        "expo-web-browser": "~12.3.2",
+        "graphql": "^16.7.1",
+        "graphql-request": "^6.1.0",
+        "swr": "^2.2.0",
+        "twrnc": "^3.6.1",
         "zod": "~3.20.6"
     },
     "devDependencies": {
-        "@types/json-schema": "^7.0.11"
+        "@types/json-schema": "^7.0.12"
     }
 }

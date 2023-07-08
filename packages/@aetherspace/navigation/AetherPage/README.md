@@ -173,7 +173,7 @@ We have a full working example of this in the Aetherspace demo app:
 - [/features/app-core/screens/HomeScreen.tsx#L39-L76](https://github.com/Aetherspace/green-stack-starter-demo/blob/main/features/app-core/screens/HomeScreen.tsx#L39-L76)
 - [/features/app-core/routes/index.tsx](https://github.com/Aetherspace/green-stack-starter-demo/blob/main/features/app-core/routes/index.tsx)
 
-But again, you may want to save some time and skip the manual boilerplate and use a generator instead:
+But again, you may want to save some time by skipping the manual boilerplate entirely and use a generator instead:
 
 ## Generating GraphQL powered routes
 

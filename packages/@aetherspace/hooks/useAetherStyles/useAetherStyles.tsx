@@ -11,7 +11,7 @@ import { addMediaQuery } from '../../styles/aetherQueries'
 
 export type StylePropsType<C extends JSXElementConstructor<any>> = TAetherStyleProps & {
   style?: ComponentProps<C>['style']
-  nativeID?: string
+  id?: string
   children?: any
 }
 
@@ -89,7 +89,7 @@ const useAetherStyles = <
 
   // -- bindStyles --
 
-  const bindStyles = { style: styles, ...(mediaIds ? { nativeID: mediaIds } : {}) }
+  const bindStyles = { style: styles, ...(mediaIds ? { id: mediaIds } : {}) }
 
   // -- Return --
 
