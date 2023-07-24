@@ -2,6 +2,7 @@
 import fs from 'fs'
 import path from 'path'
 import { PlopTypes } from '@turbo/gen'
+import { execSync } from 'child_process'
 // Generators
 import { registerAetherWorkspaceGenerator } from './aether-workspace'
 import { registerAetherSchemaGenerator } from './aether-schema'
@@ -24,6 +25,8 @@ export type AppendActionConfig = PlopTypes.ActionConfig & {
 /* --- Register Generators --------------------------------------------------------------------- */
 
 export default function (plop: PlopTypes.NodePlopAPI) {
+  // -- Register actions --
+
   plop.setActionType(
     'append-last-line', // @ts-ignore
     function (answers, config: AppendActionConfig, plop: PlopTypes.NodePlopAPI) {
@@ -31,15 +34,24 @@ export default function (plop: PlopTypes.NodePlopAPI) {
       const absolutePath = path.join(targetPath, config.path)
       // Check if file exists, create it if it doesn't yet
       if (fs.existsSync(absolutePath) === false) fs.writeFileSync(absolutePath, '')
-      // Check for last empty line
+      // Append as last non-empty line
       const existingContent = fs.readFileSync(absolutePath, 'utf8')
-      let newContent = existingContent.replace(/^(.*\S)[\r\n]*$/gm, `$1\n${config.template}`)
-      // If no non empty line is found, nothing will have been replaced, so append to the end instead
-      if (newContent === existingContent) newContent += config.template
+      const existingLines = existingContent.split('\n').filter(Boolean)
+      const newContent = [...existingLines, config.template, ''].join('\n')
       // Write to file
       fs.writeFileSync(absolutePath, newContent)
       // Tell turborepo where the change was made
       return `/${config.path}`
+    }
+  )
+
+  plop.setActionType(
+    'open-files-in-vscode', // @ts-ignore
+    function (_answers, config: { paths: string[] }, plop: PlopTypes.NodePlopAPI) {
+      const targetPath = plop.getPlopfilePath().replace('/turbo/generators', '')
+      const absolutePaths = config.paths.map((p) => path.join(targetPath, p))
+      // Open files in VSCode
+      execSync(`code ${absolutePaths.join(' ')}`)
     }
   )
 

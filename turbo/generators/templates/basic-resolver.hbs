@@ -3,19 +3,19 @@ import { aetherResolver } from 'aetherspace/utils/serverUtils'
 import { {{ResolverName}}APIConfig, T{{ResolverName}}Response } from '../schemas/{{ResolverName}}Resolver' // prettier-ignore
 
 {{jsDocResolverHeader}}
-export const {{resolverName}} = aetherResolver(async ({ args, handleError }) => {
+export const {{resolverName}} = aetherResolver(async ({ args, parseArgs, withDefaults, handleError }) => {
   try {
     // Args
-    const { test } = args
+    const { test } = parseArgs(args)
 
     // ... Add business logic ...
 
     // -- Respond --
 
-    return {
+    return withDefaults({
       test: test || 'test' // dummy echo response to test the resolver
-    } as T{{ResolverName}}Response
+    })
   } catch (err) {
-    throw handleErrsor(err)
+    throw handleError(err)
   }
 }, {{ResolverName}}APIConfig)

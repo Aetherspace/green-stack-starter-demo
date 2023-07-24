@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { PlopTypes } from '@turbo/gen'
 // Utils
-import { listWorkspaceImports } from '../../packages/@aetherspace/scripts/helpers/scriptUtils'
+import { parseWorkspaces } from '../../packages/@aetherspace/scripts/helpers/scriptUtils'
 
 /* --- Disclaimer ------------------------------------------------------------------------------ */
 
@@ -10,7 +10,7 @@ import { listWorkspaceImports } from '../../packages/@aetherspace/scripts/helper
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
-const workspaceImports = listWorkspaceImports('')
+const { workspaceImports } = parseWorkspaces('')
 const workspaceOptions = Object.keys(workspaceImports).reduce((options, workspacePath) => {
   const workspaceName = workspaceImports[workspacePath]
   const workspaceOption = `${workspacePath}  --  importable from: '${workspaceName}'`
@@ -105,6 +105,10 @@ export const registerAetherSchemaGenerator = (plop: PlopTypes.NodePlopAPI) => {
           type: 'append-last-line',
           path: `${workspacePath}/schemas/index.ts`,
           template: `export * from './${schemaName}'\n`,
+        },
+        {
+          type: 'open-files-in-vscode',
+          paths: [`${workspacePath}/schemas/${schemaName}.ts`],
         },
       ] as PlopTypes.ActionType[]
 
