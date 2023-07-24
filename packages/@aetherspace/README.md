@@ -241,8 +241,9 @@ Performing these 6 steps has provided us with a bunch of value in little time:
 
 ## Learn more:
 
-- [Single Sources of Truth for your Web & Mobile apps](/packages/@aetherspace/schemas/README.md)
-- [Styling your components with Tailwind](/packages/@aetherspace/styles/README.md)
+- [Aetherspace Core Concepts](/packages/@aetherspace/core/README.md)
+- [Single Sources of Truth for Front & Back-End with Zod](/packages/@aetherspace/schemas/README.md)
+- [Styling your components with Tailwind for Web & Mobile](/packages/@aetherspace/styles/README.md)
 - [Universal Routing with Expo and Next.js](/packages/@aetherspace/navigation/README.md)
 - [Writing flexible data resolvers with Schemas](/packages/@aetherspace/navigation/AetherPage/README.md)
-- [Automation based on Schemas: Storybook & GraphQL](/packages/@aetherspace/scripts/README.md)
+- [Automation based on Schemas: Storybook, GraphQL & More](/packages/@aetherspace/scripts/README.md)

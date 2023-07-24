@@ -1,7 +1,7 @@
 import glob from 'glob'
 import fs from 'fs'
 // Utils
-import { excludeDirs, listWorkspaceImports } from './helpers/scriptUtils'
+import { excludeDirs, parseWorkspaces } from './helpers/scriptUtils'
 
 /* --- link-routes ----------------------------------------------------------------------------- */
 
@@ -24,14 +24,14 @@ const linkRoutes = () => {
     const paramRoutes = allRoutePaths.filter((pth) => pth.includes('].ts')) // e.g. "/**/[slug].tsx"
 
     // Figure out import paths from each workspace
-    const workspaceImports = listWorkspaceImports()
+    const { workspaceImports } = parseWorkspaces()
 
     // Parse & match each route path to a workspace import
     const parsePath = (pth, autoDefault = true) => {
       // Figure out the workspace import
       const [packageParts, routeParts] = pth.split('/routes') as [string, string]
       const workspaceMatcher = packageParts.replace('../../', '')
-      const workspaceImport = workspaceImports[workspaceMatcher]
+      const workspacePackageName = workspaceImports[workspaceMatcher]
       // Figure out relevant routing exports
       const nextExports = autoDefault ? ['default'] : ([] as string[])
       const expoExports = autoDefault ? ['default'] : ([] as string[])
@@ -57,7 +57,7 @@ const linkRoutes = () => {
         if (routeFile.includes('OPTIONS')) nextExports.push('OPTIONS')
       }
       // Return everything
-      return { workspaceImport, routeParts, nextExports, expoExports }
+      return { workspacePackageName, routeParts, nextExports, expoExports }
     }
     // Clear previous generated route files
     fs.mkdirSync('../../apps/expo/app/(generated)', { recursive: true }) // create empty folder if it doesn't exist
@@ -70,9 +70,9 @@ const linkRoutes = () => {
 
     // Reexport fs based index routing in next & expo app dirs
     indexRoutes.forEach((pth) => {
-      const { workspaceImport, routeParts, nextExports, expoExports } = parsePath(pth)
+      const { workspacePackageName, routeParts, nextExports, expoExports } = parsePath(pth)
       const routeSegments = routeParts.split('index.ts')[0]
-      const importPath = `${workspaceImport}/routes${routeSegments}index`
+      const importPath = `${workspacePackageName}/routes${routeSegments}index`
       const expoExportLine = `export { ${expoExports.join(', ')} } from '${importPath}'\n`
       const nextExportLine = `'use client'\nexport { ${nextExports.join(', ')} } from '${importPath}'\n` // prettier-ignore
       fs.mkdirSync(`../../apps/expo/app/(generated)${routeSegments}`, { recursive: true })
@@ -85,11 +85,11 @@ const linkRoutes = () => {
     })
     // Reexport fs based slug routing in next & expo app dirs
     paramRoutes.forEach((pth) => {
-      const { workspaceImport, routeParts, nextExports, expoExports } = parsePath(pth)
+      const { workspacePackageName, routeParts, nextExports, expoExports } = parsePath(pth)
       const fileName = routeParts.split('/').pop() as string // e.g. "[slug].tsx"
       const routeParam = fileName.split('.ts')[0] // e.g. "[slug]"
       const routeSegments = routeParts.split(fileName)[0]
-      const importPath = `${workspaceImport}/routes${routeSegments}${routeParam}`
+      const importPath = `${workspacePackageName}/routes${routeSegments}${routeParam}`
       const expoExportLine = `export { ${expoExports.join(', ')} } from '${importPath}'\n`
       const nextExportLine = `'use client'\nexport { ${nextExports.join(', ')} } from '${importPath}'\n` // prettier-ignore
       fs.mkdirSync(`../../apps/expo/app/(generated)${routeSegments}${routeParam}`, { recursive: true }) // prettier-ignore
@@ -105,11 +105,11 @@ const linkRoutes = () => {
 
     // Reexport fs based layout routing in next & expo app dirs
     layoutRoutes.forEach((pth) => {
-      const { workspaceImport, routeParts } = parsePath(pth)
+      const { workspacePackageName, routeParts } = parsePath(pth)
       const routeSegments = routeParts.split('layout.ts')[0]
       const isRootLayout = routeSegments === '/'
       if (!isRootLayout) {
-        const importPath = `${workspaceImport}/routes${routeSegments}layout`
+        const importPath = `${workspacePackageName}/routes${routeSegments}layout`
         const exportLine = `'use client'\nexport { default } from '${importPath}'\n`
         fs.mkdirSync(`../../apps/expo/app/(generated)${routeSegments}`, { recursive: true })
         fs.writeFileSync(`../../apps/expo/app/(generated)${routeSegments}_layout.tsx`, exportLine)
@@ -122,11 +122,11 @@ const linkRoutes = () => {
     })
     // Reexport fs based template routing in next & expo app dirs
     templateRoutes.forEach((pth) => {
-      const { workspaceImport, routeParts } = parsePath(pth)
+      const { workspacePackageName, routeParts } = parsePath(pth)
       const routeSegments = routeParts.split('template.ts')[0]
       const isRootLayout = routeSegments === '/'
       if (!isRootLayout) {
-        const importPath = `${workspaceImport}/routes${routeSegments}template`
+        const importPath = `${workspacePackageName}/routes${routeSegments}template`
         const exportLine = `'use client'\nexport { default } from '${importPath}'\n`
         fs.mkdirSync(`../../apps/expo/app/(generated)${routeSegments}`, { recursive: true })
         fs.writeFileSync(`../../apps/expo/app/(generated)${routeSegments}_layout.tsx`, exportLine)
@@ -139,9 +139,9 @@ const linkRoutes = () => {
     })
     // Reexport fs based head config in next app dir
     headRoutes.forEach((pth) => {
-      const { workspaceImport, routeParts } = parsePath(pth)
+      const { workspacePackageName, routeParts } = parsePath(pth)
       const routeSegments = routeParts.split('head.ts')[0]
-      const importPath = `${workspaceImport}/routes${routeSegments}head`
+      const importPath = `${workspacePackageName}/routes${routeSegments}head`
       const exportLine = `export { default } from '${importPath}'\n`
       fs.mkdirSync(`../../apps/next/app/(generated)${routeSegments}`, { recursive: true })
       fs.writeFileSync(`../../apps/next/app/(generated)${routeSegments}head.tsx`, exportLine)
@@ -153,9 +153,9 @@ const linkRoutes = () => {
 
     // Reexport fs based api handler routes in next app dir
     apiRoutes.forEach((pth) => {
-      const { workspaceImport, routeParts, nextExports } = parsePath(pth, false)
+      const { workspacePackageName, routeParts, nextExports } = parsePath(pth, false)
       const routeSegments = routeParts.split('route.ts')[0]
-      const importPath = `${workspaceImport}/routes${routeSegments}route`
+      const importPath = `${workspacePackageName}/routes${routeSegments}route`
       const nextExportLine = `export { ${nextExports.join(', ')} } from '${importPath}'\n` // prettier-ignore
       fs.mkdirSync(`../../apps/next/app/(generated)${routeSegments}`, { recursive: true })
       fs.writeFileSync(`../../apps/next/app/(generated)${routeSegments}route.ts`, nextExportLine)

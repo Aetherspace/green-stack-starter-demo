@@ -2,7 +2,8 @@
     "name": "registries",
     "main": "index.ts",
     "version": "1.0.0",
-    "license": "MIT",
+    "private": true,
+    "license": "UNLICENSED",
     "scripts": {},
     "dependencies": {},
     "devDependencies": {}

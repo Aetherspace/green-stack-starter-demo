@@ -32,6 +32,7 @@ const StorybookLinkTransformer = (props) => {
       // - Hrefs -
       '?path=/packages/@aetherspace/README.md': '?path=/docs/aetherspace-quickstart--page',
       '?path=/packages/@aetherspace/core/README.md': '?path=/docs/aetherspace-core-concepts--page',
+      '?path=/packages/@aetherspace/core/README.md#designed-for-copy-paste': '?path=/docs/aetherspace-core-concepts--page', // prettier-ignore
       '?path=/packages/@aetherspace/styles/README.md': '?path=/story/aetherspace-cross-platform-styling--page', // prettier-ignore
       '?path=/packages/@aetherspace/navigation/README.md': '?path=/docs/aetherspace-universal-routing--page', // prettier-ignore
       '?path=/packages/@aetherspace/navigation/AetherPage/README.md': '?path=/docs/aetherspace-graphql-data-fetching--page', // prettier-ignore

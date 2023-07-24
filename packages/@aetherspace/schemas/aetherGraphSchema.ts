@@ -4,7 +4,6 @@ import { AetherSchemaType } from './aetherSchemas'
 
 /* --- Scalars --------------------------------------------------------------------------------- */
 
-// TODO: Remove Schema scalar
 const CUSTOM_SCALARS = ['scalar Date']
 
 /* --- Types ----------------------------------------------------------------------------------- */
@@ -39,6 +38,51 @@ const SCHEMA_PRIMITIVE_MAPPER = Object.freeze({
   AetherDate: 'Date',
   AetherEnum: 'String',
 })
+
+/* --- Example Input --------------------------------------------------------------------------- */
+
+// ⇣⇣⇣⇣⇣⇣⇣⇣ results of `yarn collect-resolvers` ⇣⇣⇣⇣⇣⇣⇣⇣
+
+// {
+//   myResolver: ResolverFnType,
+//   anotherResolver: ResolverFnType,
+// }
+
+// -i- https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/story/aetherspace-graphql-data-fetching--page
+
+/* --- Example Output -------------------------------------------------------------------------- */
+
+// ⇣⇣⇣⇣⇣⇣⇣⇣ results of `aetherGraphSchema(...)` ⇣⇣⇣⇣⇣⇣⇣⇣
+
+// {
+//   typeDefs: `
+//     input MyResolverArgs {
+//       """The description from { someArg: z.string().describe(...) }"""
+//       someArg: String!
+//     }
+//
+//     type MyResolverResponse {
+//       """The description from { someResponseProp: z.string().describe(...) }"""
+//       someResponseProp: String!
+//     }
+//
+//     ...
+//
+//     type Query {
+//       myResolver(args: MyResolverArgs): MyResolverResponse
+//       anotherResolver(args: AnotherResolverArgs): AnotherResolverResponse
+//     }
+//   `,
+//   resolvers: {
+//     Query: {
+//       myResolver: ResolverFnType,
+//       anotherResolver: ResolverFnType,
+//     },
+//     Mutation: { ... }
+//   }
+// }
+
+// -i- https://the-guild.dev/graphql/tools/docs/generate-schema#makeexecutableschema
 
 /* --- aetherSchemaDefinitions() --------------------------------------------------------------- */
 
@@ -109,20 +153,28 @@ const aetherGraphDefinitions = (resolverConfigs: ResolverConfigType[]) => {
   return typeDefs.flat()
 }
 
-/* --- createResolverDefinition() -------------------------------------------------------------- */
-
+/** --- createResolverDefinition() ------------------------------------------------------------- */
+/** -i- Create the resolver definition for the GraphQL schema file, meaning:
+ ** the name of the resolver, then the arguments (if any), then the return type.
+ ** example input = myResolver (an aetherResolver() with input & output schemas)
+ ** example output = 'myResolver(args: !ResolverArgs): ResolverResponse' */
 const createResolverDefinition = (resolverConfig: ResolverConfigType) => {
+  // Destructure the resolver config
   const { resolverName, argSchema, resSchema } = resolverConfig
-  const hasArguments = argSchema && Object.values(argSchema.schema).length > 0 // @ts-ignore
+  // If there are no arguments, we don't need to add the parenthesis around the arguments
+  const hasArguments = argSchema && Object.values(argSchema.schema).length > 0
+  // If there are arguments, we need to add the exclamation point to the end of the arguments
   const onlyHasOptionalArgs = !hasArguments || Object.values(argSchema?.schema).every((arg) => arg.isOptional === true) // prettier-ignore
   const argRequireState = onlyHasOptionalArgs ? '' : '!'
+  // If there are arguments, we need to add the arguments to the resolver definition
   const argDef = hasArguments ? `(args: ${argSchema.schemaName}${argRequireState})` : ''
+  // Return the resolver definition
   const resDef = resSchema.schemaName
   return `${resolverName}${argDef}: ${resDef}`
 }
 
-/* --- aetherGraphSchema() --------------------------------------------------------------------- */
-
+/** --- aetherGraphSchema() -------------------------------------------------------------------- */
+/** -i- Turn a mapped object of aetherResolvers into an executable GraphQL schema */
 const aetherGraphSchema = (aetherResolvers: ResolverMapType) => {
   const resolverEntries = Object.entries(aetherResolvers)
   const resolverConfigs = resolverEntries.map(([resolverName, resolver]) => ({

@@ -51,11 +51,19 @@ export const registerAetherWorkspaceGenerator = (plop: PlopTypes.NodePlopAPI) =>
     ],
     actions: (data) => {
       // Args
-      const { workspaceType, folderName, workspaceStructure } = data!
+      const { workspaceType, folderName, packageName, workspaceStructure } = data!
 
       // Vars
       const workspaceFolder = WORKSPACE_FOLDER_MAPPER[workspaceType]
       const workspacePath = `${workspaceFolder}/${folderName}`
+      const isFeature = workspaceType === 'feature'
+
+      // License
+      const usesCustomLicense = ['aether', 'green-stack'].some((word) => packageName.includes(word))
+      let packageLicense = isFeature ? 'MIT' : 'UNLICENSED'
+      if (usesCustomLicense) packageLicense = 'SEE LICENSE IN LICENSE.md'
+      const isPrivate = isFeature || usesCustomLicense
+      const privateLine = isPrivate ? '\n    "private": true,' : ''
 
       // -- Actions --
 
@@ -64,6 +72,7 @@ export const registerAetherWorkspaceGenerator = (plop: PlopTypes.NodePlopAPI) =>
           type: 'add',
           path: `${workspacePath}/package.json`,
           templateFile: 'templates/package-json.hbs',
+          data: { packageLicense, privateLine },
         },
       ] as PlopTypes.ActionType[]
 

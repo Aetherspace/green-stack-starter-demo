@@ -2,7 +2,7 @@ import glob from 'glob'
 import fs from 'fs'
 // Utils
 import { findTargetString } from '../utils/stringUtils'
-import { excludeDirs, listWorkspaceImports } from './helpers/scriptUtils'
+import { excludeDirs, parseWorkspaces } from './helpers/scriptUtils'
 
 /* --- collect-resolvers ---------------------------------------------------------------------- */
 
@@ -14,15 +14,15 @@ const collectResolvers = () => {
     const allAPIRoutes = [...featureAPIRoutes, ...packageAPIRoutes]
 
     // Figure out import paths from each workspace
-    const workspaceImports = listWorkspaceImports()
+    const { workspaceImports } = parseWorkspaces()
 
     // Filter out the next.js api paths that don't work with aether schemas
     const resolverRegistry = allAPIRoutes.reduce((acc, resolverPath) => {
       // Figure out the workspace import
       const [packageParts, routeParts] = resolverPath.split('/routes') as [string, string]
       const workspaceMatcher = packageParts.replace('../../', '')
-      const workspaceImport = workspaceImports[workspaceMatcher]
-      const importPath = `${workspaceImport}/routes${routeParts.replace('.ts', '')}`
+      const workspacePackageName = workspaceImports[workspaceMatcher]
+      const importPath = `${workspacePackageName}/routes${routeParts.replace('.ts', '')}`
       // Skip files that don't export an aetherResolver
       const pathContents = fs.readFileSync(resolverPath, 'utf8')
       const exportsAetherResolver = pathContents.includes('makeGraphQLResolver')

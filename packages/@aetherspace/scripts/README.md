@@ -173,6 +173,21 @@ const withAutomation = () => {
 }
 ```
 
+## Workspace helpers
+
+To check for missing env vars and automate which workspaces need transpilation in Next.js, we designed the `check-workspaces` script:
+
+```shell-script
+yarn check-workspaces
+```
+
+It will:
+- Warn you of missing env vars per workspace
+- Warn you of missing related dependencies per workspace
+- Created a `transpiledWorkspaces.generated.js` file at `/packages/@registries/` for use in Next.js config
+
+If run manually, it'll also update the env vars and related workspaces it checks for in package.json files per workspace
+
 ## Turborepo Generators
 
 To skip the boilerplate and get straight to the fun stuff, we've created a few interactive generators to help you get started:
@@ -185,6 +200,18 @@ yarn ats add-resolver # add a new data resolver to your REST & graphql API
 ```
 
 > And more to come soon 👀
+
+### Autocomplete Quick Tip:
+
+If you plan on running any of the scripts or generators manually, especially if you're using autocomplete in your terminal (e.g. using [fig](https://fig.io/)) you may want to add the following to your `~/.bashrc` or `~/.zshrc`:
+
+```shell-script
+# Aetherspace
+alias ats="yarn workspace aetherspace"
+alias aether-cli="yarn workspace aetherspace"
+```
+
+Simply typing `ats ` will then autocomplete all the available scripts and generators for you. No more need to remember the exact script name or even specify yarn or the workspace manually.
 
 ## Relative 'src' strings for Expo images 📸
 

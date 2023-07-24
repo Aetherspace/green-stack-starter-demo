@@ -1,14 +1,25 @@
 {
     "name": "app",
     "version": "1.0.0",
+    "private": true,
     "license": "MIT",
+    "aetherspace": {
+        "relatedWorkspaces": [
+            "aetherspace",
+            "registries",
+            "app"
+        ],
+        "requiredEnvVars": [
+            "DOCS_URL",
+            "BACKEND_URL"
+        ]
+    },
     "scripts": {
         "lint": "cd ../.. && eslint \"features/app-core/**/*.{ts,tsx}\""
     },
     "dependencies": {
         "@expo-google-fonts/roboto": "^0.2.3",
         "cors": "^2.8.5",
-        "registries": "*",
-        "swr": "^2.2.0"
+        "registries": "*"
     }
 }

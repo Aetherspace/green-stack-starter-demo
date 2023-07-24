@@ -28,27 +28,38 @@
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/stack": "^6.3.17",
     "app": "*",
-    "expo": "^49.0.0",
+    "expo": "^49.0.3",
     "expo-font": "~11.4.0",
-    "expo-image": "~1.3.1",
+    "expo-image": "~1.3.2",
+    "expo-linking": "5.0.2",
     "expo-router": "^2.0.0",
     "expo-status-bar": "~1.6.0",
-    "expo-updates": "~0.18.8",
+    "expo-updates": "~0.18.10",
+    "expo-web-browser": "12.3.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.72.1",
-    "react-native-gesture-handler": "~2.12.0",
-    "react-native-reanimated": "~3.3.0",
+    "react-native": "0.72.3",
+    "react-native-gesture-handler": "2.12.0",
+    "react-native-get-random-values": "~1.8.0",
+    "react-native-reanimated": "3.3.0",
     "react-native-safe-area-context": "4.6.3",
-    "react-native-screens": "~3.22.1",
+    "react-native-screens": "3.22.1",
     "react-native-svg": "13.9.0",
     "react-native-web": "~0.19.6",
     "registries": "*"
   },
   "devDependencies": {
     "@expo/webpack-config": "^0.17.2",
-    "@types/react": "~18.0.28",
+    "@types/react": "18.0.28",
     "dotenv": "^16.3.1",
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.5"
+  },
+  "expo": {
+    "install": {
+      "exclude": [
+        "typescript",
+        "@types/react"
+      ]
+    }
   }
 }

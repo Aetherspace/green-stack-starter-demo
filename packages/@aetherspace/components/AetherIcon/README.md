@@ -38,9 +38,10 @@ We'll be gathering more similar SVG icon libraries with react-native support und
 yarn workspace @green-stack/icons regenerate
 ```
 
-1. Drop your `.svg` files in `/packages/@green-stack-icons/assets/{your-icon-set-name}/`
-2. Run `yarn workspace @green-stack/icons regenerate` to create icon components from your `.svg` files
-3. Import your icon components from `@green-stack/icons/{your-icon-set-name}/{your-icon-name}`
+1. Merge the `with/green-stack-icons` plugin branch, or [copy-paste](/packages/@aetherspace/core/README.md#designed-for-copy-paste) in `/packages/@green-stack-icons/`
+2. Drop your `.svg` files in `/packages/@green-stack-icons/assets/{your-icon-set-name}/`
+3. Run `yarn workspace @green-stack/icons regenerate` to create icon components from your `.svg` files
+4. Import your icon components from `@green-stack/icons/{your-icon-set-name}/{your-icon-name}`
 
 OR, register them for use with `<AetherIcon/>`:
 

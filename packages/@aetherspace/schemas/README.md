@@ -6,7 +6,7 @@ import { z, aetherSchema, AetherProps } from 'aetherspace/schemas'
 
 A core feature of Aetherspace as a starter template is taking what works and making it better. `aetherSchema()` is a tiny wrapper around `zod.object()`. You can use it to define your datastructures just once for the entire monorepo.
 
-> `zod` is a schema validation library built with Typescript in mind. By extending it with `aetherSchema()`, we can leverage it's powerful features to create single sources of truth for GraphQL, Next.js and Storybook as well.
+> `zod` is a schema validation library built with Typescript in mind. By extending it with `aetherSchema()`, we can leverage its powerful features to create single sources of truth for GraphQL, Next.js and Storybook as well.
 
 <br/>
 
@@ -290,6 +290,39 @@ const RequiredSchema = OptionalSchema.requiredSchema('RequiredTopic')
 //     tags: string[],
 //     featureText: string,
 // }
+```
+
+## Adding new schemas through the CLI
+
+```sh
+yarn ats add-schema
+```
+
+This will prompt you for a tagrte workspace and name:
+
+```sh
+>>> Modify "aetherspace-green-stack-starter" using custom generators
+
+? Where would you like to add this schema? 
+❯ packages/@aetherspace-commerce  --  importable from: '@aetherspace/commerce' 
+  packages/@green-stack-icons  --  importable from: '@green-stack/icons' 
+  features/app-core  --  importable from: 'app' 
+  features/cv-page  --  importable from: 'cv-page' 
+  features/links-page  --  importable from: 'links-page' 
+```
+
+```sh
+>>> Modify "aetherspace-green-stack-starter" using custom generators
+
+? Where would you like to add this schema? packages/@aetherspace-commerce  --  importable from: '@aetherspace/commerce'
+? What is the schema name? ShopifyCollection
+? Optional description: What data structure does this schema describe? https://shopify.dev/docs/api/storefront/2023-04/objects/Collection
+? Optional examples: Would you like to add any common field definitions? 
+>>> Changes made:
+  • /packages/@aetherspace-commerce/schemas/ShopifyCollection.ts (add)
+  • /packages/@aetherspace-commerce/schemas/index.ts (append-last-line)
+
+>>> Success! 
 ```
 
 ## Possible Next Steps

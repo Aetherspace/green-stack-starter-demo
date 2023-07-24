@@ -1,10 +1,10 @@
 {
     "name": "{{packageName}}",
-    "version": "0.0.1",
-    "description": "{{packageDescription}}",
+    "version": "0.0.1",{{{privateLine}}}
     "license": "{{packageLicense}}",
+    "description": "{{packageDescription}}",
     "scripts": {
-        "lint": "cd ../.. && eslint \"features/{{folderName}}/**/*.{ts,tsx}\""
+        "lint": "cd ../.. && eslint \"{{workspaceType}}s/{{folderName}}/**/*.{ts,tsx}\""
     },
     "dependencies": {}
 }

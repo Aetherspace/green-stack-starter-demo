@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { PlopTypes } from '@turbo/gen'
 // Utils
-import { listWorkspaceImports } from '../../packages/@aetherspace/scripts/helpers/scriptUtils'
+import { parseWorkspaces } from '../../packages/@aetherspace/scripts/helpers/scriptUtils'
 
 /* --- Disclaimer ------------------------------------------------------------------------------ */
 
@@ -10,7 +10,7 @@ import { listWorkspaceImports } from '../../packages/@aetherspace/scripts/helper
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
-const workspaceImports = listWorkspaceImports('')
+const { workspaceImports } = parseWorkspaces('')
 const workspaceOptions = Object.keys(workspaceImports).reduce((options, workspacePath) => {
   const workspaceName = workspaceImports[workspacePath]
   const workspaceOption = `${workspacePath}  --  importable from: '${workspaceName}'`
@@ -127,12 +127,8 @@ export const registerAetherResolverGenerator = (plop: PlopTypes.NodePlopAPI) => 
       const allowPUT = allowedMethods.includes('PUT')
       const hasGraphResolver = generatables.includes('graphResolver')
 
-      const jsDocResolverTitle = `/** --- ${resolverName} ${'-'.repeat(
-        LINES - resolverName.length
-      )} */`
-      const jsDocResolverDescription = `/** -i- ${
-        resolverDescription || 'TODO: Add description'
-      } */`
+      const jsDocResolverTitle = `/** --- ${resolverName} ${'-'.repeat(LINES - resolverName.length)} */` // prettier-ignore
+      const jsDocResolverDescription = `/** -i- ${resolverDescription || 'TODO: Add description'} */` // prettier-ignore
       const jsDocResolverHeader = `${jsDocResolverTitle}\n${jsDocResolverDescription}`
 
       const apiStatements = [] as string[]
@@ -240,6 +236,13 @@ export const registerAetherResolverGenerator = (plop: PlopTypes.NodePlopAPI) => 
           pattern: /^(.*\S)[\r\n]*$/,
         },
         ...extraActions,
+        {
+          type: 'open-files-in-vscode',
+          paths: [
+            `${workspacePath}/schemas/${resolverSchemaName}.ts`,
+            `${workspacePath}/resolvers/${resolverName}.ts`,
+          ],
+        },
       ]
     },
   })

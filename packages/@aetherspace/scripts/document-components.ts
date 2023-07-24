@@ -1,7 +1,7 @@
 import glob from 'glob'
 import fs from 'fs'
 // Utils
-import { excludeDirs, listWorkspaceImports } from './helpers/scriptUtils'
+import { excludeDirs, parseWorkspaces } from './helpers/scriptUtils'
 import { replaceStringVars } from '../utils/stringUtils'
 import { isEmpty } from '../utils/commonUtils'
 
@@ -60,7 +60,7 @@ export const {componentNameConfig} = aetherStoryDocs({ {componentName} }, {getDo
 const documentComponents = () => {
   try {
     // Figure out import paths from each workspace
-    const workspaceImports = listWorkspaceImports()
+    const { workspaceImports } = parseWorkspaces()
 
     // Get all component file paths
     const appComponentPaths = glob.sync('../../apps/**/*.tsx')

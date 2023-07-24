@@ -11,6 +11,22 @@
         "**/*.ts"
       ]
     },
+    "aetherspace#check-workspaces": {
+      "dependsOn": ["aetherspace#build"],
+      "outputs": [
+        "../@registries/transpiledWorkspaces.generated.js",
+        "../@registries/workspaceResolutions.generated.js"
+      ],
+      "inputs": [
+        "../../apps/next/.env",
+        "../../features/**/package.json",
+        "../../features/**/*.tsx",
+        "../../features/**/*.ts",
+        "../../packages/**/package.json",
+        "../../packages/**/*.tsx",
+        "../../packages/**/*.ts"
+      ]
+    },
     "aetherspace#link-routes": {
       "dependsOn": ["aetherspace#build"],
       "outputs": ["../../apps/**/app/(generated)/**"],
