@@ -29,10 +29,74 @@ type StorybookArgType = {
   options?: any[]
 }
 
-/* --- aetherSchemaArgTypes() ------------------------------------------------------------------ */
-// -i- https://storybook.js.org/docs/react/api/argtypes
-// -i- https://storybook.js.org/docs/react/essentials/controls
+/* --- Example Input --------------------------------------------------------------------------- */
 
+// export const MyComponent = ({ myProp, anotherProp }) => { ... }
+// export const getDocumentationProps = MyComponentPropsAetherSchema.introspect()
+
+// ⇣⇣⇣⇣⇣⇣⇣⇣ results of .introspect() ⇣⇣⇣⇣⇣⇣⇣⇣
+
+// {
+//   aetherType: 'AetherSchema',
+//   schemaName: 'MyComponentProps',
+//   schema: {
+//     myProp: {
+//       aetherType: 'AetherString',
+//       isNullable: false,
+//       isOptional: false,
+//       description: 'The description from { myProp: z.string().describe(...) }',
+//       ...
+//     },
+//     anotherProp: {
+//       aetherType: 'AetherNumber',
+//       isNullable: true,
+//       isOptional: true,
+//       description: 'The description from { anotherProp: z.number().nullable().optional().describe(...) }',
+//     },
+//     ...
+//   }
+// }
+
+// -i- https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/story/aetherspace-single-sources-of-truth--page
+// -i- https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/story/aetherspace-automation--page
+
+/* --- Example Output -------------------------------------------------------------------------- */
+
+// ⇣⇣⇣⇣⇣⇣⇣⇣ results of `aetherStoryDocs(...)` ⇣⇣⇣⇣⇣⇣⇣⇣
+
+// {
+//   component: 'MyComponent',
+//   argTypes: {
+//     myProp: {
+//       name: 'myProp',
+//       description: 'The description from { myProp: z.string().describe(...) }',
+//       defaultValue: undefined,
+//       type: { name: 'string', required: true },
+//       table: { type: { summary: 'string' } },
+//       control: { type: 'text' },
+//     },
+//     anotherProp: {
+//       name: 'anotherProp',
+//       description: 'The description from { anotherProp: z.number().nullable().optional().describe(...) }',
+//       defaultValue: undefined,
+//       type: { name: 'number', required: false },
+//       table: { type: { summary: 'number' } },
+//       control: { type: 'number' },
+//     },
+//     ...
+//   }
+// }
+
+// -i- https://storybook.js.org/docs/react/api/arg-types#manually-specifying-argtypes
+
+// ⇣⇣⇣⇣⇣⇣⇣⇣ results of `yarn document-components` ⇣⇣⇣⇣⇣⇣⇣⇣
+
+// => New or updated storybook file at `/packages/@registries/docs/{src-workspace}/components.stories.mdx`
+
+/** --- aetherSchemaArgTypes() ----------------------------------------------------------------- */
+/** -i- Turn an aetherSchema defined with zod into a storybook argTypes object
+ ** https://storybook.js.org/docs/react/api/argtypes
+ ** https://storybook.js.org/docs/react/essentials/controls */
 const aetherSchemaArgTypes = (aetherSchema) => {
   // Error & return early if prop schema is not known
   if (!aetherSchema) {
@@ -40,11 +104,11 @@ const aetherSchemaArgTypes = (aetherSchema) => {
     return {}
   }
   // Storybook ArgTypes factory
-  const createArgType = (dataType, controlType) => (name, schemaConfig) => {
+  const createArgType = (dataType, controlType) => (schemaKey, schemaConfig) => {
     const { isNullable, isOptional } = schemaConfig
     const isNullish = [isNullable, isOptional].includes(true)
     const argType: StorybookArgType = {
-      name,
+      name: schemaKey,
       description: schemaConfig.description,
       type: {
         name: dataType,
@@ -79,10 +143,10 @@ const aetherSchemaArgTypes = (aetherSchema) => {
     AetherString: createArgType('string', 'text'),
     AetherNumber: createArgType('number', 'number'),
     AetherBoolean: createArgType('boolean', 'boolean'),
+    AetherDate: createArgType('date', 'date'),
     // -- Single values --
     AetherId: createArgType('string', 'text'),
     AetherColor: createArgType('color', 'color'),
-    AetherDate: createArgType('date', 'date'),
     AetherEnum: createArgType('enum', 'select'),
     // -- Objectlikes --
     AetherSchema: createArgType('object', 'object'),

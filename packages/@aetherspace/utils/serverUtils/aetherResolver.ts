@@ -8,9 +8,8 @@ import type {
   GetStaticPropsContext,
 } from 'next'
 import { GraphQLError } from 'graphql'
-import { z } from '../../schemas'
 // Schemas
-import '../../schemas/aetherSchemas'
+import { z } from '../../schemas/aetherSchemas'
 // Utils
 import { getApiParams, runMiddleWare, MiddlewareFnType, getUrlParams } from './apiUtils'
 import { normalizeObjectProps, isEmpty } from '../index'
@@ -40,12 +39,14 @@ export type ResolverInputType<AT = any> = {
   [key: string]: AT[keyof AT] | unknown
 }
 
-export type ResolverExecutionParamsType<AT = any> = {
+export type ResolverExecutionParamsType<AT = any, RT = any> = {
   args: AT
   logs: string[]
   addLog: (log: string) => void
   saveLogs: (logHandler?: (logs: string[]) => Promise<any>) => Promise<void>
   handleError: (err: any, sendResponse?: boolean) => unknown | void
+  parseArgs: (args: AT) => AT
+  withDefaults: (response: RT) => RT
   config: {
     logErrors?: boolean
     respondErrors?: boolean
@@ -71,7 +72,7 @@ export const aetherResolver = <
   AT = TSAT extends null ? z.ZodObject<AST>['_input'] : TSAT, // Args Type (Use override?)
   RT = TSRT extends null ? z.ZodObject<RST>['_output'] : TSRT // Resp Type (Use override?)
 >(
-  resolverFn: (ctx: ResolverExecutionParamsType<AT>) => Promise<RT | unknown>,
+  resolverFn: (ctx: ResolverExecutionParamsType<AT, RT>) => Promise<RT | unknown>,
   options: {
     paramKeys?: string
     argsSchema: z.ZodObject<AST>
@@ -94,7 +95,7 @@ export const aetherResolver = <
     const cookies = nextSsrContext?.req?.cookies || req?.cookies || ctx?.cookies
     const relatedArgs = apiParamKeys ? getApiParams(apiParamKeys, { query, params, body, args, context }) : {} // prettier-ignore
     const normalizedArgs = normalizeObjectProps(relatedArgs)
-    // Build config
+    // Build config from all possible sources
     const errorConfig = { logErrors, respondErrors, onError, allowFail }
     const config = {
       ...restParams,
@@ -125,6 +126,11 @@ export const aetherResolver = <
       if (!!res && sendResponse && !config.allowFail) return (res as NextApiResponse).status(code).json(errorObj) // prettier-ignore
       else throw new Error(isRichError ? errorObj : err)
     }
+    // Validation helpers
+    const parseArgs = (args: AT) => argsSchema.parse(args) as AT
+    const withDefaults = (response: RT) => {
+      return responseSchema.applyDefaults(response as Record<string, unknown>) as RT
+    }
     // Return resolver
     return resolverFn({
       req,
@@ -135,6 +141,8 @@ export const aetherResolver = <
       addLog,
       saveLogs,
       handleError,
+      parseArgs,
+      withDefaults,
     }) as unknown as Promise<RT>
   }
   // Return Resolver

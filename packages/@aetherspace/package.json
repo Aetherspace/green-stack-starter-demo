@@ -2,14 +2,27 @@
     "name": "aetherspace",
     "main": "index.ts",
     "version": "1.0.0",
-    "license": "MIT",
+    "private": true,
+    "license": "SEE LICENSE IN LICENSE.md",
     "browser": {
         "fs": false,
         "os": false,
         "path": false
     },
+    "aetherspace": {
+        "relatedWorkspaces": [
+            "config"
+        ],
+        "requiredEnvVars": [
+            "APP_LINKS",
+            "BACKEND_URL",
+            "EXPO_ACCESS_TOKEN",
+            "CHROMATIC_PROJECT_TOKEN"
+        ]
+    },
     "scripts": {
         "build": "tsc --project .",
+        "check-workspaces": "IS_DEEP_CHECK=true node scripts/check-workspaces",
         "link-routes": "node scripts/link-routes",
         "collect-assets": "node scripts/collect-assets",
         "collect-icons": "node scripts/collect-icons",
@@ -30,8 +43,6 @@
         "@expo/html-elements": "^0.5.1",
         "@graphql-tools/schema": "^10.0.0",
         "axios": "^1.4.0",
-        "expo-linking": "~5.0.2",
-        "expo-web-browser": "~12.3.2",
         "graphql": "^16.7.1",
         "graphql-request": "^6.1.0",
         "swr": "^2.2.0",

@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
-const ATS_TO_TYPE = Object.freeze({
+export const ATS_TO_TYPE = Object.freeze({
   AetherBoolean: 'boolean',
   AetherNumber: 'number',
   AetherString: 'string',
@@ -17,9 +17,10 @@ const ATS_TO_TYPE = Object.freeze({
   AetherId: 'string',
 })
 
-const TYPE_TO_ATS = Object.freeze({
+export const TYPE_TO_ATS = Object.freeze({
   boolean: 'AetherBoolean',
   number: 'AetherNumber',
+  bigint: 'AetherNumber',
   string: 'AetherString',
   date: 'AetherDate',
   object: 'AetherSchema',
@@ -43,7 +44,7 @@ export type AetherSchemaType<T = any> = {
   extendedFrom?: string
   isOptional?: boolean
   isNullable?: boolean
-  schema: AetherSchemaType | Record<string, any>
+  schema: AetherSchemaType | Record<string, AetherSchemaType>
 }
 
 export type SchemaPluginMap = {
@@ -74,6 +75,7 @@ declare module 'zod' {
 
   interface ZodString {
     aetherType: 'AetherString' | 'AetherId' | 'AetherColor'
+    coerce(): z.ZodString
     id(): z.ZodString
     color(): z.ZodString
     example(value: string): z.ZodString
@@ -84,14 +86,25 @@ declare module 'zod' {
 
   interface ZodNumber {
     aetherType: 'AetherNumber'
+    coerce(): z.ZodNumber
     example(value: number): z.ZodNumber
     eg(value: number): z.ZodNumber
     ex(value: number): z.ZodNumber
     introspect(): AetherSchemaType<number>
   }
 
+  interface ZodBigInt {
+    aetherType: 'AetherNumber'
+    coerce(): z.ZodBigInt
+    example(value: bigint): z.ZodBigInt
+    eg(value: bigint): z.ZodBigInt
+    ex(value: bigint): z.ZodBigInt
+    introspect(): AetherSchemaType<bigint>
+  }
+
   interface ZodBoolean {
     aetherType: 'AetherBoolean'
+    coerce(): z.ZodBoolean
     example(value: boolean): z.ZodBoolean
     eg(value: boolean): z.ZodBoolean
     ex(value: boolean): z.ZodBoolean
@@ -101,6 +114,7 @@ declare module 'zod' {
   interface ZodDate {
     aetherType: 'AetherDate'
     schema?: { minDate?: Date; maxDate?: Date }
+    coerce(): z.ZodDate
     example(value: Date): z.ZodDate
     eg(value: Date): z.ZodDate
     ex(value: Date): z.ZodDate
@@ -400,6 +414,11 @@ if (!z.ZodDefault.prototype?.aetherType) {
 
 if (!z.ZodString.prototype?.aetherType) {
   z.ZodString.prototype.aetherType = 'AetherString'
+  z.ZodString.prototype.coerce = function () {
+    const This = (this as any).constructor
+    const newSchema = new This({ ...this._def, coerce: true })
+    return assignAetherContext(newSchema, this)
+  }
   z.ZodString.prototype.describe = function (description: string) {
     const This = (this as any).constructor
     const newSchema = new This({ ...this._def, description })
@@ -427,6 +446,11 @@ if (!z.ZodString.prototype?.aetherType) {
 
 if (!z.ZodNumber.prototype.aetherType) {
   z.ZodNumber.prototype.aetherType = 'AetherNumber'
+  z.ZodNumber.prototype.coerce = function () {
+    const This = (this as any).constructor
+    const newSchema = new This({ ...this._def, coerce: true })
+    return assignAetherContext(newSchema, this)
+  }
   z.ZodNumber.prototype.describe = function (description: string) {
     const This = (this as any).constructor
     const newSchema = new This({ ...this._def, description })
@@ -443,8 +467,36 @@ if (!z.ZodNumber.prototype.aetherType) {
   }
 }
 
+if (!z.ZodBigInt.prototype.aetherType) {
+  z.ZodBigInt.prototype.aetherType = 'AetherNumber'
+  z.ZodBigInt.prototype.coerce = function () {
+    const This = (this as any).constructor
+    const newSchema = new This({ ...this._def, coerce: true })
+    return assignAetherContext(newSchema, this)
+  }
+  z.ZodBigInt.prototype.describe = function (description: string) {
+    const This = (this as any).constructor
+    const newSchema = new This({ ...this._def, description })
+    return assignAetherContext(newSchema, this)
+  }
+  z.ZodBigInt.prototype.example = function (value: bigint) {
+    this.exampleValue = value
+    return this
+  }
+  z.ZodBigInt.prototype.eg = z.ZodBigInt.prototype.example
+  z.ZodBigInt.prototype.ex = z.ZodBigInt.prototype.example
+  z.ZodBigInt.prototype.introspect = function () {
+    return introspectField(this)
+  }
+}
+
 if (!z.ZodBoolean.prototype.aetherType) {
   z.ZodBoolean.prototype.aetherType = 'AetherBoolean'
+  z.ZodBoolean.prototype.coerce = function () {
+    const This = (this as any).constructor
+    const newSchema = new This({ ...this._def, coerce: true })
+    return assignAetherContext(newSchema, this)
+  }
   z.ZodBoolean.prototype.describe = function (description: string) {
     const This = (this as any).constructor
     const newSchema = new This({ ...this._def, description })
@@ -461,10 +513,13 @@ if (!z.ZodBoolean.prototype.aetherType) {
   }
 }
 
-/* --- Advanced -------------------------------------------------------------------------------- */
-
 if (!z.ZodDate.prototype.aetherType) {
   z.ZodDate.prototype.aetherType = 'AetherDate'
+  z.ZodDate.prototype.coerce = function () {
+    const This = (this as any).constructor
+    const newSchema = new This({ ...this._def, coerce: true })
+    return assignAetherContext(newSchema, this)
+  }
   z.ZodDate.prototype.describe = function (description: string) {
     const This = (this as any).constructor
     const newSchema = new This({ ...this._def, description })
@@ -483,6 +538,8 @@ if (!z.ZodDate.prototype.aetherType) {
     return introspectField(this)
   }
 }
+
+/* --- Advanced -------------------------------------------------------------------------------- */
 
 if (!z.ZodEnum.prototype.aetherType) {
   z.ZodEnum.prototype.aetherType = 'AetherEnum'
@@ -639,7 +696,7 @@ if (!z.ZodObject.prototype.aetherType) {
   z.ZodObject.prototype.applyDefaults = function <D extends Record<string, unknown>>(data: D) {
     const thisSchema = this.extend({})
     const result = thisSchema.safeParse(data)
-    if (!result.success) console.warn(result.error) // @ts-ignore
+    if (!result.success) console.warn(JSON.stringify(result.error, null, 2)) // @ts-ignore
     return { ...data, ...result.data } as D & (typeof thisSchema)['_type']
   }
   // Allow Introspection

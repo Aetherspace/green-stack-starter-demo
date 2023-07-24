@@ -3,7 +3,7 @@ import fs from 'fs'
 // Utils
 import { findTargetString, dashToCamel } from '../utils/stringUtils'
 
-/* --- Template ------------------------------------------------------------------------------- */
+/* --- Template -------------------------------------------------------------------------------- */
 
 let iconRegistry = `// -i- Auto generated with 'yarn ats collect-icons'
 {{iconRegistryImports}}

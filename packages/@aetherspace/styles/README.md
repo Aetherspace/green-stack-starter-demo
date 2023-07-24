@@ -4,7 +4,7 @@ For cross-platform styling, you can use the `tw`, `className` or even `class` pr
 
 - `aetherspace/primitives`, like `AetherView`, `AetherText`
 - `aetherspace/html-elements`, like `H1` and `P`
-- any component that takes a `style` prop and is wrapped with `aetherify(...)()`
+- any component wrapped with `aetherify(...)()` that takes a `style` prop
 
 ```tsx
 import { Image } from 'aetherspace/primitives'
@@ -60,7 +60,7 @@ Meaning (for now):
 - No pseudo elements like `hover:` or `last-child:`
 - No special CSS syntax like `@keyframes`
 - No blend modes, or filters or other fancy image stuff
-- No `@media`, but we have added an alternative (see next section)
+- No `@media`, but we have added an SSR-supported alternative (see next section)
 
 A lot of these are getting worked on in a [React-DOM for Native RFC](https://github.com/react-native-community/discussions-and-proposals/pull/496) though, and may be added in the near future.
 
@@ -121,7 +121,7 @@ const StSomeView = twStyled.View`
 
 > Do note that this syntax only supports tailwind style classes and not actual CSS-like syntax
 
-`twStyled` comes with all aetherspace primitives but also wrapped `@expo/html-elements`:
+`twStyled` comes with all aetherspace primitives but also wraps `@expo/html-elements`:
 
 ```tsx
 // If you want semantic HTML:
@@ -133,7 +133,7 @@ const StSection = twStyled.Section`wrapper classes` // <section> or <View>
 You can also pass custom components as long as they can take a `style` prop:
 
 ```tsx
-const StMyWrappedComponent = twStyled(MyComponent)`some tailwind styled`
+const StMyWrappedComponent = twStyled(MyComponent)`some tailwind classes`
 ```
 
 There’s very little magic under the hood, as using `twStyled` only prefills the tw prop, e.g. like:
@@ -142,6 +142,19 @@ There’s very little magic under the hood, as using `twStyled` only prefills th
 const TwStyledComponent = (props) => (
   <UnwrappedComponent {...props} tw={prefilledTailwindClasses} />
 )
+```
+
+> Dynamic styles where you pass a function in the template literal are also not supported
+
+Instead, for dynamic styles, please use the `tw` prop directly:
+
+```tsx
+<MyAetherPrimitive
+  tw={[
+    'always applied tw classes',
+    isSomeBooleanTruthy && 'optional tw classes', // <- only applied if truthy
+  ]}
+>
 ```
 
 ## Hints and Helpers with VSCode plugins
