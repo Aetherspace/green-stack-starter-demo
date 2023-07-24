@@ -3,6 +3,13 @@ const { withExpo } = require('@expo/next-adapter')
 const withFonts = require('next-fonts')
 const withImages = require('next-images')
 
+// https://github.com/Automattic/mongoose/issues/13212#issuecomment-1518012851
+const FilterWarningsPlugin = require('webpack-filter-warnings-plugin')
+
+/* --- Generated Resolutions ------------------------------------------------------------------- */
+
+const workspaceResolutions = require('registries/workspaceResolutions.generated.js')
+
 /* --- Transpiled Modules ---------------------------------------------------------------------- */
 
 const transpiledModules = require('config/transpiledModules')
@@ -11,6 +18,9 @@ const withTM = require('next-transpile-modules')(transpiledModules)
 /* --- Automation Scripts ---------------------------------------------------------------------- */
 // -i- This will run the aetherspace automation scripts on local dev builds (comment out what you don't need)
 const withAutomation = () => {
+    // -i- Check for missing dependencies and env vars in all workspaces
+    console.log('\n')
+    require('aetherspace/scripts/check-workspaces')
     // -i- Rebuild routing from '/routes/' folders in '/features/' & '/packages/'
     console.log('\n')
     require('aetherspace/scripts/link-routes')
@@ -67,6 +77,14 @@ const nextConfig = {
         config.infrastructureLogging = { level: "error" }
         // Aliases for web support (https://github.com/expo/expo/issues/21469#issuecomment-1576001543)
         config.resolve.alias['expo-asset'] = 'expo-asset-web'
+        // Disable optional mongodb dependencies & warnings about them
+        config.resolve.alias = {
+            ...config.resolve.alias,
+            ...workspaceResolutions,
+        }
+        config.plugins.push(new FilterWarningsPlugin({
+            exclude: [/the request of a dependency is an expression/],
+        }))
         // Return config
         return config
     },

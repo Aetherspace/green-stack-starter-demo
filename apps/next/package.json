@@ -26,7 +26,8 @@
         "next-transpile-modules": "^10.0.0",
         "raf": "^3.4.1",
         "registries": "*",
-        "setimmediate": "^1.0.5"
+        "setimmediate": "^1.0.5",
+        "webpack-filter-warnings-plugin": "^1.2.1"
     },
     "devDependencies": {
         "@expo/next-adapter": "^5.0.2",
