@@ -14,6 +14,7 @@ module.exports = {
         './docs/Automation.stories.mdx',
         './docs/Icons.stories.mdx',
         './docs/Deployment.stories.mdx',
+        './plugins/README.stories.mdx',
         './other/License.stories.mdx',
         // -- Other documentation --
         '../apps/**/*.stories.mdx', 
@@ -22,6 +23,8 @@ module.exports = {
         '../features/**/*.stories.@(js|jsx|ts|tsx)',
         '../packages/**/*.stories.mdx', 
         '../packages/**/*.stories.@(js|jsx|ts|tsx)',
+        // -- Plugin docs --
+        './plugins/**/*.stories.mdx',
     ],
     addons: [
       { name: '@storybook/addon-essentials', options: { transcludeMarkdown: true } },

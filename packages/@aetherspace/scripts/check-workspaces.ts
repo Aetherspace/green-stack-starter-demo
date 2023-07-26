@@ -4,6 +4,7 @@ import fs from 'fs'
 // Utils
 import { excludeDirs, parseWorkspaces } from './helpers/scriptUtils'
 import { isEmpty } from '../utils/commonUtils'
+import { arrFromSet } from 'aetherspace/utils/arrayUtils'
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
@@ -25,12 +26,20 @@ const checkWorkspaces = async (isDeepCheck = true) => {
     if (isDev && hasEnvFile) dotenv.config({ path: '../../apps/next/.env' })
 
     // Scan all /features/  and /packages/ workspace .ts & .tsx files
+    const pluginDocs = glob.sync('../../.storybook/plugins/**/README.*').filter(excludeDirs)
     const featureFiles = glob.sync('../../features/**/*.ts*').filter(excludeDirs)
     const packageFiles = glob.sync('../../packages/**/*.ts*').filter(excludeDirs)
     const allWsFiles = [...featureFiles, ...packageFiles]
 
     // Figure out import paths from each workspace
     const { workspaceConfigs, workspaceImports, workspacePaths, workspacePackages } = parseWorkspaces() // prettier-ignore
+
+    // Check for duplicate plugin docs to move to /.storybook/disabled/
+    const pluginDocPaths = arrFromSet(pluginDocs.map((path) => path.split('/README')[0].split('/').pop())) // prettier-ignore
+    const documentedWorkspaces = workspacePaths.map((path) => path.split('/').pop())
+    const duplicatePluginDocs = pluginDocPaths.filter((path) => documentedWorkspaces.includes(path))
+    const docsToDisable = duplicatePluginDocs.map((path) => `../../.storybook/plugins/${path}/`)
+    docsToDisable.forEach((path) => fs.renameSync(path, path.replace('/plugins/', '/disabled/')))
 
     // Loop through each workspace and track its imports and env var uses
     const workspaceMap = {}

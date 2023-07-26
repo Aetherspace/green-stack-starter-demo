@@ -84,7 +84,7 @@ To facilitate this, we suggest you keep the following folder structure Aetherspa
 │   └── @aetherspace # ➡️ Main monorepo & template tooling + UI primitives
 │   └── {my-package}/ # ➡️ Reuse same folder structure, can be used in features
 │       └── components/
-│       └── components/
+│       └── schemas/
 │       └── routes/
 │       └── .../
 │       └── package.json # ➡️ pkg name & modules
