@@ -41,7 +41,10 @@ export const AetherIconProps = aetherSchema('AetherIconProps', {
 })
 
 /** -i- Single source of truth for <AetherIcon/> props */
-export type TAetherIconProps = z.infer<typeof AetherIconProps> & Record<string, unknown>
+export type TAetherIconProps = Omit<z.infer<typeof AetherIconProps>, 'name'> &
+  Record<string, unknown> & {
+    name?: AetherIconKey | (string & {}) // eslint-disable-line @typescript-eslint/ban-types
+  }
 
 /** --- <AetherIcon/> -------------------------------------------------------------------------- */
 /** -i- Render an icon on web or mobile environments. */

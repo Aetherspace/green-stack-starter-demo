@@ -114,19 +114,19 @@ export const HomeScreen = (props: AetherProps<typeof HomePropsSchema>) => {
       <H1 class="text-green-500 pb-2 roboto-bold font-bold text-base">{customGreeting}</H1>
       <View class="flex-row">
         <Link href="https://expo.dev/home" class="px-2">
-          <ExpoIcon width={ICON_SIZE} height={ICON_SIZE} fill={ICON_COLOR} />
+          <ExpoIcon size={ICON_SIZE} fill={ICON_COLOR} />
         </Link>
         <Link href="https://nextjs.org/" class="px-2">
-          <NextIcon width={ICON_SIZE} height={ICON_SIZE} fill={ICON_COLOR} />
+          <NextIcon size={ICON_SIZE} fill={ICON_COLOR} />
         </Link>
         <Link href="https://reactnative.dev/" class="px-2">
-          <ReactIcon width={ICON_SIZE} height={ICON_SIZE} fill={ICON_COLOR} />
+          <ReactIcon size={ICON_SIZE} fill={ICON_COLOR} />
         </Link>
         <Link href="https://storybook.js.org/docs/react/why-storybook" class="px-2">
-          <StorybookIcon width={ICON_SIZE} height={ICON_SIZE} fill={ICON_COLOR} />
+          <StorybookIcon size={ICON_SIZE} fill={ICON_COLOR} />
         </Link>
         <Link href="https://www.apollographql.com/docs/intro/benefits" class="px-2">
-          <GraphIcon width={ICON_SIZE} height={ICON_SIZE} fill={ICON_COLOR} />
+          <GraphIcon size={ICON_SIZE} fill={ICON_COLOR} />
         </Link>
       </View>
       <Text class="md:w-2/3 lg:w-1/2 pt-5 pb-3 px-4 text-center text-sm">
