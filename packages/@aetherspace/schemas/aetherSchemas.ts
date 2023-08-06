@@ -235,10 +235,10 @@ declare module 'zod' {
     requiredSchema(
       schemaName: string // @ts-ignore
     ): ReturnType<z.ZodObject<T, UnknownKeys, Catchall, Output, Input>['required']>
-    example(value: z.infer<z.ZodObject<T>>): z.ZodObject<T>
+    example(value: Input): z.ZodObject<T>
     eg(value: z.infer<z.ZodObject<T>>): z.ZodObject<T>
     ex(value: z.infer<z.ZodObject<T>>): z.ZodObject<T>
-    applyDefaults<D extends Record<string, unknown>>(data: D): D & z.infer<z.ZodObject<T>>
+    applyDefaults(data: Record<string, unknown>): z.infer<z.ZodObject<T>>
     introspect(): AetherSchemaType<z.infer<z.ZodObject<T>>>
   }
 }
@@ -693,11 +693,11 @@ if (!z.ZodObject.prototype.aetherType) {
   z.ZodObject.prototype.eg = z.ZodObject.prototype.example
   z.ZodObject.prototype.ex = z.ZodObject.prototype.example
   // Allow safe parsing
-  z.ZodObject.prototype.applyDefaults = function <D extends Record<string, unknown>>(data: D) {
+  z.ZodObject.prototype.applyDefaults = function (data: Record<string, unknown>) {
     const thisSchema = this.extend({})
     const result = thisSchema.safeParse(data)
     if (!result.success) console.warn(JSON.stringify(result.error, null, 2)) // @ts-ignore
-    return { ...data, ...result.data } as D & (typeof thisSchema)['_type']
+    return { ...data, ...result.data } as (typeof thisSchema)['_type']
   }
   // Allow Introspection
   z.ZodObject.prototype.introspect = function () {
