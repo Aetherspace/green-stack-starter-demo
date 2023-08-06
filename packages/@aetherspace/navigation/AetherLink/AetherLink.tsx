@@ -36,6 +36,9 @@ export const useAetherNav = () => {
 
   const openLink = (path: string, isBlank = false) => {
     const destination = getDestination(path)
+    // Is this a mailto link?
+    const isMailto = path.includes('mailto:')
+    if (isMailto) return Linking.openURL(path)
     // Use Expo router for internal link?
     const hasProtocol = destination.slice(0, 5).includes('http')
     const isAPIRoute = destination.includes('api/') && !hasProtocol
@@ -78,6 +81,7 @@ const AetherLink = forwardRef<typeof RouterLink | typeof Text, AetherLinkType>((
   // Vars
   const isBlank = props.target === '_blank' || props.isBlank
   const isText = asText || props.isText || typeof children === 'string'
+  const isEmailLink = destination.includes('mailto:')
 
   // -- Handler --
 
@@ -85,7 +89,7 @@ const AetherLink = forwardRef<typeof RouterLink | typeof Text, AetherLinkType>((
 
   // -- Render as Text --
 
-  if (isText) {
+  if (isText || isEmailLink) {
     return (
       <AetherText {...restProps} {...bindStyles} ref={ref as any$Todo} onPress={onLinkPress}>
         {children}
