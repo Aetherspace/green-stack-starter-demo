@@ -21,6 +21,12 @@ const BASE_URL = getBaseUrl()
 
 /* --- Schemas & Types ------------------------------------------------------------------------- */
 
+const HomeParamsSchema = aetherSchema('HomeScreenParams', {
+  echo: z.string().default('Hello GREEN stack 👋').describe('Echo argument for the GraphQL health endpoint'), // prettier-ignore
+})
+
+export type HomeScreenParams = AetherProps<typeof HomeParamsSchema>
+
 const HomePropsSchema = aetherSchema('HomeScreenProps', {
   customGreeting: z.string().default('Hello GREEN stack 👋').describe('A greeting for the user'),
   alive: z.boolean().default(true),
@@ -29,12 +35,6 @@ const HomePropsSchema = aetherSchema('HomeScreenProps', {
 })
 
 export type HomeScreenProps = AetherProps<typeof HomePropsSchema>
-
-const HomeParamsSchema = aetherSchema('HomeScreenParams', {
-  echo: z.string().default('Hello GREEN stack 👋').describe('Echo argument for the GraphQL health endpoint'), // prettier-ignore
-})
-
-export type HomeScreenParams = AetherProps<typeof HomeParamsSchema>
 
 /* --- GraphQL & Data Fetching ----------------------------------------------------------------- */
 
@@ -111,7 +111,9 @@ export const HomeScreen = (props: AetherProps<typeof HomePropsSchema>) => {
           ]}
         />
       </Link>
-      <H1 class="text-green-500 pb-2 roboto-bold font-bold text-base">{customGreeting}</H1>
+      <H1 class="text-green-500 pb-2 roboto-bold font-bold text-base">
+        {customGreeting || 'Hello GREEN stack 👋'}
+      </H1>
       <View class="flex-row">
         <Link href="https://expo.dev/home" class="px-2">
           <ExpoIcon size={ICON_SIZE} fill={ICON_COLOR} />

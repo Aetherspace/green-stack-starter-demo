@@ -57,7 +57,7 @@ export const useAetherRoute = <
   // -- Data --
 
   const { data: swrData, ...swrOptions } = swrCall
-  const screenData = { ...screenDataProps, ...swrData } as PROPS
+  const screenData = propSchema.applyDefaults({ ...screenDataProps, ...swrData }) as PROPS
 
   // -- Return --
 
