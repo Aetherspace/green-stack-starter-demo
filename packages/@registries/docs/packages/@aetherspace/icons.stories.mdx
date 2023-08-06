@@ -33,6 +33,15 @@ import { AetherspaceLogo } from 'aetherspace/icons/AetherspaceLogo'
         name="AetherspaceLogo"
         args={AetherspaceLogoConfig.args}
         argTypes={AetherspaceLogoConfig.argTypes}
+        parameters={{
+          backgrounds: {
+            default: 'light',
+            values: [
+              { name: 'light', value: '#F8F8F8' },
+              { name: 'dark', value: '#333333' },
+            ],
+          },
+        }}
     >
       {AetherspaceLogoDocs.bind({})}
     </Story>

@@ -92,7 +92,7 @@ const checkWorkspaces = async (isDeepCheck = true) => {
             if (!packageJSON.aetherspace) packageJSON.aetherspace = { relatedWorkspaces, requiredEnvVars } // prettier-ignore
             packageJSON.aetherspace.relatedWorkspaces = relatedWorkspaces
             packageJSON.aetherspace.requiredEnvVars = requiredEnvVars
-            fs.writeFileSync(`../../${workspacePath}/package.json`, `${JSON.stringify(packageJSON, null, 4)}\n`)
+            fs.writeFileSync(`../../${workspacePath}/package.json`, `${JSON.stringify(packageJSON, null, 4)}`)
         }
       }
 

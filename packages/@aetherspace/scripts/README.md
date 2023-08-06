@@ -41,16 +41,16 @@ Some examples of what these scripts enable:
 ```shell
 │── features/
 │   └── {my-feature}/
-│       └── components/ ➡️ Molecules / Atoms / Common UI used in 'screens/'
-│       └── screens/ ➡️ Page templates used in App.tsx and next.js 'app/' directory
+│       └── components/ # ➡️ Molecules / Atoms / Common UI used in 'screens/'
+│       └── screens/ # ➡️ Page templates used in App.tsx and next.js 'app/' directory
 │       └── ...
-│       └── routes/ ➡️ Write-once routing for both web & mobile (see 'app/(generated)/' in expo & next)
+│       └── routes/ # ➡️ Write-once routing for both web & mobile (see 'app/(generated)/' in expo & next)
 │           └── blog/
-│               └── [slug].tsx 👉 Will be available at '/blog/[slug]' in Expo + Next
+│               └── [slug].tsx # 👉 Will be available at '/blog/[slug]' in Expo + Next
 │           └── api/
 │               └── blog/
 │                   └── [slug]/
-│                       └── route.ts 👉 Next.js API route at '/api/blog/[slug]'
+│                       └── route.ts # 👉 Next.js API route at '/api/blog/[slug]'
 │
 │── packages/
 │   └── {my-package}/ 

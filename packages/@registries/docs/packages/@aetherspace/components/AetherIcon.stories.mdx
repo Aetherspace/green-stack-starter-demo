@@ -33,6 +33,15 @@ import { AetherIcon } from 'aetherspace/components/AetherIcon'
         name="AetherIcon"
         args={AetherIconConfig.args}
         argTypes={AetherIconConfig.argTypes}
+        parameters={{
+          backgrounds: {
+            default: 'light',
+            values: [
+              { name: 'light', value: '#F8F8F8' },
+              { name: 'dark', value: '#333333' },
+            ],
+          },
+        }}
     >
       {AetherIconDocs.bind({})}
     </Story>

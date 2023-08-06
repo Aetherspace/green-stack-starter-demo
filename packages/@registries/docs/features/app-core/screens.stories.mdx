@@ -34,6 +34,15 @@ import AuthorScreen from 'app/screens/AuthorScreen'
         name="AuthorScreen"
         args={AuthorScreenConfig.args}
         argTypes={AuthorScreenConfig.argTypes}
+        parameters={{
+          backgrounds: {
+            default: 'light',
+            values: [
+              { name: 'light', value: '#F8F8F8' },
+              { name: 'dark', value: '#333333' },
+            ],
+          },
+        }}
     >
       {AuthorScreenDocs.bind({})}
     </Story>
@@ -58,6 +67,15 @@ import { HomeScreen } from 'app/screens/HomeScreen'
         name="HomeScreen"
         args={HomeScreenConfig.args}
         argTypes={HomeScreenConfig.argTypes}
+        parameters={{
+          backgrounds: {
+            default: 'light',
+            values: [
+              { name: 'light', value: '#F8F8F8' },
+              { name: 'dark', value: '#333333' },
+            ],
+          },
+        }}
     >
       {HomeScreenDocs.bind({})}
     </Story>

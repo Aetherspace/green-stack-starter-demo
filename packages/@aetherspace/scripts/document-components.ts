@@ -40,11 +40,12 @@ export const {componentNameConfig} = aetherStoryDocs({ {componentName} }, {getDo
 {filePath}
 {importExample}
 
-<Canvas>
+<Canvas{customBg}>
     <Story
         name="{componentName}"
         args={{componentNameConfig}.args}
         argTypes={{componentNameConfig}.argTypes}
+        parameters={{componentDocParams}}
     >
       {{componentNameDocs}.bind({})}
     </Story>
@@ -54,6 +55,16 @@ export const {componentNameConfig} = aetherStoryDocs({ {componentName} }, {getDo
 
 {{stories}}
 `
+
+const baseStoryParams = `{
+          backgrounds: {
+            default: 'light',
+            values: [
+              { name: 'light', value: '#F8F8F8' },
+              { name: 'dark', value: '#333333' },
+            ],
+          },
+        }`
 
 /* --- document-components --------------------------------------------------------------------- */
 
@@ -74,6 +85,8 @@ const documentComponents = () => {
       // Skip files that don't export getDocumentationProps
       if (!pathContents.includes('getDocumentationProps')) return acc
       if (pathContents.includes('// export const getDocumentationProps')) return acc
+      // Check if the component has documentation parameters
+      const hasDocParams = pathContents.includes('export const getDocumentationParams')
       // Add component folder to the documented folders list
       const [componentFile, ...componentFolderTree] = componentPath.split('/').reverse()
       const componentFolder = componentFolderTree.reverse().join('/')
@@ -93,6 +106,7 @@ const documentComponents = () => {
             componentFile,
             componentFolder,
             hasNamedExport,
+            hasDocParams,
           },
         },
       }
@@ -112,12 +126,14 @@ const documentComponents = () => {
       const relativeSections = new Array(folderLevels).fill('../').join('')
       // Create the .stories.mdx file content
       const storiesFile = componentsList.reduce((acc, componentConfig) => {
-        const { componentName, componentFile, componentFolder, hasNamedExport } = componentConfig
+        const { componentName, componentFile, componentFolder, hasNamedExport, hasDocParams } =
+          componentConfig
         const storyImportPath = `${componentFolder.replace('../../', relativeSections)}/${componentFile}` // prettier-ignore
         // Build story import statement
         const storyPropsAlias = `get${componentName}Props`
         const storyComponentAlias = hasNamedExport ? componentName : `default as ${componentName}`
-        const storyImportLine = `import { ${storyComponentAlias}, getDocumentationProps as ${storyPropsAlias} } from '${storyImportPath}'` // prettier-ignore
+        const storyComponentParams = hasDocParams ? `, getDocumentationParams as get${componentName}Params` : '' // prettier-ignore
+        const storyImportLine = `import { ${storyComponentAlias}, getDocumentationProps as ${storyPropsAlias}${storyComponentParams} } from '${storyImportPath}'` // prettier-ignore
         // Build component import example
         const importStatement = hasNamedExport ? `{ ${componentName} }` : componentName
         const componentFilePath = `${componentFolder.replace('../../', '')}/${componentName}`
@@ -133,6 +149,8 @@ const documentComponents = () => {
           componentNameDocs: `${componentName}Docs`,
           componentNameConfig: `${componentName}Config`,
           getDocumentationProps: storyPropsAlias,
+          componentDocParams: hasDocParams ? `get${componentName}Params` : baseStoryParams, // prettier-ignore
+          customBg: hasDocParams ? ` style={{ backgroundColor: get${componentName}Params.backgrounds?.values?.[0]?.value }}` : '', // prettier-ignore
           filePath: `\`/${componentFilePath}.tsx\``,
           importExample: '```typescript\n' + importExample + '\n```\n',
         })
