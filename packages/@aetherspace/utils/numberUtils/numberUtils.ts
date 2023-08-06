@@ -31,11 +31,15 @@ export const hasLeadingZeroes = (numString: string | number): boolean => {
 
 /** --- isValidNumber() ------------------------------------------------------------------------ */
 /** -i- check if a string is a valid number, excluding leading zeroes
- ** Allowed: numbers & number strings "0", "1", "250", "0.123"
+ ** Allowed: numbers & number strings like "0", "1", "250", "0.123"
  ** Catches: non numbers & number string with leading zeroes like "0568"
  ** JavaScript ¯\_(ツ)_/¯ */
-export const isValidNumber = (numCandidate: any): boolean =>
-  ![true, false, null].includes(numCandidate as unknown as boolean) &&
-  !Array.isArray(numCandidate) &&
-  !Number.isNaN(+numCandidate) &&
-  !hasLeadingZeroes(numCandidate)
+export const isValidNumber = (numCandidate: any): boolean => {
+  if (typeof numCandidate === 'number') return true
+  const isNonNumberFalsy = ![true, false, null].includes(numCandidate as unknown as boolean)
+  const isNotArray = !Array.isArray(numCandidate)
+  const isNotNaN = !Number.isNaN(+numCandidate)
+  const doesntHaveLeadingZeroes = !hasLeadingZeroes(numCandidate)
+  const canBeOperatedOn = isNonNumberFalsy && isNotArray && isNotNaN && doesntHaveLeadingZeroes
+  return canBeOperatedOn && typeof +numCandidate === 'number'
+}

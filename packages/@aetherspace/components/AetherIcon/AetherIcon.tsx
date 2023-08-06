@@ -38,6 +38,7 @@ export const AetherIconProps = aetherSchema('AetherIconProps', {
   size: z.number().default(24).describe(d.size),
   fill: z.string().color().default('#333333').describe(d.fill),
   url: z.string().optional().describe(d.url),
+  style: z.unknown().optional(),
 })
 
 /** -i- Single source of truth for <AetherIcon/> props */

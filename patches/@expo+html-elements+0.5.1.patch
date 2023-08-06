@@ -4,8 +4,21 @@ index 0000000..e69de29
 diff --git a/node_modules/@expo/html-elements/build/.DS_Store b/node_modules/@expo/html-elements/build/.DS_Store
 new file mode 100644
 index 0000000..e69de29
+diff --git a/node_modules/@expo/html-elements/build/elements/Anchor.js b/node_modules/@expo/html-elements/build/elements/Anchor.js
+index e39acd9..2d890e1 100644
+--- a/node_modules/@expo/html-elements/build/elements/Anchor.js
++++ b/node_modules/@expo/html-elements/build/elements/Anchor.js
+@@ -20,6 +20,6 @@ export const A = forwardRef(({ href, target, download, rel, ...props }, ref) =>
+             },
+         },
+     });
+-    return React.createElement(Text, { accessibilityRole: "link", ...props, ...nativeProps, ref: ref });
++    return React.createElement(Text, { role: "link", ...props, ...nativeProps, ref: ref });
+ });
+ //# sourceMappingURL=Anchor.js.map
+\ No newline at end of file
 diff --git a/node_modules/@expo/html-elements/build/elements/Headings.js b/node_modules/@expo/html-elements/build/elements/Headings.js
-index 775b8d0..2ec94e4 100644
+index 775b8d0..b869148 100644
 --- a/node_modules/@expo/html-elements/build/elements/Headings.js
 +++ b/node_modules/@expo/html-elements/build/elements/Headings.js
 @@ -5,12 +5,12 @@ import Text from '../primitives/Text';
@@ -23,3 +36,92 @@ index 775b8d0..2ec94e4 100644
      });
  }
  export const H1 = createHeadingComponent(1);
+diff --git a/node_modules/@expo/html-elements/build/elements/Layout.js b/node_modules/@expo/html-elements/build/elements/Layout.js
+index 47fa3f1..a53cfac 100644
+--- a/node_modules/@expo/html-elements/build/elements/Layout.js
++++ b/node_modules/@expo/html-elements/build/elements/Layout.js
+@@ -9,38 +9,38 @@ function createView(nativeProps = {}) {
+ export const Div = createView();
+ export const Nav = createView(Platform.select({
+     web: {
+-        accessibilityRole: 'navigation',
++        role: 'navigation',
+     },
+ }));
+ export const Footer = createView(Platform.select({
+     web: {
+-        accessibilityRole: 'contentinfo',
++        role: 'contentinfo',
+     },
+ }));
+ export const Aside = createView(Platform.select({
+     web: {
+-        accessibilityRole: 'complementary',
++        role: 'complementary',
+     },
+ }));
+ export const Header = createView(Platform.select({
+     web: {
+-        accessibilityRole: 'banner',
++        role: 'banner',
+     },
+     default: {
+-        accessibilityRole: 'header',
++        role: 'header',
+     },
+ }));
+ export const Main = createView(Platform.select({
+     web: {
+-        accessibilityRole: 'main',
++        role: 'main',
+     },
+ }));
+ export const Article = createView(Platform.select({
+     web: {
+-        accessibilityRole: 'article',
++        role: 'article',
+     },
+ }));
+ export const Section = createView({
+-    accessibilityRole: 'summary', // region?
++    role: 'summary', // region?
+ });
+ //# sourceMappingURL=Layout.js.map
+\ No newline at end of file
+diff --git a/node_modules/@expo/html-elements/build/elements/Lists.js b/node_modules/@expo/html-elements/build/elements/Lists.js
+index d88b3be..1046e64 100644
+--- a/node_modules/@expo/html-elements/build/elements/Lists.js
++++ b/node_modules/@expo/html-elements/build/elements/Lists.js
+@@ -9,7 +9,7 @@ function createView(nativeProps = {}) {
+ }
+ export const UL = createView(Platform.select({
+     web: {
+-        accessibilityRole: 'list',
++        role: 'list',
+     },
+ }));
+ function isTextProps(props) {
+@@ -18,16 +18,16 @@ function isTextProps(props) {
+ }
+ export const LI = forwardRef((props, ref) => {
+     if (isTextProps(props)) {
+-        const accessibilityRole = Platform.select({
++        const role = Platform.select({
+             web: 'listitem',
+-            default: props.accessibilityRole,
++            default: props.role,
+         });
+-        return React.createElement(Text, { ...props, accessibilityRole: accessibilityRole, ref: ref });
++        return React.createElement(Text, { ...props, role: role, ref: ref });
+     }
+-    const accessibilityRole = Platform.select({
++    const role = Platform.select({
+         web: 'listitem',
+-        default: props.accessibilityRole,
++        default: props.role,
+     });
+-    return React.createElement(View, { ...props, accessibilityRole: accessibilityRole, ref: ref });
++    return React.createElement(View, { ...props, role: role, ref: ref });
+ });
+ //# sourceMappingURL=Lists.js.map
+\ No newline at end of file
