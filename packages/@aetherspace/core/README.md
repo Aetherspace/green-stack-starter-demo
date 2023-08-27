@@ -1,5 +1,20 @@
 # Universal from the start
 
+<p>
+  <a href="https://aetherspace-green-stack-starter.vercel.app/" target="_blank">
+    <img alt="Supports Next.js" longdesc="Supports Next.js" src="https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white" />
+  </a>
+  <a href="https://expo.dev/@thorrstevens/aetherspace-starter-app" target="_blank">
+    <img alt="Test in Expo GO" longdesc="Test in Expo GO" src="https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37" />
+  </a>
+  <a href="https://expo.dev/@thorrstevens/aetherspace-starter-app" target="_blank">
+    <img alt="Supports Expo iOS" longdesc="Supports Expo iOS" src="https://img.shields.io/badge/iOS-4630EB.svg?style=for-the-badge&logo=APPLE&labelColor=999999&logoColor=fff" />
+  </a>
+  <a href="https://expo.dev/@thorrstevens/aetherspace-starter-app" target="_blank">
+    <img alt="Supports Expo Android" longdesc="Supports Expo Android" src="https://img.shields.io/badge/Android-4630EB.svg?style=for-the-badge&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
+  </a>
+</p>
+
 The dream of React development has always been “write-once, use anywhere”.
 
 With Aetherspace, you can apply that concept to building with Expo, React-Native and Next.js, and have a Web, iOS and Android app from the get-go. Maximising your reach from the start.
@@ -25,6 +40,21 @@ One way we achieve building universal apps from the start is by taking what work
 
 ### The GREEN stack
 
+<p>
+  <a href="https://www.apollographql.com/docs/intro/benefits/" target="_blank">
+    <img alt="Uses GraphQL" longdesc="Uses GraphQL" src="https://img.shields.io/badge/GraphQL-E10098.svg?style=for-the-badge&logo=GraphQL&color=FFFFFF&logoColor=32b115" />
+  </a>
+  <a href="https://reactnative.dev/" target="_blank">
+    <img alt="Built on React & React-Native" longdesc="Built on React & React-Native" src="https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&color=FFFFFF&logoColor=32b115" />
+  </a>
+  <a href="https://expo.dev/@thorrstevens/aetherspace-starter-app" target="_blank">
+    <img alt="Test in Expo GO" longdesc="Test in Expo GO" src="https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&color=FFFFFF&logoColor=32b115" />
+  </a>
+  <a href="https://aetherspace-green-stack-starter.vercel.app/" target="_blank">
+    <img alt="Supports Next.js" longdesc="Supports Next.js" src="https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&color=FFFFFF&logoColor=32b115" />
+  </a>
+</p>
+
 Starting with combining, we’ve found that using the following technologies enables `Typescript` and `React` devs to work on the full-product quite flexibly:
 - `GraphQL`, for a self-documenting API using `apollo-server`
 - `React-Native`, for write-once UI that works on web and mobile
@@ -46,6 +76,12 @@ Note that all other tool decisions are completely up to you and can be installed
 
 # Single sources of truth
 
+<p>
+  <a href="https://zod.dev" target="_blank">
+    <img alt="Zod.dev" longdesc="Zod for single sources of truth" src="https://img.shields.io/static/v1?style=for-the-badge&message=Zod&color=FFFFFF&logo=Zod&logoColor=3E67B1&label=" />
+  </a>
+</p>
+
 To further help keep things write-once and not repeat yourself, we’ve chosen Zod, a typescript-first schema validation library, as the way to define your data-structure just once for all your:
 - Types and in-editor hints
 - Resolver Arguments and Responses
@@ -55,7 +91,7 @@ To further help keep things write-once and not repeat yourself, we’ve chosen Z
 
 Anything you can define in Typescript, you can define with Zod.
 
-Check out some examples on our [Schemas and Single Sources of Truth](/packages/%40aetherspace/schemas/README.md) docs page.
+Check out some examples on our [Schemas and Single Sources of Truth](/packages/@aetherspace/schemas/README.md) docs page.
 
 # Designed for copy-paste
 
@@ -116,6 +152,12 @@ A major benefit of going with copy-pastable or mergeable folders for recurring f
 Similar to adding recurring features, removing features or packages from a freshly forked repo then also becomes as simple as removing a folder.
 
 # "Documentation drives adoption"
+
+<p>
+  <a href="https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/story/readme-md--page"  target="_blank">
+    <img alt="Docs with Storybook" longdesc="Documentated with Storybook" src="https://img.shields.io/badge/-Storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=fff" />
+  </a>
+</p>
 
 A great quote by Storybook and the reason Aetherspace comes with it already set-up for you. Because down the road, when you’re scaling and bringing in new developers, the easier it is for new people to know what’s already available, the faster they can be onboarded. (and the less likely they are to reinvent the wheel)
 

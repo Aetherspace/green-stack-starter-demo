@@ -5,7 +5,7 @@ While you can use any package you want in your Aetherspace monorepo, we've creat
 Some example use cases of merging in these plugin branches from the starter repo:
 - Scripts to generate code from your schemas or assets (like converting .svg `with/green-stack-icons`)
 - Utils to turn your schemas into models for your database (like on the `with/mongoose` branch)
-- Extra helpers to make your life easier
+- Extra helpers to make your life easier or integrate better with third party tools
 
 ---
 > 💚 To use plugin branches, you do need [access to the official green-stack-starter](https://github.com/sponsors/codinsonn).

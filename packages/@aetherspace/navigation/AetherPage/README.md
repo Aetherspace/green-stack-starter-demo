@@ -211,6 +211,50 @@ The turborepo route generator will ask you some questions, like which url you’
 
 In the generated screen component file, you can then replace the boilerplate `healthCheck` graphql query with whatever data you need from the GraphQL explorer at [/api/graphql](http://localhost:3000/api/graphql)
 
+## Limitations: Unions & Tuples
+
+Since GraphQL does not support Union and Tuple types out of the box, we have not yet added support for transforming your zod tuples and union fields into GraphQL types either. For now, these fields will just be ignored.
+
+If you can, try to avoid them in your resolver arguments and responses by going for a more flat or object based structure instead.
+
+e.g. instead of:
+
+```ts
+const someSchema = aetherSchema('SomeSchema', {
+  someTupleField: z.tuple([z.string(), z.number()]), // Ignored -- TS: [string, number]
+  someUnionField: z.union([z.string(), z.number()]), // Ignored -- TS: string | number
+})
+```
+
+try:
+
+```ts
+const someSchema = aetherSchema('SomeSchema', {
+  someTupleField: aetherSchema('SomeTupleField', {
+    stringValue: z.string().optional(), // Allowed -- TS: string | undefined
+    numberValue: z.number().optional(), // Allowed -- TS: number | undefined
+  }),
+  someUnionFieldString: z.string().optional(), // Allowed -- TS: string | undefined
+  someUnionFieldNumber: z.number().optional(), // Allowed -- TS: number | undefined
+})
+```
+
+which would result in:
+
+`schema.graphql`
+```graphql
+type SomeTupleField {
+  stringValue: String
+  numberValue: Float
+}
+
+type SomeSchema {
+  someTupleField: SomeTupleField
+  someUnionFieldString: String
+  someUnionFieldNumber: Float
+}
+```
+
 ## Learn more about Aetherspace:
 
 - [Single Sources of Truth for your Web & Mobile apps](/packages/@aetherspace/schemas/README.md)

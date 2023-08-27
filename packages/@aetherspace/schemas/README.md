@@ -325,6 +325,36 @@ This will prompt you for a tagrte workspace and name:
 >>> Success! 
 ```
 
+## Use sparingly: Unions & Tuples
+
+Even though zod and `aetherSchema` support tuple & union fields... Since GraphQL and Storybook controls do not support these types out of the box, we are still figuring the best way to transforming those field definitions for GraphQL or Storybook docs. For now, they might just be ignored or even error out.
+
+If you can, try to avoid them in your component props or resolver arguments and responses by going for a more flat or object based structure instead.
+
+e.g. instead of:
+
+```ts
+const someSchema = aetherSchema('SomeSchema', {
+  someTupleField: z.tuple([z.string(), z.number()]), // Ignored -- TS: [string, number]
+  someUnionField: z.union([z.string(), z.number()]), // Ignored -- TS: string | number
+})
+```
+
+try:
+
+```ts
+const someSchema = aetherSchema('SomeSchema', {
+  someTupleField: aetherSchema('SomeTupleField', {
+    stringValue: z.string().optional(), // Allowed -- TS: string | undefined
+    numberValue: z.number().optional(), // Allowed -- TS: number | undefined
+  }),
+  someUnionFieldString: z.string().optional(), // Allowed -- TS: string | undefined
+  someUnionFieldNumber: z.number().optional(), // Allowed -- TS: number | undefined
+})
+```
+
+> However, if you're only using tuple & union fields for validation and generating typescript types instead of documentation or GraphQL, you can still use them as usual.
+
 ## Possible Next Steps
 
 - Read the [official zod docs at zod.dev](https://zod.dev/) (or watch an [intro video](https://www.youtube.com/watch?v=L6BE-U3oy80))

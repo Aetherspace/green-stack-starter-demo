@@ -77,7 +77,7 @@ export const getInitialProps = async (ctx: DocumentContext) => {
 class Document extends NextDocument {
   render() {
     return (
-      <Html>
+      <Html suppressHydrationWarning>
         <Head>
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           {/* iOS PWA fixes */}

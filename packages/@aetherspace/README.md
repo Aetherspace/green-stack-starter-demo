@@ -38,7 +38,7 @@ import { View, Text } from 'aetherspace/primitives'
 
 export const MyComponent = () => (
   <View tw="px-2 max-w-[100px] items-center rounded-md">
-    <Text tw="lg:text-xl roboto-bold text-green">
+    <Text tw="lg:text-xl font-primary-bold text-green">
         Hello World 👋
     </Text>
   </View>
@@ -57,11 +57,11 @@ import { Article, Section, H2, P } from 'aetherspace/html-elements'
 // -i- Mobile: Renders react-native View / Text / ... 👉 Gets turned into actual native UI
 export const MyBlogPost = (props: { paragraphs: string[] }) => (
   <Article tw="relative">
-    <H2 tw="text-gray roboto-black">My post title</H2>
+    <H2 tw="text-gray font-primary-black">My post title</H2>
     <Image tw="w-full" src="/img/article-header.png">
     <Section tw="px-4 mb-4">
       {/* render each paragraph as a <p> tag on web, or <Text> on mobile */}
-      {props.paragraphs.map((paragraph) => <P tw="roboto-regular">{paragraph}</P>)}
+      {props.paragraphs.map((paragraph) => <P tw="font-primary-regular">{paragraph}</P>)}
     </Section>
   </Article>
 )
@@ -240,6 +240,12 @@ Performing these 6 steps has provided us with a bunch of value in little time:
 - A Next.js powered REST API
 
 ## Learn more:
+
+<p>
+  <a href="https://dev.to/codinsonn/how-to-compete-with-elons-twitter-a-dev-perspective-4j64#:~:text=%27Move%20fast%20%26%20build%20things%27%20with%20Zod%2C%20Expo%20%26%20Next.js" target="_blank">
+    <img alt="Intro Article on DEV" longdesc="Read the Intro Artical on DEV.to" src="https://img.shields.io/badge/dev.to-0A0A0A?style=for-the-badge&logo=devdotto&logoColor=white" />
+  </a>
+</p>
 
 - [Aetherspace Core Concepts](/packages/@aetherspace/core/README.md)
 - [Single Sources of Truth for Front & Back-End with Zod](/packages/@aetherspace/schemas/README.md)

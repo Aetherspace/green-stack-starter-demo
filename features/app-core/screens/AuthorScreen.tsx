@@ -42,10 +42,7 @@ const AuthorScreen = () => {
           <Text tw="text-white"> Home</Text>
         </Link>
       </View>
-      <Link
-        to={`/api/docs?preferredURL=${preferredDocsURL}`}
-        tw="text-xs roboto-bold py-2.5 px-5 mx-3 "
-      >
+      <Link to={`/api/docs?preferredURL=${preferredDocsURL}`} tw="body-xs-bold py-2.5 px-5 mx-3 ">
         {'Read the Docs'}
       </Link>
     </View>

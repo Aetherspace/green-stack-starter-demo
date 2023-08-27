@@ -60,7 +60,7 @@ const baseStoryParams = `{
           backgrounds: {
             default: 'light',
             values: [
-              { name: 'light', value: '#F8F8F8' },
+              { name: 'light', value: '#FFFFFF' },
               { name: 'dark', value: '#333333' },
             ],
           },
@@ -92,7 +92,7 @@ const documentComponents = () => {
       const componentFolder = componentFolderTree.reverse().join('/')
       const componentName = componentFile.split('.')[0]
       // If the component file name does not match an exported component, skip it
-      const hasNamedExport = pathContents.includes(`export const ${componentName}`)
+      const hasNamedExport = pathContents.includes(`export const ${componentName} `)
       const hasDefaultExport = pathContents.includes(`export default ${componentName}`)
       const hasExtendedDefault = pathContents.includes(`export default Object.assign(${componentName}`) // prettier-ignore
       if (!hasNamedExport && !hasDefaultExport && !hasExtendedDefault) return acc
@@ -126,8 +126,7 @@ const documentComponents = () => {
       const relativeSections = new Array(folderLevels).fill('../').join('')
       // Create the .stories.mdx file content
       const storiesFile = componentsList.reduce((acc, componentConfig) => {
-        const { componentName, componentFile, componentFolder, hasNamedExport, hasDocParams } =
-          componentConfig
+        const { componentName, componentFile, componentFolder, hasNamedExport, hasDocParams } = componentConfig // prettier-ignore
         const storyImportPath = `${componentFolder.replace('../../', relativeSections)}/${componentFile}` // prettier-ignore
         // Build story import statement
         const storyPropsAlias = `get${componentName}Props`
@@ -137,10 +136,13 @@ const documentComponents = () => {
         // Build component import example
         const importStatement = hasNamedExport ? `{ ${componentName} }` : componentName
         const componentFilePath = `${componentFolder.replace('../../', '')}/${componentName}`
-        const [workspaceType, workspaceFolderName, componentFolderName] = componentFilePath.split('/') // prettier-ignore
+        const [workspaceType, workspaceFolderName, componentFolderName, componentFileName] = componentFilePath.split('/') // prettier-ignore
         const workspaceFolder = [workspaceType, workspaceFolderName].join('/') // e.g. 'packages/@aetherspace'
         const workspaceImport = workspaceImports[workspaceFolder] // e.g. 'aetherspace'
-        const importExample = `import ${importStatement} from '${workspaceImport}/${componentFolderName}/${componentName}'` // prettier-ignore
+        const importPath = `${workspaceImport}/${componentFolderName}/${componentName}`
+        const importPathAlt = `${workspaceImport}/${componentFolderName}${componentFilePath.split(componentFolderName)[1]}`.replace('.tsx', '') // prettier-ignore
+        const importPathFinal = componentFileName === componentName ? importPath : importPathAlt
+        const importExample = `import ${importStatement} from '${importPathFinal}'`
         // Add import statement to the imports list
         let updatedStoryFile = acc.replace('{{imports}}\n', `${storyImportLine}\n{{imports}}\n`)
         // Build story
@@ -149,7 +151,7 @@ const documentComponents = () => {
           componentNameDocs: `${componentName}Docs`,
           componentNameConfig: `${componentName}Config`,
           getDocumentationProps: storyPropsAlias,
-          componentDocParams: hasDocParams ? `get${componentName}Params` : baseStoryParams, // prettier-ignore
+          componentDocParams: hasDocParams ? `get${componentName}Params` : baseStoryParams,
           customBg: hasDocParams ? ` style={{ backgroundColor: get${componentName}Params.backgrounds?.values?.[0]?.value }}` : '', // prettier-ignore
           filePath: `\`/${componentFilePath}.tsx\``,
           importExample: '```typescript\n' + importExample + '\n```\n',
