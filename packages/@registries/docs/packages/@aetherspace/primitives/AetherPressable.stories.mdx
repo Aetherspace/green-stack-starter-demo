@@ -3,11 +3,11 @@ import { aetherStoryDocs } from 'aetherspace/schemas/utils'
 import { isEmpty } from 'aetherspace/utils/commonUtils'
 // -i- Auto generated with "yarn document-components"
 // Components hooking into the storybook auto-documentation script
-import { AetherIcon, getDocumentationProps as getAetherIconProps } from '../../../../../../packages/@aetherspace/components/AetherIcon/AetherIcon.tsx'
+import { default as AetherPressable, getDocumentationProps as getAetherPressableProps } from '../../../../../../packages/@aetherspace/primitives/AetherPressable/AetherPressable.tsx'
 // Mocks
 import StoryContextProviders from '../../../../../../features/app-core/mocks/StoryContextProviders'
 
-<Meta title="packages / @aetherspace / components / AetherIcon" />
+<Meta title="packages / @aetherspace / primitives / AetherPressable" />
 
 export const createDocs = (Component) => (args) => {
   return (
@@ -17,22 +17,22 @@ export const createDocs = (Component) => (args) => {
   )
 }
 
-## AetherIcon
+## AetherPressable
 
-export const AetherIconDocs = createDocs(AetherIcon)
-export const AetherIconConfig = aetherStoryDocs({ AetherIcon }, getAetherIconProps)
+export const AetherPressableDocs = createDocs(AetherPressable)
+export const AetherPressableConfig = aetherStoryDocs({ AetherPressable }, getAetherPressableProps)
 
-`/packages/@aetherspace/components/AetherIcon/AetherIcon.tsx`
+`/packages/@aetherspace/primitives/AetherPressable/AetherPressable.tsx`
 ```typescript
-import { AetherIcon } from 'aetherspace/components/AetherIcon'
+import AetherPressable from 'aetherspace/primitives/AetherPressable'
 ```
 
 
 <Canvas>
     <Story
-        name="AetherIcon"
-        args={AetherIconConfig.args}
-        argTypes={AetherIconConfig.argTypes}
+        name="AetherPressable"
+        args={AetherPressableConfig.args}
+        argTypes={AetherPressableConfig.argTypes}
         parameters={{
           backgrounds: {
             default: 'light',
@@ -43,11 +43,11 @@ import { AetherIcon } from 'aetherspace/components/AetherIcon'
           },
         }}
     >
-      {AetherIconDocs.bind({})}
+      {AetherPressableDocs.bind({})}
     </Story>
 </Canvas>
 
-{!isEmpty(AetherIconConfig.args) && <ArgsTable story="AetherIcon" />}
+{!isEmpty(AetherPressableConfig.args) && <ArgsTable story="AetherPressable" />}
 
 
 

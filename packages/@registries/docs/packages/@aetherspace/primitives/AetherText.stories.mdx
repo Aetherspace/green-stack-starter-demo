@@ -3,11 +3,11 @@ import { aetherStoryDocs } from 'aetherspace/schemas/utils'
 import { isEmpty } from 'aetherspace/utils/commonUtils'
 // -i- Auto generated with "yarn document-components"
 // Components hooking into the storybook auto-documentation script
-import { AetherIcon, getDocumentationProps as getAetherIconProps } from '../../../../../../packages/@aetherspace/components/AetherIcon/AetherIcon.tsx'
+import { default as AetherText, getDocumentationProps as getAetherTextProps } from '../../../../../../packages/@aetherspace/primitives/AetherText/AetherText.tsx'
 // Mocks
 import StoryContextProviders from '../../../../../../features/app-core/mocks/StoryContextProviders'
 
-<Meta title="packages / @aetherspace / components / AetherIcon" />
+<Meta title="packages / @aetherspace / primitives / AetherText" />
 
 export const createDocs = (Component) => (args) => {
   return (
@@ -17,22 +17,22 @@ export const createDocs = (Component) => (args) => {
   )
 }
 
-## AetherIcon
+## AetherText
 
-export const AetherIconDocs = createDocs(AetherIcon)
-export const AetherIconConfig = aetherStoryDocs({ AetherIcon }, getAetherIconProps)
+export const AetherTextDocs = createDocs(AetherText)
+export const AetherTextConfig = aetherStoryDocs({ AetherText }, getAetherTextProps)
 
-`/packages/@aetherspace/components/AetherIcon/AetherIcon.tsx`
+`/packages/@aetherspace/primitives/AetherText/AetherText.tsx`
 ```typescript
-import { AetherIcon } from 'aetherspace/components/AetherIcon'
+import AetherText from 'aetherspace/primitives/AetherText'
 ```
 
 
 <Canvas>
     <Story
-        name="AetherIcon"
-        args={AetherIconConfig.args}
-        argTypes={AetherIconConfig.argTypes}
+        name="AetherText"
+        args={AetherTextConfig.args}
+        argTypes={AetherTextConfig.argTypes}
         parameters={{
           backgrounds: {
             default: 'light',
@@ -43,11 +43,11 @@ import { AetherIcon } from 'aetherspace/components/AetherIcon'
           },
         }}
     >
-      {AetherIconDocs.bind({})}
+      {AetherTextDocs.bind({})}
     </Story>
 </Canvas>
 
-{!isEmpty(AetherIconConfig.args) && <ArgsTable story="AetherIcon" />}
+{!isEmpty(AetherTextConfig.args) && <ArgsTable story="AetherText" />}
 
 
 
