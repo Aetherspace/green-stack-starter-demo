@@ -1,5 +1,5 @@
 import { use, useEffect, useState } from 'react'
-import { SWRConfig, unstable_serialize } from 'swr'
+import { SWRConfig, unstable_serialize, useSWRConfig } from 'swr'
 // Types
 import { AetherPageProps, AetherScreenConfig } from './AetherPage.types'
 
@@ -22,6 +22,9 @@ export const AetherPage = <SC extends AetherScreenConfig>(props: AetherPageProps
   // State
   const [hydratedData, setHydratedData] = useState<Record<string, any> | null>(null)
 
+  // Hooks
+  const { mutate } = useSWRConfig()
+
   // Screen
   const PageScreen = screen
 
@@ -34,8 +37,11 @@ export const AetherPage = <SC extends AetherScreenConfig>(props: AetherPageProps
 
   useEffect(() => {
     const ssrData = getSSRData()
-    if (ssrData) setHydratedData(ssrData) // Save the SSR data to state, removing the SSR data from the DOM
-  }, [])
+    if (ssrData) {
+      mutate(fallbackKey, ssrData, false) // Save the SSR data to the SWR cache
+      setHydratedData(ssrData) // Save the SSR data to state, removing the SSR data from the DOM
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // -- Browser --
 
