@@ -41,20 +41,24 @@ type PickedTodosTypes = z.infer<typeof PickedTodos>
 type OmittedTodosTypes = z.infer<typeof OmittedTodos>
 
 const ComparedSchema = aetherSchema('ComparedSchema', {
-    id: z.string().default('some-id').describe('An ID'),
-    ids: z.array(z.string()).describe('A list of IDs'),
-    str: z.string().nullable().describe('A string'),
-    day: z.date().optional().describe('A date'),
-    num: z.number().describe('A number'),
-    bln: z.boolean().optional().describe('A boolean'),
-    opt: z.enum(['A', 'B']).describe('An enum'),
-    clr: z.string().color(),
-    obj: aetherSchema('StringObject', {
-        str: z.string().nullable().describe('A string'),
-    }),
-    col: z.array(aetherSchema('IDObject', {
-        id: z.string().describe('An ID'),
-    }))
+    // - Primitives -
+    string: z.string().default('some-string').describe('A string'),
+    number: z.number().default(0).describe('A number'),
+    boolean: z.boolean().default(false).describe('A boolean'),
+    date: z.date().default(new Date()).describe('A date'),
+    // - String Variants -
+    id: z.string().id().default('some-id').describe('An ID'),
+    color: z.string().color().default('#000000').describe('A color'),
+    // - Advanced Single Values -
+    enum: z.enum(['A', 'B']).default('A').describe('An enum'),
+    union: z.union([z.string(), z.number()]).default('some-string').describe('A union'),
+    // - Arraylikes -
+    array: z.array(z.string()).default(['some-string']).describe('An array'),
+    tuple: z.tuple([z.string(), z.number()]).default(['some-string', 0]).describe('A tuple'),
+    // - Objectlikes -
+    object: z.object({ str: z.string() }).default({ str: 'some-string' }).describe('An object'),
+    // - Collections -
+    collection: z.array(z.object({ str: z.string() })).default([{ str: 'some-string' }]).describe('A collection'), // prettier-ignore
 })
 
 type ComparedSchemaType = z.infer<typeof ComparedSchema>

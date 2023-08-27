@@ -74,7 +74,7 @@ const Document = (props: { children: React.ReactNode }) => {
   // -- Render --
 
   return (
-    <html>
+    <html suppressHydrationWarning>
       <head>
         {/* - TODO: Icons - /}
         <link rel="icon" href="/favicon.ico" sizes="any" />

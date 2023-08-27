@@ -20,7 +20,9 @@ export type AetherIconRenderer = (props: {
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
-const AETHER_ICON_KEYS = Object.keys(REGISTERED_ICONS) as [AetherIconKey, ...AetherIconKey[]]
+export const AETHER_ICON_KEYS = Object.keys(REGISTERED_ICONS) as [AetherIconKey, ...AetherIconKey[]]
+
+export const AetherIconKeyProp = z.enum(AETHER_ICON_KEYS)
 
 /* --- Descriptions ---------------------------------------------------------------------------- */
 
@@ -34,7 +36,7 @@ const d = {
 /** --- AetherIconProps ------------------------------------------------------------------------ */
 /** -i- Single source of truth for <AetherIcon/> props */
 export const AetherIconProps = aetherSchema('AetherIconProps', {
-  name: z.enum(AETHER_ICON_KEYS).optional().describe(d.name),
+  name: AetherIconKeyProp.describe(d.name),
   size: z.number().default(24).describe(d.size),
   fill: z.string().color().default('#333333').describe(d.fill),
   url: z.string().optional().describe(d.url),

@@ -111,9 +111,7 @@ export const HomeScreen = (props: AetherProps<typeof HomePropsSchema>) => {
           ]}
         />
       </Link>
-      <H1 class="text-green-500 pb-2 roboto-bold font-bold text-base">
-        {customGreeting || 'Hello GREEN stack 👋'}
-      </H1>
+      <H1 class="text-green-500 pb-2 body-md-bold">{customGreeting || 'Hello GREEN stack 👋'}</H1>
       <View class="flex-row">
         <Link href="https://expo.dev/home" class="px-2">
           <ExpoIcon size={ICON_SIZE} fill={ICON_COLOR} />
@@ -133,8 +131,8 @@ export const HomeScreen = (props: AetherProps<typeof HomePropsSchema>) => {
       </View>
       <Text class="md:w-2/3 lg:w-1/2 pt-5 pb-3 px-4 text-center text-sm">
         {`${tapOrClick} the icons to learn more about each part of the stack, or open up `}
-        <Text class="text-gray-500">features/app-core/screens/HomeScreen.tsx</Text> to start working
-        on your app.
+        <Text class="text-grayscale-500">features/app-core/screens/HomeScreen.tsx</Text> to start
+        working on your app.
       </Text>
       <View class="flex-row pt-3">
         <Pressable
@@ -142,23 +140,23 @@ export const HomeScreen = (props: AetherProps<typeof HomePropsSchema>) => {
           onPress={() => openLink(graphQLEndpoint || '/api/graphql')}
           accessibilityRole="button"
         >
-          <Text class="text-white roboto-bold text-sm">{alive ? 'GraphQL ✅' : 'GraphQL 🔄'}</Text>
+          <Text class="text-white body-sm-bold">{alive ? 'GraphQL ✅' : 'GraphQL 🔄'}</Text>
         </Pressable>
         <Pressable
           class="flex-row py-1 px-2 mx-1 bg-gray-700 items-center rounded-md"
           onPress={() => openLink(healthEndpoint || '/api/health')}
           accessibilityRole="button"
         >
-          <Text class="text-white roboto-bold text-sm">{kicking ? 'REST ✅' : 'REST 🔄'}</Text>
+          <Text class="text-white body-sm-bold">{kicking ? 'REST ✅' : 'REST 🔄'}</Text>
         </Pressable>
       </View>
-      <Link href="/author" class="roboto-bold pt-5 text-center text-sm text-black">
+      <Link href="/author" class="body-sm-bold pt-5 text-center text-primary">
         Test Navigation
       </Link>
-      <Link to={`/api/docs?preferredURL=${preferredDocsURL}`} class="text-xs roboto-bold my-4 px-5">
+      <Link to={`/api/docs?preferredURL=${preferredDocsURL}`} class="body-xs-bold my-4 px-5">
         Read the Docs
       </Link>
-      <Link to="/author" class="m-2 text-xs text-gray-500">
+      <Link to="/author" class="m-2 text-xs text-grayscale-500">
         {'{ ...💚 }'}
       </Link>
     </View>

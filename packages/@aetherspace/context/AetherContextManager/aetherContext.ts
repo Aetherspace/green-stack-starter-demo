@@ -2,7 +2,7 @@
 import { GraphQLSchema } from 'graphql'
 import { createContext, FC } from 'react'
 import { TextProps } from 'react-native'
-import tailwind, { TwConfig, TailwindFn } from 'twrnc'
+import tailwind, { TwConfig, TailwindFn, RnColorScheme } from 'twrnc'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -78,6 +78,9 @@ export interface AetherContextType {
   children?: any | any[]
   tailwind?: TailwindFn
   twConfig?: TwConfig
+  colorScheme?: RnColorScheme
+  toggleColorScheme?: () => void
+  setColorScheme?: (scheme: RnColorScheme) => void
   importSchema?: () => Promise<GraphQLSchema>
 }
 

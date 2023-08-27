@@ -43,3 +43,10 @@ export const isValidNumber = (numCandidate: any): boolean => {
   const canBeOperatedOn = isNonNumberFalsy && isNotArray && isNotNaN && doesntHaveLeadingZeroes
   return canBeOperatedOn && typeof +numCandidate === 'number'
 }
+
+/** --- parseIfValidNumber() ------------------------------------------------------------------- */
+/** -i- checks if a variable can be parsed as a valid number, and then parses that number */
+export const parseIfValidNumber = (numCandidate: any): number | undefined => {
+  if (isValidNumber(numCandidate)) return +numCandidate
+  return undefined
+}

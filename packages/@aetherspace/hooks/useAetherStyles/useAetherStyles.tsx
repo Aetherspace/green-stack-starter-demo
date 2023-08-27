@@ -1,4 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useMemo, ComponentProps, JSXElementConstructor } from 'react'
+// Types
+import { TailwindFn } from 'twrnc'
 // Schemas
 import { TAetherStyleProps } from '../../schemas/ats'
 // Context
@@ -32,7 +35,6 @@ const useAetherStyles = <
 
   // Context
   const {
-    tailwind,
     isWeb,
     isNextJS,
     isStorybook,
@@ -40,9 +42,17 @@ const useAetherStyles = <
     breakpoints = {},
     twPrefixes = [],
     mediaPrefixes = [],
+    ...aetherContext
   } = useAetherContext()
 
   // -- Styles --
+
+  const tailwind: TailwindFn = useMemo(
+    // @ts-ignore
+    () => props.tailwindFn ?? globalThis.tailwindFn ?? aetherContext.tailwind,
+    // @ts-ignore
+    [props.tailwindFn, globalThis.tailwindFn, aetherContext.tailwind, aetherContext.colorScheme]
+  )
 
   const prefixKey = twPrefixes.join()
   const [styles, mediaIds] = useMemo(() => {

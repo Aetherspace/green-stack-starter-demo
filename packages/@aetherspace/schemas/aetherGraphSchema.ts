@@ -33,9 +33,9 @@ const SCHEMA_PRIMITIVE_MAPPER = Object.freeze({
   AetherString: 'String',
   AetherNumber: 'Float',
   AetherBoolean: 'Boolean',
+  AetherDate: 'Date',
   AetherId: 'ID',
   AetherColor: 'String',
-  AetherDate: 'Date',
   AetherEnum: 'String',
 })
 
@@ -112,18 +112,21 @@ const aetherSchemaDefinitions = (aetherSchema: ResolverSchemaType, prefix = 'typ
     AetherString: createDefinition('String'),
     AetherNumber: createDefinition('Float'),
     AetherBoolean: createDefinition('Boolean'),
+    AetherDate: createDefinition('Date'),
     // -- Single values --
     AetherId: createDefinition('ID'),
     AetherColor: createDefinition('String'),
-    AetherDate: createDefinition('Date'),
     AetherEnum: createDefinition('String'),
     // -- Objectlikes --
     AetherSchema: createDefinition('Schema'),
     AetherObject: createDefinition('Schema'),
     // -- Arraylikes --
     AetherArray: createDefinition('Array'),
+    // -- Complex types --
+    // AetherUnion: createDefinition('Union') // TODO: To implement
+    // AetherTuple: createDefinition('Tuple') // TODO: To implement
   })
-  // Transform into usable graphql definitions (TODO: Figure out why aetherSchema can be undefined, yet graphql doesn't break?)
+  // Transform into usable graphql definitions
   const schemaDef = `
     ${prefix} ${aetherSchema?.schemaName} {
         ${Object.values(schemaMap).join('\n        ')}

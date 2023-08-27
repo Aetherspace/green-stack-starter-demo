@@ -2,10 +2,16 @@
 import React from 'react'
 import { useMemo } from 'react'
 import { action } from '@storybook/addon-actions'
+import { create as createTailwindWithConfig } from 'twrnc'
 import { AetherText, AetherView } from '../../packages/@aetherspace/primitives'
 import { useAetherRoute } from '../../packages/@aetherspace/navigation/useAetherRoute'
 import { fetchAetherProps } from '../../packages/@aetherspace/navigation/fetchAetherProps'
 import { getEnvVar } from '../../packages/@aetherspace/utils'
+import tailwindConfig from '../../features/app-core/tailwind.config'
+
+/* --- Styles ---------------------------------------------------------------------------------- */
+
+const tailwindFn = createTailwindWithConfig(tailwindConfig)
 
 /* --- useAetherNav() -------------------------------------------------------------------------- */
 
@@ -45,7 +51,7 @@ export const useAetherNav = () => {
 export const AetherLink = (props) => {
     // Props
     const { children, href, to, routeName, style, tw, twID, asText, ...restProps } = props
-    const bindStyles = { style, tw, twID, ...restProps }
+    const bindStyles = { style, tw, twID, ...restProps, tailwindFn }
 
     // Hooks
     const { openLink, getDestination } = useAetherNav()
