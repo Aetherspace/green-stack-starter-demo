@@ -11,8 +11,9 @@ module.exports = {
         './docs/Styling.stories.mdx',
         './docs/UniversalRouting.stories.mdx',
         './docs/GraphQL.stories.mdx',
-        './docs/Automation.stories.mdx',
+        './docs/Forms.stories.mdx',
         './docs/Icons.stories.mdx',
+        './docs/Automation.stories.mdx',
         './docs/Deployment.stories.mdx',
         './plugins/README.stories.mdx',
         './other/License.stories.mdx',
@@ -54,7 +55,7 @@ module.exports = {
         config.resolve.alias['react-native$'] = require.resolve('react-native-web')
         // Other aliases for web support (https://github.com/expo/expo/issues/21469#issuecomment-1576001543)
         config.resolve.alias['expo-asset'] = 'expo-asset-web'
-        config.resolve.alias['aetherspace/navigation'] = require.resolve('./__mocks__/aetherspaceNavigation.tsx')
+        config.resolve.alias['aetherspace/navigation'] = require.resolve('./__mocks__/aetherspace/navigation/index.tsx')
         config.resolve.extensions.push('.ts', '.tsx')
         config.resolve.fallback = {
           ...config.resolve.fallback,
@@ -63,6 +64,7 @@ module.exports = {
           zlib: false,
           http: false,
           stream: false,
+          fs: false
         }
         // Compatibility
         config.optimization = {
@@ -78,6 +80,9 @@ module.exports = {
     },
     core: {
         builder: 'webpack5',
+    },
+    typescript: {
+      reactDocgen: 'react-docgen-typescript-plugin'
     },
     features: {
       previewMdx2: true, // 👈 MDX 2 enabled here (https://storybook.js.org/docs/react/writing-docs/mdx#mdx-2)

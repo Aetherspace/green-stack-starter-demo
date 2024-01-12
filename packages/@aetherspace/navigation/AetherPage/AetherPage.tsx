@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react'
 import { SWRConfig } from 'swr'
 import { ScrollView, KeyboardAvoidingView, Platform, Keyboard } from 'react-native'
 import { AetherPageProps, AetherScreenConfig } from './AetherPage.types'
-import { swrClerkAuthMiddleware } from '@aetherspace/clerk-auth/middleware'
+import { swrMiddlewareRegistry } from 'registries/swrMiddleware'
 
 /* --- <AetherPage/> --------------------------------------------------------------------------- */
 
@@ -38,7 +38,7 @@ export const AetherPage = <SC extends AetherScreenConfig>(props: AetherPageProps
   // -- Browser --
 
   return (
-    <SWRConfig value={{ use: [swrClerkAuthMiddleware] }}>
+    <SWRConfig value={{ use: swrMiddlewareRegistry }}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1, backgroundColor: screenConfig.backgroundColor || 'transparent' }}

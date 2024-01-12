@@ -1,2 +1,2 @@
 'use client'
-export { default } from 'app/routes/index'
+export { default, dynamic } from 'app/routes/index'

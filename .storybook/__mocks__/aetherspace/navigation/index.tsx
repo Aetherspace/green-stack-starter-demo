@@ -3,11 +3,11 @@ import React from 'react'
 import { useMemo } from 'react'
 import { action } from '@storybook/addon-actions'
 import { create as createTailwindWithConfig } from 'twrnc'
-import { AetherText, AetherView } from '../../packages/@aetherspace/primitives'
-import { useAetherRoute } from '../../packages/@aetherspace/navigation/useAetherRoute'
-import { fetchAetherProps } from '../../packages/@aetherspace/navigation/fetchAetherProps'
-import { getEnvVar } from '../../packages/@aetherspace/utils'
-import tailwindConfig from '../../features/app-core/tailwind.config'
+import { AetherText, AetherView } from '../../../../packages/@aetherspace/primitives'
+import { useAetherRouteData } from '../../../../packages/@aetherspace/navigation/useAetherRouteData'
+import { fetchAetherProps } from '../../../../packages/@aetherspace/navigation/fetchAetherProps'
+import { getEnvVar } from '../../../../packages/@aetherspace/utils'
+import tailwindConfig from '../../../../features/app-core/tailwind.config'
 
 /* --- Styles ---------------------------------------------------------------------------------- */
 
@@ -86,5 +86,5 @@ export const AetherLink = (props) => {
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export { useAetherRoute, fetchAetherProps }
+export { useAetherRouteData, fetchAetherProps }
 export const Link = AetherLink

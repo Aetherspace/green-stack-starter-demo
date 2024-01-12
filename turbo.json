@@ -59,6 +59,14 @@
         "../../apps/**/api/**/*.ts"
       ]
     },
+    "aetherspace#collect-generators": {
+      "dependsOn": ["aetherspace#build"],
+      "outputs": ["../@registries/generators.generated.js"],
+      "inputs": [
+        "../../features/**/generators/*.ts",
+        "../../packages/**/generators/*.ts"
+      ]
+    },
     "aetherspace#documentation-reset": {
       "dependsOn": ["aetherspace#build"],
       "cache": false

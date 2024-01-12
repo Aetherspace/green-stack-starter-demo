@@ -28,8 +28,6 @@ const useLoadFonts = () => {
     Roboto700: Roboto_700Bold,
     Roboto800: Roboto_900Black, // Fallback
     Roboto900: Roboto_900Black,
-    // - Icon Fonts -
-    // e.g. AntDesign: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/AntDesign.ttf'),
   }
 
   const [googleFontsLoaded, googleFontsError] = useFonts(fontsToLoad)

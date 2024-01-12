@@ -1,7 +1,7 @@
 import { use, useEffect, useState } from 'react'
 import { SWRConfig, unstable_serialize, useSWRConfig } from 'swr'
 import { AetherPageProps, AetherScreenConfig } from './AetherPage.types'
-import { swrClerkAuthMiddleware } from '@aetherspace/clerk-auth/middleware'
+import { swrMiddlewareRegistry } from 'registries/swrMiddleware'
 
 /* --- Helpers --------------------------------------------------------------------------------- */
 
@@ -57,7 +57,7 @@ export const AetherPage = <SC extends AetherScreenConfig>(props: AetherPageProps
     const renderHydrationData = !!hydrationData && !hydratedData // Only render the hydration data if it's not already in state
 
     return (
-      <SWRConfig value={{ use: [swrClerkAuthMiddleware], fallback }}>
+      <SWRConfig value={{ use: swrMiddlewareRegistry, fallback }}>
         {renderHydrationData && <div id="ssr-data" data-ssr={JSON.stringify(hydrationData)} />}
         <PageScreen params={routeParams} {...restProps} {...hydrationData} />
       </SWRConfig>
@@ -66,10 +66,10 @@ export const AetherPage = <SC extends AetherScreenConfig>(props: AetherPageProps
 
   // -- Server --
 
-  const ssrData = use(getGraphqlData(graphqlQuery, { variables }))
+  const ssrData = use(getGraphqlData!(graphqlQuery!, { variables }))
 
   return (
-    <SWRConfig value={{ use: [swrClerkAuthMiddleware], fallback: { [fallbackKey]: ssrData } }}>
+    <SWRConfig value={{ use: swrMiddlewareRegistry, fallback: { [fallbackKey]: ssrData } }}>
       {!!ssrData && <div id="ssr-data" data-ssr={JSON.stringify(ssrData)} />}
       <PageScreen params={routeParams} {...restProps} {...ssrData} />
     </SWRConfig>

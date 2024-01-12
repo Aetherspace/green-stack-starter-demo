@@ -1,13 +1,8 @@
 import React from 'react'
-// Navigation
 import { Link, useAetherNav } from 'aetherspace/navigation'
-// Schemas
-import { aetherSchema } from 'aetherspace/schemas'
-// Primitives
+import { z, aetherSchema, AetherProps } from 'aetherspace/schemas'
 import { View, Pressable, Text } from 'aetherspace/primitives'
-// Utils
 import { getBaseUrl } from 'aetherspace/utils'
-// Icons
 import { BackIcon, HomeIcon } from '../icons'
 
 /* --- Constants ------------------------------------------------------------------------------- */
@@ -15,12 +10,30 @@ import { BackIcon, HomeIcon } from '../icons'
 const baseURL = getBaseUrl()
 const preferredDocsURL = baseURL?.replace?.('3000', '6006')
 
+/* --- Schemas & Types ------------------------------------------------------------------------- */
+
+export const AuthorScreenProps = aetherSchema('AuthorScreenProps', {
+  // -i- TODO: Change this to match your screen's props
+  // e.g. title: z.string().optional(),
+})
+
+export type AuthorScreenProps = AetherProps<typeof AuthorScreenProps>
+
+/* --- Screen Config --------------------------------------------------------------------------- */
+
+export const screenConfig = {
+  dynamic: 'force-static' as const,
+  backgroundColor: '#FFFFFF',
+}
+
 /* --- <AuthorScreen/> ------------------------------------------------------------------------- */
 
-const AuthorScreen = () => {
+export const AuthorScreen = (props: AuthorScreenProps) => {
   // Hooks
   const { goBack, openLink } = useAetherNav()
-  // Render
+
+  // -- Render --
+
   return (
     <View tw="relative flex w-full h-full items-center justify-center">
       <Pressable
@@ -51,7 +64,7 @@ const AuthorScreen = () => {
 
 /* --- Documentation --------------------------------------------------------------------------- */
 
-export const getDocumentationProps = aetherSchema('AuthorScreenProps', {}).introspect()
+export const getDocumentationProps = AuthorScreenProps.introspect()
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

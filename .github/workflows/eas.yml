@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: 'Check secrets'
         id: check-secrets
@@ -20,7 +20,7 @@ jobs:
 
       - name: Setup Node
         if: ${{ steps.check-secrets.outputs.has-secrets == 'true' }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: 18.x
           cache: yarn
@@ -38,15 +38,15 @@ jobs:
       - name: Find yarn cache
         id: yarn-cache-path
         if: ${{ steps.check-secrets.outputs.has-secrets == 'true' }}
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "{dir}={dir::$(yarn cache dir)} >> $GITHUB_OUTPUT"
 
-      - name: Restore cache
-        if: ${{ steps.check-secrets.outputs.has-secrets == 'true' }}
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-yarn-
+      # - name: Restore cache
+      #   if: ${{ steps.check-secrets.outputs.has-secrets == 'true' }}
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: ${{ steps.yarn-cache-path.outputs.dir }}
+      #     key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      #     restore-keys: ${{ runner.os }}-yarn-
 
       - name: Install Node.js dependencies
         if: ${{ steps.check-secrets.outputs.has-secrets == 'true' }}
@@ -59,3 +59,4 @@ jobs:
           ENV: staging
           BACKEND_URL: ${{ secrets.BACKEND_URL }}
           NEXT_PUBLIC_APP_LINKS: ${{ secrets.NEXT_PUBLIC_APP_LINKS }}
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}

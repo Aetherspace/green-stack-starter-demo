@@ -11,13 +11,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out Git repository'
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: 'Check secrets'
         id: check-secrets
         run: echo "has-secrets=$([ -n "${{ env.CHROMATIC_PROJECT_TOKEN }}" ] && echo true || echo false)" >> $GITHUB_OUTPUT
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+
+      - name: Setup Node
+        if: ${{ steps.check-secrets.outputs.has-secrets == 'true' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+          cache: yarn
 
       - name: 'Warn required secrets'
         if: ${{ steps.check-secrets.outputs.has-secrets == 'false' }}

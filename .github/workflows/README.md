@@ -1,20 +1,20 @@
 # Automatic deployments with Github Actions
 
-We generally advise that you take full use of either [Vercel](vercel.com) or [Netlify](netlify.com) for automatic web deployments. These are quite good and easy to set-up / link to your repo in their UI.
+We generally advise that you take full use of [Vercel](vercel.com) and [Expo](expo.dev) for automatic deployments. These are quite good and easy to set-up and link to your repo in their UI.
 
 On top of this though, you can also enable automatic deployments through Github Actions to:
-- [Chromatic](https://www.chromatic.com/) (deploys your storybook)
-- [Expo](https://github.com/expo/expo-github-action) (runs `eas update` whenever a branch updates)
+- Deploy your storybook docs with [Chromatic](https://www.chromatic.com/)
+- Deploy your feature branches for testing with [Expo](https://github.com/expo/expo-github-action) (runs `eas update` whenever a branch updates)
 
 Heads up though, as this will require setting up some secrets in your repository.
 
-> We recommend doppler for managing and syncing secrets or env vars between services. You can find more information on how to set this up at [the doppler docs](https://docs.doppler.com/docs/github-actions).
+> We recommend [doppler](doppler.com) for managing and syncing secrets or env vars between services. You can find more information on how to set this up at [the doppler docs](https://docs.doppler.com/docs/github-actions).
 
 ## Publishing with EAS update
 
-A basic workflow for publishing with EAS update is already added to your project. You can find it in `.github/workflows/eas.yml`.
+A basic workflow for publishing with EAS update is already added to your project when forking the repo. You can find it in `.github/workflows/eas.yml`.
 
-However, it will only run when you add an `EXPO_ACCESS_TOKEN` secret to your repository. You can do this in the repository settings, but before you do that, you'll need to generate this token.
+However, it will only run when you add an `EXPO_ACCESS_TOKEN` secret to your repository. You can do this in the repository settings, but before you do that, you'll need to generate this token in their UI.
 
 ### Creating an Expo project and generating an access token
 

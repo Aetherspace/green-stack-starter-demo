@@ -1,8 +1,6 @@
 import * as OS from 'os'
 import type { NextApiRequest } from 'next'
-// Schemas
-import { z, aetherSchema } from 'aetherspace/schemas'
-// Utils
+import { z, aetherSchema, createDataBridge } from 'aetherspace/schemas'
 import {
   aetherResolver,
   AetherArguments,
@@ -12,6 +10,28 @@ import {
   checkURLs,
   getEnvVar,
 } from 'aetherspace/utils/serverUtils'
+
+/* --- Disclaimers ----------------------------------------------------------------------------- */
+
+// -i- While useful and usable, this health check API route is just a simplified example.
+// -i- It's purpose is to show how to tie schemas, resolvers and API routes together.
+// -i- For that reason, a lot of the code here is more colocated than it should be.
+// -i- See the 'Quickstart' page in the docs for the simplified example and more info:
+
+// -i- https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/docs/aetherspace-quickstart--page
+// -i- http://localhost:6006?path=/docs/aetherspace-quickstart--page (local docs with `yarn dev:docs`)
+
+// -i- To get the most out of the template when creating API routes and GraphQL resolvers,
+// -i- We recommend you not colocate the schemas and resolver in the same route.ts file.
+
+// -i- Instead, use the `yarn ats add-resolver` command to create a resolver scaffold.
+// -i- This will generate: a schema, a resolver, a route, a fetch util and SWR hook for you
+// -i- and automatically link these all together to save time and enforce best practices.
+
+// -i- You *could* also remove this route and the health check if you want.
+
+// -!- Though it is used in the Expo dev startup script to check if the server is running first.
+// -!- So if you remove it, you will have to remove it from the scripts and turborepo config as well.
 
 /* --- Schemas --------------------------------------------------------------------------------- */
 
@@ -26,36 +46,40 @@ export const HealthCheckResponse = HealthCheckArgs.extendSchema('HealthCheckResp
   alive: z.boolean().describe('Indicates if the server is alive'),
   kicking: z.boolean().describe('Indicates if the server is kicking'),
   // URLS
-  requestURL: z.string().optional().describe('The request URL'),
-  baseURL: z.string().optional().describe('The base URL'),
-  apiURL: z.string().optional().describe('The path all API routes are under'),
-  graphURL: z.string().optional().describe('The GraphQL URL'),
-  docsURL: z.string().optional().describe('The docs URL'),
-  port: z.number().optional().describe('The port the server is running on'),
-  debugPort: z.number().optional().describe('The debug port the server is running on'),
+  requestURL: z.string().nullish().describe('The request URL'),
+  baseURL: z.string().nullish().describe('The base URL'),
+  apiURL: z.string().nullish().describe('The path all API routes are under'),
+  graphURL: z.string().nullish().describe('The GraphQL URL'),
+  docsURL: z.string().nullish().describe('The docs URL'),
+  port: z.number().nullish().describe('The port the server is running on'),
+  debugPort: z.number().nullish().describe('The debug port the server is running on'),
   // TIME & DATES
   now: z.date().describe('The current server time'),
   aliveSince: z.date().describe('Time since the server or lambda has started'),
   aliveTime: z.number().describe('Time since the server or lambda has started in milliseconds'),
-  timezone: z.string().optional().describe('The timezone of the server'),
+  timezone: z.string().nullish().describe('The timezone of the server'),
   // VERSIONS
-  nodeVersion: z.string().optional().describe('The node version'),
-  v8Version: z.string().optional().describe('The v8 version'),
+  nodeVersion: z.string().nullish().describe('The node version'),
+  v8Version: z.string().nullish().describe('The v8 version'),
   // SYSTEM
-  systemArch: z.string().optional().describe('The system architecture'),
-  systemPlatform: z.string().optional().describe('The system platform'),
-  systemRelease: z.string().optional().describe('The system release'),
-  systemFreeMemory: z.number().optional().describe('The system free memory in bytes'),
-  systemTotalMemory: z.number().optional().describe('The system total memory in bytes'),
-  systemLoadAverage: z.number().array().optional().describe('The system load average'),
+  systemArch: z.string().nullish().describe('The system architecture'),
+  systemPlatform: z.string().nullish().describe('The system platform'),
+  systemRelease: z.string().nullish().describe('The system release'),
+  systemFreeMemory: z.number().nullish().describe('The system free memory in bytes'),
+  systemTotalMemory: z.number().nullish().describe('The system total memory in bytes'),
+  systemLoadAverage: z.number().array().nullish().describe('The system load average'),
 })
 
 /* --- Config ---------------------------------------------------------------------------------- */
 
-const resolverConfig = {
+const resolverConfig = createDataBridge({
+  resolverName: 'healthCheck',
+  resolverType: 'query',
   argsSchema: HealthCheckArgs,
   responseSchema: HealthCheckResponse,
-}
+  apiPath: '/api/health',
+  allowedMethods: ['GRAPHQL', 'GET', 'POST'],
+})
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
@@ -64,9 +88,9 @@ const aliveSince = new Date()
 const DOCS_URL = getEnvVar('DOCS_URL')
 const BACKEND_URL = getEnvVar('BACKEND_URL')
 
-/* --- healthCheck() --------------------------------------------------------------------------- */
-
-const healthCheck = aetherResolver(async ({ args, req }) => {
+/** --- healthCheck() -------------------------------------------------------------------------- */
+/** -i- A resolver to check the health status of the server. Includes relevant urls, server time(zone), versions and more in the response. */
+const healthCheck = aetherResolver(async ({ args, req, withDefaults }) => {
   // Args
   const { echo, docsURLs } = args
 
@@ -90,7 +114,7 @@ const healthCheck = aetherResolver(async ({ args, req }) => {
 
   // -- Return --
 
-  return {
+  return withDefaults({
     // ARGS
     echo,
     // STATUS
@@ -103,7 +127,7 @@ const healthCheck = aetherResolver(async ({ args, req }) => {
     apiURL,
     graphURL,
     docsURL,
-    port: process.env.PORT && Number(process.env.PORT),
+    port: process.env.PORT ? Number(process.env.PORT) : null,
     debugPort: process.debugPort && Number(process.debugPort),
     // TIME & DATES
     now: new Date(),
@@ -120,7 +144,7 @@ const healthCheck = aetherResolver(async ({ args, req }) => {
     systemFreeMemory: OS.freemem(),
     systemTotalMemory: OS.totalmem(),
     systemLoadAverage: OS.loadavg(),
-  } as z.infer<typeof HealthCheckResponse>
+  })
 }, resolverConfig)
 
 /* --- Types ----------------------------------------------------------------------------------- */
