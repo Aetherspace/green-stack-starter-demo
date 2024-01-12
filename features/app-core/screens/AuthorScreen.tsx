@@ -5,11 +5,6 @@ import { View, Pressable, Text } from 'aetherspace/primitives'
 import { getBaseUrl } from 'aetherspace/utils'
 import { BackIcon, HomeIcon } from '../icons'
 
-/* --- Constants ------------------------------------------------------------------------------- */
-
-const baseURL = getBaseUrl()
-const preferredDocsURL = baseURL?.replace?.('3000', '6006')
-
 /* --- Schemas & Types ------------------------------------------------------------------------- */
 
 export const AuthorScreenProps = aetherSchema('AuthorScreenProps', {
@@ -31,6 +26,12 @@ export const screenConfig = {
 export const AuthorScreen = (props: AuthorScreenProps) => {
   // Hooks
   const { goBack, openLink } = useAetherNav()
+
+  // Vars
+  const baseURL = getBaseUrl()
+  const isLocalHost = baseURL?.includes?.('localhost') || baseURL?.includes?.('3000')
+  const preferredDocsURL = isLocalHost ? baseURL?.replace?.('3000', '6006') : undefined // local storybook (if running)
+  const docsUrl = [baseURL, '/api/docs', preferredDocsURL && `?preferredURL=${preferredDocsURL}`].filter(Boolean).join('') // prettier-ignore
 
   // -- Render --
 
@@ -55,7 +56,7 @@ export const AuthorScreen = (props: AuthorScreenProps) => {
           <Text tw="text-white"> Home</Text>
         </Link>
       </View>
-      <Link to={`/api/docs?preferredURL=${preferredDocsURL}`} tw="body-xs-bold py-2.5 px-5 mx-3 ">
+      <Link to={docsUrl} tw="body-xs-bold py-2.5 px-5 mx-3 ">
         {'Read the Docs'}
       </Link>
     </View>

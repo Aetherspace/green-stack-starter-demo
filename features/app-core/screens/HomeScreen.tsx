@@ -68,7 +68,9 @@ export const HomeScreen = (props: AetherProps<typeof HomePropsSchema>) => {
   // Environment
   const graphQLEndpoint = `${baseURL}/api/graphql`
   const healthEndpoint = `${baseURL}/api/health`
-  const preferredDocsURL = baseURL?.replace?.('3000', '6006') // local storybook (if running)
+  const isLocalHost = baseURL?.includes?.('localhost') || baseURL?.includes?.(':3000')
+  const preferredDocsURL = isLocalHost ? baseURL?.replace?.('3000', '6006') : undefined // local storybook (if running)
+  const docsUrl = ['/api/docs', preferredDocsURL && `?preferredURL=${preferredDocsURL}`].filter(Boolean).join('') // prettier-ignore
 
   // Hooks
   const { isPhoneSize } = useAetherContext()
@@ -136,7 +138,7 @@ export const HomeScreen = (props: AetherProps<typeof HomePropsSchema>) => {
       <Link href="/author" class="body-sm-bold pt-5 text-center text-primary">
         Test Navigation
       </Link>
-      <Link to={`/api/docs?preferredURL=${preferredDocsURL}`} class="body-xs-bold my-4 px-5">
+      <Link to={docsUrl} class="body-xs-bold my-4 px-5">
         Read the Docs
       </Link>
       <Link to="/author" class="m-2 text-xs text-grayscale-500">
