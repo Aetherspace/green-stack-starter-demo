@@ -1,6 +1,7 @@
 import { getEnvList, getEnvVar, getGlobal } from '../../utils/envUtils'
 import axios from 'axios'
 import { graphql } from 'graphql'
+import { AetherFetcherOptions } from './fetchAetherProps.types'
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
@@ -11,7 +12,8 @@ export const BASE_URL: string = BACKEND_URL || WEBDOMAIN || ''
 
 /* --- fetchAetherProps() ---------------------------------------------------------------------- */
 
-export const fetchAetherProps = async (query: string, variables: any, baseUrl = BASE_URL) => {
+export const fetchAetherProps = async (query: string, fetcherOptions: AetherFetcherOptions) => {
+  const { variables, headers, baseUrl = BASE_URL } = fetcherOptions
   const isServer = typeof window === 'undefined'
   if (isServer) {
     try {
@@ -27,7 +29,11 @@ export const fetchAetherProps = async (query: string, variables: any, baseUrl = 
     const APP_URLS = getEnvList('APP_LINKS').filter((url) => url.includes('http')) || []
     const BACKEND_URL = getEnvVar('BACKEND_URL') || getEnvVar('STORYBOOK_BACKEND_URL') || APP_URLS[0] // prettier-ignore
     const backendUrl = baseUrl || BACKEND_URL || (isStorybook ? 'http://localhost:3000' : '')
-    const { data } = await axios.post(`${backendUrl}/api/graphql`, { query, variables })
+    const { data } = await axios.post(
+      `${backendUrl}/api/graphql`,
+      { query, variables },
+      { headers }
+    )
     return data
   }
 }

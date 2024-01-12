@@ -1,0 +1,44 @@
+import React from 'react'
+import { Text, View } from 'aetherspace/primitives'
+import { z, AetherProps, aetherSchema } from 'aetherspace/schemas'
+
+/* --- Schemas & Types ------------------------------------------------------------------------- */
+
+// -i- TODO: Change this schema to match your screen's props (for types and documentation)
+const {{ScreenName}}Props = aetherSchema('{{ScreenName}}Props', {
+  /* Add props here, e.g.: */
+  /* params: SomeScreenParams.optional(), */
+  greeting: z.string().optional().default('Hello {{ScreenName}} 👋'),
+})
+
+export type {{ScreenName}}Props = AetherProps<typeof {{ScreenName}}Props>
+
+/* --- Screen Config --------------------------------------------------------------------------- */
+
+export const screenConfig = {
+  dynamic: 'force-static' as const,
+  // backgroundColor: '#your-primary-bg-color',
+}
+
+{{{screenTitleDivider}}}
+
+export const {{ScreenName}} = (props: {{ScreenName}}Props) => {
+  // Props
+  const { greeting } = {{ScreenName}}Props.applyDefaults(props)
+
+  // -- Render --
+
+  return (
+    <View tw="w-full h-full min-h-full min-w-full items-center justify-center">
+      <Text tw="mb-4">{greeting}</Text>
+    </View>
+  )
+}
+
+/* --- Documentation --------------------------------------------------------------------------- */
+
+export const getDocumentationProps = {{ScreenName}}Props.introspect()
+
+/* --- Exports --------------------------------------------------------------------------------- */
+
+export default {{ScreenName}}

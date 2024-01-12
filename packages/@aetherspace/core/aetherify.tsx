@@ -20,7 +20,7 @@ export const aetherify = <Style, Props extends { style?: Style }, Ref, ExtraProp
       return <Component {...props} {...(bindStyles as any)} ref={ref as any} />
     })
     // Apply updated display name
-    Aetherified.displayName = `Aether.${Component.displayName || Component.name || 'NoName'}`
+    Aetherified.displayName = `Aether.${Component?.displayName || Component?.name || 'NoName'}`
     // Return aetherified component
     return Aetherified
   }

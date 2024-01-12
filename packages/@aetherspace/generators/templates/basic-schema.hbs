@@ -1,0 +1,15 @@
+import { z, aetherSchema } from 'aetherspace/schemas'
+
+/* --- Descriptions ---------------------------------------------------------------------------- */
+
+const d = {
+  {{{descriptions}}}
+}
+
+{{jsDocHeader}}
+export const {{schemaName}} = aetherSchema('{{schemaName}}', {
+  {{schemaBody}}
+}){{describeStatement}}
+
+{{jsDocDescription}}
+export type {{schemaName}} = z.infer<typeof {{schemaName}}>

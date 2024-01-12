@@ -60,15 +60,15 @@ Meaning (for now):
 - No pseudo elements like `hover:` or `last-child:`
 - No special CSS syntax like `@keyframes`
 - No blend modes, or filters or other fancy image stuff
-- No `@media`, but we have added an SSR-supported alternative (see next section)
+- No `@media`, **but we have added an SSR-supported alternative** (see next section)
 
 A lot of these are getting worked on in a [React-DOM for Native RFC](https://github.com/react-native-community/discussions-and-proposals/pull/496) though, and may be added in the near future.
 
 ## Responsive Design + Media Query Support for SSR
 
-The main reason you might want to use Aetherspace’s way of styling is that it addes media query support when server-rendering your `react-native` components. So far, this was not possible due to `react-native-web` not supporting media queries out of the box.
+The main reason you might want to use Aetherspace’s way of styling is that it adds media query support when server-rendering your `react-native` components. So far, this was not possible due to `react-native-web` not supporting media queries out of the box.
 
-Luckily, we have your back:
+Luckily, aetherspace has your back:
 
 ```tsx
 // Responsive utility classes are mobile first, e.g.
@@ -221,12 +221,10 @@ So extend the `/features/app-core/twrnc.theme.js` file being referenced in both 
 
 Import & pass the final config to AetherContextManager in ClientRootLayout.tsx (next) or _layout.tsx (expo). This should already be done for you when generating a new Aetherspace project.
 
-But, just for clarity:
-
-`/apps/expo/app/_layout.tsx` and `/apps/next/app/ClientRootLayout.tsx`
+The final `twConfig` is usually passed in `/apps/expo/app/_layout.tsx` and `/apps/next/app/ClientRootLayout.tsx` respectively:
 
 ```tsx
-import twConfig from 'app/tailwind.config' // <- your tailwind config, which uses the theme
+import twConfig from 'app/tailwind.config' // <- your tailwind config, using the theme from twrnc.theme.js
 
 <AetherContextManager twConfig={twConfig} {/* ... other config */}>
   {/* ... */}

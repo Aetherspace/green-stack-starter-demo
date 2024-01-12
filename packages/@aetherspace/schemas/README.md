@@ -1,4 +1,8 @@
-# Schemas as Single Sources of Truth 📐
+<a href="https://github.com/Aetherspace/green-stack-starter-demo#readme" target="_blank">
+  <img src="/packages/@aetherspace/assets/AetherspaceLogo.svg" width="50" height="50" />
+</a>
+
+# Schemas as Single Sources of Truth in Aetherspace
 
 ```ts
 import { z, aetherSchema, AetherProps } from 'aetherspace/schemas'
@@ -25,7 +29,7 @@ Think about all the code related to the datastructures of your application:
 
 Generally speaking, you never want to define your datastructures more than once. Not only is it redundant and a pain to do, it's also a recipe for disaster.
 
-If you need to change something, you have to remember to change it in all the places. If at any point you forget to do that, then you risk your datastructures getting out of sync, likely with bugs as result.
+If you need to change something, you have to remember to change it in all the places. If at any point you forget to do that, then you risk your datastructures getting out of sync. When that happens, it will likely lead to outdated hints or docs at best, and bugs or even crashes at worst.
 
 ### The solution:
 
@@ -57,7 +61,7 @@ const PropSchema = aetherSchema('ComponentProps', {
 
 `type ComponentProps = AetherProps<typeof PropSchema>`
 
-> 💡 Note: `AetherProps` is a type helper type that extracts the input type from a Zod / Aetherspace schema. It's a neat alternative to Zod's `z.infer` and essentially the same as doing `typeof PropSchema['_input']`
+> 💡 Note: `AetherProps` is a type helper to extract the input type from a Zod / Aetherspace schema. It's a neat alternative to Zod's `z.infer` and essentially the same as doing `typeof PropSchema['_input']`
 
 ```ts
 // {
@@ -196,7 +200,7 @@ For GraphQL, with the automation script and introspection enabled, you can see t
 
 Just like with Typescript, you can use existing datastructure descriptions to create new ones. Things like `pick()`, `omit()`, `partial()`, `extend()` were already available with `zod` and have been ported to also work with `aetherSchema()` for full compatibility with Storybook and GraphQL.
 
-### `.extendSchema()` - Add new fields to a schema
+### `.extendSchema()` - Adding new fields to a schema to create another
 
 > ⚠️ Note that it is always required to provide a new "key" as the first argument.
 
@@ -220,7 +224,7 @@ const ExtendedSchema = TopicSchema.extendSchema('FeaturedTopic', {
 // }
 ```
 
-### `.omitSchema()` - Removing props from a schema
+### `.omitSchema()` - Removing props from a schema to create another
 
 Let's use the omit function to remove some properties again from our ExtendedSchema for Topics:
 
@@ -238,7 +242,7 @@ const MinimalSchema = ExtendedSchema.omitSchema('MinimalTopic', { createdOn: tru
 // }
 ```
 
-### `.pickSchema()` - Picking props from a schema
+### `.pickSchema()` - Pick props from a schema to create another
 
 Actually, let's achieve the same thing by just picking and choosing some props from our ExtendedSchema for Topics instead:
 
@@ -256,7 +260,7 @@ const MinimalSchema = ExtendedSchema.pickSchema('MinimalTopic', { status: true, 
 // }
 ```
 
-### `.partialSchema()` - Making all fields optional
+### `.partialSchema()` - Mark all fields optional to create a new schema
 
 You know what? Let's make everything optional:
 
@@ -274,7 +278,7 @@ const OptionalSchema = ExtendedSchema.partialSchema('PartialTopic')
 // }
 ```
 
-### `.requiredSchema()` - Make all fields required
+### `.requiredSchema()` - Mark all fields as required to create a new schema
 
 Let's make everything required again:
 
@@ -292,13 +296,13 @@ const RequiredSchema = OptionalSchema.requiredSchema('RequiredTopic')
 // }
 ```
 
-## Adding new schemas through the CLI
+## Adding new schemas through the CLI (Recommended)
 
 ```sh
 yarn ats add-schema
 ```
 
-This will prompt you for a tagrte workspace and name:
+This will prompt you for a target workspace and name:
 
 ```sh
 >>> Modify "aetherspace-green-stack-starter" using custom generators
@@ -325,7 +329,7 @@ This will prompt you for a tagrte workspace and name:
 >>> Success! 
 ```
 
-## Use sparingly: Unions & Tuples
+## Using Unions & Tuples
 
 Even though zod and `aetherSchema` support tuple & union fields... Since GraphQL and Storybook controls do not support these types out of the box, we are still figuring the best way to transforming those field definitions for GraphQL or Storybook docs. For now, they might just be ignored or even error out.
 
@@ -335,8 +339,8 @@ e.g. instead of:
 
 ```ts
 const someSchema = aetherSchema('SomeSchema', {
-  someTupleField: z.tuple([z.string(), z.number()]), // Ignored -- TS: [string, number]
-  someUnionField: z.union([z.string(), z.number()]), // Ignored -- TS: string | number
+  someTupleField: z.tuple([z.string(), z.number()]), // TS: [string, number] -> But GraphQL & Storybook won't be optimal
+  someUnionField: z.union([z.string(), z.number()]), // TS: string | number -> But GraphQL & Storybook won't be optimal
 })
 ```
 
@@ -359,4 +363,5 @@ const someSchema = aetherSchema('SomeSchema', {
 
 - Read the [official zod docs at zod.dev](https://zod.dev/) (or watch an [intro video](https://www.youtube.com/watch?v=L6BE-U3oy80))
 - [Writing flexible data resolvers with Schemas](/packages/@aetherspace/navigation/AetherPage/README.md)
+- [Form State Management in Aetherspace with Zod](/packages/@aetherspace/forms/README.md)
 - [Automation based on Schemas: Storybook & GraphQL](/packages/@aetherspace/scripts/README.md)

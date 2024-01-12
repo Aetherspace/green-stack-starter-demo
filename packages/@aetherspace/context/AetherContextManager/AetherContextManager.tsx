@@ -6,18 +6,16 @@ import tailwind, {
   useDeviceContext,
   useAppColorScheme,
 } from 'twrnc'
-// Context
 import { AetherContext, DEFAULT_AETHER_CONTEXT, AetherContextType } from './aetherContext'
-// Hooks
 import { useLayoutInfo } from '../../hooks/useLayoutInfo'
-// Utils
 import { setGlobal } from '../../utils'
 
 /* --- <AetherContextManager/> ----------------------------------------------------------------- */
 
 const AetherContextManager = (props: AetherContextType) => {
   // Props
-  const { children, isNextJS, isExpo, isAppDir, isDesktop, isStorybook, twConfig } = props
+  const { children, isNextJS, isExpo, isAppDir, isDesktop, isStorybook, twConfig, getAuthToken } =
+    props
 
   // State
   const [remountKey, setRemountKey] = useState(0)
@@ -138,6 +136,7 @@ const AetherContextManager = (props: AetherContextType) => {
       colorScheme,
       toggleColorScheme,
       setColorScheme,
+      getAuthToken,
       importSchema: props.importSchema,
     }
   }, [Platform.OS, appWidth, typeof window === 'undefined', colorScheme])

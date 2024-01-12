@@ -1,0 +1,26 @@
+import { aetherResolver } from 'aetherspace/utils/serverUtils'
+// Schemas
+import { {{ResolverName}}DataBridge } from '../schemas/{{ResolverName}}DataBridge' // prettier-ignore
+
+{{jsDocResolverHeader}}
+export const {{resolverName}} = aetherResolver(
+  async ({ args, parseArgs, withDefaults, handleError }) => {
+    try {
+      // Args
+      const validatedArgs = parseArgs(args)
+
+      // TODO: Add business logic here
+
+      // -- Respond --
+
+      // TODO: Remove this ts-ignore once you've added appropriate response data
+      // @ts-ignore
+      return withDefaults({
+        // TODO: Add response data that conforms to response schema
+      })
+    } catch (err) {
+      throw handleError(err)
+    }
+  },
+  {{ResolverName}}DataBridge
+)

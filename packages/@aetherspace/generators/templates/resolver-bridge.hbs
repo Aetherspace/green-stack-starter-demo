@@ -1,0 +1,31 @@
+import { z, aetherSchema, createDataBridge } from 'aetherspace/schemas'
+
+/* --- Descriptions ---------------------------------------------------------------------------- */
+
+const d = {
+  {{{descriptions}}}
+}
+
+{{jsDocArgsHeader}}
+export const {{ResolverName}}Args = aetherSchema('{{ResolverName}}Args', {
+  {{{argsSchemaBody}}}
+}){{argsDescriptionStatement}}
+
+{{jsDocArgsDescription}}
+export type {{ResolverName}}Args = z.infer<typeof {{ResolverName}}Args>
+
+{{jsDocResponseHeader}}
+export const {{ResolverName}}Response = aetherSchema('{{ResolverName}}Response', {
+  {{{responseSchemaBody}}}
+}){{responseDescriptionStatement}}
+
+{{jsDocResponseDescription}}
+export type {{ResolverName}}Response = z.infer<typeof {{ResolverName}}Response>
+
+{{jsDocResolverConfigHeader}}
+export const {{ResolverName}}DataBridge = createDataBridge({
+  resolverName: '{{resolverName}}',
+  resolverType: '{{resolverType}}',
+  argsSchema: {{ResolverName}}Args,
+  responseSchema: {{ResolverName}}Response,{{{apiPathStatements}}}
+})

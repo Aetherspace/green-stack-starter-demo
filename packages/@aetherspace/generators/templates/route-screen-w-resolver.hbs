@@ -1,0 +1,61 @@
+import React from 'react'
+import { useAetherRouteData } from 'aetherspace/navigation'
+import { z, AetherProps, createDataBridge } from 'aetherspace/schemas'
+import { {{DataBridgeName}} } from '{{dataBridgeImportPath}}'
+import { View } from 'aetherspace/primitives'
+import { H1, P } from 'aetherspace/html-elements'
+
+/* --- Schemas & Types ------------------------------------------------------------------------- */
+
+const {{ScreenName}}Params = {{DataBridgeName}}.argsSchema
+const {{ScreenName}}Response = {{DataBridgeName}}.responseSchema
+
+const {{ScreenName}}Props = {{ScreenName}}Response.extendSchema('{{ScreenName}}Props', {
+  params: {{ScreenName}}Params.optional(),
+  segment: z.string().optional(),
+})
+
+export type {{ScreenName}}Props = AetherProps<typeof {{ScreenName}}Props>
+
+/* --- Data Fetching Bridge -------------------------------------------------------------------- */
+
+export const screenConfig = createDataBridge({
+  ...{{DataBridgeName}},
+  paramsSchema: {{ScreenName}}Params,
+  propsSchema: {{ScreenName}}Props,
+  dynamic: 'auto', // -i- https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
+})
+
+{{{screenTitleDivider}}}
+
+export const {{ScreenName}} = (props: {{ScreenName}}Props) => {
+  // Data
+  const [screenData, { error }] = useAetherRouteData(props, screenConfig)
+
+  // -- Guards --
+
+  if (error) {
+    return (
+      <View tw="w-full h-full items-center justify-center">
+        <H1 tw="text-red-500">Error: {error.message}</H1>
+      </View>
+    )
+  }
+
+  // -- Render --
+
+  return (
+    <View tw="w-full h-full items-center justify-center">
+      <H1 tw="text-xl text-black">{{ScreenName}}</H1>
+      <P>{JSON.stringify(screenData, null, 4)}</P>
+    </View>
+  )
+}
+
+/* --- Documentation --------------------------------------------------------------------------- */
+
+export const getDocumentationProps = {{ScreenName}}Props.introspect()
+
+/* --- Exports --------------------------------------------------------------------------------- */
+
+export default {{ScreenName}}

@@ -1,17 +1,10 @@
 import React, { ComponentProps } from 'react'
-// Types
 import { createStyleDocs } from '../../schemas/ats'
-// Schemas
 import { z, aetherSchema, AetherProps } from '../../schemas'
-// Navigation
 import { Link } from 'aetherspace/navigation' // Keep as is, Storybook support
-// Primitives
 import { Pressable, Text, View } from '../../primitives'
-// Components
 import { AetherIcon, AetherIconKeyProp } from '../../components/AetherIcon'
-// Styles
 import { useTailwindStyles } from '../../styles/useTailwindStyles'
-// Utils
 import { parseIfValidNumber } from '../../utils/numberUtils'
 
 /* --- Props ----------------------------------------------------------------------------------- */
@@ -57,7 +50,7 @@ export const AetherButtonBaseProps = aetherSchema('AetherButtonProps', {
 })
 
 // Types
-export type TAetherButtonProps = AetherProps<typeof AetherButtonBaseProps> & {
+export type AetherButtonProps = AetherProps<typeof AetherButtonBaseProps> & {
   children?: React.ReactNode
   pressableProps?: ComponentProps<typeof Pressable>
   textProps?: ComponentProps<typeof Text>
@@ -74,7 +67,7 @@ export type TAetherButtonProps = AetherProps<typeof AetherButtonBaseProps> & {
 
 /* --- <AetherButton/> ------------------------------------------------------------------------- */
 
-const AetherButton = (props: TAetherButtonProps) => {
+const AetherButton = (props: AetherButtonProps) => {
   // Props
   const {
     type,

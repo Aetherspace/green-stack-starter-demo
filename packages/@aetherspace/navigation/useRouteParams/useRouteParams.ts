@@ -1,5 +1,4 @@
 import { useSearchParams } from 'expo-router'
-// Types
 import { RoutePropsType } from './useRouteParams.types'
 
 /** --- useRouteParams() ----------------------------------------------------------------------- */

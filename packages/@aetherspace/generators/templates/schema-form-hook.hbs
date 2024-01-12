@@ -1,0 +1,23 @@
+import { useFormState } from 'aetherspace/forms/useFormState'
+import { DeepPartial } from 'aetherspace/types/typeHelpers'
+import { AetherProps } from 'aetherspace/schemas'
+import { {{SchemaName}} } from '{{schemaImportPath}}'
+
+/* --- Schema & Types -------------------------------------------------------------------------- */
+
+export type {{SchemaName}}InitialValues = DeepPartial<AetherProps<typeof {{SchemaName}}>>
+
+{{formHookDivider}}
+
+const {{formHookName}} = (initialValues: {{SchemaName}}InitialValues) => {
+  const formState = useFormState({
+    stateSchema: {{SchemaName}},
+    initialValues,
+    applyDefaults: true,
+  })
+  return formState
+}
+
+/* --- Exports --------------------------------------------------------------------------------- */
+
+export default {{formHookName}}

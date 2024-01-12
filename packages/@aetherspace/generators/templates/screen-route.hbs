@@ -1,0 +1,20 @@
+import React from 'react'
+import { AetherPage } from 'aetherspace/navigation'
+import * as {{screenModuleName}} from '{{screenImportPath}}'
+
+/* --- Config ---------------------------------------------------------------------------------- */
+
+const ScreenComponent = {{screenModuleName}}.{{ScreenName}}
+const screenConfig = {{screenModuleName}}.screenConfig
+
+{{{routePathDivider}}}
+
+const PageScreen = (props: {{screenModuleName}}.{{ScreenName}}Props) => (
+  <AetherPage {...props} screen={ScreenComponent} screenConfig={screenConfig} />
+)
+
+/* --- Exports --------------------------------------------------------------------------------- */
+
+export const dynamic = screenConfig.dynamic
+
+export default PageScreen

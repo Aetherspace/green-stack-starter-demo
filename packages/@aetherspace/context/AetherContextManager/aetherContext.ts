@@ -79,6 +79,8 @@ export interface AetherContextType {
   tailwind?: TailwindFn
   twConfig?: TwConfig
   colorScheme?: RnColorScheme
+  isSignedIn?: boolean
+  getAuthToken?: () => Promise<string | null>
   toggleColorScheme?: () => void
   setColorScheme?: (scheme: RnColorScheme) => void
   importSchema?: () => Promise<GraphQLSchema>
@@ -86,5 +88,10 @@ export interface AetherContextType {
 
 /* --- AetherContext --------------------------------------------------------------------------- */
 
-export const DEFAULT_AETHER_CONTEXT = { assets: {}, icons: {}, linkContext: {}, tailwind }
+export const DEFAULT_AETHER_CONTEXT = {
+  assets: {},
+  icons: {},
+  linkContext: {},
+  tailwind,
+}
 export const AetherContext = createContext<AetherContextType>(DEFAULT_AETHER_CONTEXT)

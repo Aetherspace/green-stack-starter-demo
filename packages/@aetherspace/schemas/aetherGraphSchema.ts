@@ -1,10 +1,12 @@
 import { gql } from '@apollo/client'
+import { GraphQLJSON, GraphQLJSONObject } from 'graphql-type-json'
 import { aetherSchemaPlugin } from './aetherSchemaPlugin'
 import { AetherSchemaType } from './aetherSchemas'
+import { isEmpty } from '../utils/commonUtils'
 
 /* --- Scalars --------------------------------------------------------------------------------- */
 
-const CUSTOM_SCALARS = ['scalar Date']
+const CUSTOM_SCALARS = ['scalar Date', 'scalar JSON', 'scalar JSONObject']
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -88,19 +90,29 @@ const SCHEMA_PRIMITIVE_MAPPER = Object.freeze({
 
 const aetherSchemaDefinitions = (aetherSchema: ResolverSchemaType, prefix = 'type') => {
   let schemaDefinitions = [] as string[]
+  // Normalizators
+  const normalizeSchemaName = (schemaName) => {
+    const isInputSchemaName = ['Input', 'Args', 'Arguments'].some((term) => schemaName.includes(term)) // prettier-ignore
+    if (prefix === 'input' && !isInputSchemaName) return `${schemaName}Input`
+    return schemaName
+  }
   // Definition factory
   const createDefinition = (gqlType) => (name, schemaConfig) => {
     const isNullable = [schemaConfig.isOptional, schemaConfig.isNullable].includes(true)
     const requiredState = isNullable ? '' : '!'
     const description = schemaConfig.description ? `"""\n        ${schemaConfig.description}\n        """\n        ` : '' // prettier-ignore
     if (gqlType === 'Schema' && schemaConfig?.schemaName) {
-      schemaDefinitions = [...schemaDefinitions, ...aetherSchemaDefinitions(schemaConfig)]
-      return [description, `${name}: ${schemaConfig.schemaName}${requiredState}`].join('')
+      schemaDefinitions = [...schemaDefinitions, ...aetherSchemaDefinitions(schemaConfig, prefix)]
+      const schemaName = normalizeSchemaName(schemaConfig?.schemaName)
+      return [description, `${name}: ${schemaName}${requiredState}`].join('')
     } else if (gqlType === 'Array') {
       const primitiveType = SCHEMA_PRIMITIVE_MAPPER[schemaConfig.schema.aetherType]
-      const arrayEntryType = primitiveType || schemaConfig.schema?.schemaName
+      const arrayEntryType = primitiveType || normalizeSchemaName(schemaConfig.schema?.schemaName)
       if (!primitiveType) {
-        schemaDefinitions = [...schemaDefinitions, ...aetherSchemaDefinitions(schemaConfig.schema)]
+        schemaDefinitions = [
+          ...schemaDefinitions,
+          ...aetherSchemaDefinitions(schemaConfig.schema, prefix),
+        ]
       }
       return [description, `${name}: [${arrayEntryType}]${requiredState}`].join('')
     }
@@ -123,12 +135,14 @@ const aetherSchemaDefinitions = (aetherSchema: ResolverSchemaType, prefix = 'typ
     // -- Arraylikes --
     AetherArray: createDefinition('Array'),
     // -- Complex types --
-    // AetherUnion: createDefinition('Union') // TODO: To implement
-    // AetherTuple: createDefinition('Tuple') // TODO: To implement
+    AetherUnion: createDefinition('JSON'),
+    AetherTuple: createDefinition('JSON'),
   })
   // Transform into usable graphql definitions
+  const finalSchemaName = normalizeSchemaName(aetherSchema?.schemaName)
+  const finalPrefix = finalSchemaName.includes('Input') ? 'input' : prefix
   const schemaDef = `
-    ${prefix} ${aetherSchema?.schemaName} {
+    ${finalPrefix} ${finalSchemaName} {
         ${Object.values(schemaMap).join('\n        ')}
     }
   `
@@ -178,38 +192,72 @@ const createResolverDefinition = (resolverConfig: ResolverConfigType) => {
 
 /** --- aetherGraphSchema() -------------------------------------------------------------------- */
 /** -i- Turn a mapped object of aetherResolvers into an executable GraphQL schema */
-const aetherGraphSchema = (aetherResolvers: ResolverMapType) => {
+const aetherGraphSchema = (
+  aetherResolvers: ResolverMapType,
+  {
+    customSchemaDefinitions = '',
+    customQueryDefinitions = '',
+    customMutationDefinitions = '',
+    customScalars = {},
+    customQueries = {},
+    customMutations = {},
+  }: {
+    customSchemaDefinitions?: string
+    customQueryDefinitions?: string
+    customMutationDefinitions?: string
+    customScalars?: Record<string, (...args: unknown[]) => Promise<unknown>>
+    customQueries?: Record<string, (...args: unknown[]) => Promise<unknown>>
+    customMutations?: Record<string, (...args: unknown[]) => Promise<unknown>>
+  } = {}
+) => {
   const resolverEntries = Object.entries(aetherResolvers)
   const resolverConfigs = resolverEntries.map(([resolverName, resolver]) => ({
     resolverName,
     argSchema: resolver?.argSchema,
     resSchema: resolver?.resSchema,
-    isMutation: !!resolver?.isMutation,
+    isMutation: resolver?.isMutation,
     resolver,
   }))
+
   const mutationConfigs = resolverConfigs.filter((resolverConfig) => resolverConfig.isMutation)
+  const mutationDefs = [customMutationDefinitions, ...mutationConfigs.map(createResolverDefinition)].filter(Boolean) // prettier-ignore
+  const hasMutations = mutationDefs.length > 0 || !isEmpty(customMutations)
+
   const queryConfigs = resolverConfigs.filter((resolverConfig) => !resolverConfig.isMutation)
-  const dataTypeDefs = Array.from(new Set(aetherGraphDefinitions(resolverConfigs)))
-  const mutationDefs = mutationConfigs.map(createResolverDefinition)
-  const queryDefs = queryConfigs.map(createResolverDefinition)
-  const hasMutations = mutationDefs.length > 0
-  const hasQueries = queryDefs.length > 0
+  const queryDefs = [customQueryDefinitions, ...queryConfigs.map(createResolverDefinition)].filter(Boolean) // prettier-ignore
+  const hasQueries = queryDefs.length > 0 || !isEmpty(customQueries)
+
   const mutation = hasMutations ? `type Mutation {\n    ${mutationDefs.join('\n    ')}\n}` : ''
   const query = hasQueries ? `type Query {\n    ${queryDefs.join('\n    ')}\n}` : ''
-  const allTypeDefs = [...CUSTOM_SCALARS, ...dataTypeDefs, mutation, query].filter(Boolean)
+
+  const dataTypeDefs = Array.from(new Set(aetherGraphDefinitions(resolverConfigs)))
+  const allTypeDefs = [
+    customSchemaDefinitions,
+    ...CUSTOM_SCALARS,
+    ...dataTypeDefs,
+    mutation,
+    query,
+  ].filter(Boolean)
+
   const typeDefsString = allTypeDefs.join('\n\n')
   const graphqlSchemaDefs = gql`${typeDefsString}` // prettier-ignore
+
   const rebuildFromConfig = (handlers, { resolverName, resolver }) => ({
     ...handlers,
     [resolverName]: resolver,
   })
-  const queryResolvers = queryConfigs.reduce(rebuildFromConfig, {})
-  const mutationResolvers = mutationConfigs.reduce(rebuildFromConfig, {})
+
+  const queryResolvers = queryConfigs.reduce(rebuildFromConfig, customQueries)
+  const mutationResolvers = mutationConfigs.reduce(rebuildFromConfig, customMutations)
+
   return {
     typeDefs: graphqlSchemaDefs,
     resolvers: {
+      JSON: GraphQLJSON,
+      JSONObject: GraphQLJSONObject,
+      ...customScalars,
       ...(hasQueries ? { Query: queryResolvers } : {}),
-      ...(hasMutations ? { Mutations: mutationResolvers } : {}),
+      ...(hasMutations ? { Mutation: mutationResolvers } : {}),
     },
   }
 }

@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import { TailwindFn } from 'twrnc'
-// Context
 import { useAetherContext } from '../context'
 
 /* --- Types ----------------------------------------------------------------------------------- */
@@ -34,7 +33,7 @@ export type ColorClassname =
 
 /** --- getThemeColor() ------------------------------------------------------------------------ */
 /** -i- Extract a color value from your tailwind twrnc theme classname. Checks for 'color', 'backgroundColor' and 'borderColor' in order. */
-const getThemeColor = (colorClass: ColorClassname, tailwindFn: TailwindFn): string => {
+export const getThemeColor = (colorClass: ColorClassname, tailwindFn: TailwindFn): string => {
   // Use tailwind function to transform color class into a style object with the color value
   const styleObject = tailwindFn`${colorClass}`
   const colorValue = styleObject.color || styleObject.backgroundColor || styleObject.borderColor

@@ -1,7 +1,7 @@
 import { use, useEffect, useState } from 'react'
 import { SWRConfig, unstable_serialize, useSWRConfig } from 'swr'
-// Types
 import { AetherPageProps, AetherScreenConfig } from './AetherPage.types'
+import { swrClerkAuthMiddleware } from '@aetherspace/clerk-auth/middleware'
 
 /* --- Helpers --------------------------------------------------------------------------------- */
 
@@ -16,8 +16,8 @@ const getSSRData = () => {
 
 export const AetherPage = <SC extends AetherScreenConfig>(props: AetherPageProps<SC>) => {
   // Props
-  const { params: routeParams, searchParams, screen, screenConfig, ...restProps } = props
-  const { query, getGraphqlVars, getGraphqlData } = screenConfig
+  const { params: routeParams, searchParams, screen, screenConfig, skipFetching, ...restProps } = props // prettier-ignore
+  const { graphqlQuery, getGraphqlVars, getGraphqlData } = screenConfig
 
   // State
   const [hydratedData, setHydratedData] = useState<Record<string, any> | null>(null)
@@ -29,19 +29,25 @@ export const AetherPage = <SC extends AetherScreenConfig>(props: AetherPageProps
   const PageScreen = screen
 
   // Vars
-  const variables = getGraphqlVars({ ...searchParams, ...routeParams })
-  const fallbackKey = unstable_serialize([query, variables])
+  const variables = getGraphqlVars ? getGraphqlVars({ ...searchParams, ...routeParams }) : {}
+  const fallbackKey = unstable_serialize([graphqlQuery, variables])
   const isServer = typeof window === 'undefined'
 
   // -- Effects --
 
   useEffect(() => {
     const ssrData = getSSRData()
-    if (ssrData) {
+    if (ssrData && !skipFetching) {
       mutate(fallbackKey, ssrData, false) // Save the SSR data to the SWR cache
       setHydratedData(ssrData) // Save the SSR data to state, removing the SSR data from the DOM
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // -- Skip Fetching? --
+
+  if (skipFetching) {
+    return <PageScreen params={routeParams} {...restProps} />
+  }
 
   // -- Browser --
 
@@ -51,21 +57,21 @@ export const AetherPage = <SC extends AetherScreenConfig>(props: AetherPageProps
     const renderHydrationData = !!hydrationData && !hydratedData // Only render the hydration data if it's not already in state
 
     return (
-      <SWRConfig value={{ fallback }}>
+      <SWRConfig value={{ use: [swrClerkAuthMiddleware], fallback }}>
         {renderHydrationData && <div id="ssr-data" data-ssr={JSON.stringify(hydrationData)} />}
-        <PageScreen {...restProps} {...hydrationData} />
+        <PageScreen params={routeParams} {...restProps} {...hydrationData} />
       </SWRConfig>
     )
   }
 
   // -- Server --
 
-  const ssrData = use(getGraphqlData(query, variables))
+  const ssrData = use(getGraphqlData(graphqlQuery, { variables }))
 
   return (
-    <SWRConfig value={{ fallback: { [fallbackKey]: ssrData } }}>
+    <SWRConfig value={{ use: [swrClerkAuthMiddleware], fallback: { [fallbackKey]: ssrData } }}>
       {!!ssrData && <div id="ssr-data" data-ssr={JSON.stringify(ssrData)} />}
-      <PageScreen {...restProps} {...ssrData} />
+      <PageScreen params={routeParams} {...restProps} {...ssrData} />
     </SWRConfig>
   )
 }

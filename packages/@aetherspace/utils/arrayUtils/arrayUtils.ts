@@ -8,3 +8,13 @@ export const addSetItem = (arr: any[], item: any): any[] => {
 /** --- arrFromSet() --------------------------------------------------------------------------- */
 /** -i- Deduplicates items in an array */
 export const arrFromSet = (arr: any[]): any[] => Array.from(new Set(arr))
+
+/** --- createLookup() --------------------------------------------------------------------------- */
+/** -i- Create a lookup object from an array of objects and a property key to index it for */
+export const createLookup = <T extends Record<K, any>, K extends keyof T>(array: T[], key: K) => {
+  return array.reduce((lookup, current) => {
+    const keyValue = current[key]
+    if (!keyValue) return lookup // Skip if the item doesn't have a value for the key
+    return { ...lookup, [keyValue]: current }
+  }, {} as Record<T[K], T>)
+}
