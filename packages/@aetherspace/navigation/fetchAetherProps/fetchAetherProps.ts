@@ -1,5 +1,6 @@
 import { getDebuggerURL, getEnvVar } from '../../utils/envUtils'
 import axios from 'axios'
+import { AetherFetcherOptions } from './fetchAetherProps.types'
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
@@ -10,7 +11,8 @@ export const BASE_URL: string = getDebuggerURL(3000) || BACKEND_URL || WEBDOMAIN
 
 /* --- fetchAetherProps() ---------------------------------------------------------------------- */
 
-export const fetchAetherProps = async (query: string, variables: any, baseUrl = BASE_URL) => {
-  const { data } = await axios.post(`${baseUrl}/api/graphql`, { query, variables })
+export const fetchAetherProps = async (query: string, fetcherOptions: AetherFetcherOptions) => {
+  const { variables, headers, baseUrl = BASE_URL } = fetcherOptions
+  const { data } = await axios.post(`${baseUrl}/api/graphql`, { query, variables }, { headers })
   return data
 }

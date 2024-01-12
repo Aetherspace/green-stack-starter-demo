@@ -1,0 +1,22 @@
+import { useFormState } from 'aetherspace/forms/useFormState'
+import { {{ResolverName}}DataBridge } from '{{workspaceName}}/schemas/{{ResolverName}}DataBridge'
+import { DeepPartial } from 'aetherspace/types/typeHelpers'
+
+/* --- Types ----------------------------------------------------------------------------------- */
+
+type InitialFormData = DeepPartial<(typeof {{ResolverName}}DataBridge)['ARGS']>
+
+{{formHookDivider}}
+
+const {{formHookName}} = (initialValues: InitialFormData) => {
+  const formState = useFormState({
+    stateSchema: {{ResolverName}}DataBridge.argsSchema,
+    initialValues,
+    applyDefaults: true,
+  })
+  return formState
+}
+
+/* --- Exports --------------------------------------------------------------------------------- */
+
+export default {{formHookName}}

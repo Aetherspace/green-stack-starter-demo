@@ -1,17 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createMiddlewareHeaderContext } from 'aetherspace/utils/serverUtils'
 
-// -i- currently not supported in Next 13.4.4
-// -i- https://github.com/vercel/next.js/discussions/45384
+/* --- Middleware ------------------------------------------------------------------------------ */
 
-export async function middleware(request: NextRequest) {
-  const response = NextResponse.next()
-
-  // Allow CORS for /api routes
-  if (request.nextUrl.pathname.startsWith('/api')) {
-    response.headers.append('Access-Control-Allow-Origin', '*')
-    response.headers.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-    response.headers.append('Access-Control-Allow-Headers', 'Content-Type')
+// -i- https://nextjs.org/docs/app/api-reference/functions/next-request
+export async function middleware(req: NextRequest) {
+  // Create the request context header (to pass things like auth, user, etc. to the API)
+  const headerContext = {} // TODO: add any JSON serializable data you'd like to pass to the APIs here
+  const extraHeaders = {
+    // 'x-custom-header': 'custom-value',
   }
 
-  return response
+  // Execute the request handler (and pass the request context header)
+  const res = NextResponse.next({
+    request: {
+      headers: await createMiddlewareHeaderContext(req, headerContext, extraHeaders),
+    },
+  })
+
+  // Allow CORS for /api routes
+  if (req.nextUrl.pathname.startsWith('/api')) {
+    res.headers.append('Access-Control-Allow-Origin', '*')
+    res.headers.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+    res.headers.append('Access-Control-Allow-Headers', 'Content-Type')
+  }
+
+  return res
+}
+
+export const config = {
+  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
 }

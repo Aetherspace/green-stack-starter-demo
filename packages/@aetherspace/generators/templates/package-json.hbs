@@ -4,7 +4,7 @@
     "license": "{{packageLicense}}",
     "description": "{{packageDescription}}",
     "scripts": {
-        "lint": "cd ../.. && eslint \"{{workspaceType}}s/{{folderName}}/**/*.{ts,tsx}\""
+        "lint": "cd ../.. && eslint \"{{workspaceType}}s/{{folderName}}/**/*.{ts,tsx}\" --no-error-on-unmatched-pattern"
     },
     "dependencies": {}
 }

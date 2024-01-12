@@ -3,9 +3,7 @@
 import React from 'react'
 import { AppRegistry } from 'react-native'
 import { useServerInsertedHTML } from 'next/navigation'
-// Layouts
 import RootLayout from './layout'
-// Styles
 import { getInjectableMediaQueries } from 'aetherspace/styles'
 
 /* --- <ServerStylesInjector> ------------------------------------------------------------------------------ */

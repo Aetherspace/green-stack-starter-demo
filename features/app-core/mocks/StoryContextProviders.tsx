@@ -1,9 +1,6 @@
 import React from 'react'
-// Providers
 import { AetherContextManager } from 'aetherspace/context'
-// Hooks
 import useLoadFonts from '../hooks/useLoadFonts'
-// Styles
 import tailwindConfig from '../tailwind.config'
 
 /* --- <StoryContextProviders/> ---------------------------------------------------------------- */

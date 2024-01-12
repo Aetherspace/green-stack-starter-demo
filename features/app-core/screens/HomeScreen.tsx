@@ -1,18 +1,11 @@
 import React from 'react'
 import { StatusBar } from 'expo-status-bar'
-// Navigation
-import { Link, fetchAetherProps, useAetherNav, useAetherRoute } from 'aetherspace/navigation'
-// Schemas
-import { z, aetherSchema, AetherProps } from 'aetherspace/schemas'
-// Primitives
+import { Link, useAetherNav, useAetherRouteData } from 'aetherspace/navigation'
+import { z, aetherSchema, AetherProps, createDataBridge } from 'aetherspace/schemas'
 import { View, Text, Image, Pressable } from 'aetherspace/primitives'
-// SEO
 import { H1 } from 'aetherspace/html-elements'
-// Hooks
 import { useAetherContext } from 'aetherspace/context'
-// Utils
 import { getBaseUrl } from 'aetherspace/utils'
-// Icons
 import { GraphIcon, ReactIcon, ExpoIcon, StorybookIcon, NextIcon } from '../icons'
 
 /* --- Constants ------------------------------------------------------------------------------- */
@@ -21,11 +14,11 @@ const BASE_URL = getBaseUrl()
 
 /* --- Schemas & Types ------------------------------------------------------------------------- */
 
-const HomeParamsSchema = aetherSchema('HomeScreenParams', {
+const HomeScreenParams = aetherSchema('HomeScreenParams', {
   echo: z.string().default('Hello GREEN stack 👋').describe('Echo argument for the GraphQL health endpoint'), // prettier-ignore
 })
 
-export type HomeScreenParams = AetherProps<typeof HomeParamsSchema>
+export type HomeScreenParams = AetherProps<typeof HomeScreenParams>
 
 const HomePropsSchema = aetherSchema('HomeScreenProps', {
   customGreeting: z.string().default('Hello GREEN stack 👋').describe('A greeting for the user'),
@@ -50,36 +43,26 @@ const getScreenDataQuery = `
   }
 `
 
-/** -i- Function to get the GraphQL variables that will be used to fetch the data for this screen */
-const getHomeScreenArgs = (params: HomeScreenParams = {}) => ({
-  healthCheckArgs: HomeParamsSchema.parse(params),
-})
-
-/** -i- Function to actually fetch the data for this screen, where queryKey is likely the GQL query */
-const getHomeScreenData = async (queryKey: string, queryVariables?: HomeScreenParams) => {
-  const queryData = queryKey || getScreenDataQuery
-  const queryInput = queryVariables || getHomeScreenArgs() // Use defaults if not defined
-  const { data } = await fetchAetherProps(queryData, queryInput)
-  const { alive, kicking, echo } = data?.healthCheck || {}
-  return { alive, kicking, customGreeting: echo } as HomeScreenProps
-}
-
 /** -i- Bundled config for getting the screen data, including query, variables, and data fetcher */
-export const screenConfig = {
-  query: getScreenDataQuery,
-  getGraphqlVars: getHomeScreenArgs,
-  getGraphqlData: getHomeScreenData,
-  paramSchema: HomeParamsSchema,
-  propSchema: HomePropsSchema,
+export const screenConfig = createDataBridge({
+  resolverName: 'healthCheck',
+  graphqlQuery: getScreenDataQuery,
+  argsSchema: HomeScreenParams,
+  responseSchema: HomePropsSchema,
+  // -i- Optional extra config
   refetchOnMount: false,
   backgroundColor: '#FFFFFF',
-}
+  // -i- 'auto' will let Next.js decide whether to use SSR or SSG
+  // -i- use 'force-static' to always use SSG, or 'force-dynamic' to always use SSR
+  // -i- https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#dynamic
+  dynamic: 'auto' as const,
+})
 
 /* --- <HomeScreen/> --------------------------------------------------------------------------- */
 
 export const HomeScreen = (props: AetherProps<typeof HomePropsSchema>) => {
   // Props & Screen Data Fetching (from screenConfig 👇)
-  const [pageData] = useAetherRoute(props, screenConfig)
+  const [pageData] = useAetherRouteData(props, screenConfig)
   const { customGreeting, alive, kicking, baseURL = BASE_URL } = pageData
 
   // Environment

@@ -1,5 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { PlopTypes } from '@turbo/gen'
+import { validateNonEmptyNoSpaces } from '../scripts/helpers/scriptUtils'
 
 /* --- Disclaimer ------------------------------------------------------------------------------ */
 
@@ -30,16 +31,18 @@ export const registerAetherWorkspaceGenerator = (plop: PlopTypes.NodePlopAPI) =>
         type: 'input',
         name: 'folderName',
         message: 'What foldername do you want to give this workspace?',
+        validate: validateNonEmptyNoSpaces,
       },
       {
         type: 'input',
         name: 'packageName',
         message: 'What package name would you like to import from? (used for package.json)',
+        validate: validateNonEmptyNoSpaces,
       },
       {
         type: 'checkbox',
         name: 'workspaceStructure',
-        message: 'Optional: What will this workspace contain? (extra folder setup)',
+        message: 'Optional: What will this workspace contain? (optional extra folder setup)',
         choices: ['schemas', 'resolvers', 'components', 'hooks', 'screens', 'routes', 'utils'],
       },
       {
@@ -71,7 +74,7 @@ export const registerAetherWorkspaceGenerator = (plop: PlopTypes.NodePlopAPI) =>
         {
           type: 'add',
           path: `${workspacePath}/package.json`,
-          templateFile: 'templates/package-json.hbs',
+          templateFile: '../../packages/@aetherspace/generators/templates/package-json.hbs',
           data: { packageLicense, privateLine },
         },
       ] as PlopTypes.ActionType[]
@@ -89,17 +92,24 @@ export const registerAetherWorkspaceGenerator = (plop: PlopTypes.NodePlopAPI) =>
 
       // -- Optionals --
 
-      addOptionalStructure('schemas', 'index.ts')
-      addOptionalStructure('resolvers', 'index.ts')
-      addOptionalStructure('components', 'index.ts')
-      addOptionalStructure('hooks', 'index.ts')
-      addOptionalStructure('screens', 'index.ts')
+      addOptionalStructure('schemas', '.gitkeep')
+      addOptionalStructure('resolvers', '.gitkeep')
+      addOptionalStructure('components', '.gitkeep')
+      addOptionalStructure('hooks', '.gitkeep')
+      addOptionalStructure('screens', '.gitkeep')
       addOptionalStructure('routes', '.gitkeep')
-      addOptionalStructure('utils', 'index.ts')
+      addOptionalStructure('utils', '.gitkeep')
 
       // -- Generate --
 
-      return actions
+      return [
+        ...actions,
+        {
+          type: 'open-files-in-vscode',
+          paths: [`${workspacePath}/package.json`],
+        },
+        { type: 'install' },
+      ]
     },
   })
 }

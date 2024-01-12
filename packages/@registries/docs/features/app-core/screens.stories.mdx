@@ -3,7 +3,7 @@ import { aetherStoryDocs } from 'aetherspace/schemas/utils'
 import { isEmpty } from 'aetherspace/utils/commonUtils'
 // -i- Auto generated with "yarn document-components"
 // Components hooking into the storybook auto-documentation script
-import { default as AuthorScreen, getDocumentationProps as getAuthorScreenProps } from '../../../../../features/app-core/screens/AuthorScreen.tsx'
+import { AuthorScreen, getDocumentationProps as getAuthorScreenProps } from '../../../../../features/app-core/screens/AuthorScreen.tsx'
 import { HomeScreen, getDocumentationProps as getHomeScreenProps } from '../../../../../features/app-core/screens/HomeScreen.tsx'
 // Mocks
 import StoryContextProviders from '../../../../../features/app-core/mocks/StoryContextProviders'
@@ -25,7 +25,7 @@ export const AuthorScreenConfig = aetherStoryDocs({ AuthorScreen }, getAuthorScr
 
 `/features/app-core/screens/AuthorScreen.tsx`
 ```typescript
-import AuthorScreen from 'app/screens/AuthorScreen'
+import { AuthorScreen } from 'app/screens/AuthorScreen'
 ```
 
 

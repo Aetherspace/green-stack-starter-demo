@@ -16,3 +16,27 @@
         height: 100%;
     }
 </style>
+<script>
+    // Add a listener to switch back from the GraphQL tab to the Canvas when the user clicks on the sidebar
+    setTimeout(() => {
+        const $sidebar = document.querySelector('.sidebar-container')
+        console.log('StorybookLinkTransformer', { $sidebar })
+        if ($sidebar) {
+            $sidebar.addEventListener('click', () => {
+                // Extract the current story ID from the URL
+                const urlParams = new URLSearchParams(window.location.search)
+                const path = urlParams.get('path')
+                const isGraphqlTab = path && path.includes('graphql')
+
+                // Construct the new URL for the Canvas tab
+                const newUrl = window.location.href.replace('/graphql/', '/story/')
+
+                // Push the new URL to the history
+                window.history.pushState({}, '', newUrl)
+
+                // Optionally, force Storybook to re-render
+                window.dispatchEvent(new PopStateEvent('popstate'))
+            })
+        }
+    }, 3000)
+</script>

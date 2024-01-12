@@ -1,5 +1,4 @@
 import { useSearchParams } from 'next/navigation'
-// Types
 import { RoutePropsType } from './useRouteParams.types'
 
 /** --- useRouteParams() ----------------------------------------------------------------------- */

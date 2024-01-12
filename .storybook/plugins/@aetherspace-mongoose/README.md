@@ -1,4 +1,6 @@
-<img src="/packages/@aetherspace/assets/AetherspaceLogo.svg" width="50" height="50" />
+<a href="https://github.com/Aetherspace/green-stack-starter-demo#readme" target="_blank">
+  <img src="/packages/@aetherspace/assets/AetherspaceLogo.svg" width="50" height="50" />
+</a>
 
 <p>
   <a href="https://mongoosejs.com/docs/" target="_blank">
@@ -9,9 +11,10 @@
 # `@aetherspace/mongoose` - Aetherspace Plugin
 
 Prerequisites:
-- [Sponsor Aetherspace on Github]() or get access to it some other way
+- [Sponsor Aetherspace on Github](https://github.com/Aetherspace/green-stack-starter-demo#readme) or get access to it some other way
 - Fork or generate a new repository from the official or free [aetherspace/green-stack-starter](https://github.com/Aetherspace/green-stack-starter#readme) github repo
 - Choose the "✅ Include all branches" option during the fork / generation process
+- Add `MONGODB_URI` to `apps/next/.env`
 
 ```shell
 git merge with/mongoose
@@ -29,7 +32,7 @@ git merge with/mongoose
 
 ```tsx
 import { z, aetherSchema } from 'aetherspace/schemas'
-import { aetherSchemaToMongoose } from '@aetherspace/mongoose/schemas'
+import { createMongooseDataModel } from '@aetherspace/mongoose/schemas'
 
 /* --- Schemas ---- */
 
@@ -40,7 +43,7 @@ const MyCollectionSchema = aetherSchema('MyCollection', {
 
 /* --- Models ----- */
 
-export const MyCollectionModel = aetherSchemaToMongoose(MyCollectionSchema)
+export const MyCollectionModel = createMongooseDataModel(MyCollectionSchema)
 
 ```
 
@@ -48,12 +51,12 @@ export const MyCollectionModel = aetherSchemaToMongoose(MyCollectionSchema)
 
 `/features/{workspace}/schemas/models.ts`
 ```tsx
-import { aetherSchemaToMongoose } from '@aetherspace/mongoose/schemas'
+import { createMongooseDataModel } from '@aetherspace/mongoose/schemas'
 import { MyCollectionSchema } from './MyCollectionSchema.ts' // <- Much safer
 
 /* --- Models ----- */
 
-export const MyCollectionModel = aetherSchemaToMongoose(MyCollectionSchema)
+export const MyCollectionModel = createMongooseDataModel(MyCollectionSchema)
 ```
 
 ## Roadmap - More to come

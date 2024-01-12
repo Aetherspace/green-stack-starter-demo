@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { PlopTypes } from '@turbo/gen'
 // Utils
-import { parseWorkspaces } from '../../packages/@aetherspace/scripts/helpers/scriptUtils'
+import { getWorkspaceOptions, validateNonEmptyNoSpaces } from '../scripts/helpers/scriptUtils'
 
 /* --- Disclaimer ------------------------------------------------------------------------------ */
 
@@ -10,17 +10,9 @@ import { parseWorkspaces } from '../../packages/@aetherspace/scripts/helpers/scr
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
-const { workspaceImports } = parseWorkspaces('')
-const workspaceOptions = Object.keys(workspaceImports).reduce((options, workspacePath) => {
-  const workspaceName = workspaceImports[workspacePath]
-  const workspaceOption = `${workspacePath}  --  importable from: '${workspaceName}'`
-  // Skip listing the helper workspaces
-  if (['config', 'aetherspace', 'registries'].includes(workspaceName)) return options
-  // Add the workspace option
-  return { ...options, [workspaceOption]: workspacePath }
-}, {})
+const workspaceOptions = getWorkspaceOptions('')
 
-/** --- Schema Generator -------------------------------------------------------------------- */
+/** --- Schema Generator ----------------------------------------------------------------------- */
 /** -i- Simple generator to add a new zod schema as a single source of truth */
 export const registerAetherSchemaGenerator = (plop: PlopTypes.NodePlopAPI) => {
   plop.setGenerator('aether-schema', {
@@ -36,6 +28,7 @@ export const registerAetherSchemaGenerator = (plop: PlopTypes.NodePlopAPI) => {
         type: 'input',
         name: 'schemaName',
         message: 'What is the schema name?',
+        validate: validateNonEmptyNoSpaces,
       },
       {
         type: 'input',
@@ -91,7 +84,7 @@ export const registerAetherSchemaGenerator = (plop: PlopTypes.NodePlopAPI) => {
         {
           type: 'add',
           path: `${workspacePath}/schemas/${schemaName}.ts`,
-          templateFile: 'templates/basic-schema.hbs',
+          templateFile: '../../packages/@aetherspace/generators/templates/basic-schema.hbs',
           data: {
             descriptions: descriptions.join('\n  '),
             jsDocHeader: `${jsDocTitle}\n${jsDocDescription}`,
@@ -100,11 +93,6 @@ export const registerAetherSchemaGenerator = (plop: PlopTypes.NodePlopAPI) => {
             describeStatement,
             jsDocDescription,
           },
-        },
-        {
-          type: 'append-last-line',
-          path: `${workspacePath}/schemas/index.ts`,
-          template: `export * from './${schemaName}'\n`,
         },
         {
           type: 'open-files-in-vscode',

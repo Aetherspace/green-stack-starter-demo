@@ -11,29 +11,29 @@ import { useAetherStyles } from '../hooks/useAetherStyles'
  ** Warning: Only works with tailwind classes, not CSS syntax -!-
  ** Partly inspired by https://github.com/nandorojo/moti/blob/master/packages/core/src/motify.tsx */
 const twStyled = <Style, Props extends { style?: Style }, Ref, ExtraProps>(
-    Component: ComponentType<Props>
+  Component: ComponentType<Props>
 ) => {
-    // Use higher order component to attach aether style support
-    const withAetherTailwindClasses = (twLiterals: TemplateStringsArray) => {
-        // Prepare tailwind classes to pre-apply
-        const twStylesToPreApply = twLiterals.join(' ')
-        // Turn into component with aether style support
-        const Aetherified = forwardRef<
-            Ref,
-            Props & ExtraProps & TAetherStyleProps & { children?: React.ReactNode }
-        >(function Aether({ tw, twID, style, ...props }, ref) {
-            // -i- useAetherStyles() will add server-side media query support to avoid layout shift on web
-            const allTwClasses = [twStylesToPreApply, tw].flat()
-            const bindStyles = useAetherStyles({ tw: allTwClasses, twID, style: style as any, ...props }) // @ts-ignore
-            return <Component {...props} {...(bindStyles as any)} ref={ref as any} />
-        })
-        // Apply updated display name
-        Aetherified.displayName = `Aether.${Component.displayName || Component.name || 'NoName'}`
-        // Return aetherified component
-        return Aetherified
-    }
-    // Return function wrapper
-    return withAetherTailwindClasses
+  // Use higher order component to attach aether style support
+  const withAetherTailwindClasses = (twLiterals: TemplateStringsArray) => {
+    // Prepare tailwind classes to pre-apply
+    const twStylesToPreApply = twLiterals.join(' ')
+    // Turn into component with aether style support
+    const Aetherified = forwardRef<
+      Ref,
+      Props & ExtraProps & TAetherStyleProps & { children?: React.ReactNode }
+    >(function Aether({ tw, twID, style, ...props }, ref) {
+      // -i- useAetherStyles() will add server-side media query support to avoid layout shift on web
+      const allTwClasses = [twStylesToPreApply, tw].flat()
+      const bindStyles = useAetherStyles({ tw: allTwClasses, twID, style: style as any, ...props }) // @ts-ignore
+      return <Component {...props} {...(bindStyles as any)} ref={ref as any} />
+    })
+    // Apply updated display name
+    Aetherified.displayName = `Aether.${Component?.displayName || Component?.name || 'NoName'}`
+    // Return aetherified component
+    return Aetherified
+  }
+  // Return function wrapper
+  return withAetherTailwindClasses
 }
 
 /* --- Static Primitives ----------------------------------------------------------------------- */

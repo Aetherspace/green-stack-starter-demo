@@ -136,6 +136,7 @@ const documentComponents = () => {
         // Build component import example
         const importStatement = hasNamedExport ? `{ ${componentName} }` : componentName
         const componentFilePath = `${componentFolder.replace('../../', '')}/${componentName}`
+        const shieldFilePath = componentFilePath.replace('-', '--')
         const [workspaceType, workspaceFolderName, componentFolderName, componentFileName] = componentFilePath.split('/') // prettier-ignore
         const workspaceFolder = [workspaceType, workspaceFolderName].join('/') // e.g. 'packages/@aetherspace'
         const workspaceImport = workspaceImports[workspaceFolder] // e.g. 'aetherspace'
@@ -153,6 +154,7 @@ const documentComponents = () => {
           getDocumentationProps: storyPropsAlias,
           componentDocParams: hasDocParams ? `get${componentName}Params` : baseStoryParams,
           customBg: hasDocParams ? ` style={{ backgroundColor: get${componentName}Params.backgrounds?.values?.[0]?.value }}` : '', // prettier-ignore
+          // filePath: `\`/${componentFilePath}.tsx\` ![File Path](https://img.shields.io/badge/${componentName}-%23F8F8F8?style=flat-square&logo=visualstudiocode&logoColor=blue&&label=file%3A&labelColor=%23DDDDDD)`,
           filePath: `\`/${componentFilePath}.tsx\``,
           importExample: '```typescript\n' + importExample + '\n```\n',
         })

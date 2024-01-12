@@ -159,7 +159,6 @@ const checkWorkspaces = async (isDeepCheck = true) => {
     const workspaceResolutionsFile = template.replace('{{exports}}', JSON.stringify(workspaceResolutions, null, 2)) // prettier-ignore
     fs.writeFileSync(workspaceResolutionsPath, workspaceResolutionsFile, 'utf8')
   } catch (err) {
-    console.log(err)
     console.error(err)
     process.exit(1)
   }

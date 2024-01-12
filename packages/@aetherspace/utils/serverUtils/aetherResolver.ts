@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-// Types
 import type {
   NextApiRequest,
   NextApiResponse,
@@ -8,13 +7,19 @@ import type {
   GetStaticPropsContext,
 } from 'next'
 import { GraphQLError } from 'graphql'
-// Schemas
 import { z } from '../../schemas/aetherSchemas'
-// Utils
-import { getApiParams, runMiddleWare, MiddlewareFnType, getUrlParams } from './apiUtils'
+import { getApiParams, runMiddleWare, MiddlewareFnType, getUrlParams, getHeaderContext } from './apiUtils'
 import { normalizeObjectProps, isEmpty } from '../index'
 
 /* --- Types ----------------------------------------------------------------------------------- */
+
+export type ResolverConfigType = {
+  logErrors?: boolean
+  respondErrors?: boolean
+  allowFail?: boolean
+  onError?: (err: any) => unknown | void
+  [key: string]: any
+}
 
 export type ResolverInputType<AT = any> = {
   req?: NextApiRequest | Request | GetServerSidePropsContext['req']
@@ -28,33 +33,18 @@ export type ResolverInputType<AT = any> = {
   context?: any
   info?: any
   cookies?: NextApiRequest['cookies']
-  config?: {
-    logErrors?: boolean
-    respondErrors?: boolean
-    allowFail?: boolean
-    logHandler?: (logs: string[]) => Promise<any>
-    onError?: (err: any) => unknown | void
-    [key: string]: any
-  }
+  config?: ResolverConfigType
   [key: string]: AT[keyof AT] | unknown
 }
 
-export type ResolverExecutionParamsType<AT = any, RT = any> = {
+export type ResolverExecutionParamsType<AT = any, RT = any, RTI = any> = {
   args: AT
-  logs: string[]
-  addLog: (log: string) => void
-  saveLogs: (logHandler?: (logs: string[]) => Promise<any>) => Promise<void>
   handleError: (err: any, sendResponse?: boolean) => unknown | void
   parseArgs: (args: AT) => AT
-  withDefaults: (response: RT) => RT
-  config: {
-    logErrors?: boolean
-    respondErrors?: boolean
-    logHandler?: (logs: string[]) => Promise<any>
-    onError?: (err: any) => unknown | void
-    allowFail?: boolean
-    [key: string]: any
-  }
+  withDefaults: (response: RTI) => RT
+  context: Record<string, unknown>
+  user?: Record<string, unknown> | null
+  config: ResolverConfigType
   req?: NextApiRequest | Request | GetServerSidePropsContext['req']
   res?: NextApiResponse | Response | GetServerSidePropsContext['res']
 }
@@ -69,10 +59,11 @@ export const aetherResolver = <
   TSRT = null, // Response type override
   AST extends z.ZodRawShape = any, // Args schema
   RST extends z.ZodRawShape = any, // Response schema
-  AT = TSAT extends null ? z.ZodObject<AST>['_input'] : TSAT, // Args Type (Use override?)
-  RT = TSRT extends null ? z.ZodObject<RST>['_output'] : TSRT // Resp Type (Use override?)
+  AT = TSAT extends null ? z.ZodObject<AST>['_input'] : TSAT, // Args Type Fallback (Use override?)
+  RT = TSRT extends null ? z.ZodObject<RST>['_output'] : TSRT, // Resp Output Type Fallback (Use override?)
+  RTI = TSRT extends null ? z.ZodObject<RST>['_input'] : TSRT // Resp Input Type Fallback (Use override?)
 >(
-  resolverFn: (ctx: ResolverExecutionParamsType<AT, RT>) => Promise<RT | unknown>,
+  resolverFn: (ctx: ResolverExecutionParamsType<AT, RT, RTI>) => Promise<RT | unknown>,
   options: {
     paramKeys?: string
     argsSchema: z.ZodObject<AST>
@@ -107,13 +98,10 @@ export const aetherResolver = <
       info,
       ...ctx?.config,
     }
-    // Log handling
-    const logs = [] as string[]
-    const addLog = (log: string) => {
-      if (normalizedArgs.shouldSaveLogs) console.log(log) // Save log in server logfile as well
-      logs.push(log)
-    }
-    const saveLogs = async (logHandler) => await (logHandler?.(logs) ?? ctx?.config?.logHandler?.(logs)) // prettier-ignore
+    // Context normalization
+    const headerContext = getHeaderContext(req)
+    const fullContext = { ...headerContext, ...config } // Always override header context with config
+    const user = fullContext?.user as Record<string, unknown> | undefined | null
     // Error handling
     const handleError = (err, sendResponse = false) => {
       const isRichError = typeof err === 'object' && !!err.errors
@@ -128,7 +116,7 @@ export const aetherResolver = <
     }
     // Validation helpers
     const parseArgs = (args: AT) => argsSchema.parse(args) as AT
-    const withDefaults = (response: RT) => {
+    const withDefaults = (response: RTI) => {
       return responseSchema.applyDefaults(response as Record<string, unknown>) as RT
     }
     // Return resolver
@@ -136,10 +124,9 @@ export const aetherResolver = <
       req,
       res,
       args: normalizedArgs as AT,
+      user,
+      context: fullContext,
       config,
-      logs,
-      addLog,
-      saveLogs,
       handleError,
       parseArgs,
       withDefaults,
@@ -158,7 +145,7 @@ export const aetherResolver = <
 /** --- makeGraphQLResolver() ------------------------------------------------------------------ **/
 /** -i- Codegen: Build a graphQL resolver from aether an resolver */
 export const makeGraphQLResolver = <AT, RT, AST extends z.ZodRawShape, RST extends z.ZodRawShape>(
-  resolver: ((ctx?: ResolverInputType<AT>) => Promise<RT>) & { argSchema: z.ZodObject<AST>; resSchema: z.ZodObject<RST> },
+  resolver: ((ctx?: ResolverInputType<AT>) => Promise<RT>) & { argSchema: z.ZodObject<AST>; resSchema: z.ZodObject<RST>; isMutation?: boolean },
   options?: {
     config?: ResolverInputType['config']
   }
@@ -184,6 +171,7 @@ export const makeGraphQLResolver = <AT, RT, AST extends z.ZodRawShape, RST exten
     resSchema: resolver.resSchema.introspect(),
     ARGS_TYPE: resolver['ARGS_TYPE'] as AT,
     RESP_TYPE: resolver['RESP_TYPE'] as AT,
+    isMutation: resolver.isMutation,
   })
 }
 

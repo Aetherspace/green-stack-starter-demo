@@ -8,7 +8,11 @@ export const camelToDash = (str: string) => str.replace(/[\w]([A-Z])/g, (m) => `
 
 /** --- uppercaseFirstChar() ------------------------------------------------------------------- */
 /** -i- Uppercase the first character of a string */
-export const uppercaseFirstChar = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
+export const uppercaseFirstChar = (str: string) => str ? str.charAt(0).toUpperCase() + str.slice(1) : str // prettier-ignore
+
+/** --- lowercaseFirstChar() ------------------------------------------------------------------- */
+/** -i- Lowercase the first character of a string */
+export const lowercaseFirstChar = (str: string) => str ? str.charAt(0).toLowerCase() + str.slice(1) : str // prettier-ignore
 
 /** --- getAssetKey() -------------------------------------------------------------------------- */
 /** -i- Transform a file path like '/imgs/someImage.png' into an object key like 'ImgsSomeImagePng' */
@@ -40,4 +44,15 @@ export const findTargetString = (source: string, search = '($target$)') => {
   const parts = source.split(preTarget)
   const target = parts.pop()?.split(postTarget)?.[0]
   return target
+}
+
+/** --- replaceMany() -------------------------------------------------------------------------- */
+/** -i- Replaces every string you pass as the 2nd argument with the string in the 3rd argument */
+export const replaceMany = (source: string, targets: string[], replacement: string) => {
+  const allTargets = targets.flatMap((target) => [uppercaseFirstChar(target), lowercaseFirstChar(target)]) // prettier-ignore
+  let result = source
+  allTargets.forEach((searchStr) => {
+    result = result.replace(new RegExp(searchStr, 'g'), replacement)
+  })
+  return result
 }

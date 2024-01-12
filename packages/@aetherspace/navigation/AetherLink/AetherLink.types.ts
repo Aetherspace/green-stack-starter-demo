@@ -2,6 +2,8 @@ import { ComponentProps } from 'react'
 import { Text } from 'react-native'
 // Schemas
 import { TAetherStyleProps } from '../../schemas/ats'
+// Types
+import type { KnownRoutes } from 'registries/routeManifest'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -16,17 +18,17 @@ export type AetherLinkBaseType = Partial<ComponentProps<typeof Text>> &
   }
 
 export type AetherLinkToType = AetherLinkBaseType & {
-  to: string
+  to: KnownRoutes
   href?: never
   routeName?: never
 }
 export type AetherLinkHrefType = AetherLinkBaseType & {
-  href: string
+  href: KnownRoutes
   to?: never
   routeName?: never
 }
 export type AetherLinkRouteType = AetherLinkBaseType & {
-  routeName: string
+  routeName: KnownRoutes
   to?: never
   href?: never
 }

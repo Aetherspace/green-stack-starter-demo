@@ -1,4 +1,6 @@
-<img src="/packages/@aetherspace/assets/AetherspaceLogo.svg" width="50" height="50" />
+<a href="https://github.com/Aetherspace/green-stack-starter-demo#readme" target="_blank">
+  <img src="/packages/@aetherspace/assets/AetherspaceLogo.svg" width="50" height="50" />
+</a>
 
 <p>
   <a href="/?path=/docs/aetherspace-icon-management--page">

@@ -1,12 +1,9 @@
 'use client'
-// Config
+import { useEffect } from 'react'
 import tailwindConfig from 'app/tailwind.config'
-// Context
 import { AetherContextManager } from 'aetherspace/context'
-// Hooks
 import useLoadFonts from 'app/hooks/useLoadFonts'
-// Utils
-import { setPublicEnvVars } from 'aetherspace/utils'
+import { setPublicEnvVars, setGlobal } from 'aetherspace/utils'
 
 /* --- Public Env Vars ------------------------------------------------------------------------- */
 
@@ -18,6 +15,7 @@ setPublicEnvVars({
   APP_LINKS: process.env.NEXT_PUBLIC_APP_LINKS,
   BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL,
   DOCS_URL: process.env.NEXT_PUBLIC_DOCS_URL,
+  CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
 })
 
 /* --- <NextRootLayout/> ----------------------------------------------------------------------- */
@@ -30,11 +28,24 @@ const NextClientRootLayout = (props: { children: React.ReactNode }) => {
 
   useLoadFonts()
 
+  // -- Effects --
+
+  useEffect(() => {
+    setGlobal('getAuthToken', undefined) // TODO: Add an auth solution like Clerk
+  }, [])
+
   // -- Render --
 
   return (
     <>
-      <AetherContextManager assets={{}} icons={{}} twConfig={tailwindConfig} isNextJS isAppDir>
+      <AetherContextManager
+        assets={{}}
+        icons={{}}
+        twConfig={tailwindConfig}
+        // getAuthToken={}
+        isAppDir
+        isNextJS
+      >
         {children}
       </AetherContextManager>
     </>

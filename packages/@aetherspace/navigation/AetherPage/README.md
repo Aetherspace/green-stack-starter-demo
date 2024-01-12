@@ -1,6 +1,6 @@
 # GraphQL, Data Resolvers & Fetching Route Data
 
-As you may have guessed, the G in GREEN stack stands for GraphQL. It is an essential part of the stack, and is used to fetch data for all pages of the app you're building with Aetherspace.
+As you probably know, the G in 'GREEN stack' stands for GraphQL. It is an essential part of the stack, and is used to fetch data for all pages of the app you're building with Aetherspace.
 
 ---
 
@@ -37,7 +37,7 @@ On top of that, the way to create a GraphQL API in Aetherspace can also be used 
 
 # Creating GraphQL Resolvers
 
-### With Schemas and just functions™️
+### By combining zod based schemas and simple resolver functions
 
 As stated in the [Aetherspace Quickstart](/packages/@aetherspace/README.md), you can create a Data Resolver by:
 
@@ -55,17 +55,19 @@ import { aetherResolver } from 'aetherspace/utils/serverUtils'
 
 /* --- Schemas ------------- */
 
+// Our resolver args, defined as a zod schema
 export const HealthCheckArgs = aetherSchema('HealthCheckArgs', {
   echo: z.string().optional().describe('Echoes back the echo argument'),
 })
 
-// (You can reuse schema definitions with pick / omit / extend commands as well)
+// Same thing for our response schema, but we're picking the echo argument from the args schema
 export const HealthCheckResponse = HealthCheckArgs.pickSchema('HealthCheckResponse', {
   echo: true, // <- Pick the echo argument from the args schema, since we're echoing it back
 })
 
 /* --- Config -------------- */
 
+// Our resolver config, which will tell aetherResolver() what the args & response shape should be
 const resolverConfig = {
   argsSchema: HealthCheckArgs,
   responseSchema: HealthCheckResponse,
@@ -73,10 +75,13 @@ const resolverConfig = {
 
 /* --- healthCheck() ------- */
 
-// Our actual business logic
+// Our actual business logic, wrapped with aetherResolver() and supplied with our resolverConfig
 export const healthCheck = aetherResolver(async ({ args }) => ({
     echo: args.echo, // <- Echo back the echo argument 🤷‍♂️
 }), resolverConfig)
+
+// We now have a nice bundle of our business logic function, with the args & response schemas attached
+// This bundle can be used in multiple ways, as we'll see below
 ```
 
 Later, in a `route.ts` file in the `/routes/` folder, you can export the following:
@@ -88,13 +93,15 @@ import { healthCheck } from '../resolvers/healthCheck'
 /* --- GraphQL ------------- */
 
 // Make resolver available to GraphQL (picked up by automation)
+// GraphQL schema definitions will be generated automatically from the attached args & response shapes
 export const graphResolver = makeGraphQLResolver(healthCheck)
 ```
 
 Optionally, you can also generate a REST api by exporting the following from that same `route.ts` file:
 
 ```ts
-import { makeNextApiHandler, makeGraphQLResolver } from 'aetherspace/utils/serverUtils'
+import { makeNextApiHandler } from 'aetherspace/utils/serverUtils'
+import { healthCheck } from '../resolvers/healthCheck'
 
 /* --- Next.js API Routes -- */
 
@@ -103,11 +110,11 @@ export const GET = makeNextRouteHandler(healthCheck)
 export const POST = makeNextRouteHandler(healthCheck)
 ```
 
-On top of that, the `healthCheck` function "bundle" we made by wrapping with `aetherResolver()` is still usable as a regular Javascript promise, so feel free to use it in other data resolvers as well.
+On top of that, the `healthCheck` function "bundle" we made by wrapping with `aetherResolver()` is still usable as a regular Javascript promise for use in other data resolvers as well.
 
-### Easy mode -- Generating GraphQL Resolvers with the CLI
+### Generating GraphQL Resolvers with the CLI (Recommended)
 
-If you'd rather skip some of these manual steps, we have a handy turborepo generator in place:
+If you'd rather skip some of these manual steps, we have a handy **turborepo generator** in place:
 
 ```shell
 yarn ats add-resolver
@@ -166,16 +173,72 @@ Any fields you edit or add to your argument or response schemas will be made ava
 To actually get the data from your GraphQL resolvers into the specific screens for specific routes on both Expo & Next.js, you'll need to use a combination of the following helpers & components from `aetherspace/navigation`:
 
 - `fetchAetherProps`, to create a fetcher to actually get the data from your GraphQL API
-- `useAetherRoute`, used to get the current route's data from expo-router or Next.js router & props
+- `useAetherRouteData`, used to get the current route's data from expo-router or Next.js router & props
 - `AetherPage`, used to wrap your page component in a Next.js app-dir page under `/routes/`
 
-We have a full working example of this in the Aetherspace demo app:
-- [/features/app-core/screens/HomeScreen.tsx#L39-L76](https://github.com/Aetherspace/green-stack-starter-demo/blob/main/features/app-core/screens/HomeScreen.tsx#L39-L76)
+Check out the [Recommended Way of Working docs](/packages/@aetherspace/scripts/README.md) for more details and ways to simplify this process.
+
+Additionally we have a full working example of this in the Aetherspace demo app:
+- [/features/app-core/screens/HomeScreen.tsx#L39-L83](https://github.com/Aetherspace/green-stack-starter-demo/blob/main/features/app-core/screens/HomeScreen.tsx#L39-L83)
 - [/features/app-core/routes/index.tsx](https://github.com/Aetherspace/green-stack-starter-demo/blob/main/features/app-core/routes/index.tsx)
+
+```tsx
+/* --- GraphQL & Data Fetching ----------------------------------------------------------------- */
+
+/** -i- GraphQL query that will fetch all data we need for this screen */
+const getScreenDataQuery = `
+  query($healthCheckArgs: HealthCheckArgs!) {
+    healthCheck(args: $healthCheckArgs) {
+      alive
+      kicking
+      echo
+      baseURL
+    }
+  }
+`
+
+/** -i- Function to get the GraphQL variables that will be used to fetch the data for this screen */
+const getHomeScreenArgs = (params: HomeScreenParams = {}) => ({
+  healthCheckArgs: HomeParamsSchema.parse(params),
+})
+
+/** -i- Function to actually fetch the data for this screen, where queryKey is likely the GraphQL query */
+const getHomeScreenData = async (queryKey: string, fetcherOptions?: AetherFetcherOptions<HomeScreenParams> = {}) => {
+  // -i- Recommended boilerplate for graphql data fetchers like this
+  const { variables: queryVariables, headers } = fetcherOptions
+  const queryData = queryKey || getScreenDataQuery // Will be used to identify & cache the data with SWR
+  const queryInput = queryVariables || getHomeScreenArgs() // Use defaults if not defined
+  // -i- Actual data fetching and mapping response data to screen props
+  const { data } = await fetchAetherProps(queryData, { variables: queryInput, headers })
+  const { alive, kicking, echo } = data?.healthCheck || {}
+  return { alive, kicking, customGreeting: echo } as HomeScreenProps
+}
+
+/** -i- Bundled config for getting the screen data, including query, variables, and data fetcher */
+export const screenConfig = {
+  query: getScreenDataQuery,
+  getGraphqlVars: getHomeScreenArgs,
+  getGraphqlData: getHomeScreenData,
+  paramSchema: HomeParamsSchema,
+  propSchema: HomePropsSchema,
+  refetchOnMount: false,
+  backgroundColor: '#FFFFFF',
+}
+
+/* --- <HomeScreen/> --------------------------------------------------------------------------- */
+
+export const HomeScreen = (props: AetherProps<typeof HomePropsSchema>) => {
+  // Props & Screen Data Fetching (from screenConfig 👇)
+  const [pageData, { error, isLoading, ...swrUtils }] = useAetherRouteData(props, screenConfig)
+  const { customGreeting, alive, kicking, baseURL = BASE_URL } = pageData
+
+  // ...
+}
+```
 
 But again, you may want to save some time by skipping the manual boilerplate entirely and use a generator instead:
 
-## Generating GraphQL powered routes
+## Generating GraphQL powered routes (Recommended)
 
 ```shell
 yarn ats add-route
@@ -211,11 +274,31 @@ The turborepo route generator will ask you some questions, like which url you’
 
 In the generated screen component file, you can then replace the boilerplate `healthCheck` graphql query with whatever data you need from the GraphQL explorer at [/api/graphql](http://localhost:3000/api/graphql)
 
-## Limitations: Unions & Tuples
+## Creating a "DataBridge" for Linking Routes to GraphQL Query Resolvers
 
-Since GraphQL does not support Union and Tuple types out of the box, we have not yet added support for transforming your zod tuples and union fields into GraphQL types either. For now, these fields will just be ignored.
+Like you saw in the example above, we use a `screenConfig` object to bundle the GraphQL query, variables, and data fetcher together. This is then used by the `useAetherRouteData` hook to fetch the data for the screen.
 
-If you can, try to avoid them in your resolver arguments and responses by going for a more flat or object based structure instead.
+Ideally, these are extendable and composable, so that you can create a "DataBridge" between your GraphQL API and your routes. This is what the `createDataBridge()` function is for:
+
+> Note: **Any resolver generated with the CLI will already have a DataBridge in place.**
+
+```tsx
+const screenConfig = createDataBridge({
+  ...SomeResolverDataBridge, // <- Resolver DataBridge we're extending for our route
+  paramsSchema: SomeScreenParams, // <- Params schema for the route (must be built using aetherschema & zod)
+  propsSchema: SomeScreenProps, // <- Props schema for the route (must be built using aetherschema & zod)
+  graphqlQuery: someCustomQueryWithLessFields, // <- Override GraphQL query? (optional, only if you want some of the fields)
+  backgroundColor: '#111827',
+})
+```
+
+> Further notes: **In the route generator, you can actually already select a resolver to use as a DataBridge for your route**. This will automatically generate the `createDataBridge()` call for you, and will also generate the `SomeScreenParams` and `SomeScreenProps` schemas for you.
+
+## Using Unions & Tuples
+
+Since **GraphQL does not support Union and Tuple types out of the box**, we have only added support for transforming your zod tuples and union fields into GraphQL JSON types. These will act as a sort of catch-all for types we don't yet know how to handle in a Graphql type-safe way. However, since zod is the extra barrier of validation, this should not really be a problem. 
+
+If you really want a type-safe GraphQL schema as well, you can try to avoid them in your resolver arguments and responses by going for a more flat or object based structure instead.
 
 e.g. instead of:
 
@@ -259,4 +342,5 @@ type SomeSchema {
 
 - [Single Sources of Truth for your Web & Mobile apps](/packages/@aetherspace/schemas/README.md)
 - [Universal Routing in Expo & Next.js with Aetherspace](/packages/@aetherspace/navigation/README.md)
+- [Form State Management in Aetherspace with Zod](/packages/@aetherspace/forms/README.md)
 - [Automation based on Single Sources of Truth and the File System](/packages/@aetherspace/scripts/README.md)

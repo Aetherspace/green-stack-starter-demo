@@ -1,0 +1,80 @@
+import React from 'react'
+// Navigation
+import { useAetherRouteData } from 'aetherspace/navigation'
+// Schemas
+import { z, aetherSchema, AetherProps, createDataBridge } from 'aetherspace/schemas'
+// Components
+import { View } from 'aetherspace/primitives'
+// SEO
+import { H1, P } from 'aetherspace/html-elements'
+
+/* --- Schemas & Types ------------------------------------------------------------------------- */
+
+const d = {
+  echo: 'Dummy echo param to test the route with. Returned as prop if present in the route params.',
+}
+
+// -i- TODO: Change these schemas to match your route's parameter needs
+const {{ScreenName}}Params = aetherSchema('{{ScreenName}}Params', {
+  echo: z.string().default('Hello World').describe(d.echo), // dummy echo param to test the route with
+})
+
+// -i- TODO: Change these schemas to match your screen's prop needs
+const {{ScreenName}}Props = aetherSchema('{{ScreenName}}Props', {
+  echo: z.string().default('Hello World').describe(d.echo), // dummy title prop to test the route with
+})
+
+export type {{ScreenName}}Props = AetherProps<typeof {{ScreenName}}Props>
+
+/* --- Data Fetching Bridge -------------------------------------------------------------------- */
+
+// -!- TODO: Add your own graphql query here
+export const screenConfig = createDataBridge({
+  resolverName: 'healthCheck', // Replace with e.g. 'get{{ScreenName}}Data'
+  resolverArgsName: '{{ScreenName}}Params', // Replace with e.g. 'get{{ScreenName}}Args'
+  argsSchema: {{ScreenName}}Params,
+  responseSchema: {{ScreenName}}Props,
+  graphqlQuery: `
+    query(${{ScreenName}}Params: HealthCheckArgs) {
+      healthCheck(args: ${{ScreenName}}Params) {
+        ### TODO: Replace resolver & fields with your own ###
+        echo
+      }
+    }
+  `,
+  dynamic: 'auto', // -i- https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
+})
+
+{{{screenTitleDivider}}}
+
+export const {{ScreenName}} = (props: {{ScreenName}}Props) => {
+  // Data
+  const [screenData, { error }] = useAetherRouteData(props, screenConfig)
+
+  // -- Guards --
+
+  if (error) {
+    return (
+      <View tw="w-full h-full items-center justify-center">
+        <H1 tw="text-red-500">Error: {error.message}</H1>
+      </View>
+    )
+  }
+
+  // -- Render --
+
+  return (
+    <View tw="w-full h-full items-center justify-center">
+      <H1 tw="text-xl text-black">{screenData.echo}</H1>
+      <P>{JSON.stringify(screenData, null, 4)}</P>
+    </View>
+  )
+}
+
+/* --- Documentation --------------------------------------------------------------------------- */
+
+export const getDocumentationProps = {{ScreenName}}Props.introspect()
+
+/* --- Exports --------------------------------------------------------------------------------- */
+
+export default {{ScreenName}}

@@ -1,8 +1,21 @@
 # Universal Routing for Expo & Next.js
 
-When combining React for Web and React-Native for Mobile, navigation has always been one of the hardest problems to solve. Luckily, with file-based routing in both Next.js, -and more recently, Expo-Router, we can provide an easy way of managing your routes:  
+When combining React for Web and React-Native for Mobile, navigation has always been one of the hardest problems to solve. Luckily, with file-based routing in both Next.js, -and more recently, Expo-Router, we can provide an easy way to **manage your routes on the workspace level**:  
 
-## Easy Mode — Using the Route Generator
+```shell
+/some-workspace/
+└── /screens/ # ➡️ Page UI components used in /routes/ 👇
+└── /routes/ # ➡️ Routing linked to expo & next.js app-dir using scripts
+    └── about/
+        └── index.tsx # ➡️ Will be available at '/about' in Expo + Next
+        └── [slug]/
+            └── index.tsx # ➡️ Will be available at '/blog/[slug]' in Expo + Next
+    └── api/ # ➡️ Houses all API routes, copied to next.js app dir using a script
+```
+
+## Using the Route Generator (Recommended)
+
+By far the easiest way to add a new route (and possibly integrate with a data fetcher) is to use aetherspace's route generator:
 
 ```shell
 yarn ats add-route
@@ -40,13 +53,15 @@ yarn ats add-route
 
 ## The `/routes/` folders in workspaces explained:
 
+> **To keep things as copy-pasteable, we believe each workspace should define their own routes.**
+
+The easiest way to achieve this and make them available in both Expo and Next.js, is use an automation to link the `/routes/` folders in each workspace to the `/apps/expo/app/` and `/apps/next/app/` app dirs:
+
 ```shell
-yarn ats link-routes # or just as part of 'yarn dev'
+yarn ats link-routes # or just as part of running 'yarn dev' / your next.js app
 ```
 
-> Either way, our (startup) script will essentially link what’s in your feature of package workspace’s `/routes/` folder and re-export it in both the `/apps/expo/app/` and `/apps/next/app/` app dirs.
-
-> **This allows each workspace to define their own routes, yet still make them available in both Expo and Next.js**
+> On app startup, or when running this command, aetherspace will look at what’s in your feature of package workspace’s `/routes/` folders and re-export it in both the `/apps/expo/app/` and `/apps/next/app/` app dirs.
 
 For example:
 
@@ -115,7 +130,7 @@ The filename conventions for routes are based on Next.js file conventions, but f
 
 The main difference is that you define the routes on a workspace level in different `/routes/` folders in `/features/` or `/packages/` workspaces.
 
-We chose this way of working to facilitate the ability to copy-paste the entire feature or package between projects, while still having the routes become automatically available in both the Expo and Next.js targets of said project.
+Again, we specifically chose this way of working to allow you to copy-paste the entire feature or package between projects, while still having the routes become automatically available in both the Expo and Next.js targets of the project you just pasted to.
 
 > Read more on recommended folder structure and our "Design for Copy-Paste" methodology in the [Core Concepts](/packages/@aetherspace/core/README.md) page.
 
@@ -126,7 +141,7 @@ Use `AetherLink` from `aetherspace/navigation` to link to a route in your app:
 ```tsx
 import { Link } from 'aetherspace/nagivation'
 
-// e.g. for a /bio/[slug] route which could've come from e.g /{workspace}/routes/bio/[slug].tsx
+// e.g. for a '/bio/[slug]' route which could be defined at e.g '/{workspace}/routes/bio/[slug].tsx'
 
 <Link to="/bio/codinsonn">
      View links in bio page
@@ -138,12 +153,13 @@ import { Link } from 'aetherspace/nagivation'
 In Screens, you can access the route parameters via the `useRoute` hook from `aetherspace/navigation`:
 
 ```tsx
-import { useAetherRoute } from 'aetherspace/navigation'
+import { useAetherRouteData } from 'aetherspace/navigation'
 
-const { params } = useAetherRoute(props, screenConfig)
+const [/*screenData*/, { params }] = useAetherRouteData(props, screenConfig)
+console.log(params.slug) // -> 'codinsonn' for e.g. '/bio/codinsonn' if route is defined as '/bio/[slug]'
 ```
 
-If you're wondering what the `screenConfig` should contain, or are wondering how to access API route parameters, we suggest you continue with [GraphQL and Data-Fetching](/packages/@aetherspace/navigation/AetherPage/README.md)
+If you're wondering what the `screenConfig` should contain, how you should feed data to your screens or are wondering how to access API route parameters, we suggest you continue by reading our docs on [GraphQL and Data-Fetching](/packages/@aetherspace/navigation/AetherPage/README.md) or the [Recommended way of working](/packages/@aetherspace/scripts/README.md).
 
 ## Learn more about Aetherspace:
 
@@ -151,4 +167,4 @@ If you're wondering what the `screenConfig` should contain, or are wondering how
 - [Single Sources of Truth for your Web & Mobile apps](/packages/@aetherspace/schemas/README.md)
 - [Getting data from GraphQL into your Screens](/packages/@aetherspace/navigation/AetherPage/README.md)
 - [Aetherspace Core Concepts for cross-platform success](/packages/@aetherspace/core/README.md)
-- [Automation based on Single Sources of Truth and the File System](/packages/@aetherspace/scripts/README.md)
+- [Recommended way of working](/packages/@aetherspace/scripts/README.md)

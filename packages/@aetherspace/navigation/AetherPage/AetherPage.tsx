@@ -1,13 +1,14 @@
 import { useRef, useEffect } from 'react'
+import { SWRConfig } from 'swr'
 import { ScrollView, KeyboardAvoidingView, Platform, Keyboard } from 'react-native'
-// Types
 import { AetherPageProps, AetherScreenConfig } from './AetherPage.types'
+import { swrMiddlewareRegistry } from 'registries/swrMiddleware'
 
 /* --- <AetherPage/> --------------------------------------------------------------------------- */
 
 export const AetherPage = <SC extends AetherScreenConfig>(props: AetherPageProps<SC>) => {
   // Props
-  const { params, screen, screenConfig, ...restProps } = props
+  const { params, screen, screenConfig, skipFetching, ...restProps } = props
 
   // Refs
   const scrollViewRef = useRef<ScrollView>(null)
@@ -37,18 +38,20 @@ export const AetherPage = <SC extends AetherScreenConfig>(props: AetherPageProps
   // -- Browser --
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{ flex: 1, backgroundColor: screenConfig.backgroundColor || 'transparent' }}
-    >
-      <ScrollView
-        ref={scrollViewRef}
-        contentContainerStyle={{ width: '100%', minHeight: '100%' }}
-        scrollEventThrottle={16}
-        onScroll={handleScroll}
+    <SWRConfig value={{ use: swrMiddlewareRegistry }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1, backgroundColor: screenConfig.backgroundColor || 'transparent' }}
       >
-        <PageScreen params={params} {...restProps} />
-      </ScrollView>
-    </KeyboardAvoidingView>
+        <ScrollView
+          ref={scrollViewRef}
+          contentContainerStyle={{ width: '100%', minHeight: '100%' }}
+          scrollEventThrottle={16}
+          onScroll={handleScroll}
+        >
+          <PageScreen params={params} {...restProps} />
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SWRConfig>
   )
 }
