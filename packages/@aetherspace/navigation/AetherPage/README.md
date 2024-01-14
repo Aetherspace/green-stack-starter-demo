@@ -336,11 +336,15 @@ type SomeSchema {
   someUnionFieldString: String
   someUnionFieldNumber: Float
 }
-```
+```  
+
+## Possible next steps:
+
+- [**Style your screens and UI for all platforms with Tailwind**](/packages/@aetherspace/styles/README.md)
+- Refine the data structure for Args, Responses and Component Props through [Single Sources of Truth](/packages/@aetherspace/schemas/README.md)
+- Simplify GraphQL and Data Fetching by applying our [Recommended Way of Working](/packages/@aetherspace/scripts/README.md)
 
 ## Learn more about Aetherspace:
 
-- [Single Sources of Truth for your Web & Mobile apps](/packages/@aetherspace/schemas/README.md)
+- Reuse "Data Bridges" for [Form State Management](/packages/@aetherspace/forms/README.md)
 - [Universal Routing in Expo & Next.js with Aetherspace](/packages/@aetherspace/navigation/README.md)
-- [Form State Management in Aetherspace with Zod](/packages/@aetherspace/forms/README.md)
-- [Automation based on Single Sources of Truth and the File System](/packages/@aetherspace/scripts/README.md)

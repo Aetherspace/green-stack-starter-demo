@@ -161,9 +161,14 @@ console.log(params.slug) // -> 'codinsonn' for e.g. '/bio/codinsonn' if route is
 
 If you're wondering what the `screenConfig` should contain, how you should feed data to your screens or are wondering how to access API route parameters, we suggest you continue by reading our docs on [GraphQL and Data-Fetching](/packages/@aetherspace/navigation/AetherPage/README.md) or the [Recommended way of working](/packages/@aetherspace/scripts/README.md).
 
-## Learn more about Aetherspace:
+## Possible Next steps:
 
-- [Styling your components and screens with Tailwind](/packages/@aetherspace/styles/README.md)
+- Simplify universal route creation by applying our [Recommended way of working](/packages/@aetherspace/scripts/README.md)
+- [**Get data into your routes** with **GraphQL and Data-Fetching**](/packages/@aetherspace/navigation/AetherPage/README.md)
+- [Style your screens and UI for all platforms with Tailwind](/packages/@aetherspace/styles/README.md)
+
+## Learn more
+
 - [Single Sources of Truth for your Web & Mobile apps](/packages/@aetherspace/schemas/README.md)
 - [Getting data from GraphQL into your Screens](/packages/@aetherspace/navigation/AetherPage/README.md)
 - [Aetherspace Core Concepts for cross-platform success](/packages/@aetherspace/core/README.md)

@@ -254,10 +254,17 @@ Performing these 6 steps has provided us with a bunch of value in little time:
 
 <p style={{ padding: "12px" }} />  
 
-## Learn more:
+## Next steps
 
-- [Aetherspace Core Concepts](/packages/@aetherspace/core/README.md)
+- **[Aetherspace Core Concepts](/packages/@aetherspace/core/README.md)**
 - [Recommended way of working](/packages/@aetherspace/scripts/README.md)
+
+## Optionally
+
+- [Merge additional setup through **plugin branches**](/.storybook/plugins/README.md)
+
+## Learn more
+
 - [Single Sources of Truth for Front & Back-End with Zod](/packages/@aetherspace/schemas/README.md)
 - [Styling your components with Tailwind for Web & Mobile](/packages/@aetherspace/styles/README.md)
 - [Universal Routing with Expo and Next.js](/packages/@aetherspace/navigation/README.md)

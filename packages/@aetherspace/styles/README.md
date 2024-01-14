@@ -237,7 +237,7 @@ import twConfig from 'app/tailwind.config' // <- your tailwind config, using the
 
 Tailwind has become an industry standard and we believe that the added learning curve of tailwind’s utility classes is worth the hassle of working with custom CSS-like classes at scale.
 
-Here’s [what tends to happen](https://twitter.com/ryanflorence/status/1673847474941997056) with other CSS class solutions in larger teams:
+Here’s a quick recap of [what tends to happen with other CSS class solutions](https://twitter.com/ryanflorence/status/1673847474941997056) in larger teams:
 
 - Some common shared class like `btn__previous` will change and break some UI elsewhere
 - Breakages like that will likely not be discovered until they’re in production
@@ -254,7 +254,14 @@ Aside from CSS class based approaches, if the style library you’re used to wor
 
 For example, if you’d rather use [Tamagui](https://tamagui.dev/) or `styled-components` as your main styling solution, this is entirely possible. For cross-platform UI libraries like Tamagui, we even recommended it.
 
-## Learn more:
+## Possible Next steps:
 
 - [Universal Routing with Expo and Next.js](/packages/@aetherspace/navigation/README.md)
+- [**Using and Managing Icons on Web & Mobile**](/packages/@aetherspace/components/AetherIcon/README.md)
+
+## Learn more:
+
+- [Single Sources of Truth for Front & Back-End with Zod](/packages/@aetherspace/schemas/README.md)
+- [Styling your components with Tailwind for Web & Mobile](/packages/@aetherspace/styles/README.md)
+- [Writing flexible data resolvers with Schemas](/packages/@aetherspace/navigation/AetherPage/README.md)
 - [Storybook docgen and other automations](/packages/@aetherspace/scripts/README.md)

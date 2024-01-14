@@ -1,4 +1,6 @@
-<img src="/packages/@aetherspace/assets/AetherspaceLogo.svg" width="50" height="50" />
+<a href="https://github.com/Aetherspace/green-stack-starter-demo#readme" target="_blank">
+  <img src="/packages/@aetherspace/assets/AetherspaceLogo.svg" width="50" height="50" />
+</a>
 
 # Move fast and Build things
 
@@ -22,19 +24,13 @@
     <img alt="Supports Expo Android" longdesc="Supports Expo Android" src="https://img.shields.io/badge/Android-4630EB.svg?style=for-the-badge&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
   </a>
   <a href="https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/story/readme-md--page">
-    <img alt="Docs with Storybook" longdesc="Documentated with Storybook" src="https://img.shields.io/badge/-Storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=fff" />
+    <img alt="Docs with Storybook" longdesc="Documentated with Storybook" src="https://img.shields.io/badge/-Read_the_Docs-FF4785?style=for-the-badge&logo=storybook&logoColor=fff" />
   </a>
 </p>
 
 > This project was bootstrapped with [Aetherspace](https://github.com/Aetherspace/green-stack-starter), the Evergreen repo setup for all your full-stack cross platform app development needs \{...💚\} Enabling the project to be built for Web, iOS, Android, PWA, Static, SSR, API routes and GraphQL all at once 👇 ... while also documenting your code automatically with Storybook.
 
-### Getting started ⚡️
-
-Install packages: `yarn install`
-
-Run on web & mobile: `yarn dev`
-
-Run with Storybook docs: `yarn dev:docs`
+<p style={{ padding: "4px" }} />  
 
 ---
 
@@ -350,6 +346,36 @@ Check out the [License](/LICENSE.md) and its FAQ section.
 </p>
 
 </details>
+
+---
+
+<p style={{ padding: "4px" }} />  
+
+### Getting started ⚡️
+
+Generate a new repo from the [Aetherspace template](https://github.com/Aetherspace/green-stack-starter-demo) and (optionally) include all branches.
+
+![GithubTemplateRepo.png](/.storybook/public/GithubTemplateRepo.png)
+
+![GithubTemplateRepoWithPlugins.png](/.storybook/public/GithubTemplateRepoWithPlugins.png)
+
+Set this repo as the upstream if you want to include the git commit history:
+
+```
+git remote add upstream git@github.com:Aetherspace/green-stack-starter.git
+git fetch upstream
+git pull --rebase upstream main
+```
+
+Install packages: `yarn install`
+
+Run on web & mobile: `yarn dev`
+
+Run with Storybook docs: `yarn dev:docs`
+
+---
+
+<b>Continue with</b> >>> <b><a href="https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/docs/aetherspace-quickstart--page">Quickstart</a></b> > <b><a href="https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/docs/aetherspace-core-concepts--page">Core Concepts</a></b> > <b><a href="https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/docs/aetherspace-recommended-workflow--page">Recommended Way of Working</a></b>
 
 ---
 

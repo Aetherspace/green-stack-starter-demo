@@ -18,7 +18,7 @@ The easiest way to opt in to these conventions is by using our [turborepo genera
 
 <p style={{ padding: "12px" }} />  
 
-## 1. Colocating code in `/features/` and `/packages/`
+## 1. Colocating code in `/features/` and `/packages/` <a name="1-colocating-code-in-features-and-packages"></a>
 
 Our **ultimate goal** is to **help you create a way of working that is as copy-pasteable as possible**, so that you can easily transfer full reusable (yet fully customisable) 'features' across codebases or between projects:
 
@@ -83,7 +83,7 @@ Running 'install' on workspace root
 
 <p style={{ padding: "12px" }} />  
 
-## 2. Start with Single Sources of Truth
+## 2. Start with Single Sources of Truth <a name="2-start-with-single-sources-of-truth"></a>
 
 As explained in [the Aetherschema documentation](/packages/@aetherspace/schemas/README.md), we recommend you use [Zod](https://zod.dev/) to define your data structures.  
 Ideally, at an early stage of building a new feature.
@@ -149,7 +149,7 @@ Opening files in VSCode...
 
 <p style={{ padding: "12px" }} />  
 
-## 3. Use your schemas to create Resolvers and API's
+## 3. Use your schemas to create Resolvers and API's <a name="3-use-your-schemas-to-create-resolvers-and-apis"></a>
 
 > Once you've defined your single sources of truth for data structures, you can use them to generate resolvers and APIs:
 
@@ -224,7 +224,7 @@ Opening files in VSCode...
 
 <p style={{ padding: "12px" }} />  
 
-## 4. Integrate resolvers with Universal Routes
+## 4. Integrate resolvers with Universal Routes <a name="4-integrate-resolvers-with-universal-routes"></a>
 
 > With your workspace, schemas and resolvers in place, we can now hook them up to our UI for data-fetching:
 
@@ -545,9 +545,12 @@ You can include them when forking the repo from the official template:
 
 <p style={{ padding: "12px" }} />  
 
+## Next steps:
+
+- **[Single Sources of Truth for your Web & Mobile apps](/packages/@aetherspace/schemas/README.md)**
+
 ## Learn more:
 
-- [Managing Routes in Aetherspace](/packages/@aetherspace/navigation/README.md)
+- [Managing Universal Routes in Aetherspace](/packages/@aetherspace/navigation/README.md)
 - [Managing Icons in GREEN stack Expo + Next.js monorepos](/packages/@aetherspace/components/AetherIcon/README.md)
-- [Single Sources of Truth for your Web & Mobile apps](/packages/@aetherspace/schemas/README.md)
 - [Deploy your web & mobile apps + documentation with Github Actions](/.github/workflows/README.md)

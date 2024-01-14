@@ -194,9 +194,17 @@ Similar to adding recurring features, removing features or packages from a fresh
 
 ## Getting started with Aetherspace
 
-- [Quickstart](/packages/@aetherspace/README.md)
-- [Recommended way of working](/packages/@aetherspace/scripts/README.md)
-- [Universal Routing](/packages/@aetherspace/navigation/README.md)
+- Read our [Quickstart](/packages/@aetherspace/README.md) if you haven't already.
+
+## Next steps
+
+- **[Recommended way of working](/packages/@aetherspace/scripts/README.md)** (and the generators that will help with that).
+
+## Learn more:
+
+- [Single Sources of Truth](/packages/@aetherspace/schemas/README.md) for Front & Back-End with Zod
+- [Styling your components with Tailwind for Web & Mobile](/packages/@aetherspace/styles/README.md)
+- [Universal Routing, Deeplinks and Navigation](/packages/@aetherspace/navigation/README.md)
 
 <p style={{ padding: "12px" }} />  
 ...

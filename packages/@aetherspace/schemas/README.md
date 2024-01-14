@@ -362,6 +362,12 @@ const someSchema = aetherSchema('SomeSchema', {
 ## Possible Next Steps
 
 - Read the [official zod docs at zod.dev](https://zod.dev/) (or watch an [intro video](https://www.youtube.com/watch?v=L6BE-U3oy80))
-- [Writing flexible data resolvers with Schemas](/packages/@aetherspace/navigation/AetherPage/README.md)
-- [Form State Management in Aetherspace with Zod](/packages/@aetherspace/forms/README.md)
-- [Automation based on Schemas: Storybook & GraphQL](/packages/@aetherspace/scripts/README.md)
+- Learn to [**write flexible data resolvers with args & response schemas**](/packages/@aetherspace/navigation/AetherPage/README.md)
+- Learn to [**use your schemas for Form State Management in Aetherspace**](/packages/@aetherspace/forms/README.md)
+- Learn [how schemas enable automatic Storybook & GraphQL codegen](/packages/@aetherspace/scripts/README.md)
+
+## Other Topics
+
+- [Styling your components with Tailwind for Web & Mobile](/packages/@aetherspace/styles/README.md)
+- [Universal Routing with Expo and Next.js](/packages/@aetherspace/navigation/README.md)
+
