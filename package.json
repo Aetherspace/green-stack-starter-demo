@@ -10,13 +10,17 @@
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
-    "@expo/next-adapter": "^6.0.0"
+    "@expo/next-adapter": "^6.0.0",
+    "@types/react": "18.2.48",
+    "typescript": "5.3.3"
   },
   "scripts": {
-    "start": "next dev",
+    "dev": "npm run dev:web & npm run dev:mobile",
+    "dev:web": "next dev",
+    "dev:mobile": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web",
+    "expo:web": "expo start --web",
     "build": "next build"
   },
   "name": "sdk-50-test-nextjs",
