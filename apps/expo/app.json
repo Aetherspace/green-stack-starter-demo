@@ -1,6 +1,13 @@
 {
   "expo": {
     "name": "@aetherspace/clean-slate",
-    "slug": "aetherspace-clean-slate"
+    "slug": "aetherspace-clean-slate",
+    "scheme": "aetherspace-clean-slate",
+    "plugins": [
+      "expo-router"
+    ],
+    "web": {
+      "bundler": "metro"
+    }
   }
 }
