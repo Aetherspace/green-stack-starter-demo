@@ -549,6 +549,10 @@ You can include them when forking the repo from the official template:
 
 - **[Single Sources of Truth for your Web & Mobile apps](/packages/@aetherspace/schemas/README.md)**
 
+## Previously:
+
+- [Aetherspace Core Concepts](/packages/@aetherspace/core/README.md)
+
 ## Learn more:
 
 - [Managing Universal Routes in Aetherspace](/packages/@aetherspace/navigation/README.md)

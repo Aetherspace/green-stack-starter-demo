@@ -256,8 +256,8 @@ For example, if you’d rather use [Tamagui](https://tamagui.dev/) or `styled-co
 
 ## Possible Next steps:
 
-- [Universal Routing with Expo and Next.js](/packages/@aetherspace/navigation/README.md)
 - [**Using and Managing Icons on Web & Mobile**](/packages/@aetherspace/components/AetherIcon/README.md)
+- [Universal Routing with Expo and Next.js](/packages/@aetherspace/navigation/README.md)
 
 ## Learn more:
 

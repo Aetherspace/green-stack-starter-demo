@@ -192,13 +192,13 @@ Similar to adding recurring features, removing features or packages from a fresh
 
 <p style={{ padding: "12px" }} />  
 
-## Getting started with Aetherspace
-
-- Read our [Quickstart](/packages/@aetherspace/README.md) if you haven't already.
-
 ## Next steps
 
 - **[Recommended way of working](/packages/@aetherspace/scripts/README.md)** (and the generators that will help with that).
+
+## Getting started with Aetherspace
+
+- Read our [Quickstart](/packages/@aetherspace/README.md) if you haven't already.
 
 ## Learn more:
 

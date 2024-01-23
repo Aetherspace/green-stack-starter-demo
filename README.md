@@ -24,7 +24,7 @@
     <img alt="Supports Expo Android" longdesc="Supports Expo Android" src="https://img.shields.io/badge/Android-4630EB.svg?style=for-the-badge&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
   </a>
   <a href="https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/story/readme-md--page">
-    <img alt="Docs with Storybook" longdesc="Documentated with Storybook" src="https://img.shields.io/badge/-Read_the_Docs-FF4785?style=for-the-badge&logo=storybook&logoColor=fff" />
+    <img alt="Docs with Storybook" longdesc="Documented with Storybook" src="https://img.shields.io/badge/-Read_the_Docs-FF4785?style=for-the-badge&logo=storybook&logoColor=fff" />
   </a>
 </p>
 
@@ -174,10 +174,10 @@ For every app you're building in this monorepo, you'll need a few folders:
 - `/features/{app}-core` - Where most of your core app specific UI, logic and screens will live.
   Should list app dependencies not listed elsewhere.
 
-In each of these folders own a `package.json` file, where a `name` property should be specified to identify that workspace. This name can then be referenced during installs via e.g.
+In each of these folders there's a `package.json` file, where a `name` property should be specified to identify that workspace. This name can then be referenced during installs via e.g.
 
 ```shell-script
-yarn workspace next add {package-name}
+yarn workspace app add {package-name}
 ```
 
 #### To install Expo modules for the specific Expo SDK you're using:
@@ -375,7 +375,7 @@ Run with Storybook docs: `yarn dev:docs`
 
 ---
 
-<b>Continue with</b> >>> <b><a href="https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/docs/aetherspace-quickstart--page">Quickstart</a></b> > <b><a href="https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/docs/aetherspace-core-concepts--page">Core Concepts</a></b> > <b><a href="https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/docs/aetherspace-recommended-workflow--page">Recommended Way of Working</a></b>
+Continue with >>> <b><a href="https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/docs/aetherspace-quickstart--page">Quickstart</a></b> > <b><a href="https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/docs/aetherspace-core-concepts--page">Core Concepts</a></b> > <b><a href="https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/docs/aetherspace-recommended-workflow--page">Recommended Way of Working</a></b>
 
 ---
 

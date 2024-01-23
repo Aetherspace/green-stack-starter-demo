@@ -259,9 +259,9 @@ Performing these 6 steps has provided us with a bunch of value in little time:
 - **[Aetherspace Core Concepts](/packages/@aetherspace/core/README.md)**
 - [Recommended way of working](/packages/@aetherspace/scripts/README.md)
 
-## Optionally
+## Optionally, extend your setup:
 
-- [Merge additional setup through **plugin branches**](/.storybook/plugins/README.md)
+- [Merge additional setup and features through **plugin branches**](/.storybook/plugins/README.md)
 
 ## Learn more
 
@@ -272,7 +272,10 @@ Performing these 6 steps has provided us with a bunch of value in little time:
 - [Automation based on Schemas: Storybook, GraphQL & More](/packages/@aetherspace/scripts/README.md)
 
 <p>
-  <a href="https://dev.to/codinsonn/how-to-compete-with-elons-twitter-a-dev-perspective-4j64#:~:text=%27Move%20fast%20%26%20build%20things%27%20with%20Zod%2C%20Expo%20%26%20Next.js" target="_blank">
-    <img alt="Intro Article on DEV" longdesc="Read the Intro Article on DEV.to" src="https://img.shields.io/badge/dev.to-0A0A0A?style=for-the-badge&logo=devdotto&logoColor=white" />
+  <a href="https://dev.to/codinsonn/how-to-compete-with-elons-twitter-a-dev-perspective-4j64" target="_blank">
+    <img alt="Intro Article on DEV" longdesc="Read the Intro Article on DEV.to" src="https://img.shields.io/badge/Move_fast_and_build_things-0A0A0A?style=for-the-badge&logo=devdotto&logoColor=white" />
+  </a>
+  <a href="https://dev.to/codinsonn/why-use-react-native-over-flutter-a-recap-57b0" target="_blank">
+    <img alt="Intro Article on DEV" longdesc="How to choose cross-platform tech" src="https://img.shields.io/badge/Why_choose_Expo_and_Next_with_Aetherspace-0A0A0A?style=for-the-badge&logo=devdotto&logoColor=white" />
   </a>
 </p>
