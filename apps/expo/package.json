@@ -1,0 +1,27 @@
+{
+  "name": "@app/expo",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "@expo/metro-runtime": "^3.1.1",
+    "expo": "^50.0.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-native": "0.73.2",
+    "react-native-web": "~0.19.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.19.3",
+    "@expo/next-adapter": "^6.0.0",
+    "@types/react": "18.2.48",
+    "typescript": "5.3.3"
+  },
+  "scripts": {
+    "dev": "expo start",
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  }
+}

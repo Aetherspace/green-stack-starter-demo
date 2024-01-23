@@ -1,29 +1,19 @@
 {
-  "dependencies": {
-    "@expo/metro-runtime": "^3.1.1",
-    "expo": "^50.0.1",
-    "next": "~14.0.4",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-native": "0.73.2",
-    "react-native-web": "~0.19.6"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.19.3",
-    "@expo/next-adapter": "^6.0.0",
-    "@types/react": "18.2.48",
-    "typescript": "5.3.3"
-  },
+  "name": "@aetherspace/clean-slate",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "features/*",
+    "packages/*"
+  ],
   "scripts": {
     "dev": "npm run dev:web & npm run dev:mobile",
-    "dev:web": "next dev",
-    "dev:mobile": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "expo:web": "expo start --web",
-    "build": "next build"
-  },
-  "name": "sdk-50-test-nextjs",
-  "version": "1.0.0",
-  "private": true
+    "dev:web": "npm -w @app/next run dev",
+    "dev:mobile": "npm -w @app/expo run dev",
+    "android": "npm -w @app/expo run android",
+    "ios": "npm -w @app/expo run ios",
+    "expo:web": "npm -w @app/expo run web",
+    "build": "npm -w @app/next run build"
+  }
 }

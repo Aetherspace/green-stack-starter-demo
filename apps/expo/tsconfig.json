@@ -1,0 +1,5 @@
+{
+    "extends": "@app/core/tsconfig",
+    "include": ["**/*.ts", "**/*.tsx"],
+    "exclude": ["node_modules"]
+}

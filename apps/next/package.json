@@ -1,0 +1,13 @@
+{
+  "name": "@app/next",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "next": "~14.0.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build"
+  }
+}

@@ -1,5 +1,10 @@
-# @generated: @expo/next-adapter@2.1.0
-node_modules/**/*
+node_modules/
+node_modules
+.env
+
+# -- @generated: @expo/next-adapter@2.1.0 --
+
+# Expo
 .expo/*
 npm-debug.*
 *.jks
@@ -21,13 +26,16 @@ yarn-error.log*
 # misc
 .DS_Store
 .env*
-
 .next
 
-# @generated: @expo/next-adapter@2.1.52
+# -- @generated: @expo/next-adapter@2.1.52 --
+
+# Expo
 /.expo/*
+
 # Expo Web
 /web-build/*
+
 # Expo Native
 *.jks
 *.p8
@@ -35,12 +43,16 @@ yarn-error.log*
 *.key
 *.mobileprovision
 *.orig.*
+
 # Next.js
 /.next/*
 /out/
+
 # Next.js production
 /build/
+
 # Next.js dependencies
 /.pnp
 .pnp.js
-# @end @expo/next-adapter
+
+# -- @end @expo/next-adapter --
