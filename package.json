@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "expo": "^50.0.1",
+    "next": "~14.0.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-native": "0.73.2",
+    "react-native-web": "~0.19.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.19.3",
+    "@expo/next-adapter": "^6.0.0"
+  },
+  "scripts": {
+    "start": "next dev",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "build": "next build"
+  },
+  "name": "sdk-50-test-nextjs",
+  "version": "1.0.0",
+  "private": true
+}
