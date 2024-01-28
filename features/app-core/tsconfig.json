@@ -21,7 +21,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "../../apps/expo/app/ExpoRootLayout.tsx", "../../apps/next/app/NextRootLayout.tsx../../apps/next/app/ServerStylesProvider.tsx.tsx"  ],
   "exclude": [
     "node_modules"
   ],

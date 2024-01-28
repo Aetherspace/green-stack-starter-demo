@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "@aetherspace/clean-slate",
-    "slug": "aetherspace-clean-slate",
-    "scheme": "aetherspace-clean-slate",
+    "name": "@aetherspace/universal-app-router",
+    "slug": "aetherspace-universal-app-router",
+    "scheme": "aetherspace-universal-app-router",
     "plugins": [
       "expo-router"
     ],

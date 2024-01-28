@@ -1,5 +1,5 @@
 {
-  "name": "@aetherspace/clean-slate",
+  "name": "@aetherspace/universal-app-router",
   "version": "1.0.0",
   "private": true,
   "workspaces": [

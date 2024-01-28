@@ -1,13 +1,6 @@
-import { Stack } from 'expo-router'
+import ExpoRootLayout from './ExpoRootLayout'
 
-export default function Root() {
-  return (
-    <Stack
-        screenOptions={{
-            headerShown: false,
-            contentStyle: { backgroundColor: '#FFFFFF' },
-            animation: 'slide_from_right',
-        }}
-    />
-  )
-}
+// -i- Expo Router's layout setup is much simpler than Next.js's layout setup.
+// -i- Since Expo doesn't require a custom document setup or server component root layout.
+
+export default ExpoRootLayout
