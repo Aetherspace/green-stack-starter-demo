@@ -8,7 +8,7 @@ It's a good starting point if you want to:
 - ✅ have a minimal monorepo setup with Typescript but no monorepo tool yet
 - ✅ leave all other tech choices for e.g. styling, dbs, component libs, etc. up to you
 
-> Usually the result of a frequent exercise where I attempt to recreate [aetherspace](https://github.com/Aetherspace/green-stack-starter) from scratch using the latest recommended expo + next.js starter from the Expo docs to see whether the setup and config for aetherspace can be simplified. Also handy to notice where issues occur and how to fix them.
+> This template repo is the result of a frequent exercise where I attempt to recreate [Aetherspace](https://github.com/Aetherspace/green-stack-starter) from scratch. I usually do this using the latest recommended expo + next.js starter from the Expo docs. This helps me see whether the setup and config for aetherspace can be simplified. Also handy to notice where issues occur and how to fix them.
 
 ## Getting Started
 
