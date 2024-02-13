@@ -2,6 +2,7 @@
 module.exports = [
   "aetherspace",
   "config",
+  "@green-stack/icons",
   "registries",
   "app"
 ]
