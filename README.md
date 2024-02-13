@@ -2,7 +2,7 @@
   <img src="/packages/@aetherspace/assets/AetherspaceLogo.svg" width="50" height="50" />
 </a>
 
-# Move fast and Build things
+# GREEN stack starter for Full-Product Universal Apps
 
 <p>
   <a href="https://aetherspace-green-stack-starter.vercel.app/">
@@ -28,7 +28,7 @@
   </a>
 </p>
 
-> This project was bootstrapped with [Aetherspace](https://github.com/Aetherspace/green-stack-starter), the Evergreen repo setup for all your full-stack cross platform app development needs \{...💚\} Enabling the project to be built for Web, iOS, Android, PWA, Static, SSR, API routes and GraphQL all at once 👇 ... while also documenting your code automatically with Storybook.
+> This project was bootstrapped with [Aetherspace](https://github.com/Aetherspace/green-stack-starter-demo), the Evergreen repo setup for all your **full-product, universal app** development needs \{...💚\} Enabling the project to be built for Web, iOS, Android, PWA, Static, SSR, API routes and GraphQL at write-once efficiency, while also documenting your code automatically with Zod & Storybook.
 
 <p style={{ padding: "4px" }} />  
 
