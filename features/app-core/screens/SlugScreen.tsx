@@ -2,21 +2,50 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { useUniversalRouteParams } from '@app/core/hooks/useUniversalRouteParams'
 import { Link } from '../components/Link'
+import { useUniversalRouter } from '../hooks/useUniversalRouter'
 
 /* --- <SlugScreen/> --------------------------------------------------------------------------- */
 
 const SlugScreen = (props) => {
-  const { slug } = useUniversalRouteParams(props)
+  // Routing
+  const { slug, count = '' } = useUniversalRouteParams(props)
+  const { canGoBack, back, push, navigate, replace, setParams } = useUniversalRouter()
+
+  // Vars
+  const showBackButton = canGoBack()
+
+  // -- Render --
+
   return (
     <View style={styles.container}>
-      <Link href="/" style={{ ...styles.backButton, ...styles.link, textDecorationLine: 'none' }}>
-        {`< Back`}
-      </Link>
-      <Text style={styles.title}>Page slug: {slug}</Text>
+      {showBackButton && (
+        <Text
+          style={{ ...styles.backButton, ...styles.link, textDecorationLine: 'none' }}
+          onPress={back}
+        >
+          {`< Back`}
+        </Text>
+      )}
+      <Text style={styles.title}>
+        Page slug: {slug}
+        {!!count && ` | count: ${count}`}
+      </Text>
       <Text style={styles.subtitle}>Need a more robust, Fully-Stacked, Full-Product, Universal App Setup?</Text>
       <Link href="https://github.com/Aetherspace/green-stack-starter-demo#readme" target="_blank" style={styles.link}>
         Check out the GREEN Stack Starter
       </Link>
+      <Text style={styles.link} onPress={() => push('/subpages/push')}>
+        {`router.push()`}
+      </Text>
+      <Text style={styles.link} onPress={() => navigate('/subpages/navigate')}>
+        {`router.navigate()`}
+      </Text>
+      <Text style={styles.link} onPress={() => replace('/subpages/replace')}>
+        {`router.replace()`}
+      </Text>
+      <Text style={styles.link} onPress={() => setParams({ count: `${+count + 1}` })}>
+        {`router.setParams()`}
+      </Text>
     </View>
   )
 }
