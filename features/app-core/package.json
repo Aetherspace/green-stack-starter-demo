@@ -2,8 +2,11 @@
   "name": "@app/core",
   "version": "1.0.0",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "nativewind": "^2.0.11"
+  },
   "devDependencies": {
+    "tailwindcss": "3.3.2",
     "typescript": "5.3.3"
   },
   "scripts": {}
