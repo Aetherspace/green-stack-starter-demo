@@ -1,6 +1,6 @@
 import { styled } from 'nativewind'
 import { Text as RNText, View as RNView } from 'react-native'
-import { Link as UniversalLink } from './Link'
+import { Link as UniversalLink } from '../navigation/Link'
 
 /* --- Primitives ------------------------------------------------------------------------------ */
 
@@ -9,9 +9,9 @@ export const Text = styled(RNText, '')
 
 /* --- Typography ------------------------------------------------------------------------------ */
 
-export const H1 = styled(RNText, 'font-bold text-2xl')
-export const H2 = styled(RNText, 'font-bold text-xl')
-export const H3 = styled(RNText, 'font-bold text-lg')
+export const H1 = styled(RNText, 'font-bold text-2xl text-primary-500')
+export const H2 = styled(RNText, 'font-bold text-xl text-primary-500')
+export const H3 = styled(RNText, 'font-bold text-lg text-primary-500')
 
 export const P = styled(RNText, 'text-base')
 
