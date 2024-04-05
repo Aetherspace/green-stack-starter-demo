@@ -1,14 +1,10 @@
-import { useLocalSearchParams } from 'expo-router'
-import type { UniversalRouteScreenProps } from './useRouteParams.types'
+import { useContext } from 'react'
+import { CoreContext } from '../context/CoreContext'
+import { UniversalRouteScreenProps } from './useRouteParams.types'
 
-/** --- useRouteParams() -------------------------------------------------------------- */
-/** -i- Gets the route search and query params on both web and mobile */
+/* --- useRouteParams() ------------------------------------------------------------------------ */
+
 export const useRouteParams = (routeScreenProps: UniversalRouteScreenProps) => {
-  const { params, searchParams } = routeScreenProps
-  const expoRouterParams = useLocalSearchParams()
-  return {
-    ...params,
-    ...searchParams,
-    ...expoRouterParams,
-  } as typeof expoRouterParams
+    const { useContextRouteParams } = useContext(CoreContext)
+    return useContextRouteParams(routeScreenProps)
 }

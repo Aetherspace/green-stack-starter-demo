@@ -1,45 +1,14 @@
-import { Link as ExpoLink } from 'expo-router'
+import React from 'react'
 import type { UniversalLinkProps } from './Link.types'
+import { CoreContext } from '../context/CoreContext'
 
 /* --- <Link/> --------------------------------------------------------------------------------- */
 
 export const Link = (props: UniversalLinkProps) => {
-    // Props
-    const {
-        children,
-        href,
-        style,
-        replace,
-        onPress,
-        target,
-        asChild,
-        push,
-        testID,
-        nativeID,
-        allowFontScaling,
-        numberOfLines,
-        maxFontSizeMultiplier
-    } = props
+    // Context
+    const { contextLink: ContextLink } = React.useContext(CoreContext)
 
-    // -- Render --
-
-    return (
-        <ExpoLink
-            href={href}
-            style={style}
-            onPress={onPress}
-            target={target}
-            asChild={asChild}
-            replace={replace}
-            push={push}
-            testID={testID}
-            nativeID={nativeID}
-            allowFontScaling={allowFontScaling}
-            numberOfLines={numberOfLines}
-            maxFontSizeMultiplier={maxFontSizeMultiplier}
-        >
-            {children}
-        </ExpoLink>
-    )
+    // Render
+    return <ContextLink {...props} />
 }
 
