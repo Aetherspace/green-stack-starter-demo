@@ -7,8 +7,8 @@ import { Link } from '../components/Link'
 const HomeScreen = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to Expo + Next.js app routing 👋</Text>
-      <Text style={styles.subtitle}>Upen up HomeScreen.tsx in features/app-core/screens to start working on your app</Text>
+      <Text style={styles.title}>Expo + Next.js app routing 👋</Text>
+      <Text style={styles.subtitle}>Open HomeScreen.tsx in features/app-core/screens to start working on your app</Text>
       <Link href="/subpages/aetherspace" style={styles.link}>Test navigation</Link>
     </View>
   )
