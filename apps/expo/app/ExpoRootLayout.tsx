@@ -7,6 +7,8 @@ import UniversalRootLayout from '@app/core/screens/UniversalRootLayout'
 // -i- Use this file to apply your Expo specific layout setup:
 // -i- like rendering our Universal Layout and App Providers
 
+/* --- <ExpoRootLayout> ------------------------------------------------------------------------ */
+
 export default function ExpoRootLayout() {
   return (
     <UniversalAppProviders>
