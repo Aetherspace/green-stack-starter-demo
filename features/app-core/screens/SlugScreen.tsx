@@ -1,15 +1,15 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { useUniversalRouteParams } from '@app/core/hooks/useUniversalRouteParams'
-import { Link } from '../components/Link'
-import { useUniversalRouter } from '../hooks/useUniversalRouter'
+import { useRouteParams } from '@app/core/navigation/useRouteParams'
+import { Link } from '../navigation/Link'
+import { useRouter } from '../navigation/useRouter'
 
 /* --- <SlugScreen/> --------------------------------------------------------------------------- */
 
 const SlugScreen = (props) => {
   // Routing
-  const { slug, count = '' } = useUniversalRouteParams(props)
-  const { canGoBack, back, push, navigate, replace, setParams } = useUniversalRouter()
+  const { slug, count = '' } = useRouteParams(props)
+  const { canGoBack, back, push, navigate, replace, setParams } = useRouter()
 
   // Vars
   const showBackButton = canGoBack()

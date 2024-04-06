@@ -1,9 +1,9 @@
 import { router } from 'expo-router'
-import { UniversalRouterMethods } from './useUniversalRouter.types'
+import { UniversalRouterMethods } from './useRouter.types'
 
-/* --- useUniversalRouter() -------------------------------------------------------------------- */
+/* --- useRouter() ----------------------------------------------------------------------------- */
 
-export const useUniversalRouter = () => {
+export const useRouter = () => {
     return {
         push: router.push,
         navigate: router.navigate,

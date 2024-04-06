@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { Link } from '../components/Link'
+import { Link } from '../navigation/Link'
 
 /* --- <HomeScreen/> --------------------------------------------------------------------------- */
 
