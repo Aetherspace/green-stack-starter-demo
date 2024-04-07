@@ -1,15 +1,18 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Link } from '../navigation/Link'
+import { Image } from '../components/Image'
 
 /* --- <HomeScreen/> --------------------------------------------------------------------------- */
 
 const HomeScreen = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Expo + Next.js app routing 👋</Text>
+      <Image src={require('../assets/aetherspaceLogo.png')} width={60} height={60} style={{ marginBottom: 12 }} />
+      <Text style={styles.title}>Expo + Next.js app routing 🚀</Text>
       <Text style={styles.subtitle}>Open HomeScreen.tsx in features/app-core/screens to start working on your app</Text>
       <Link href="/subpages/aetherspace" style={styles.link}>Test navigation</Link>
+      <Link href="/images" style={styles.link}>Test images</Link>
     </View>
   )
 }

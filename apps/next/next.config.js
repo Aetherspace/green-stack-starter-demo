@@ -13,6 +13,14 @@ const nextConfig = withExpo({
   experimental: {
     forceSwcTransforms: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "codinsonn.dev",
+      }
+    ]
+  }
 });
 
 module.exports = nextConfig;
