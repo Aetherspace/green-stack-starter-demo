@@ -14,7 +14,7 @@ export type UniversalLinkProps = {
     style?: ExpoLinkProps['style'];
 
     /** -!- Nativewind classNames should be applied to either the parent or children of Link. Ideally, create or use a TextLink component instead */
-    className?: never;
+    className?: string; // never;
 
     /** Universal - Should replace the current route without adding to the history - Default: false. */
     replace?: boolean;

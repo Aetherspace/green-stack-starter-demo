@@ -1,6 +1,7 @@
 import NextLink from 'next/link'
 import type { ComponentProps } from 'react'
 import type { UniversalLinkProps } from './Link.types'
+import { parseNativeWindStyles } from '../utils/parseNativeWindStyles'
 
 /* --- <Link/> --------------------------------------------------------------------------------- */
 
@@ -9,6 +10,7 @@ export const Link = (props: UniversalLinkProps) => {
     const {
         children,
         href,
+        className,
         style,
         replace,
         onPress,
@@ -21,12 +23,18 @@ export const Link = (props: UniversalLinkProps) => {
         as,
     } = props
 
+    // -- Nativewind --
+
+    const { nativeWindStyles, nativeWindClassName, restStyle } = parseNativeWindStyles(style)
+    const finalStyle = { ...nativeWindStyles, ...restStyle } as React.CSSProperties
+
     // -- Render --
 
     return (
         <NextLink
             href={href}
-            style={style as unknown as ComponentProps<typeof NextLink>['style']}
+            className={[className, nativeWindClassName].filter(Boolean).join(' ')}
+            style={finalStyle as unknown as ComponentProps<typeof NextLink>['style']}
             onClick={onPress}
             target={target}
             replace={replace}

@@ -1,5 +1,6 @@
 import { Link as ExpoLink } from 'expo-router'
 import type { UniversalLinkProps } from './Link.types'
+import { parseNativeWindStyles } from '../utils/parseNativeWindStyles'
 
 /* --- <Link/> --------------------------------------------------------------------------------- */
 
@@ -21,12 +22,17 @@ export const Link = (props: UniversalLinkProps) => {
         maxFontSizeMultiplier
     } = props
 
+    // -- Nativewind --
+
+    const { nativeWindStyles, restStyle } = parseNativeWindStyles(style)
+    const finalStyle = { ...nativeWindStyles, ...restStyle }
+
     // -- Render --
 
     return (
         <ExpoLink
             href={href}
-            style={style}
+            style={finalStyle}
             onPress={onPress}
             target={target}
             asChild={asChild}

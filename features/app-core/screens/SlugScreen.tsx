@@ -1,6 +1,6 @@
 import React from 'react'
 import { useRouteParams } from '@app/core/navigation/useRouteParams'
-import { View, Text, H3, TextLink } from '../components/styled'
+import { View, Text, H3, Link } from '../components/styled'
 import { useRouter } from '../navigation/useRouter'
 
 /* --- <SlugScreen/> --------------------------------------------------------------------------- */
@@ -32,13 +32,13 @@ const SlugScreen = (props) => {
       <Text className="mt-2 text-base text-center">
         Need a more robust, Fully-Stacked, Full-Product, Universal App Setup?
       </Text>
-      <TextLink
+      <Link
         href="https://github.com/Aetherspace/green-stack-starter-demo#readme"
         className="mt-4 text-center"
         target="_blank"
       >
         Check out the GREEN Stack Starter
-      </TextLink>
+      </Link>
       <Text className="mt-4 text-center text-blue-500 underline" onPress={() => push('/subpages/push')}>
         {`router.push()`}
       </Text>
