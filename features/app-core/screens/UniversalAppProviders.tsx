@@ -17,13 +17,13 @@ type UniversalAppProvidersProps = CoreContextType & {
 
 const UniversalAppProviders = (props: UniversalAppProvidersProps) => {
     // Props
-    const { children, contextLink, contextRouter, useContextRouteParams } = props
+    const { children, contextImage, contextLink, contextRouter, useContextRouteParams } = props
 
     // -- Render --
 
     return (
         <>
-            <CoreContext.Provider value={{ contextLink, contextRouter, useContextRouteParams }}>
+            <CoreContext.Provider value={{ contextImage, contextLink, contextRouter, useContextRouteParams }}>
                 {children}
             </CoreContext.Provider>
         </>

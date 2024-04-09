@@ -1,6 +1,7 @@
 import { Stack } from 'expo-router'
 import UniversalAppProviders from '@app/core/screens/UniversalAppProviders'
 import UniversalRootLayout from '@app/core/screens/UniversalRootLayout'
+import { Image as ExpoContextImage } from '@app/core/components/Image.expo'
 import { Link as ExpoContextLink } from '@app/core/navigation/Link.expo'
 import { useRouter as useExpoContextRouter } from '@app/core/navigation/useRouter.expo'
 import { useRouteParams as useExpoRouteParams } from '@app/core/navigation/useRouteParams.expo'
@@ -20,6 +21,7 @@ export default function ExpoRootLayout() {
 
   return (
     <UniversalAppProviders
+      contextImage={ExpoContextImage}
       contextLink={ExpoContextLink}
       contextRouter={expoContextRouter}
       useContextRouteParams={useExpoRouteParams}
