@@ -1,5 +1,6 @@
-import type { NextApiRequest } from 'next'
 import * as OS from 'os'
+import type { NextRequest } from 'next/server'
+import type { RequestContext } from '../middleware/createRequestContext'
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
@@ -9,14 +10,19 @@ const ALIVE_SINCE = new Date()
 
 type HealthCheckArgs = {
   echo: string
-  req: Request | NextApiRequest
+}
+
+type HealthCheckInputs = {
+  args: HealthCheckArgs,
+  context: RequestContext
 }
 
 /** --- healthCheck() -------------------------------------------------------------------------- */
 /** -i- Check the health status of the server. Includes relevant urls, server time(zone), versions and more */
-export const healthCheck = async (args: HealthCheckArgs) => {
-    // Input
-    const { echo, req } = args
+export const healthCheck = async ({ args, context }: HealthCheckInputs) => {
+    // Inputs
+    const { echo } = args
+    const { req } = context
 
     // Vars
     const now = new Date()
@@ -24,10 +30,10 @@ export const healthCheck = async (args: HealthCheckArgs) => {
 
     // Urls
     const r = req as Request
-    const rn = req as NextApiRequest
-    const reqHost = rn?.headers?.host
-    const reqProtocol = rn?.headers?.['x-forwarded-proto'] ?? 'http'
-    const requestURL = r?.url ?? `${reqProtocol}://${reqHost}/api/health`
+    const rn = req as NextRequest
+    const requestHost = rn?.headers?.get?.('host')
+    const requestProtocol = rn?.headers?.get?.['x-forwarded-proto'] ?? 'http'
+    const requestURL = r?.url ?? `${requestProtocol}://${requestHost}/api/health`
     const baseURL = process.env.BACKEND_URL || requestURL?.split('/api/')[0]
     const apiURL = baseURL ? `${baseURL}/api` : null
 
@@ -46,6 +52,8 @@ export const healthCheck = async (args: HealthCheckArgs) => {
         aliveSince: ALIVE_SINCE.toISOString(),
         serverTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         // URLS
+        requestHost,
+        requestProtocol,
         requestURL,
         baseURL,
         apiURL,

@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { useRouteParams } from '@app/core/navigation/useRouteParams'
+import { useRouteParams } from '../navigation/useRouteParams'
 import { Link } from '../navigation/Link'
 import { useRouter } from '../navigation/useRouter'
 
