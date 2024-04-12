@@ -6,9 +6,11 @@
     "@apollo/server": "^4.10.2",
     "@as-integrations/next": "^3.0.0",
     "@graphql-tools/load-files": "^7.0.0",
+    "gql.tada": "^1.4.3",
     "graphql-tag": "^2.12.6"
   },
   "devDependencies": {
+    "@0no-co/graphqlsp": "^1.9.1",
     "typescript": "5.3.3"
   },
   "scripts": {}
