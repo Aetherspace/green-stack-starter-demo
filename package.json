@@ -7,6 +7,9 @@
     "features/*",
     "packages/*"
   ],
+  "overrides": {
+    "graphql": "16.8.1"
+  },
   "scripts": {
     "dev": "npm run dev:web & npm run dev:mobile",
     "dev:web": "npm -w @app/next run dev",
