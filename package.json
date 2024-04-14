@@ -12,7 +12,7 @@
   },
   "scripts": {
     "dev": "npm run dev:web & npm run dev:mobile",
-    "dev:web": "npm -w @app/next run dev",
+    "dev:web": "npm -w @app/core run build:schema && npm -w @app/next run dev",
     "dev:mobile": "npm -w @app/expo run dev",
     "android": "npm -w @app/expo run android",
     "ios": "npm -w @app/expo run ios",

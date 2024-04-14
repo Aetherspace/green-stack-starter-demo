@@ -1,9 +1,8 @@
-import path from 'path'
-import { fileURLToPath } from 'node:url'
-import { loadFilesSync } from '@graphql-tools/load-files'
-import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge'
+import { mergeResolvers } from '@graphql-tools/merge'
 import { makeExecutableSchema } from '@graphql-tools/schema'
+import { gql } from 'graphql-tag'
 import type { RequestContext } from '../middleware/createRequestContext'
+import { typeDefs } from './typeDefs'
 import { healthCheck } from '../resolvers/healthCheck'
 
 /** --- createResolver() ----------------------------------------------------------------------- */
@@ -29,23 +28,10 @@ export const createRootResolver = () => mergeResolvers([
     /* other resolvers? */
 ])
 
-/** --- createSchemaDefinitions() -------------------------------------------------------------- */
-/** -i- Combine all custom and other (e.g. generated) graphql schema definitions */
-export const createSchemaDefinitions = () => {
-    const currentDir = path.dirname(fileURLToPath(import.meta.url))
-    const rootDir = path.resolve(currentDir, '../../..')
-    const schemaPathPattern = `${rootDir}/(features|packages)/**/*.graphql`
-    const customGraphQLDefinitions = loadFilesSync(schemaPathPattern)
-    return mergeTypeDefs([
-        ...customGraphQLDefinitions,
-        /* other typedefs? */
-    ])
-}
-
 /* --- Schema ---------------------------------------------------------------------------------- */
 
 export const schemaBundle = {
-    typeDefs: createSchemaDefinitions(),
+    typeDefs: gql`${typeDefs}`,
     resolvers: createRootResolver(),
 }
 

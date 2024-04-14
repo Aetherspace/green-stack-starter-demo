@@ -19,7 +19,9 @@ type HealthCheckData {
     requestProtocol: String
     requestURL: String
     baseURL: String
+    backendURL: String
     apiURL: String
+    graphURL: String
     port: Int
     debugPort: Int
     nodeVersion: String
