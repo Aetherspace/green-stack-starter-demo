@@ -8,6 +8,7 @@
   "devDependencies": {},
   "scripts": {
     "dev": "next dev",
-    "build": "next build"
+    "build": "next build",
+    "env:local": "cp .env.example .env.local"
   }
 }

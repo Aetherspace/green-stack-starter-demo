@@ -15,6 +15,7 @@
     "ios": "npm -w @app/expo run ios",
     "expo:web": "npm -w @app/expo run web",
     "build": "npm -w @app/next run build",
-    "add-dependencies": "npm -w @app/expo run add-dependencies"
+    "add-dependencies": "npm -w @app/expo run add-dependencies",
+    "env:local": "npm -w @app/next run env:local & npm -w @app/expo run env:local"
   }
 }

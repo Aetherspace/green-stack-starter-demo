@@ -25,11 +25,12 @@
     "typescript": "5.3.3"
   },
   "scripts": {
-    "dev": "expo start",
-    "start": "expo start",
+    "dev": "expo start --clear",
+    "start": "expo start --clear",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "add-dependencies": "expo install"
+    "add-dependencies": "expo install",
+    "env:local": "cp .env.example .env.local"
   }
 }

@@ -1,6 +1,7 @@
 import * as OS from 'os'
 import type { NextRequest } from 'next/server'
 import type { RequestContext } from '../middleware/createRequestContext'
+import { appConfig } from '../appConfig'
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
@@ -9,7 +10,7 @@ const ALIVE_SINCE = new Date()
 /* --- Types ----------------------------------------------------------------------------------- */
 
 type HealthCheckArgs = {
-  echo: string
+  echo?: string
 }
 
 type HealthCheckInputs = {
@@ -33,9 +34,8 @@ export const healthCheck = async ({ args, context }: HealthCheckInputs) => {
     const rn = req as NextRequest
     const requestHost = rn?.headers?.get?.('host')
     const requestProtocol = rn?.headers?.get?.['x-forwarded-proto'] ?? 'http'
-    const requestURL = r?.url ?? `${requestProtocol}://${requestHost}/api/health`
-    const baseURL = process.env.BACKEND_URL || requestURL?.split('/api/')[0]
-    const apiURL = baseURL ? `${baseURL}/api` : null
+    const requestURL = r?.url || `${requestProtocol}://${requestHost}/api/health`
+    const { baseURL, backendURL, apiURL, graphURL } = appConfig
 
     // -- Respond --
 
@@ -55,8 +55,10 @@ export const healthCheck = async ({ args, context }: HealthCheckInputs) => {
         requestHost,
         requestProtocol,
         requestURL,
-        baseURL,
-        apiURL,
+        baseURL: requestHost ? `${requestProtocol}://${requestHost}` : baseURL,
+        backendURL: requestHost ? `${requestProtocol}://${requestHost}` : backendURL,
+        apiURL: requestHost ? `${requestProtocol}://${requestHost}/api` : apiURL,
+        graphURL: requestHost ? `${requestProtocol}://${requestHost}/api/graphql` : graphURL,
         port: process.env.PORT ? Number(process.env.PORT) : null,
         debugPort: process.debugPort && Number(process.debugPort),
         // VERSIONS

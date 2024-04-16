@@ -13,7 +13,7 @@ type UniversalRootLayoutProps = {
     children: React.ReactNode
 }
 
-/* --- <UniversalRootLayout/> --------------------------------------------------------------------------- */
+/* --- <UniversalRootLayout/> ------------------------------------------------------------------ */
 
 const UniversalRootLayout = ({ children }: UniversalRootLayoutProps) => (
     <View style={styles.container}>

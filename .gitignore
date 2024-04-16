@@ -1,6 +1,7 @@
 node_modules/
 node_modules
 .env
+.env.local
 
 # -- @generated: @expo/next-adapter@2.1.0 --
 
@@ -25,7 +26,7 @@ yarn-error.log*
 
 # misc
 .DS_Store
-.env*
+.env
 .next
 
 # -- @generated: @expo/next-adapter@2.1.52 --

@@ -19,6 +19,7 @@
   },
   "include": [
     "next-env.d.ts",
+    "appConfig.ts",
     "**/*.ts",
     "**/*.tsx",
     "../../apps/expo/app/ExpoRootLayout.tsx",
