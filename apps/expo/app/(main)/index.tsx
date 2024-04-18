@@ -1,3 +1,3 @@
-import HomeScreen from '@app/core/screens/HomeScreen'
+import HomeScreen from '@app/core/routes/index'
 
 export default HomeScreen

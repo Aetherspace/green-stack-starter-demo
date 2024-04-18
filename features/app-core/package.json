@@ -2,7 +2,9 @@
   "name": "@app/core",
   "version": "1.0.0",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "@tanstack/react-query": "^5.29.2"
+  },
   "devDependencies": {
     "typescript": "5.3.3"
   },

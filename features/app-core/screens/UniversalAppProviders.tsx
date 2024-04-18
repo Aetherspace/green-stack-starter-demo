@@ -1,5 +1,6 @@
 'use client'
 import React from 'react'
+import { UniversalQueryClientProvider } from '../context/UniversalQueryClientProvider'
 
 // -i- This is a regular react client component
 // -i- Use this file for adding universal app providers
@@ -15,9 +16,9 @@ type UniversalAppProvidersProps = {
 /* --- <UniversalAppProviders/> ---------------------------------------------------------------- */
 
 const UniversalAppProviders = ({ children }: UniversalAppProvidersProps) => (
-    <>
+    <UniversalQueryClientProvider>
         {children}
-    </>
+    </UniversalQueryClientProvider>
 )
 
 /* --- Exports --------------------------------------------------------------------------------- */
