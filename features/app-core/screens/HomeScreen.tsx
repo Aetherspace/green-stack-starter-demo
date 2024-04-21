@@ -13,6 +13,7 @@ const HomeScreen = () => {
       <Text style={styles.subtitle}>Open HomeScreen.tsx in features/app-core/screens to start working on your app</Text>
       <Link href="/subpages/aetherspace" style={styles.link}>Test navigation</Link>
       <Link href="/images" style={styles.link}>Test images</Link>
+      <Link href="https://universal-base-starter-docs.vercel.app/" target="_blank" style={styles.link}>Docs</Link>
     </View>
   )
 }

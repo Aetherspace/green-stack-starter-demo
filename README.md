@@ -43,6 +43,10 @@ See [How to choose cross-platform tech](https://dev.to/codinsonn/why-use-react-n
   </a>
 </p>
 
+## Documentation
+
+All docs for this basic Universal Starter can be found at [universal-base-starter-docs.vercel.app](https://universal-base-starter-docs.vercel.app/)
+
 ## Next adapter & related docs
 
 - [Next Adapter repo](https://github.com/expo/expo-cli/tree/main/packages/next-adapter)
