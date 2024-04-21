@@ -24,6 +24,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see you
 
 Install and/or open the [Expo Go](https://expo.io/client) app on your phone and scan the QR code to test your **Expo SDK 50** app on mobile.
 
+## Documentation
+
+All docs for this basic Universal Starter can be found at [universal-base-starter-docs.vercel.app](https://universal-base-starter-docs.vercel.app/)
+
 ## Alternative Universal App starters
 
 See [How to choose cross-platform tech](https://dev.to/codinsonn/why-use-react-native-over-flutter-a-recap-57b0) on dev.to for our more detailed list of alternatives.
@@ -42,10 +46,6 @@ See [How to choose cross-platform tech](https://dev.to/codinsonn/why-use-react-n
     <img src="https://img.shields.io/static/v1?label=Sponsor&style=for-the-badge&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86" target="_blank" />
   </a>
 </p>
-
-## Documentation
-
-All docs for this basic Universal Starter can be found at [universal-base-starter-docs.vercel.app](https://universal-base-starter-docs.vercel.app/)
 
 ## Next adapter & related docs
 
