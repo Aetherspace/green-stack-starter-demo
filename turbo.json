@@ -1,0 +1,33 @@
+{
+    "$schema": "https://turbo.build/schema.json",
+    "pipeline": {
+        "build": {
+            "outputs": [".next/**", "!.next/cache/**"],
+            "cache": true
+        },
+        "dev": {
+            "cache": false
+        },
+        "@app/next#dev": {
+            "cache": false
+        },
+        "@app/expo#dev": {
+            "cache": false
+        },
+        "android": {
+            "cache": false
+        },
+        "ios": {
+            "cache": false
+        },
+        "@app/expo#web": {
+            "cache": false
+        },
+        "@app-expo#add-dependencies": {
+            "cache": false
+        },
+        "env:local": {
+            "cache": false
+        }
+    }
+}

@@ -57,3 +57,5 @@ yarn-error.log*
 .pnp.js
 
 # -- @end @expo/next-adapter --
+
+.turbo
