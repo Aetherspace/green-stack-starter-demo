@@ -1,7 +1,6 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { useRouteParams } from '../navigation/useRouteParams'
-import { Link } from '../navigation/Link'
+import { useRouteParams } from '@app/core/navigation/useRouteParams'
+import { View, Text, H3, P, Link } from '../components/styled'
 import { useRouter } from '../navigation/useRouter'
 
 /* --- <SlugScreen/> --------------------------------------------------------------------------- */
@@ -17,70 +16,44 @@ const SlugScreen = (props) => {
   // -- Render --
 
   return (
-    <View style={styles.container}>
+    <View className="flex flex-1 justify-center items-center">
       {showBackButton && (
         <Text
-          style={{ ...styles.backButton, ...styles.link, textDecorationLine: 'none' }}
+          className="text-blue-500 absolute top-8 web:top-0 left-0 p-4"
           onPress={back}
         >
           {`< Back`}
         </Text>
       )}
-      <Text style={styles.title}>
+      <H3>
         Page slug: {slug}
         {!!count && ` | count: ${count}`}
-      </Text>
-      <Text style={styles.subtitle}>Need a more robust, Fully-Stacked, Full-Product, Universal App Setup?</Text>
-      <Link href="https://github.com/Aetherspace/green-stack-starter-demo#readme" target="_blank" style={styles.link}>
+      </H3>
+      <P className="mt-2 text-base text-center">
+        Need a more robust, Fully-Stacked, Full-Product, Universal App Setup?
+      </P>
+      <Link
+        href="https://github.com/Aetherspace/green-stack-starter-demo#readme"
+        className="mt-4 text-base text-center"
+        target="_blank"
+      >
         Check out the GREEN Stack Starter
       </Link>
-      <Text style={styles.link} onPress={() => push('/subpages/push')}>
+      <Text className="mt-4 text-center text-base text-blue-500 underline" onPress={() => push('/subpages/push')}>
         {`router.push()`}
       </Text>
-      <Text style={styles.link} onPress={() => navigate('/subpages/navigate')}>
+      <Text className="mt-4 text-center text-base text-blue-500 underline" onPress={() => navigate('/subpages/navigate')}>
         {`router.navigate()`}
       </Text>
-      <Text style={styles.link} onPress={() => replace('/subpages/replace')}>
+      <Text className="mt-4 text-center text-base text-blue-500 underline" onPress={() => replace('/subpages/replace')}>
         {`router.replace()`}
       </Text>
-      <Text style={styles.link} onPress={() => setParams({ count: `${+count + 1}` })}>
+      <Text className="mt-4 text-center text-base text-blue-500 underline" onPress={() => setParams({ count: `${+count + 1}` })}>
         {`router.setParams()`}
       </Text>
     </View>
   )
 }
-
-/* --- Styles ---------------------------------------------------------------------------------- */
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  backButton: {
-    position: 'absolute',
-    top: 16,
-    left: 16,
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  subtitle: {
-    marginTop: 8,
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  link: {
-    marginTop: 16,
-    fontSize: 16,
-    color: 'blue',
-    textAlign: 'center',
-    textDecorationLine: 'underline',
-  },
-})
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

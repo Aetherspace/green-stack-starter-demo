@@ -1,6 +1,7 @@
 import { Image as ExpoImage } from 'expo-image'
-import { UniversalImageProps, UniversalImageMethods } from './Image.types'
 import { Platform } from 'react-native'
+import { parseNativeWindStyles } from '../utils/parseNativeWindStyles'
+import type { UniversalImageProps, UniversalImageMethods } from './Image.types'
 
 /* --- <Image/> -------------------------------------------------------------------------------- */
 
@@ -39,10 +40,13 @@ const Image = (props: UniversalImageProps): JSX.Element => {
         responsivePolicy,
     } = props
 
+    // -- Nativewind --
+
+    const { nativeWindStyles, restStyle } = parseNativeWindStyles(style)
+    const finalStyle = { width, height, ...nativeWindStyles, ...restStyle }
+
     // -- Overrides --
 
-    // @ts-ignore
-    const finalStyle = { width, height, ...style }
     if (fill) finalStyle.height = '100%'
     if (fill) finalStyle.width = '100%'
 

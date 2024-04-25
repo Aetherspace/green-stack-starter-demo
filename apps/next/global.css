@@ -1,3 +1,8 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* -i- Upgrade from the CSS reset that came with Expo's default Next.js setup */
 /* Follows the setup for react-native-web: */
 /* https://necolas.github.io/react-native-web/docs/setup/#root-element */

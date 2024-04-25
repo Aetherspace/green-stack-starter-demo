@@ -5,7 +5,10 @@
   "dependencies": {
     "next": "~14.0.4"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "autoprefixer": "^10.4.19",
+    "postcss": "8.4.23"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
