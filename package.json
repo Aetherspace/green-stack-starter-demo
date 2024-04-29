@@ -7,6 +7,9 @@
     "features/*",
     "packages/*"
   ],
+  "overrides": {
+    "graphql": "16.8.1"
+  },
   "scripts": {
     "dev": "npx turbo run dev",
     "dev:web": "npx turbo run @app/next#dev",
@@ -15,6 +18,7 @@
     "ios": "npx turbo run ios",
     "expo:web": "npx turbo run @app/expo#web",
     "build": "npx turbo run build",
+    "build:schema": "npx turbo run @app/core#build:schema",
     "add-dependencies": "npx turbo run @app-expo#add-dependencies",
     "env:local": "npx turbo run env:local",
     "turbo:login": "npx turbo login",
@@ -22,6 +26,7 @@
     "turbo:unlink": "npx turbo unlink"
   },
   "devDependencies": {
+    "@0no-co/graphqlsp": "^1.9.1",
     "turbo": "^1.13.2"
   }
 }

@@ -1,4 +1,4 @@
-const { universalTheme } = require('@app/core/tailwind.theme')
+const { universalTheme } = require('@app/core/tailwind.theme.cjs')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
