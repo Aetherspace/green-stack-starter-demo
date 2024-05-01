@@ -9,13 +9,41 @@ const ALIVE_SINCE = new Date()
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-type HealthCheckArgs = {
+export type HealthCheckArgs = {
   echo?: string
 }
 
-type HealthCheckInputs = {
+export type HealthCheckInputs = {
   args: HealthCheckArgs,
   context: RequestContext
+}
+
+export type HealthCheckResponse = {
+  echo?: string
+  status: 'OK'
+  alive: boolean
+  kicking: boolean
+  now: string
+  aliveTime: number
+  aliveSince: string
+  serverTimezone: string
+  requestHost: string
+  requestProtocol: string
+  requestURL: string
+  baseURL: string
+  backendURL: string
+  apiURL: string
+  graphURL: string
+  port: number | null
+  debugPort: number | null
+  nodeVersion: string
+  v8Version: string
+  systemArch: string
+  systemPlatform: string
+  systemRelease: string
+  systemFreeMemory: number
+  systemTotalMemory: number
+  systemLoadAverage: number[]
 }
 
 /** --- healthCheck() -------------------------------------------------------------------------- */

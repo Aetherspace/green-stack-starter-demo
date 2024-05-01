@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
 import { CoreContext, CoreContextType } from '../context/CoreContext'
+import { UniversalQueryClientProvider } from '../context/UniversalQueryClientProvider'
 
 // -i- This is a regular react client component
 // -i- Use this file for adding universal app providers that work in both Expo and Next.js
@@ -22,11 +23,11 @@ const UniversalAppProviders = (props: UniversalAppProvidersProps) => {
     // -- Render --
 
     return (
-        <>
+        <UniversalQueryClientProvider>
             <CoreContext.Provider value={{ contextImage, contextLink, contextRouter, useContextRouteParams }}>
                 {children}
             </CoreContext.Provider>
-        </>
+        </UniversalQueryClientProvider>
     )
 }
 

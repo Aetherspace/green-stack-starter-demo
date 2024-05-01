@@ -6,6 +6,7 @@
   "dependencies": {
     "@apollo/server": "^4.10.2",
     "@as-integrations/next": "^3.0.0",
+    "@tanstack/react-query": "^5.29.2",
     "@graphql-tools/load-files": "^7.0.0",
     "gql.tada": "^1.4.3",
     "graphql-tag": "^2.12.6",
