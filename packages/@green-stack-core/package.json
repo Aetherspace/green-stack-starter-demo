@@ -1,0 +1,15 @@
+{
+    "name": "@green-stack/core",
+    "version": "0.0.1",
+    "private": true,
+    "type": "module",
+    "dependencies": {},
+    "devDependencies": {
+        "@graphql-tools/load-files": "^7.0.0",
+        "ts-node": "^10.9.2",
+        "typescript": "5.3.3"
+    },
+    "scripts": {
+        "build:schema": "node -r ts-node/register --loader ts-node/esm --experimental-specifier-resolution=node ./scripts/build-graphql-schema.ts"
+    }
+}

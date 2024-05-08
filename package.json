@@ -18,7 +18,7 @@
     "ios": "npx turbo run ios",
     "expo:web": "npx turbo run @app/expo#web",
     "build": "npx turbo run build",
-    "build:schema": "npx turbo run @app/core#build:schema",
+    "build:schema": "npx turbo run @green-stack/core#build:schema",
     "add-dependencies": "npx turbo run @app-expo#add-dependencies",
     "env:local": "npx turbo run env:local",
     "turbo:login": "npx turbo login",

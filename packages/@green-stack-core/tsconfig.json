@@ -1,0 +1,9 @@
+{
+    "extends": "@app/core/tsconfig",
+    "include": [
+        "**/*.ts",
+        "**/*.tsx",
+        "../../features/app-core/graphql-env.d.ts"
+    ],
+    "exclude": ["node_modules"]
+}

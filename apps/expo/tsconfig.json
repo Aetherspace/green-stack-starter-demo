@@ -3,7 +3,11 @@
     "include": [
         "**/*.ts",
         "**/*.tsx",
-        "../../features/app-core/graphql-env.d.ts"
+        "../../features/app-core/graphql-env.d.ts",
+        "../../features/**/*.tsx",
+        "../../features/**/*.ts",
+        "../../packages/**/*.tsx",
+        "../../packages/**/*.ts"
     ],
     "exclude": ["node_modules"]
 }
