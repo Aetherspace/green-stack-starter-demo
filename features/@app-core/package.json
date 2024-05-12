@@ -13,8 +13,6 @@
   "devDependencies": {
     "@0no-co/graphqlsp": "^1.9.1",
     "tailwindcss": "3.3.2",
-    "ts-node": "^10.9.2",
     "typescript": "5.3.3"
-  },
-  "scripts": {}
+  }
 }
