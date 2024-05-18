@@ -29,10 +29,10 @@ export type UniversalImageProps = {
     priority?: ExpoImageProps['priority']
 
     /** Rendered width in pixels, will affect how large the image appears. Required, except for statically imported images or images with the `fill` property. */
-    width?: NextImageProps['width']
+    width?: NextImageProps['width'] | `${number}%`
 
     /** Rendered height in pixels, will affect how large the image appears. Required, except for statically imported images or images with the `fill` property. @default 'auto' */
-    height?: NextImageProps['height']
+    height?: NextImageProps['height'] | `${number}%`
 
     /** Universal, will affect both Expo & Next.js
      * - Remember that the required width and height props can interact with your styling. If you use styling to modify an image's width, you should also style its height to auto to preserve its intrinsic aspect ratio, or your image will be distorted. */

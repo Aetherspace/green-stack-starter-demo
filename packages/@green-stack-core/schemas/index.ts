@@ -41,6 +41,29 @@ export type ZOD_TYPE = keyof typeof BASE_TYPE_MAP
 export type BASE_TYPE = typeof BASE_TYPE_MAP[ZOD_TYPE]
 export type SCHEMA_TYPE = (ZOD_TYPE | BASE_TYPE) & {}
 
+export type Metadata<S = Record<string, any> | any[]> = {
+    typeName: ZOD_TYPE,
+    baseType: BASE_TYPE,
+    schemaName?: string,
+    isOptional?: boolean,
+    isNullable?: boolean,
+    defaultValue?: any,
+    exampleValue?: any,
+    description?: string,
+    minLength?: number,
+    maxLength?: number,
+    exactLength?: number,
+    minValue?: number,
+    maxValue?: number,
+    isInt?: boolean,
+    literalValue?: any,
+    schema?: S,
+}
+
+type StackedMeta = Metadata & {
+    zodType?: z.ZodType & { _def: z.ZodTypeDef & { typeName: ZOD_TYPE } },
+}
+
 /* --- Zod extensions -------------------------------------------------------------------------- */
 
 declare module 'zod' {
@@ -50,7 +73,7 @@ declare module 'zod' {
         example<T extends this['_type']>(exampleValue: T): this
         eg<T extends this['_type']>(exampleValue: T): this
         ex<T extends this['_type']>(exampleValue: T): this
-        introspect(): Record<string, any>
+        introspect(): Metadata & Record<string, any>
     }
 
     interface ZodObject<
@@ -99,7 +122,10 @@ if (!ZodType.prototype.metadata) {
     ZodType.prototype.eg = ZodType.prototype.example
     ZodType.prototype.ex = ZodType.prototype.example
 
-    const getStackedMeta = <Z extends z.ZodTypeAny>(zodType: Z, stackedMeta = []) => {
+    const getStackedMeta = <Z extends z.ZodTypeAny>(
+        zodType: Z,
+        stackedMeta = [] as StackedMeta[]
+    ): StackedMeta[] => {
         // Start with actual metadata
         const meta = { ...zodType.metadata() }
         // Include the type in the stack, we'll remove it again later
@@ -144,19 +170,19 @@ if (!ZodType.prototype.metadata) {
         // Enums
         if (typeName === 'ZodEnum') {
             const _zodType = zodType as unknown as z.ZodEnum<any>
-            meta.schema = _zodType.options?.reduce((acc, value) => {
+            meta.schema = _zodType.options?.reduce((acc: Record<string, unknown>, value: any) => {
                 return { ...acc, [value]: value }
             }, {})
         }
         // Tuples
         if (typeName === 'ZodTuple') {
             const _zodType = zodType as unknown as z.ZodTuple<any>
-            meta.schema = _zodType.items.map((item) => item.introspect?.()).filter(Boolean)
+            meta.schema = _zodType.items.map((item: any) => item.introspect?.()).filter(Boolean)
         }
         // Unions
         if (typeName === 'ZodUnion') {
             const _zodType = zodType as unknown as z.ZodUnion<any>
-            meta.schema = _zodType.options.map((option) => option.introspect?.()).filter(Boolean)
+            meta.schema = _zodType.options.map((option: any) => option.introspect?.()).filter(Boolean)
         }
         // Intersections
         if (typeName === 'ZodIntersection') {
@@ -169,7 +195,7 @@ if (!ZodType.prototype.metadata) {
         // Discriminated Unions
         if (typeName === 'ZodDiscriminatedUnion') {
             const _zodType = zodType as unknown as z.ZodDiscriminatedUnion<any, any>
-            meta.schema = _zodType.options.reduce((acc, option, i) => {
+            meta.schema = _zodType.options.reduce((acc: any, option: any) => {
                 return { ...acc, types: [...acc.types, option.introspect?.()] }
             }, { discriminator: _zodType._def.discriminator, types: [] })
         }
@@ -218,7 +244,7 @@ if (!ZodType.prototype.metadata) {
             meta.schema = _zodType._def.type.introspect?.()
         }
         // Add the metadata for the current type
-        const currentMetaStack = [...stackedMeta, meta]
+        const currentMetaStack = [...stackedMeta, meta as Metadata]
         // If we've reached the innermost type, end recursion, return all metadata
         if (!zodType._def.innerType) return currentMetaStack
         // If there's another inner layer, unwrap it, add to the stack
@@ -230,8 +256,9 @@ if (!ZodType.prototype.metadata) {
         const stackedMeta = getStackedMeta(this)
         const reversedMeta = [...stackedMeta].reverse()
         const [innermostMeta] = reversedMeta
-        const typeName = innermostMeta.zodType._def.typeName
+        const typeName = innermostMeta.zodType!._def.typeName as unknown as ZOD_TYPE
         const baseType = BASE_TYPE_MAP[typeName as ZOD_TYPE]
+        // Flatten stacked metadata in reverse order
         const flatMeta = reversedMeta.reduce((acc, { zodType: _, ...meta }) => ({
             ...acc,
             ...meta,

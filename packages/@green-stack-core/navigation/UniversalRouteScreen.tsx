@@ -5,7 +5,11 @@ import { useRouteParams } from './useRouteParams'
 
 /** --- <UniversalRouteScreen/> -------------------------------------------------------------------- */
 /** -i- Universal Route Wrapper to provide query data on mobile, the browser and during server rendering */
-export const UniversalRouteScreen = <Fetcher extends QueryFn>(props: UniversalRouteProps<Fetcher>) => {
+export const UniversalRouteScreen = <
+    ARGS extends Record<string, unknown> = Record<string, unknown>,
+    RES extends Record<string, unknown> = Record<string, unknown>,
+    Fetcher extends QueryFn<ARGS, RES> = QueryFn<ARGS, RES>
+>(props: UniversalRouteProps<ARGS, RES, Fetcher>) => {
     // Props
     const { params: routeParams, searchParams, queryBridge, routeScreen: RouteScreen, ...screenProps } = props
     const { routeParamsToQueryKey, routeParamsToQueryInput, routeDataFetcher } = queryBridge
@@ -16,8 +20,8 @@ export const UniversalRouteScreen = <Fetcher extends QueryFn>(props: UniversalRo
 
     // Vars
     const queryParams = { ...routeParams, ...searchParams, ...expoRouterParams }
-    const queryKey = routeParamsToQueryKey(queryParams)
-    const queryInput = routeParamsToQueryInput(queryParams)
+    const queryKey = routeParamsToQueryKey(queryParams as any)
+    const queryInput = routeParamsToQueryInput(queryParams as any)
 
     // -- Query --
 

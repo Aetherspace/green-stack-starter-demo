@@ -5,7 +5,7 @@ import { useRouter } from '@green-stack/core/navigation/useRouter'
 
 /* --- <SlugScreen/> --------------------------------------------------------------------------- */
 
-const SlugScreen = (props) => {
+const SlugScreen = (props: { slug?: string, count?: string }) => {
   // Routing
   const { slug, count = '' } = useRouteParams(props)
   const { canGoBack, back, push, navigate, replace, setParams } = useRouter()

@@ -12,8 +12,8 @@ import { healthCheck } from '../resolvers/healthCheck'
 
 /** --- createResolver() ----------------------------------------------------------------------- */
 /** -i- Helper to wrap a resolver function and map context and args to it */
-export const createResolver = <T>(resolver: (input: { args: T, context: RequestContext }) => Promise<unknown>) => {
-    return async (parent: unknown, { args }: { args: T }, context: RequestContext, info: unknown) => {
+export const createResolver = <A, R>(resolver: (input: { args: A, context: RequestContext }) => Promise<R>) => {
+    return async (parent: unknown, { args }: { args: A }, context: RequestContext, info: unknown) => {
         return resolver({ args, context: { ...context, parent, info } })
     }
 }

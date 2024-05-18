@@ -50,9 +50,9 @@ const Image = (props: UniversalImageProps): JSX.Element => {
         <NextImage
             /* - Universal - */
             src={src as any}
-            alt={alt || accessibilityLabel}
-            width={width}
-            height={height}
+            alt={alt || accessibilityLabel!}
+            width={width as any}
+            height={height as any}
             className={[className, nativeWindClassName].filter(Boolean).join(' ')}
             style={finalStyle}
             priority={priority === 'high'}

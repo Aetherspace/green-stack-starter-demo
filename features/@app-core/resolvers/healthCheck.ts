@@ -61,7 +61,7 @@ export const healthCheck = async ({ args, context }: HealthCheckInputs) => {
     const r = req as Request
     const rn = req as NextRequest
     const requestHost = rn?.headers?.get?.('host')
-    const requestProtocol = rn?.headers?.get?.['x-forwarded-proto'] ?? 'http'
+    const requestProtocol = rn?.headers?.get?.('x-forwarded-proto') ?? 'http'
     const requestURL = r?.url || `${requestProtocol}://${requestHost}/api/health`
     const { baseURL, backendURL, apiURL, graphURL } = appConfig
 

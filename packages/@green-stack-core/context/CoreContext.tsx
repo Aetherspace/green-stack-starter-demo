@@ -32,6 +32,6 @@ const createDummyComponent = (contextComponentName: string) => (props: any) => {
 export const CoreContext = React.createContext<CoreContextType>({
     contextImage: createDummyComponent('contextImage') as any,
     contextLink: createDummyComponent('contextLink'),
-    contextRouter: null,
+    contextRouter: null as unknown as UniversalRouterMethods,
     useContextRouteParams: () => ({}),
 })
