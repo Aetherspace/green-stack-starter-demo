@@ -2,10 +2,11 @@ import React from 'react'
 import { useRouteParams } from '@green-stack/core/navigation/useRouteParams'
 import { View, Text, H3, P, Link } from '../components/styled'
 import { useRouter } from '@green-stack/core/navigation/useRouter'
+import type { UniversalRouteScreenProps } from '@green-stack/core/navigation/useRouteParams.types'
 
 /* --- <SlugScreen/> --------------------------------------------------------------------------- */
 
-const SlugScreen = (props: { slug?: string, count?: string }) => {
+const SlugScreen = (props: UniversalRouteScreenProps) => {
   // Routing
   const { slug, count = '' } = useRouteParams(props)
   const { canGoBack, back, push, navigate, replace, setParams } = useRouter()

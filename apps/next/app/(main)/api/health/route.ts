@@ -13,7 +13,7 @@ type NextRequestContext<T = Record<string, unknown>> = {
 const handler = async (req: NextRequest, nextRequestContext: NextRequestContext) => {
     // Input
     const searchParams = req.nextUrl.searchParams
-    const echo = searchParams.get('echo') || null
+    const echo = searchParams.get('echo') || undefined
 
     // Build Context
     const context = await createRequestContext({ req, ...nextRequestContext })

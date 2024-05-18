@@ -73,13 +73,16 @@ export const UniversalRouteScreen = <
         const hydrationState = hydratedQueries || getDehydratedSSRState()
         const renderHydrationData = !!hydrationData && !hydratedData // Only render the hydration data if it's not already in state
 
+        const hasInitialData = !!hydrationData || !!queryBridge.initialData
+        const shouldRefetchOnMount = isExpoWebLocal || !hasInitialData
+
         const { data: fetcherData } = useQuery({
             ...queryConfig, // @ts-ignore
-            initialData: isExpoWebLocal ? undefined : {
+            initialData: shouldRefetchOnMount ? undefined : {
                 ...queryConfig.initialData,
                 ...hydrationData,
             },
-            refetchOnMount: isExpoWebLocal,
+            refetchOnMount: shouldRefetchOnMount,
         })
         const routeDataProps = fetcherDataToProps(fetcherData as Awaited<ReturnType<Fetcher>>) as Record<string, unknown> // prettier-ignore
 

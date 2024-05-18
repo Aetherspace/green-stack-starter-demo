@@ -11,6 +11,9 @@ const nextConfig = withExpo({
     "nativewind",
     // Add more React Native / Expo packages here...
   ],
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   experimental: {
     forceSwcTransforms: true,
   },

@@ -8,7 +8,8 @@
     "packages/*"
   ],
   "overrides": {
-    "graphql": "16.8.1"
+    "graphql": "16.8.1",
+    "next": "~14.0.4"
   },
   "scripts": {
     "dev": "npx turbo run dev",
