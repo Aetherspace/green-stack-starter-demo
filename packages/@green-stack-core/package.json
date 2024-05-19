@@ -8,11 +8,12 @@
     },
     "devDependencies": {
         "@graphql-tools/load-files": "^7.0.0",
+        "@types/bun": "^1.1.2",
         "ts-node": "^10.9.2",
         "typescript": "5.3.3"
     },
     "scripts": {
         "build:schema": "node -r ts-node/register --loader ts-node/esm --experimental-specifier-resolution=node ./scripts/build-graphql-schema.ts",
-        "test:schemas": "node -r ts-node/register --loader ts-node/esm --experimental-specifier-resolution=node ./schemas/index.ts"
+        "test": "bun test"
     }
 }

@@ -12,24 +12,24 @@ export const BASE_TYPE_MAP = {
     ZodEnum: 'String',
     ZodArray: 'Array',
     ZodObject: 'Object',
-    ZodRecord: 'Object',
     // - Mostly Supported, Experimental -
     ZodNull: 'Null', // Serialised as null
     ZodUndefined: 'Undefined', // Omitted unless combined
-    ZodAny: 'Any', // Serialised as JSON
     ZodTuple: 'Any', // Serialised as JSON
     ZodUnion: 'Any', // Serialised as JSON
     ZodLiteral: 'Any', // We'll attempt to narrow down based on literal value, serialised as JSON as fallback
+    ZodNativeEnum: 'Any', // Technically 'String' or 'Number', but we can't really know which one
     // - Might Work, Not Advised -
+    ZodAny: 'Any', // Unpredictable, serialised as JSON
+    ZodRecord: 'Object', // Cannot be used for GraphQL as we don't know the possible keys
     ZodUnknown: 'Any', // Serialised as JSON, can break if value is not JSON serializable
     ZodBigInt: 'Number', // Cannot be JSON serialized, use at own risk
     ZodSymbol: 'String', // Very experimental
     ZodIntersection: 'Any', // Unsure how to handle, will attempt to serialize as JSON
-    ZodNativeEnum: 'Any', // Technically 'String' or 'Number', but we can't really know which one
-    ZodDiscriminatedUnion: 'Any', // Technically 'Object'
+    ZodDiscriminatedUnion: 'Any', // Technically 'Object', unpredictable, serialised as JSON
     ZodMap: 'Any', // Technically 'Object', but JSON serialization is tricky
     ZodSet: 'Array', // Technically 'Array', but JSON serialization is tricky
-    // - Avoid in Schemas -
+    // - Unsupported, Avoid in Schemas -
     ZodVoid: 'Undefined', // Not sure when or where you'd use this outside of functions
     ZodFunction: 'Function', // Cannot be JSON serialized
     ZodPromise: 'Promise', // Cannot be JSON serialized
@@ -297,164 +297,6 @@ if (!ZodType.prototype.metadata) {
 export const schema = <S extends z.ZodRawShape>(name: string, shape: S) => {
     return z.object(shape).nameSchema(name)
 }
-
-/* --- Test Primitives ------------------------------------------------------------------------- */
-
-// const Primitives = schema('Primitives', {
-//     str: z.string().min(1).max(5).nullish().default('test').example('hello').describe('String'),
-//     num: z.number().min(1).max(50).nullable().default(1).example(42).describe('Number'),
-//     bln: z.boolean().optional().default(false).example(true).describe('Boolean'),
-//     date: z.date().default(new Date()).example(new Date('2021-01-01')).describe('Date'),
-// })
-
-// type Primitives = z.infer<typeof Primitives>
-// //   ^?
-
-// Log out the introspection result
-// console.log(JSON.stringify(Primitives.introspect(), null, 4))
-
-/* --- Test Advanced Types --------------------------------------------------------------------- */
-
-// const AdvancedTypes = schema('AdvancedTypes', {
-//     enum: z.enum(['A', 'B', 'C']).default('A').example('B'),
-//     tuple: z.tuple([z.string(), z.number()]).default(['hello', 42]).example(['world', 24]),
-//     union: z.union([z.string(), z.number()]).default('hello').example(42),
-//     array: z.array(z.string()).min(0).max(5).length(1).default([]).example(['world']),
-// })
-
-// type AdvancedTypes = z.infer<typeof AdvancedTypes>
-// //   ^?
-
-// // Log out the introspection result
-// console.log(JSON.stringify(AdvancedTypes.introspect(), null, 4))
-
-/* --- Test Objectlike Types ------------------------------------------------------------------- */
-
-// const Objectlikes = schema('Objectlikes', {
-//     obj: z.object({
-//         str: z.string().default('test').example('hello'),
-//         num: z.number().default(0).example(42),
-//     })
-//         .nameSchema('SomeObject')
-//         .default({ str: 'hello', num: 42 })
-//         .example({ str: 'world', num: 24 }),
-//     rec: z.record(z.string(), z.number()).default({}).example({ key: 5 }),
-// })
-
-// type Objectlikes = z.infer<typeof Objectlikes>
-// //   ^?
-
-// Log out the introspection result
-// console.log(JSON.stringify(Objectlikes.introspect(), null, 4))
-
-/* --- Test Experimental Types ----------------------------------------------------------------- */
-
-// enum TestEnum { D = 'D', E = 'E' }
-
-// const map = new Map()
-// map.set('key', 5)
-
-// const ExperimentalTypes = schema('ExperimentalTypes', {
-//     bigInt: z.bigint(),
-//     symbol: z.symbol(),
-//     null: z.null(),
-//     undefined: z.undefined(),
-//     void: z.void(),
-//     any: z.any(),
-//     unknown: z.unknown(),
-//     literal: z.literal('test'),
-//     intersection: z.intersection(z.union([z.number(), z.string()]), z.union([z.number(), z.boolean()])),
-//     nativeEnum: z.nativeEnum(TestEnum).default(TestEnum.D).example(TestEnum.E),
-//     discriminatedUnion: z.discriminatedUnion('type', [
-//         z.object({ type: z.literal('A'), a: z.string() }),
-//         z.object({ type: z.literal('B'), b: z.number() }),
-//     ]),
-//     set: z.set(z.string()).default(new Set([])).example(new Set(['world'])),
-//     map: z.map(z.string(), z.number()).default(map).example(map),
-//     instanceof: z.instanceof(Date).default(new Date()).example(new Date('2021-01-01')),
-//     custom: z.custom((data) => data),
-// })
-
-// type ExperimentalTypes = z.infer<typeof ExperimentalTypes>
-// //   ^?
-
-// // Log out the introspection result
-// console.log(JSON.stringify(ExperimentalTypes.introspect(), null, 4))
-
-/* --- Test Executables ------------------------------------------------------------------------ */
-
-// const Executables = schema('Executables', {
-//     func: z.function(z.tuple([z.string()]), z.number()).default(() => 42).example(() => 24),
-//     promise: z.promise(z.string()).default(Promise.resolve('hello')).example(Promise.resolve('world')),
-//     lazy: z.lazy(() => z.string()).default('hello').example('world'),
-// })
-
-// type Executables = z.infer<typeof Executables>
-// //   ^?
-
-// // Log out the introspection result
-// console.log(JSON.stringify(Executables.introspect(), null, 4))
-
-/* --- Test Defaults --------------------------------------------------------------------------- */
-
-// const Defaults = schema('Defaults', {
-//     str: z.string().default('test'),
-//     num: z.number().default(1),
-//     bln: z.boolean().default(false),
-//     date: z.date().default(new Date()),
-//     enum: z.enum(['A', 'B', 'C']).default('A'),
-//     tuple: z.tuple([z.string(), z.number()]).default(['hello', 42]),
-//     union: z.union([z.string(), z.number()]).default('hello'),
-//     array: z.array(z.string()).default([]),
-// })
-
-// type Defaults = z.infer<typeof Defaults>
-// //   ^?
-
-// // Log out the defaults
-// console.log(Defaults.applyDefaults({ str: 'hello defaults' }))
-
-/* --- Test Derived Schemas -------------------------------------------------------------------- */
-
-// const PrimitiveSchema = schema('PrimitiveSchema', {
-//     str: z.string(),
-//     num: z.number(),
-//     bln: z.boolean(),
-// })
-
-// const ExtendedSchema = PrimitiveSchema.extendSchema('ExtendedSchema', {
-//     date: z.date(),
-// })
-
-// type ExtendedSchema = z.infer<typeof ExtendedSchema>
-// //   ^?
-
-// // Log out the introspection result
-// console.log(JSON.stringify(ExtendedSchema.introspect(), null, 4))
-
-// // -
-
-// const OmittedSchema = PrimitiveSchema.omitSchema('OmittedSchema', {
-//     num: true,
-// })
-
-// type OmittedSchema = z.infer<typeof OmittedSchema>
-// //   ^?
-
-// // Log out the introspection result
-// console.log(JSON.stringify(OmittedSchema.introspect(), null, 4))
-
-// // -
-
-// const PickedSchema = PrimitiveSchema.pickSchema('PickedSchema', {
-//     num: true,
-// })
-
-// type PickedSchema = z.infer<typeof PickedSchema>
-// //   ^?
-
-// // Log out the introspection result
-// console.log(JSON.stringify(PickedSchema.introspect(), null, 4))
 
 /* --- Reexports ------------------------------------------------------------------------------- */
 
