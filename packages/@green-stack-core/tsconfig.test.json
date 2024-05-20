@@ -1,5 +1,8 @@
 {
     "extends": "@app/core/tsconfig",
+    "compilerOptions": {
+        "types": ["bun-types"]
+    },
     "include": [
         "**/*.ts",
         "**/*.tsx",

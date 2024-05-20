@@ -26,6 +26,7 @@
   },
   "include": [
     "next-env.d.ts",
+    "../../packages/@green-stack-core/global.d.ts",
     "appConfig.ts",
     "**/*.ts",
     "**/*.tsx",

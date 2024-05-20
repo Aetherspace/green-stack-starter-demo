@@ -8,12 +8,11 @@ import { useRouteParams } from './useRouteParams'
 export const UniversalRouteScreen = <
     ARGS extends Record<string, unknown> = Record<string, unknown>,
     RES extends Record<string, unknown> = Record<string, unknown>,
-    Fetcher extends QueryFn<ARGS, RES> = QueryFn<ARGS, RES>
->(props: UniversalRouteProps<ARGS, RES, Fetcher>) => {
+>(props: UniversalRouteProps<ARGS, RES>) => {
     // Props
     const { params: routeParams, searchParams, queryBridge, routeScreen: RouteScreen, ...screenProps } = props
     const { routeParamsToQueryKey, routeParamsToQueryInput, routeDataFetcher } = queryBridge
-    const fetcherDataToProps = queryBridge.fetcherDataToProps || ((data: ReturnType<Fetcher>) => data)
+    const fetcherDataToProps = queryBridge.fetcherDataToProps || ((data: Awaited<ReturnType<QueryFn<ARGS, RES>>>) => data)
 
     // Hooks
     const expoRouterParams = useRouteParams(props)
@@ -28,13 +27,13 @@ export const UniversalRouteScreen = <
     const queryConfig = {
         queryKey,
         queryFn: async () => await routeDataFetcher(queryInput),
-        initialData: queryBridge.initialData,
+        initialData: queryBridge.initialData as Awaited<RES>,
     }
 
     // -- Mobile --
     
     const { data: fetcherData } = useQuery(queryConfig)
-    const routeDataProps = fetcherDataToProps(fetcherData) as Record<string, unknown>
+    const routeDataProps = fetcherDataToProps(fetcherData as Awaited<RES>) as Record<string, unknown>
 
     return (
         <RouteScreen

@@ -1,11 +1,12 @@
 import { ResultOf, VariablesOf, graphql } from 'gql.tada'
-import { graphqlQuery } from '@app/core/graphql/graphqlQuery'
+import { bridgedFetcher } from '@green-stack/core/schemas/bridgedFetcher'
+import { healthCheckBridge } from './healthCheck.bridge'
 
 /* --- Query ----------------------------------------------------------------------------------- */
 
 export const healthCheckQuery = graphql(`
-  query healthCheck ($args: HealthCheckArgs) {
-    healthCheck(args: $args) {
+  query healthCheck ($healthCheckArgs: HealthCheckArgs) {
+    healthCheck(args: $healthCheckArgs) {
       echo
       status
       alive
@@ -43,7 +44,7 @@ export type HealthCheckQueryResult = ResultOf<typeof healthCheckQuery>
 
 /* --- healthCheckFetcher() -------------------------------------------------------------------- */
 
-export const healthCheckFetcher = async (variables: HealthCheckQueryVariables['args']) => {
-  const result = await graphqlQuery(healthCheckQuery, { variables: { args: variables } })
-  return result.healthCheck
-}
+export const healthCheckFetcher = bridgedFetcher({
+  ...healthCheckBridge,
+  graphqlQuery: healthCheckQuery,
+})

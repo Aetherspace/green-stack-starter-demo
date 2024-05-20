@@ -7,9 +7,9 @@ import { HydratedRouteProps, createQueryBridge } from '@green-stack/core/navigat
 
 export const queryBridge = createQueryBridge({
   routeDataFetcher: healthCheckFetcher,
-  routeParamsToQueryKey: (routeParams) => ['healthCheck', routeParams?.echo],
-  routeParamsToQueryInput: (routeParams) => ({ echo: routeParams?.echo }),
-  fetcherDataToProps: (fetcherData) => ({ serverHealth: fetcherData }),
+  routeParamsToQueryKey: (routeParams) => ['healthCheck', routeParams.echo],
+  routeParamsToQueryInput: (routeParams) => ({ healthCheckArgs: { echo: routeParams.echo } }),
+  fetcherDataToProps: (fetcherData) => ({ serverHealth: fetcherData?.healthCheck }),
 })
 
 /* --- <HomeScreen/> --------------------------------------------------------------------------- */

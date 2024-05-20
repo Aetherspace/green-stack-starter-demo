@@ -49,5 +49,5 @@ export const healthCheckBridge = createDataBridge({
     argsSchema: HealthCheckArgs,
     responseSchema: HealthCheckResponse,
     apiPath: '/api/health',
-    allowedMethods: ['GET'],
+    allowedMethods: ['GRAPHQL', 'GET'],
 })

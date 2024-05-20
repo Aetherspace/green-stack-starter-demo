@@ -37,7 +37,7 @@ export const graphqlQuery = async <T extends TadaDocumentNode, R = ResultOf<T>>(
             }) as { data: R }
             // Return resolver response
             return data
-        } catch (error) {
+        } catch (error: any) {
             throw new Error(error)
         }
     }
@@ -58,7 +58,7 @@ export const graphqlQuery = async <T extends TadaDocumentNode, R = ResultOf<T>>(
         const { data, errors } = await res.json()
         if (errors) throw new Error(errors[0].message)
         return data as R
-    } catch (error) {
+    } catch (error: any) {
         throw new Error(error)
     }
 }

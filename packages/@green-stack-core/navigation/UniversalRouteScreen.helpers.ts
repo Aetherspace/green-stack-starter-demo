@@ -8,14 +8,15 @@ export type QueryFn<
     RES extends Record<string, unknown> = Record<string, unknown>
 > = (args: ARGS) => Promise<RES>
 
+// @ts-ignore
 export type QueryBridgeConfig<
     ARGS extends Record<string, unknown> = Record<string, unknown>,
     RES extends Record<string, unknown> = Record<string, unknown>,
-    Fetcher extends QueryFn<ARGS, RES> = QueryFn<ARGS, RES>,
-    FetcherArgs = Parameters<Fetcher>[0],
-    FetcherToProps extends (data: Awaited<ReturnType<Fetcher>>) => unknown = (data: Awaited<ReturnType<Fetcher>>) => Awaited<ReturnType<Fetcher>>,
-    ParamsToQueryKey extends (routeParams: Partial<FetcherArgs>) => QueryKey = (routeParams: Partial<FetcherArgs>) => QueryKey,
-    ParamsToQueryInput extends (routeParams: Partial<FetcherArgs>) => FetcherArgs = (routeParams: Partial<FetcherArgs>) => FetcherArgs
+    Fetcher = QueryFn<ARGS, RES>,
+    FetcherArgs = Parameters<QueryFn<ARGS, RES>>[0],
+    FetcherToProps extends (data: Awaited<ReturnType<QueryFn<ARGS, RES>>>) => unknown = (data: Awaited<ReturnType<QueryFn<ARGS, RES>>>) => Awaited<ReturnType<QueryFn<ARGS, RES>>>,
+    ParamsToQueryKey extends (routeParams: ExtractRouteParams<Parameters<QueryFn<ARGS, RES>>[0]>) => QueryKey = (routeParams: ExtractRouteParams<Parameters<QueryFn<ARGS, RES>>[0]>) => QueryKey,
+    ParamsToQueryInput extends (routeParams: ExtractRouteParams<Parameters<QueryFn<ARGS, RES>>[0]>) => FetcherArgs = (routeParams: ExtractRouteParams<Parameters<QueryFn<ARGS, RES>>[0]>) => FetcherArgs
 > = {
     /** -i- Function to turn any route params into the query key for the `routeDataFetcher()` query */
     routeParamsToQueryKey: ParamsToQueryKey
@@ -26,24 +27,24 @@ export type QueryBridgeConfig<
     /** -i- Function transform fetcher data into props */
     fetcherDataToProps?: FetcherToProps
     /** -i- Initial data provided to the QueryClient */
-    initialData?: ReturnType<Fetcher>
+    initialData?: ReturnType<QueryFn<ARGS, RES>>
 }
 
+// @ts-ignore
 export type UniversalRouteProps<
     ARGS extends Record<string, unknown> = Record<string, unknown>,
     RES extends Record<string, unknown> = Record<string, unknown>,
-    Fetcher extends QueryFn<ARGS, RES> = QueryFn<ARGS, RES>,
-    FetcherArgs = Parameters<Fetcher>[0],
-    FetcherToProps extends (data: Awaited<ReturnType<Fetcher>>) => unknown = (data: Awaited<ReturnType<Fetcher>>) => Awaited<ReturnType<Fetcher>>,
-    ParamsToQueryKey extends (routeParams: Partial<FetcherArgs>) => QueryKey = (routeParams: Partial<FetcherArgs>) => QueryKey,
-    ParamsToQueryInput extends (routeParams: Partial<FetcherArgs>) => FetcherArgs = (routeParams: Partial<FetcherArgs>) => FetcherArgs
+    FetcherArgs = Parameters<QueryFn<ARGS, RES>>[0],
+    FetcherToProps extends (data: Awaited<ReturnType<QueryFn<ARGS, RES>>>) => unknown = (data: Awaited<ReturnType<QueryFn<ARGS, RES>>>) => Awaited<ReturnType<QueryFn<ARGS, RES>>>,
+    ParamsToQueryKey extends (routeParams: ExtractRouteParams<Parameters<QueryFn<ARGS, RES>>[0]>) => QueryKey = (routeParams: ExtractRouteParams<Parameters<QueryFn<ARGS, RES>>[0]>) => QueryKey,
+    ParamsToQueryInput extends (routeParams: ExtractRouteParams<Parameters<QueryFn<ARGS, RES>>[0]>) => FetcherArgs = (routeParams: ExtractRouteParams<Parameters<QueryFn<ARGS, RES>>[0]>) => FetcherArgs
 > = {
     /** -i- Optional params passed by the Next.js app router, in Expo we get these from `useRouteParams()` */
     params?: Partial<ARGS>
     /** -i- Optional search params passed by the Next.js app router, in Expo we get these from `useRouteParams()` */
     searchParams?: Partial<ARGS>
     /** -i- Configuration for the query bridge */
-    queryBridge: QueryBridgeConfig<ARGS, RES, Fetcher, FetcherArgs, FetcherToProps, ParamsToQueryKey, ParamsToQueryInput>
+    queryBridge: QueryBridgeConfig<ARGS, RES, QueryFn<ARGS, RES>, FetcherArgs, FetcherToProps, ParamsToQueryKey, ParamsToQueryInput>
     /** -i- The screen to render for this route */
     routeScreen: React.ComponentType
 }
@@ -68,18 +69,17 @@ export type HydratedRouteProps<
 }
 
 /** --- createQueryBridge() -------------------------------------------------------------------- */
-/** -i- Util to create a typed bridge between a fetcher and a route's props */
+/** -i- Util to create a typed bridge between a fetcher and a route's props */ // @ts-ignore
 export const createQueryBridge = <
     ARGS extends Record<string, unknown> = Record<string, unknown>,
     RES extends Record<string, unknown> = Record<string, unknown>,
-    Fetcher extends QueryFn<ARGS, RES> = QueryFn<ARGS, RES>,
-    FetcherArgs = Parameters<Fetcher>[0],
-    FetcherData = Awaited<ReturnType<QueryBridgeConfig<ARGS, RES, Fetcher>['routeDataFetcher']>>,
-    FetcherToProps extends (fetcherData: Awaited<ReturnType<Fetcher>>) => unknown = (fetcherData: Awaited<ReturnType<Fetcher>>) => Awaited<ReturnType<Fetcher>>,
-    ParamsToQueryKey extends (routeParams: Partial<FetcherArgs>) => QueryKey = (routeParams: Partial<FetcherArgs>) => QueryKey,
-    ParamsToQueryInput extends (routeParams: Partial<FetcherArgs>) => FetcherArgs = (routeParams: Partial<FetcherArgs>) => FetcherArgs
+    FetcherArgs = Parameters<QueryFn<ARGS, RES>>[0],
+    FetcherData = Awaited<ReturnType<QueryBridgeConfig<ARGS, RES, QueryFn<ARGS, RES>>['routeDataFetcher']>>,
+    FetcherToProps extends (fetcherData: Awaited<ReturnType<QueryFn<ARGS, RES>>>) => unknown = (fetcherData: Awaited<ReturnType<QueryFn<ARGS, RES>>>) => Awaited<ReturnType<QueryFn<ARGS, RES>>>,
+    ParamsToQueryKey extends (routeParams: ExtractRouteParams<Parameters<QueryFn<ARGS, RES>>[0]>) => QueryKey = (routeParams: ExtractRouteParams<Parameters<QueryFn<ARGS, RES>>[0]>) => QueryKey,
+    ParamsToQueryInput extends (routeParams: ExtractRouteParams<Parameters<QueryFn<ARGS, RES>>[0]>) => FetcherArgs = (routeParams: ExtractRouteParams<Parameters<QueryFn<ARGS, RES>>[0]>) => FetcherArgs
 >(
-    queryBridge: QueryBridgeConfig<ARGS, RES, Fetcher, FetcherArgs, FetcherToProps, ParamsToQueryKey, ParamsToQueryInput>
+    queryBridge: QueryBridgeConfig<ARGS, RES, QueryFn<ARGS, RES>, FetcherArgs, FetcherToProps, ParamsToQueryKey, ParamsToQueryInput>
 ) => {
     const fetcherDataToProps = queryBridge.fetcherDataToProps || ((fetcherData: FetcherData) => fetcherData)
     return {

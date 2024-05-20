@@ -1,7 +1,7 @@
 import { TadaDocumentNode, graphql, VariablesOf, ResultOf } from 'gql.tada'
 import { print } from 'graphql'
 import { Metadata, z } from './index'
-import { HintedKeys } from '../types'
+import { lowercaseFirstChar } from '@green-stack/core/utils/stringUtils'
 
 /** --- renderGraphqlQuery() ------------------------------------------------------------------- */
 /** -i- Accepts a resolverName, argsSchema and responseSchema and spits out a graphql query that stops at 3 levels (or a custom number) of depth */
@@ -24,10 +24,11 @@ export const renderGraphqlQuery = <ArgsShape extends z.ZodRawShape, ResShape ext
     const argsSchemaDefs = argsSchema.introspect()
     const responseSchemaDefs = responseSchema.introspect()
     const argsSchemaName = argsSchemaDefs.name
+    const _resolverArgsName = lowercaseFirstChar(resolverArgsName)
 
     // Build query base
-    let query = `${resolverType} ${resolverName}($${resolverArgsName}: ${argsSchemaName}) {\n  {{body}}\n}` // prettier-ignore
-    query = query.replace('{{body}}', `${resolverName}(args: $${resolverArgsName}) {\n{{fields}}\n  }`) // prettier-ignore
+    let query = `${resolverType} ${resolverName}($${_resolverArgsName}: ${argsSchemaName}) {\n  {{body}}\n}` // prettier-ignore
+    query = query.replace('{{body}}', `${resolverName}(args: $${_resolverArgsName}) {\n{{fields}}\n  }`) // prettier-ignore
 
     // Nestable field builder
     const renderFields = (schema: Metadata<Record<string, Metadata>>, depth: number, fieldName?: string) => {
@@ -93,8 +94,8 @@ export const createDataBridge = <
     ResShape extends z.ZodRawShape,
     CustomQuery extends TadaDocumentNode | null = null,
     ResolverArgsName extends `${ResolverName}Args` | HintedKeys = `${ResolverName}Args`,
-    DefaultQueryArgs = Record<ResolverArgsName, z.ZodObject<ArgsShape>['_input']>,
-    DefaultQueryRes = Record<ResolverName, z.ZodObject<ResShape>['_output']>,
+    DefaultQueryArgs = PrettifySingleKeyRecord<Record<LowercaseFirstChar<ResolverArgsName>, z.ZodObject<ArgsShape>['_input']>>,
+    DefaultQueryRes = PrettifySingleKeyRecord<Record<ResolverName, z.ZodObject<ResShape>['_output']>>,
     QueryArgs = CustomQuery extends null ? DefaultQueryArgs : VariablesOf<CustomQuery>,
     QueryRes = CustomQuery extends null ? DefaultQueryRes : ResultOf<CustomQuery>
 >({

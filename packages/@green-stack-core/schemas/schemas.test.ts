@@ -21,11 +21,8 @@ test("Schemas can be introspected", () => {
     })
 })
 
-test("Schemas preserve the name assigned to them upon introspection", () => {
+test("Schemas can be named and renamed", () => {
     expect(User.introspect().name).toBe('User')
-})
-
-test("Schemas can be renamed", () => {
     const User2 = User.nameSchema('User2')
     expect(User2.introspect().name).toBe('User2')
     expect(User.introspect().name).toBe('User')
@@ -38,7 +35,7 @@ const Primitives = schema('Primitives', {
     date: z.date().default(new Date('2024-01-01')).example(new Date('2020-01-01')).describe('Date'),
 })
 
-test("Optionality, default & examples values persist in schema introspection", () => {
+test("Optionality, defaults & example values persist in schema introspection", () => {
     const metadata = Primitives.introspect() as Metadata<Record<string, Metadata>>
     // Optionality
     expect(metadata.schema?.str.isOptional).toEqual(true)
@@ -57,6 +54,20 @@ test("Optionality, default & examples values persist in schema introspection", (
     expect(metadata.schema?.num.exampleValue).toEqual(42)
     expect(metadata.schema?.bln.exampleValue).toEqual(true)
     expect(metadata.schema?.date.exampleValue).toEqual(new Date('2020-01-01'))
+})
+
+test("Descriptions persist in introspection, no matter where they're defined", () => {
+    const DescriptionTest = schema('DescriptionTest', {
+        str: z.coerce.string().describe('Some string').nullish(),
+        num: z.coerce.number().default(1).describe('Some number'),
+        bln: z.coerce.boolean().example(true).describe('Some boolean').optional(),
+        date: z.coerce.date().describe('Some date').nullable(),
+    })
+    const metadata = DescriptionTest.introspect() as Metadata<Record<string, Metadata>>
+    expect(metadata.schema?.str.description).toEqual('Some string')
+    expect(metadata.schema?.num.description).toEqual('Some number')
+    expect(metadata.schema?.bln.description).toEqual('Some boolean')
+    expect(metadata.schema?.date.description).toEqual('Some date')
 })
 
 /* --- Primitives ------------------------------------------------------------------------------ */

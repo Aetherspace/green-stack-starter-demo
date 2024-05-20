@@ -26,12 +26,11 @@ const getDehydratedSSRState = () => {
 export const UniversalRouteScreen = <
     ARGS extends Record<string, unknown> = Record<string, unknown>,
     RES extends Record<string, unknown> = Record<string, unknown>,
-    Fetcher extends QueryFn<ARGS, RES> = QueryFn<ARGS, RES>
->(props: UniversalRouteProps<ARGS, RES, Fetcher>) => {
+>(props: UniversalRouteProps<ARGS, RES>) => {
     // Props
     const { params: routeParams, searchParams, queryBridge, routeScreen: RouteScreen, ...screenProps } = props
     const { routeParamsToQueryKey, routeParamsToQueryInput, routeDataFetcher } = queryBridge
-    const fetcherDataToProps = queryBridge.fetcherDataToProps || ((data: ReturnType<Fetcher>) => data)
+    const fetcherDataToProps = queryBridge.fetcherDataToProps || ((data: Awaited<ReturnType<QueryFn<ARGS, RES>>>) => data)
 
     // Hooks
     const nextRouterParams = useRouteParams(props)
@@ -84,7 +83,7 @@ export const UniversalRouteScreen = <
             },
             refetchOnMount: shouldRefetchOnMount,
         })
-        const routeDataProps = fetcherDataToProps(fetcherData as Awaited<ReturnType<Fetcher>>) as Record<string, unknown> // prettier-ignore
+        const routeDataProps = fetcherDataToProps(fetcherData as any) as Record<string, unknown> // prettier-ignore
 
         return (
             <HydrationBoundary state={hydrationState}>
@@ -104,7 +103,7 @@ export const UniversalRouteScreen = <
 
     // -- Server --
 
-    const fetcherData = use(queryClient.fetchQuery(queryConfig)) as Awaited<ReturnType<Fetcher>>
+    const fetcherData = use(queryClient.fetchQuery(queryConfig)) as Awaited<ReturnType<QueryFn<ARGS, RES>>>
     const routeDataProps = fetcherDataToProps(fetcherData) as Record<string, unknown>
     const dehydratedState = dehydrate(queryClient)
     

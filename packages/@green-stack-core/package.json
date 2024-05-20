@@ -14,6 +14,6 @@
     },
     "scripts": {
         "build:schema": "node -r ts-node/register --loader ts-node/esm --experimental-specifier-resolution=node ./scripts/build-graphql-schema.ts",
-        "test": "bun test"
+        "test": "bun test --tsconfig-override tsconfig.test.json --verbose"
     }
 }
