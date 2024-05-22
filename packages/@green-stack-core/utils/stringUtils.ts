@@ -14,15 +14,6 @@ export const uppercaseFirstChar = (str: string) => str ? str.charAt(0).toUpperCa
 /** -i- Lowercase the first character of a string */
 export const lowercaseFirstChar = (str: string) => str ? str.charAt(0).toLowerCase() + str.slice(1) : str // prettier-ignore
 
-/** --- getAssetKey() -------------------------------------------------------------------------- */
-/** -i- Transform a file path like '/imgs/someImage.png' into an object key like 'ImgsSomeImagePng' */
-export const getAssetKey = (srcAttrPath: string) => {
-  const [ext, src] = srcAttrPath.split('.').reverse()
-  const srcParts = src.split('/')
-  const key = [...srcParts, ext].reduce((acc, part) => `${acc}${uppercaseFirstChar(part)}`, '')
-  return dashToCamel(key)
-}
-
 /** --- replaceStringVars() -------------------------------------------------------------------- */
 /** -i- Replaces placeholders like {somevar} or [somevar] with values from injectables */
 export const replaceStringVars = (

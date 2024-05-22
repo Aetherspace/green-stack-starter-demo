@@ -4,6 +4,7 @@
     "private": true,
     "type": "module",
     "dependencies": {
+        "crypto-js": "^4.2.0",
         "zod": "^3.23.7"
     },
     "devDependencies": {

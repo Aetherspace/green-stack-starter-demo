@@ -1,57 +1,18 @@
 import * as OS from 'os'
 import type { NextRequest } from 'next/server'
-import type { RequestContext } from '../middleware/createRequestContext'
+import { createResolver } from '@green-stack/core/schemas/createResolver'
 import { appConfig } from '../appConfig'
+import { healthCheckBridge } from './healthCheck.bridge'
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
 const ALIVE_SINCE = new Date()
 
-/* --- Types ----------------------------------------------------------------------------------- */
-
-export type HealthCheckArgs = {
-  echo?: string
-}
-
-export type HealthCheckInputs = {
-  args: HealthCheckArgs,
-  context: RequestContext
-}
-
-export type HealthCheckResponse = {
-  echo?: string
-  status: 'OK'
-  alive: boolean
-  kicking: boolean
-  now: string
-  aliveTime: number
-  aliveSince: string
-  serverTimezone: string
-  requestHost: string
-  requestProtocol: string
-  requestURL: string
-  baseURL: string
-  backendURL: string
-  apiURL: string
-  graphURL: string
-  port: number | null
-  debugPort: number | null
-  nodeVersion: string
-  v8Version: string
-  systemArch: string
-  systemPlatform: string
-  systemRelease: string
-  systemFreeMemory: number
-  systemTotalMemory: number
-  systemLoadAverage: number[]
-}
-
 /** --- healthCheck() -------------------------------------------------------------------------- */
 /** -i- Check the health status of the server. Includes relevant urls, server time(zone), versions and more */
-export const healthCheck = async ({ args, context }: HealthCheckInputs) => {
+export const healthCheck = createResolver(async ({ args, req }) => {
     // Inputs
     const { echo } = args
-    const { req } = context
 
     // Vars
     const now = new Date()
@@ -100,4 +61,4 @@ export const healthCheck = async ({ args, context }: HealthCheckInputs) => {
         systemTotalMemory: OS.totalmem(),
         systemLoadAverage: OS.loadavg(),
     }
-}
+}, healthCheckBridge)
