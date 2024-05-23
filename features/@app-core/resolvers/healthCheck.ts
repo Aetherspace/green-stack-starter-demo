@@ -10,9 +10,12 @@ const ALIVE_SINCE = new Date()
 
 /** --- healthCheck() -------------------------------------------------------------------------- */
 /** -i- Check the health status of the server. Includes relevant urls, server time(zone), versions and more */
-export const healthCheck = createResolver(async ({ args, req }) => {
+export const healthCheck = createResolver(async ({ args, req, context }) => {
     // Inputs
-    const { echo } = args
+    const { echo, showContext } = args
+
+    // Context
+    const { req: _, res: __, ...headerContext } = context
 
     // Vars
     const now = new Date()
@@ -60,5 +63,7 @@ export const healthCheck = createResolver(async ({ args, req }) => {
         systemFreeMemory: OS.freemem(),
         systemTotalMemory: OS.totalmem(),
         systemLoadAverage: OS.loadavg(),
+        // CONTEXT
+        context: showContext ? headerContext : undefined,
     }
 }, healthCheckBridge)

@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server' // @ts-ignore
 import CryptoJS from 'crypto-js'
 import { appConfig } from '@app/core/appConfig'
 import { normalizeObjectProps } from './objectUtils'
-import { isEmpty } from './commonUtils'
+import { isEmpty, warnOnce } from './commonUtils'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -106,7 +106,7 @@ export const createMiddlewareHeaderContext = async (
   ) => {
     // Warn and abort early when we won't be able to add and sign the data
     const APP_SECRET = appConfig.appSecret
-    if (!APP_SECRET) console.warn('APP_SECRET variable is required to create header context, skipping context generation until it is set') // prettier-ignore
+    if (!APP_SECRET) warnOnce('APP_SECRET variable is required to create header context, skipping context generation until it is set') // prettier-ignore
     if (!req?.headers) throw new Error('Request headers are required to create header context, skipping context generation until they are available') // prettier-ignore
     // Set all extra headers first
     const requestHeaders = new Headers(req.headers)

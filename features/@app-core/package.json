@@ -8,6 +8,7 @@
     "@tanstack/react-query": "^5.29.2",
     "gql.tada": "^1.4.3",
     "graphql-tag": "^2.12.6",
+    "graphql-type-json": "^0.3.2",
     "nativewind": "^2.0.11"
   },
   "devDependencies": {

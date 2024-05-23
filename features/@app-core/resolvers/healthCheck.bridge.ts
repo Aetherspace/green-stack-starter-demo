@@ -4,7 +4,8 @@ import { createDataBridge } from '@green-stack/core/schemas/createDataBridge'
 /* --- Schemas --------------------------------------------------------------------------------- */
 
 export const HealthCheckArgs = schema('HealthCheckArgs', {
-   echo: z.string().default('Hello World'), 
+   echo: z.string().default('Hello World'),
+   showContext: z.boolean().default(false),
 })
 
 export const HealthCheckResponse = schema('HealthCheckResponse', {
@@ -33,6 +34,7 @@ export const HealthCheckResponse = schema('HealthCheckResponse', {
     systemFreeMemory: z.number(),
     systemTotalMemory: z.number(),
     systemLoadAverage: z.array(z.number()),
+    context: z.record(z.string(), z.unknown()).nullish(),
 })
 
 /* --- Type Aliases ---------------------------------------------------------------------------- */

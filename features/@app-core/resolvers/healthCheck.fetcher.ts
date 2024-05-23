@@ -1,4 +1,4 @@
-import type { HealthCheckArgs, HealthCheckResponse } from './healthCheck'
+import type { HealthCheckArgs, HealthCheckResponse } from './healthCheck.bridge'
 import { appConfig } from '../appConfig'
 
 /** --- healthCheckFetcher() ------------------------------------------------------------------- */

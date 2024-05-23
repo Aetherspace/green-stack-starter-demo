@@ -4,6 +4,7 @@ type Query {
 
 input HealthCheckArgs {
     echo: String
+    showContext: Boolean
 }
 
 type HealthCheckData {
@@ -13,7 +14,7 @@ type HealthCheckData {
     kicking: Boolean!
     now: String!
     aliveTime: Float!
-    aliveSince: String!
+    aliveSince: Date!
     serverTimezone: String!
     requestHost: String
     requestProtocol: String
@@ -32,4 +33,5 @@ type HealthCheckData {
     systemFreeMemory: Float
     systemTotalMemory: Float
     systemLoadAverage: [Float]
+    context: JSON
 }

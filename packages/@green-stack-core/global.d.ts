@@ -1,15 +1,16 @@
 type Overwrite<T, U> = Omit<T, keyof U> & U
 
 type FlattenIfArray<T> = T extends (infer R)[] ? R : T
+
 type Unpromisify<T> = T extends Promise<infer R> ? R : T
+
+type ObjectType<T = unknown> = { [key: string]: T }
 
 type HintedKeys = string & {} // eslint-disable-line @typescript-eslint/ban-types
 
 type Primitive = string | number | boolean | bigint | symbol | null | undefined;
 
 type NonNullableRequired<T> = T extends null | undefined ? never : T;
-
-type TestNullable = NonNullableRequired<string | null | undefined>;
 
 type ExtractPrimitives<T> = {
   [K in keyof T]: NonNullableRequired<T[K]> extends Primitive ? { [P in K]: string } : ExtractPrimitives<T[K]>;
@@ -36,6 +37,11 @@ type PrettifySingleKeyRecord<T> = T extends Record<infer K, infer V>
 type LowercaseFirstChar<S extends string> =
   S extends `${infer First}${infer Rest}`
     ? `${Lowercase<First>}${Rest}`
+    : S
+
+type UppercaseFirstChar<S extends string> =
+  S extends `${infer First}${infer Rest}`
+    ? `${Uppercase<First>}${Rest}`
     : S
 
 type any$Todo = any

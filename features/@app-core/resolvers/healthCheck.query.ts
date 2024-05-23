@@ -1,6 +1,7 @@
-import { ResultOf, VariablesOf, graphql } from 'gql.tada'
+import { ResultOf, VariablesOf } from 'gql.tada'
 import { bridgedFetcher } from '@green-stack/core/schemas/bridgedFetcher'
 import { healthCheckBridge } from './healthCheck.bridge'
+import { graphql } from '../graphql/graphql'
 
 /* --- Query ----------------------------------------------------------------------------------- */
 
@@ -32,15 +33,16 @@ export const healthCheckQuery = graphql(`
       systemFreeMemory
       systemTotalMemory
       systemLoadAverage
+      context
     }
   }
 `)
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-export type HealthCheckQueryVariables = VariablesOf<typeof healthCheckQuery>
+export type HealthCheckQueryInput = VariablesOf<typeof healthCheckQuery>
 
-export type HealthCheckQueryResult = ResultOf<typeof healthCheckQuery>
+export type HealthCheckQueryOutput = ResultOf<typeof healthCheckQuery>
 
 /* --- healthCheckFetcher() -------------------------------------------------------------------- */
 

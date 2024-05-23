@@ -1,5 +1,6 @@
 import { expect, test } from 'bun:test'
 import { z, schema, Metadata } from './index'
+import { ZodError } from 'zod'
 
 /* --- Schema Essentials ----------------------------------------------------------------------- */
 
@@ -68,6 +69,33 @@ test("Descriptions persist in introspection, no matter where they're defined", (
     expect(metadata.schema?.num.description).toEqual('Some number')
     expect(metadata.schema?.bln.description).toEqual('Some boolean')
     expect(metadata.schema?.date.description).toEqual('Some date')
+})
+
+test("Supports custom error messages for each validation step", () => {
+    const ErrorTest = schema('ErrorTest', {
+        str: z.string().min(1, { message: 'Too short' }).max(10, { message: 'Too long' }),
+        num: z.number().min(1, { message: 'Too low' }).max(50, { message: 'Too high' }),
+    })
+    // Default Error Messages
+    expect(() => ErrorTest.shape.num.parse('')).toThrow(new ZodError([{
+        code: 'invalid_type',
+        expected: 'number',
+        received: 'string',
+        path: [],
+        message: 'Expected number, received string',
+    }]))
+    expect(() => ErrorTest.shape.str.parse(0)).toThrow(new ZodError([{
+        code: 'invalid_type',
+        expected: 'string',
+        received: 'number',
+        path: [],
+        message: 'Expected string, received number',
+    }]))
+    // Custom Error Messages
+    expect(() => ErrorTest.shape.str.parse('')).toThrow('Too short')
+    expect(() => ErrorTest.shape.str.parse('Hello World!')).toThrow('Too long')
+    expect(() => ErrorTest.shape.num.parse(0)).toThrow('Too low')
+    expect(() => ErrorTest.shape.num.parse(51)).toThrow('Too high')
 })
 
 /* --- Primitives ------------------------------------------------------------------------------ */

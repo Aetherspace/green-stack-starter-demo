@@ -1,5 +1,6 @@
 import { print } from 'graphql/language/printer'
 import type { TadaDocumentNode, ResultOf } from 'gql.tada'
+import { warnOnce } from '@green-stack/core/utils/commonUtils'
 import type { QueryConfig } from './graphqlQuery.types'
 import { appConfig } from '../appConfig'
 
@@ -28,7 +29,7 @@ export const graphqlQuery = async <T extends TadaDocumentNode, R = ResultOf<T>>(
                 import('./schema'),
             ])
             // 💡 You might want to build the server-only request context here
-            console.log('-i- graphqlQuery() called serverside without request context set up.')
+            warnOnce('-i- graphqlQuery() called serverside without request context set up.')
             // Execute query with the executable schema
             const { data } = await graphql({
                 schema: executableSchema,

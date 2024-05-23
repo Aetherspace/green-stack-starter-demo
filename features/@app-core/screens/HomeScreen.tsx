@@ -23,8 +23,8 @@ const HomeScreen = (props: HydratedRouteProps<typeof queryBridge>) => {
   return (
     <View className="flex flex-1 justify-center items-center px-2">
       <Image src={require('../assets/green-stack-logo.png')} width={60} height={60} className="mb-3" />
-      <H3 className="text-center">Expo + Next.js app routing 🚀</H3>
-      <P className="mt-2 text-center text-sm">Open HomeScreen.tsx in features/@app-core/screens to start working on your app</P>
+      <H3 className="text-center max-w-[240px]">Full-Product, Universal App with the GREEN-stack 🚀</H3>
+      <P className="mt-2 text-center text-sm px-6 md:px-0">Open HomeScreen.tsx in features/@app-core/screens to start working on your app</P>
       <Link href="/subpages/GREEN%20stack" className="mt-4 text-center text-base">
         Test navigation
       </Link>

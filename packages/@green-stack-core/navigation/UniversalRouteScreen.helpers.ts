@@ -73,7 +73,7 @@ export type HydratedRouteProps<
 export const createQueryBridge = <
     ARGS extends Record<string, unknown> = Record<string, unknown>,
     RES extends Record<string, unknown> = Record<string, unknown>,
-    FetcherArgs = Parameters<QueryFn<ARGS, RES>>[0],
+    FetcherArgs = Parameters<QueryFn<ARGS, RES>>[0], // @ts-ignore
     FetcherData = Awaited<ReturnType<QueryBridgeConfig<ARGS, RES, QueryFn<ARGS, RES>>['routeDataFetcher']>>,
     FetcherToProps extends (fetcherData: Awaited<ReturnType<QueryFn<ARGS, RES>>>) => unknown = (fetcherData: Awaited<ReturnType<QueryFn<ARGS, RES>>>) => Awaited<ReturnType<QueryFn<ARGS, RES>>>,
     ParamsToQueryKey extends (routeParams: ExtractRouteParams<Parameters<QueryFn<ARGS, RES>>[0]>) => QueryKey = (routeParams: ExtractRouteParams<Parameters<QueryFn<ARGS, RES>>[0]>) => QueryKey,

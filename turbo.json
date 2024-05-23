@@ -33,7 +33,7 @@
         },
         "@green-stack/core#build:schema": {
             "outputs": ["**/schema.graphql", "**/schema.ts", "**/graphql-env.d.ts"],
-            "inputs": ["**/*.ts", "**/*.graphql"],
+            "inputs": [],
             "cache": true
         },
         "env:local": {

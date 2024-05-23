@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server'
 import { startServerAndCreateNextHandler } from '@as-integrations/next'
 import { createRequestContext } from '../middleware/createRequestContext'
 import { schemaBundle } from './schema'
+import { getHeaderContext } from '@green-stack/core/utils/apiUtils'
 
 /* --- Apollo Server --------------------------------------------------------------------------- */
 
@@ -17,7 +18,8 @@ export const graphqlServer = new ApolloServer({
 export const createGraphQLServerHandler = () => {
     return startServerAndCreateNextHandler(graphqlServer, {
         context: async (req: NextRequest) => {
-            return await createRequestContext({ req })
+            const headerContext = getHeaderContext(req)
+            return await createRequestContext({ req, ...headerContext })
         },
     })
 }

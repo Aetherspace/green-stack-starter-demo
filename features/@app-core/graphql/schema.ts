@@ -1,5 +1,6 @@
 import { mergeResolvers } from '@graphql-tools/merge'
 import { makeExecutableSchema } from '@graphql-tools/schema'
+import { GraphQLJSON, GraphQLJSONObject } from 'graphql-type-json'
 import { gql } from 'graphql-tag'
 import type { RequestContext } from '../middleware/createRequestContext'
 import { typeDefs } from './typeDefs'
@@ -31,6 +32,10 @@ const customResolvers = {
 export const createRootResolver = () => mergeResolvers([
     customResolvers,
     /* other resolvers? */
+    {
+        JSON: GraphQLJSON,
+        JSONObject: GraphQLJSONObject,
+    }
 ])
 
 /* --- Schema ---------------------------------------------------------------------------------- */
