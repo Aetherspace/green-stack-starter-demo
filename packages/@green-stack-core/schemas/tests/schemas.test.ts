@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test'
-import { z, schema, Metadata } from './index'
+import { z, schema, Metadata } from '../index'
 import { ZodError } from 'zod'
 
 /* --- Schema Essentials ----------------------------------------------------------------------- */

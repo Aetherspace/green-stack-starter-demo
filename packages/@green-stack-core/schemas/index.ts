@@ -41,14 +41,14 @@ export type ZOD_TYPE = keyof typeof BASE_TYPE_MAP
 export type BASE_TYPE = typeof BASE_TYPE_MAP[ZOD_TYPE]
 export type SCHEMA_TYPE = (ZOD_TYPE | BASE_TYPE) & {}
 
-export type Metadata<S = Record<string, any> | any[]> = {
+export type Metadata<S = Record<string, any$Unknown> | any$Unknown[]> = {
     typeName: ZOD_TYPE,
     baseType: BASE_TYPE,
     schemaName?: string,
     isOptional?: boolean,
     isNullable?: boolean,
-    defaultValue?: any,
-    exampleValue?: any,
+    defaultValue?: any$Unknown,
+    exampleValue?: any$Unknown,
     description?: string,
     minLength?: number,
     maxLength?: number,
@@ -56,7 +56,7 @@ export type Metadata<S = Record<string, any> | any[]> = {
     minValue?: number,
     maxValue?: number,
     isInt?: boolean,
-    literalValue?: any,
+    literalValue?: any$Unknown,
     schema?: S,
 }
 

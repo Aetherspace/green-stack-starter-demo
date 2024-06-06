@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "@aetherspace/universal-app-router",
-    "slug": "aetherspace-universal-app-router",
-    "scheme": "aetherspace-universal-app-router",
+    "name": "@fullproduct-dot-dev/universal-app-router",
+    "slug": "fullproduct-dot-dev-universal-app-router",
+    "scheme": "fullproduct-dot-dev-universal-app-router",
     "plugins": [
       "expo-router"
     ],
