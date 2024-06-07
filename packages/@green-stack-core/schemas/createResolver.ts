@@ -40,7 +40,9 @@ export type ResolverConfigType = {
     handleError: (err: any, sendResponse?: boolean) => unknown | void
     parseArgs: (args: ArgsInput) => ArgsInput
     withDefaults: (response: ResInput) => ResOutput
-    context: Record<string, unknown>
+    context: Record<string, unknown> & {
+        req: NextApiRequest | Request | GetServerSidePropsContext['req']
+    },
     user?: Record<string, unknown> | null
     config: ResolverConfigType
     req?: NextApiRequest | Request | GetServerSidePropsContext['req']
@@ -95,7 +97,7 @@ export const createResolver = <
         }
         // Context normalization
         const headerContext = getHeaderContext(req)
-        const fullContext = { ...headerContext, ...config } // Always override header context with config
+        const fullContext = { ...headerContext, ...config, req: config.req || req } // Always override header context with config
         const user = fullContext?.user as Record<string, unknown> | undefined | null
         // Error handling
         const handleError = (err: any$FixMe, sendResponse = false) => {
@@ -128,7 +130,7 @@ export const createResolver = <
         }
         // Return resolver
         return resolverFn({
-            req,
+            req: fullContext.req,
             res,
             args: normalizedArgs as ArgsInput,
             user,

@@ -33,7 +33,7 @@ export const createSchemaPlugin = <
 ) => {
     const metadata = schema.introspect() as Metadata<Record<string, Metadata>>
     const mappedSchema = Object.entries(metadata.schema!).reduce((result, [schemaKey, fieldMeta]) => {
-        const { baseType, typeName: zodType } = fieldMeta
+        const { baseType, zodType } = fieldMeta
         // Figure out the builder to use, going from least specific to most specific
         let mappedSchemaBuilder
         if (schemaTypeMap[baseType]) mappedSchemaBuilder = schemaTypeMap[baseType]

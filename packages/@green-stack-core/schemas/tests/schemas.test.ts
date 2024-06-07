@@ -13,11 +13,11 @@ test("Schemas can be introspected", () => {
     expect(User.introspect).toBeInstanceOf(Function)
     expect(User.introspect()).toEqual({
         name: 'User',
-        typeName: 'ZodObject',
+        zodType: 'ZodObject',
         baseType: 'Object',
         schema: {
-            name: { typeName: 'ZodString', baseType: 'String' },
-            age: { typeName: 'ZodNumber', baseType: 'Number' },
+            name: { zodType: 'ZodString', baseType: 'String' },
+            age: { zodType: 'ZodNumber', baseType: 'Number' },
         },
     })
 })
@@ -108,10 +108,10 @@ test("Primitives z.string(), z.number(), z.boolean() & z.date() work as expected
     expect(metadata.schema?.bln.baseType).toEqual('Boolean')
     expect(metadata.schema?.date.baseType).toEqual('Date')
     // Type Names
-    expect(metadata.schema?.str.typeName).toEqual('ZodString')
-    expect(metadata.schema?.num.typeName).toEqual('ZodNumber')
-    expect(metadata.schema?.bln.typeName).toEqual('ZodBoolean')
-    expect(metadata.schema?.date.typeName).toEqual('ZodDate')
+    expect(metadata.schema?.str.zodType).toEqual('ZodString')
+    expect(metadata.schema?.num.zodType).toEqual('ZodNumber')
+    expect(metadata.schema?.bln.zodType).toEqual('ZodBoolean')
+    expect(metadata.schema?.date.zodType).toEqual('ZodDate')
     // Min / Max
     expect(metadata.schema?.str.minLength).toEqual(1)
     expect(metadata.schema?.str.maxLength).toEqual(10)
@@ -146,10 +146,10 @@ test("Advanced types z.enum(), z.tuple(), z.union() & z.array() work as expected
     expect(metadata.schema?.union.baseType).toEqual('Any') // String | Number, serialized as JSON
     expect(metadata.schema?.array.baseType).toEqual('Array')
     // Type Names
-    expect(metadata.schema?.enum.typeName).toEqual('ZodEnum')
-    expect(metadata.schema?.tuple.typeName).toEqual('ZodTuple')
-    expect(metadata.schema?.union.typeName).toEqual('ZodUnion')
-    expect(metadata.schema?.array.typeName).toEqual('ZodArray')
+    expect(metadata.schema?.enum.zodType).toEqual('ZodEnum')
+    expect(metadata.schema?.tuple.zodType).toEqual('ZodTuple')
+    expect(metadata.schema?.union.zodType).toEqual('ZodUnion')
+    expect(metadata.schema?.array.zodType).toEqual('ZodArray')
     // Enums
     expect(metadata.schema?.enum.schema).toEqual({
         A: 'A',
@@ -158,16 +158,16 @@ test("Advanced types z.enum(), z.tuple(), z.union() & z.array() work as expected
     })
     // Tuples
     expect(metadata.schema?.tuple.schema).toEqual([
-        { typeName: 'ZodString', baseType: 'String' },
-        { typeName: 'ZodNumber', baseType: 'Number' },
+        { zodType: 'ZodString', baseType: 'String' },
+        { zodType: 'ZodNumber', baseType: 'Number' },
     ])
     // Unions
     expect(metadata.schema?.union.schema).toEqual([
-        { typeName: 'ZodString', baseType: 'String' },
-        { typeName: 'ZodNumber', baseType: 'Number' },
+        { zodType: 'ZodString', baseType: 'String' },
+        { zodType: 'ZodNumber', baseType: 'Number' },
     ])
     // Array
-    expect(metadata.schema?.array.schema).toEqual({ typeName: 'ZodString', baseType: 'String' })
+    expect(metadata.schema?.array.schema).toEqual({ zodType: 'ZodString', baseType: 'String' })
     expect(metadata.schema?.array.minLength).toEqual(0)
     expect(metadata.schema?.array.maxLength).toEqual(5)
     // Parsing Happy Paths
@@ -228,9 +228,9 @@ const Nested = schema('Nested', {
 test("Nested schemas work as expected", () => {
     const metadata = Nested.introspect() as Metadata<Record<string, Metadata>>
     // Nested Schemas
-    expect(metadata.schema?.user.typeName).toEqual('ZodObject')
-    expect(metadata.schema?.primitives.typeName).toEqual('ZodObject')
-    expect(metadata.schema?.advanced.typeName).toEqual('ZodObject')
+    expect(metadata.schema?.user.zodType).toEqual('ZodObject')
+    expect(metadata.schema?.primitives.zodType).toEqual('ZodObject')
+    expect(metadata.schema?.advanced.zodType).toEqual('ZodObject')
     // Parsing Happy Paths
     expect(Nested.shape.user.parse({ name: 'John', age: 42 })).toEqual({ name: 'John', age: 42 })
     expect(Nested.shape.primitives.parse({ str: 'Hello', num: 42, bln: true, date: new Date('2020-01-01') })).toEqual({

@@ -37,7 +37,7 @@ export const renderGraphqlQuery = <ArgsShape extends z.ZodRawShape, ResShape ext
             const fieldEntries = fieldKeys.map((fieldKey): string => {
                 // @ts-ignore
                 const fieldConfig = (schema.schema?.[fieldKey] || schema[fieldKey]) as Metadata
-                const zodType = fieldConfig.typeName
+                const zodType = fieldConfig.zodType
                 const fieldType = fieldConfig.baseType
                 const spacing = '  '.repeat(depth)
 
