@@ -1,10 +1,14 @@
 #!/usr/bin/env node --experimental-specifier-resolution=node
+// import 'tsconfig-paths/register'
+// import 'ts-node/register/transpile-only'
 import path from 'path'
 import fs from 'fs'
 import { fileURLToPath } from 'node:url'
 import { loadFilesSync } from '@graphql-tools/load-files'
 import { mergeTypeDefs } from '@graphql-tools/merge'
 import { print } from 'graphql'
+import { createGraphSchemaDefs } from '../schemas/createGraphSchemaDefs'
+import * as resolvers from '@app/registries/resolversRegistry'
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
@@ -18,21 +22,23 @@ const CUSTOM_SCALARS = ['scalar Date', 'scalar JSON', 'scalar JSONObject'] as co
 
 /** --- createSchemaDefinitions() -------------------------------------------------------------- */
 /** -i- Combine all custom and other (e.g. generated) .graphql schema definitions */
-export const createSchemaDefinitions = () => {
+export const createSchemaDefinitions = (extraResolvers: any[] = []) => {
     const rootDir = path.resolve(currentDir, '../../..')
     const schemaPathPattern = `${rootDir}/(features|packages)/**/!(schema).graphql`
     const customGraphQLDefinitions = loadFilesSync(schemaPathPattern)
     return mergeTypeDefs([
         ...CUSTOM_SCALARS,
         ...customGraphQLDefinitions,
-        /* TODO: Support other custom typedefs? */
+        ...extraResolvers,
     ])
 }
 
 /* --- Script ---------------------------------------------------------------------------------- */
 
 const buildSchemaDefinitions = async () => {
-    const schemaDefinitions = createSchemaDefinitions()
+    // @ts-ignore
+    const { graphqlSchemaDefs } = createGraphSchemaDefs(resolvers)
+    const schemaDefinitions = createSchemaDefinitions([graphqlSchemaDefs])
     const typeDefsString = print(schemaDefinitions)
     fs.writeFileSync(schemaPath, `## ${disclaimer}\n${typeDefsString}\n`)
     fs.writeFileSync(typeDefsPath, `// ${disclaimer}\nexport const typeDefs = \`${typeDefsString}\`\n`)

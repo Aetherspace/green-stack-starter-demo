@@ -8,19 +8,19 @@ type ObjectType<T = unknown> = { [key: string]: T }
 
 type HintedKeys = string & {} // eslint-disable-line @typescript-eslint/ban-types
 
-type Primitive = string | number | boolean | bigint | symbol | null | undefined;
+type Primitive = string | number | boolean | bigint | symbol | null | undefined
 
-type NonNullableRequired<T> = T extends null | undefined ? never : T;
+type NonNullableRequired<T> = T extends null | undefined ? never : T
 
 type ExtractPrimitives<T> = {
-  [K in keyof T]: NonNullableRequired<T[K]> extends Primitive ? { [P in K]: string } : ExtractPrimitives<T[K]>;
-}[keyof NonNullableRequired<T>];
+  [K in keyof T]: NonNullableRequired<T[K]> extends Primitive ? { [P in K]: string } : ExtractPrimitives<T[K]>
+}[keyof NonNullableRequired<T>]
 
 type DeepFlattenRequired<T> = {
-  [K in keyof T]-?: NonNullableRequired<T[K]> extends Primitive ? NonNullableRequired<T[K]> : DeepFlattenRequired<NonNullableRequired<T[K]>>;
-};
+  [K in keyof T]-?: NonNullableRequired<T[K]> extends Primitive ? NonNullableRequired<T[K]> : DeepFlattenRequired<NonNullableRequired<T[K]>>
+}
 
-type MergeUnion<T> = (T extends any ? (x: T) => void : never) extends (x: infer R) => void ? { [K in keyof R]: R[K] } : T;
+type MergeUnion<T> = (T extends any ? (x: T) => void : never) extends (x: infer R) => void ? { [K in keyof R]: R[K] } : T
 
 type ExtractRouteParams<T> = Partial<MergeUnion<ExtractPrimitives<DeepFlattenRequired<T>>>>
 

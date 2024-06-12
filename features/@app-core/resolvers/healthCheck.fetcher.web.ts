@@ -1,5 +1,5 @@
 import type { NextRequest, NextResponse } from 'next/server'
-import type { HealthCheckArgs, HealthCheckResponse } from './healthCheck'
+import type { HealthCheckArgs, HealthCheckResponse } from './healthCheck.bridge'
 import { appConfig } from '../appConfig'
 
 /** --- healthCheckFetcher() ------------------------------------------------------------------- */
@@ -23,7 +23,7 @@ export const healthCheckFetcher = async (args: HealthCheckArgs) => {
 
     // -- Server --
 
-    const { healthCheck } = await import('./healthCheck')
+    const { healthCheck } = await import('./healthCheck.resolver')
     const data = await healthCheck({
         args,
         context: {

@@ -1,28 +1,11 @@
 import { mock } from 'bun:test'
 
-/* --- Mock 'expo-constants' ------------------------------------------------------------------- */
+/* --- Mock Flow typed modules ----------------------------------------------------------------- */
 
-const expoConstantsMock = {
-    default: {
-        expoGoConfig: {
-            debuggerHost: 'localhost:19000',
-        },
-        manifest2: {
-            extra: {
-                expoGo: {
-                    debuggerHost: 'localhost:19000',
-                },
-            },
-        },
-    }
-}
+// -i- We need aliases for these as they touch parts of react-native that ship Flow types
+// -i- ...which typescript can't deal with.
 
-mock.module('expo-constants', () => expoConstantsMock)
-mock.module(require.resolve('expo-constants'), () => expoConstantsMock)
-
-/* --- Mock 'react-native' --------------------------------------------------------------------- */
-
-// @ts-ignore
-mock.module('react-native', () => import('react-native-web'))
-// @ts-ignore
+mock.module('expo-constants', () => import('./__mocks__/expo-constants'))
+mock.module(require.resolve('expo-constants'), () => import('./__mocks__/expo-constants')) // @ts-ignore
+mock.module('react-native', () => import('react-native-web')) // @ts-ignore
 mock.module(require.resolve('react-native'), () => import('react-native-web'))

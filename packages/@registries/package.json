@@ -1,0 +1,9 @@
+{
+    "name": "@app/registries",
+    "version": "0.0.1",
+    "private": true,
+    "type": "module",
+    "dependencies": {},
+    "devDependencies": {},
+    "scripts": {}
+}

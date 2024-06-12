@@ -1,4 +1,4 @@
-import { z, SCHEMA_TYPE, Metadata } from './index'
+import { SCHEMA_TYPE, Metadata } from './index'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -6,7 +6,7 @@ export type SchemaTypeMap = {
     [key in SCHEMA_TYPE]?: (schemaKey: string, fieldMeta: Metadata) => unknown
 }
 
-export type SchemaPluginMap<S extends z.ZodRawShape> = SchemaTypeMap & {
+export type SchemaPluginMap<S extends Record<string, Metadata>> = SchemaTypeMap & {
     [key in keyof S]?: (schemaKey: string, fieldMeta: Metadata) => unknown
 }
 
@@ -25,14 +25,22 @@ export type SchemaPluginMap<S extends z.ZodRawShape> = SchemaTypeMap & {
  *  })
  *  ``` */
 export const createSchemaPlugin = <
-    S extends z.ZodRawShape,
-    P extends SchemaPluginMap<S>
+    M extends Record<string, Metadata> = any,
+    P extends SchemaPluginMap<M> = SchemaPluginMap<M>
 >(
-    schema: z.ZodObject<S>,
+    schemaMeta: Metadata<M>,
     schemaTypeMap: P
 ) => {
-    const metadata = schema.introspect() as Metadata<Record<string, Metadata>>
-    const mappedSchema = Object.entries(metadata.schema!).reduce((result, [schemaKey, fieldMeta]) => {
+    // @ts-expect-error
+    if (typeof schemaMeta.introspect === 'function') {
+        throw new Error("createSchemaPlugin() was passed a zod schema instead of it's metadata, please use .introspect() on the schema instead")
+    }
+    if (!schemaMeta.schema) {
+        console.log(schemaMeta)
+        throw new Error("createSchemaPlugin() was passed a schema without a schema property")
+    }
+    // Map schema to new structure
+    const mappedSchema = Object.entries(schemaMeta.schema!).reduce((result, [schemaKey, fieldMeta]) => {
         const { baseType, zodType } = fieldMeta
         // Figure out the builder to use, going from least specific to most specific
         let mappedSchemaBuilder
@@ -47,6 +55,6 @@ export const createSchemaPlugin = <
     }, {})
     // Return mapped schema
     return mappedSchema as {
-        [K in keyof S]: SchemaPluginMap<S>[K] extends (schemaKey: string, fieldMeta: Metadata) => infer R ? R : unknown
+        [K in keyof M]: SchemaPluginMap<M>[K] extends (schemaKey: string, fieldMeta: Metadata) => infer R ? R : unknown
     }
 }

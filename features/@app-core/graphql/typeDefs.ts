@@ -6,16 +6,12 @@ scalar JSON
 
 scalar JSONObject
 
-type Query {
-  healthCheck(args: HealthCheckArgs): HealthCheckData!
-}
-
 input HealthCheckArgs {
   echo: String
   showContext: Boolean
 }
 
-type HealthCheckData {
+type HealthCheckResponse {
   echo: String
   status: String!
   alive: Boolean!
@@ -42,6 +38,10 @@ type HealthCheckData {
   systemTotalMemory: Float
   systemLoadAverage: [Float]
   context: JSON
+}
+
+type Query {
+  healthCheck(args: HealthCheckArgs): HealthCheckResponse
 }
 
 schema {

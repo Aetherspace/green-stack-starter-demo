@@ -2,19 +2,21 @@
     "name": "@green-stack/core",
     "version": "0.0.1",
     "private": true,
-    "type": "module",
     "dependencies": {
         "crypto-js": "^4.2.0",
         "zod": "^3.23.7"
     },
     "devDependencies": {
+        "@app/registries": "*",
         "@graphql-tools/load-files": "^7.0.0",
         "@types/bun": "^1.1.2",
-        "ts-node": "^10.9.2",
+        "esbuild-register": "^3.5.0",
+        "module-alias": "^2.2.3",
+        "tsx": "^4.15.2",
         "typescript": "5.3.3"
     },
     "scripts": {
-        "build:schema": "node -r ts-node/register --loader ts-node/esm --experimental-specifier-resolution=node ./scripts/build-graphql-schema.ts",
+        "build:schema": "tsx --tsconfig ./tsconfig.scripts.json ./run-script.js ./scripts/build-graphql-schema.ts",
         "test": "bun test --preload ./preload.test.ts --tsconfig-override tsconfig.test.json --verbose"
     }
 }

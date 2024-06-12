@@ -1,4 +1,3 @@
-
 /* --- Constants ------------------------------------------------------------------------------- */
 
 const LOGS: string[] = []
@@ -15,19 +14,29 @@ export const isEmpty = (
     return false // not empty
 }
 
-/** --- logOnce() ------------------------------------------------------------------------------ */
+/** --- consoleOnce() ------------------------------------------------------------------------------ */
 /** -i- Log out to the console only once, skip on subsequent logs. Good for one-off messages. */
-export const logOnce = (message: string, logger = console.log) => {
+export const consoleOnce = (message: string, logger = console.log, ...restMessages: any$Unknown[]) => {
     if (!LOGS.includes(message)) {
         logger(message)
         LOGS.push(message)
     }
 }
 
-/** --- errorOnce() ---------------------------------------------------------------------------- */
-/** -i- Warn to the console only once, skip on subsequent logs. Good for one-off errors. */
-export const errorOnce = (message: string) => logOnce(message, console.error)
+/** --- logOnce() ------------------------------------------------------------------------------ */
+/** -i- Log out to the console only once, skip on subsequent logs. Good for one-off messages. */
+export const logOnce = (message: string, ...restMessages: any$Unknown[]) => {
+    return consoleOnce(message, console.log, ...restMessages)
+}
 
 /** --- warnOnce() ----------------------------------------------------------------------------- */
 /** -i- Error to the console only once, skip on subsequent logs. Good for one-off warnings. */
-export const warnOnce = (message: string) => logOnce(message, console.warn)
+export const warnOnce = (message: string, ...restMessages: any$Unknown[]) => {
+    return consoleOnce(message, console.warn, ...restMessages)
+}
+
+/** --- errorOnce() ---------------------------------------------------------------------------- */
+/** -i- Warn to the console only once, skip on subsequent logs. Good for one-off errors. */
+export const errorOnce = (message: string, ...restMessages: any$Unknown[]) => {
+    return consoleOnce(message, console.error, ...restMessages)
+}

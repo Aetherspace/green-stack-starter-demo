@@ -6,13 +6,14 @@ import { bridgedFetcher } from '../bridgedFetcher'
 
 const healtCheckBridge = createDataBridge({
     resolverName: 'healthCheck',
-    argsSchema: schema('HealthCheckArgs', { echo: z.string().default('Hello World') }),
+    argsSchema: schema('HealthCheck', { echo: z.string().default('Hello World') }),
     responseSchema: schema('HealthCheckResponse', { echo: z.string().optional() }),
     apiPath: '/api/health',
     allowedMethods: ['GET', 'GRAPHQL'],
 })
 
-const expectedQuery = `query healthCheck($healthCheckArgs: HealthCheckArgs) {
+// -i- When it's an input, we append 'Input' to the name if it doesn't already have it or 'Args'
+const expectedQuery = `query healthCheck($healthCheckArgs: HealthCheckInput) {
   healthCheck(args: $healthCheckArgs) {
     echo
   }
@@ -40,7 +41,7 @@ test("Bridges created by createDataBridge can use a custom graphql query", async
     expect(print(graphqlQuery)).not.toBe(expectedQuery)
 })
 
-test("bridgedFetcher() can create a fetcher from a DataBridge", async () => {
+test("bridgedFetcher() can create a fetcher function from a DataBridge", async () => {
     expect(() => bridgedFetcher(healtCheckBridge)).not.toThrow()
     const fetcher = bridgedFetcher(healtCheckBridge)
     expect(fetcher).toBeInstanceOf(Function)

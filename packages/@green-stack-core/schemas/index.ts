@@ -1,6 +1,6 @@
 import { z, ZodObject, ZodType } from 'zod'
 
-/* --- Types ----------------------------------------------------------------------------------- */
+/* --- Constants ------------------------------------------------------------------------------- */
 
 export const BASE_TYPE_MAP = {
     // - Primitives -
@@ -37,6 +37,8 @@ export const BASE_TYPE_MAP = {
     ZodEffects: 'Any', // Unsure how to handle, attempted to serialize as JSON
 } as const
 
+/* --- Types ----------------------------------------------------------------------------------- */
+
 export type ZOD_TYPE = keyof typeof BASE_TYPE_MAP
 export type BASE_TYPE = typeof BASE_TYPE_MAP[ZOD_TYPE]
 export type SCHEMA_TYPE = (ZOD_TYPE | BASE_TYPE) & {}
@@ -44,7 +46,7 @@ export type SCHEMA_TYPE = (ZOD_TYPE | BASE_TYPE) & {}
 export type Metadata<S = Record<string, any$Unknown> | any$Unknown[]> = {
     zodType: ZOD_TYPE,
     baseType: BASE_TYPE,
-    schemaName?: string,
+    name?: string,
     isOptional?: boolean,
     isNullable?: boolean,
     defaultValue?: any$Unknown,
@@ -57,12 +59,32 @@ export type Metadata<S = Record<string, any$Unknown> | any$Unknown[]> = {
     maxValue?: number,
     isInt?: boolean,
     literalValue?: any$Unknown,
+    literalType?: 'string' | 'boolean' | 'number',
+    literalBase?: BASE_TYPE,
     schema?: S,
+    // only included when calling with .introspect(true)
+    zodStruct?: z.ZodType & { _def: z.ZodTypeDef & { typeName: ZOD_TYPE } }, 
 }
+
+export type Meta$Schema = Metadata<Record<string, Metadata>>
+export type Meta$Tuple = Metadata<Metadata[]>
+export type Meta$Union = Metadata<Metadata[]>
+export type Meta$Intersection = Metadata<{ left: Metadata, right: Metadata }>
 
 type StackedMeta = Metadata & {
     zodStruct?: z.ZodType & { _def: z.ZodTypeDef & { typeName: ZOD_TYPE } },
 }
+
+export type ZodSchema<S extends z.ZodRawShape = z.ZodRawShape> = z.ZodObject<S>
+    | z.ZodNullable<z.ZodObject<S>>
+    | z.ZodOptional<z.ZodObject<S>>
+    | z.ZodDefault<z.ZodObject<S>>
+    | z.ZodNullable<z.ZodOptional<z.ZodObject<S>>>
+    | z.ZodNullable<z.ZodDefault<z.ZodObject<S>>>
+    | z.ZodOptional<z.ZodNullable<z.ZodObject<S>>>
+    | z.ZodOptional<z.ZodDefault<z.ZodObject<S>>>
+    | z.ZodDefault<z.ZodNullable<z.ZodObject<S>>>
+    | z.ZodDefault<z.ZodOptional<z.ZodObject<S>>>
 
 /* --- Zod extensions -------------------------------------------------------------------------- */
 
@@ -73,7 +95,7 @@ declare module 'zod' {
         example<T extends this['_type']>(exampleValue: T): this
         eg<T extends this['_type']>(exampleValue: T): this
         ex<T extends this['_type']>(exampleValue: T): this
-        introspect(): Metadata & Record<string, any>
+        introspect(includeZodStruct?: boolean): Meta$Schema & Record<string, any>
     }
 
     interface ZodObject<
@@ -124,7 +146,8 @@ if (!ZodType.prototype.metadata) {
 
     const getStackedMeta = <Z extends z.ZodTypeAny>(
         zodStruct: Z,
-        stackedMeta = [] as StackedMeta[]
+        stackedMeta = [] as StackedMeta[],
+        includeZodStruct = false
     ): StackedMeta[] => {
         // Start with actual metadata
         const meta = { ...zodStruct.metadata() }
@@ -158,113 +181,115 @@ if (!ZodType.prototype.metadata) {
         if (numberType.isInt) meta.isInt = numberType.isInt
         // Literals
         if (zodType === 'ZodLiteral') {
-            const _zodStruct = zodStruct as unknown as z.ZodLiteral<any>
-            meta.literalValue = _zodStruct.value
+            const _zodLiteral = zodStruct as unknown as z.ZodLiteral<any>
+            meta.literalValue = _zodLiteral.value
+            meta.literalType = typeof meta.literalValue
             if (typeof meta.literalValue === 'string') meta.baseType = 'String'
             if (typeof meta.literalValue === 'number') meta.baseType = 'Number'
             if (typeof meta.literalValue === 'boolean') meta.baseType = 'Boolean'
-            if (typeof meta.literalValue === 'object') meta.baseType = 'Object'
-            if (meta.literalValue instanceof Date) meta.baseType = 'Date'
-            if (Array.isArray(meta.literalValue)) meta.baseType = 'Array'
+            meta.literalBase = meta.baseType
         }
         // Enums
         if (zodType === 'ZodEnum') {
-            const _zodStruct = zodStruct as unknown as z.ZodEnum<any>
-            meta.schema = _zodStruct.options?.reduce((acc: Record<string, unknown>, value: any) => {
+            const _zodEnum = zodStruct as unknown as z.ZodEnum<any>
+            meta.schema = _zodEnum.options?.reduce((acc: Record<string, unknown>, value: any) => {
                 return { ...acc, [value]: value }
             }, {})
         }
         // Tuples
         if (zodType === 'ZodTuple') {
-            const _zodStruct = zodStruct as unknown as z.ZodTuple<any>
-            meta.schema = _zodStruct.items.map((item: any) => item.introspect?.()).filter(Boolean)
+            const _zodTuple = zodStruct as unknown as z.ZodTuple<any>
+            meta.schema = _zodTuple.items.map((item: any) => item.introspect?.(includeZodStruct)).filter(Boolean)
         }
         // Unions
         if (zodType === 'ZodUnion') {
-            const _zodStruct = zodStruct as unknown as z.ZodUnion<any>
-            meta.schema = _zodStruct.options.map((option: any) => option.introspect?.()).filter(Boolean)
+            const _zodUnion = zodStruct as unknown as z.ZodUnion<any>
+            meta.schema = _zodUnion.options.map((option: any) => option.introspect?.(includeZodStruct)).filter(Boolean)
         }
         // Intersections
         if (zodType === 'ZodIntersection') {
-            const _zodStruct = zodStruct as unknown as z.ZodIntersection<any, any>
+            const _zodIntersection = zodStruct as unknown as z.ZodIntersection<any, any>
             meta.schema = {
-                left: _zodStruct._def.left.introspect?.(),
-                right: _zodStruct._def.right.introspect?.(),
+                left: _zodIntersection._def.left.introspect?.(includeZodStruct),
+                right: _zodIntersection._def.right.introspect?.(includeZodStruct),
             }
         }
         // Discriminated Unions
         if (zodType === 'ZodDiscriminatedUnion') {
-            const _zodStruct = zodStruct as unknown as z.ZodDiscriminatedUnion<any, any>
-            meta.schema = _zodStruct.options.reduce((acc: any, option: any) => {
-                return { ...acc, types: [...acc.types, option.introspect?.()] }
-            }, { discriminator: _zodStruct._def.discriminator, types: [] })
+            const _zodUnion = zodStruct as unknown as z.ZodDiscriminatedUnion<any, any>
+            meta.schema = _zodUnion.options.reduce((acc: any, option: any) => {
+                return { ...acc, types: [...acc.types, option.introspect?.(includeZodStruct)] }
+            }, { discriminator: _zodUnion._def.discriminator, types: [] })
         }
         // Arrays
         if (zodType === 'ZodArray') {
-            const _zodStruct = zodStruct as unknown as z.ZodArray<any>
-            meta.schema = _zodStruct._def.type.introspect?.()
+            const _zodArray = zodStruct as unknown as z.ZodArray<any>
+            meta.schema = _zodArray._def.type.introspect?.(includeZodStruct)
         }
         // Schemas & Objects
         if (zodType === 'ZodObject') {
-            const _zodStruct = zodStruct as unknown as z.ZodObject<any>
-            meta.schema = Object.entries(_zodStruct.shape).reduce((acc, [key, fieldType]) => {
+            const _zodObject = zodStruct as unknown as z.ZodObject<any>
+            meta.schema = Object.entries(_zodObject.shape).reduce((acc, [key, fieldType]) => {
                 // @ts-ignore
-                return { ...acc, [key]: fieldType.introspect?.() }
+                return { ...acc, [key]: fieldType.introspect?.(includeZodStruct) }
             }, {})
         }
         // Records
         if (zodType === 'ZodRecord') {
-            const _zodStruct = zodStruct as unknown as z.ZodRecord<any>
-            meta.schema = _zodStruct._def.valueType.introspect?.()
+            const _zodRecord = zodStruct as unknown as z.ZodRecord<any>
+            meta.schema = _zodRecord._def.valueType.introspect?.(includeZodStruct)
         }
         // Sets
         if (zodType === 'ZodSet') {
-            const _zodStruct = zodStruct as unknown as z.ZodSet<any>
-            meta.schema = _zodStruct._def.valueType.introspect?.()
+            const _zodSet = zodStruct as unknown as z.ZodSet<any>
+            meta.schema = _zodSet._def.valueType.introspect?.(includeZodStruct)
         }
         // Maps
         if (zodType === 'ZodMap') {
-            const _zodStruct = zodStruct as unknown as z.ZodMap<any, any>
+            const _zodMap = zodStruct as unknown as z.ZodMap<any, any>
             meta.schema = {
-                key: _zodStruct._def.keyType.introspect?.(),
-                value: _zodStruct._def.valueType.introspect?.(),
+                key: _zodMap._def.keyType.introspect?.(includeZodStruct),
+                value: _zodMap._def.valueType.introspect?.(includeZodStruct),
             }
         }
         // Functions
         if (zodType === 'ZodFunction') {
-            const _zodStruct = zodStruct as unknown as z.ZodFunction<any, any>
+            const _zodFunction = zodStruct as unknown as z.ZodFunction<any, any>
             meta.schema = {
-                input: _zodStruct._def.args.introspect?.(),
-                output: _zodStruct._def.returns.introspect?.(),
+                input: _zodFunction._def.args.introspect?.(includeZodStruct),
+                output: _zodFunction._def.returns.introspect?.(includeZodStruct),
             }
         }
         // Promises
         if (zodType === 'ZodPromise') {
-            const _zodStruct = zodStruct as unknown as z.ZodPromise<any>
-            meta.schema = _zodStruct._def.type.introspect?.()
+            const _zodPromise = zodStruct as unknown as z.ZodPromise<any>
+            meta.schema = _zodPromise._def.type.introspect?.(includeZodStruct)
         }
         // Add the metadata for the current type
         const currentMetaStack = [...stackedMeta, meta as Metadata]
         // If we've reached the innermost type, end recursion, return all metadata
         if (!zodStruct._def.innerType) return currentMetaStack
         // If there's another inner layer, unwrap it, add to the stack
-        return getStackedMeta(zodStruct._def.innerType, currentMetaStack)
+        return getStackedMeta(zodStruct._def.innerType, currentMetaStack, includeZodStruct)
     }
 
-    ZodType.prototype.introspect = function () {
+    ZodType.prototype.introspect = function (includeZodStruct = false) {
         // Figure out nested metadata
-        const stackedMeta = getStackedMeta(this)
+        const stackedMeta = getStackedMeta(this, [], includeZodStruct)
         const reversedMeta = [...stackedMeta].reverse()
         const [innermostMeta] = reversedMeta
         const zodType = innermostMeta.zodStruct!._def.typeName as unknown as ZOD_TYPE
         const baseType = BASE_TYPE_MAP[zodType as ZOD_TYPE]
         // Flatten stacked metadata in reverse order
-        const flatMeta = reversedMeta.reduce((acc, { zodStruct: _, ...meta }) => ({
+        const flatMeta = reversedMeta.reduce((acc, { zodStruct, ...meta }) => ({
             ...acc,
             ...meta,
+            ...(includeZodStruct ? { zodStruct } : {})
         }), {})
-        // Return all introspected metadata
         const meta = { ...flatMeta, zodType, baseType }
+        // @ts-ignore
+        if (meta.literalBase) meta.baseType = meta.literalBase
+        // Return all introspected metadata
         return meta
     }
 

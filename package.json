@@ -7,6 +7,9 @@
     "features/*",
     "packages/*"
   ],
+  "engines": {
+    "node": ">=18.19.1"
+  },
   "overrides": {
     "graphql": "16.8.1",
     "next": "~14.0.4"

@@ -1,7 +1,17 @@
 import { TadaDocumentNode, graphql, VariablesOf, ResultOf } from 'gql.tada'
 import { print } from 'graphql'
-import { Metadata, z } from './index'
-import { lowercaseFirstChar } from '@green-stack/core/utils/stringUtils'
+import { z, Metadata, Meta$Schema } from './index'
+import { lowercaseFirstChar } from '../utils/stringUtils'
+
+/* --- Helpers --------------------------------------------------------------------------------- */
+
+export const normalizeInputSchemaName = (schemaName: string, prefix: 'type' | 'input') => {
+    // Append with 'Input', only if there isn't already an indicator of input in there
+    const INPUT_INDICATORS = ['Input', 'Args', 'Arguments']
+    const isInputSchemaName = INPUT_INDICATORS.some((term) => schemaName?.includes(term))
+    if (prefix === 'input' && !isInputSchemaName) return `${schemaName}Input`
+    return schemaName
+}
 
 /** --- renderGraphqlQuery() ------------------------------------------------------------------- */
 /** -i- Accepts a resolverName, argsSchema and responseSchema and spits out a graphql query that stops at 3 levels (or a custom number) of depth */
@@ -23,7 +33,7 @@ export const renderGraphqlQuery = <ArgsShape extends z.ZodRawShape, ResShape ext
     // Introspect input & output schemas
     const argsSchemaDefs = argsSchema.introspect()
     const responseSchemaDefs = responseSchema.introspect()
-    const argsSchemaName = argsSchemaDefs.name
+    const argsSchemaName = normalizeInputSchemaName(argsSchemaDefs.name!, 'input')
     const _resolverArgsName = lowercaseFirstChar(resolverArgsName)
 
     // Build query base
@@ -31,7 +41,7 @@ export const renderGraphqlQuery = <ArgsShape extends z.ZodRawShape, ResShape ext
     query = query.replace('{{body}}', `${resolverName}(args: $${_resolverArgsName}) {\n{{fields}}\n  }`) // prettier-ignore
 
     // Nestable field builder
-    const renderFields = (schema: Metadata<Record<string, Metadata>>, depth: number, fieldName?: string) => {
+    const renderFields = (schema: Meta$Schema, depth: number, fieldName?: string) => {
         try {
             const fieldKeys = Object.keys(schema.schema || schema)
             const fieldEntries = fieldKeys.map((fieldKey): string => {
@@ -70,7 +80,7 @@ export const renderGraphqlQuery = <ArgsShape extends z.ZodRawShape, ResShape ext
                 }
 
                 // Handle nested types
-                let objectSchema = fieldConfig.schema as Metadata<Record<string, Metadata>>
+                let objectSchema = fieldConfig.schema as Meta$Schema
                 return `${spacing}${fieldKey} {\n${renderFields(objectSchema, depth + 1, fieldKey)}\n${spacing}}`
             })
             return fieldEntries.filter(Boolean).join('\n')
@@ -81,7 +91,7 @@ export const renderGraphqlQuery = <ArgsShape extends z.ZodRawShape, ResShape ext
     }
 
     // Render fields into the query
-    const fields = renderFields(responseSchemaDefs as Metadata<Record<string, Metadata>>, 2)
+    const fields = renderFields(responseSchemaDefs as Meta$Schema, 2)
     query = query.replace('{{fields}}', fields)
     return query
 }

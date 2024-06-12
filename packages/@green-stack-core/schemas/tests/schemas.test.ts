@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test'
-import { z, schema, Metadata } from '../index'
+import { z, schema, Meta$Schema } from '../index'
 import { ZodError } from 'zod'
 
 /* --- Schema Essentials ----------------------------------------------------------------------- */
@@ -37,7 +37,7 @@ const Primitives = schema('Primitives', {
 })
 
 test("Optionality, defaults & example values persist in schema introspection", () => {
-    const metadata = Primitives.introspect() as Metadata<Record<string, Metadata>>
+    const metadata = Primitives.introspect() as Meta$Schema
     // Optionality
     expect(metadata.schema?.str.isOptional).toEqual(true)
     expect(metadata.schema?.str.isNullable).toEqual(true)
@@ -64,7 +64,7 @@ test("Descriptions persist in introspection, no matter where they're defined", (
         bln: z.coerce.boolean().example(true).describe('Some boolean').optional(),
         date: z.coerce.date().describe('Some date').nullable(),
     })
-    const metadata = DescriptionTest.introspect() as Metadata<Record<string, Metadata>>
+    const metadata = DescriptionTest.introspect() as Meta$Schema
     expect(metadata.schema?.str.description).toEqual('Some string')
     expect(metadata.schema?.num.description).toEqual('Some number')
     expect(metadata.schema?.bln.description).toEqual('Some boolean')
@@ -101,7 +101,7 @@ test("Supports custom error messages for each validation step", () => {
 /* --- Primitives ------------------------------------------------------------------------------ */
 
 test("Primitives z.string(), z.number(), z.boolean() & z.date() work as expected", () => {
-    const metadata = Primitives.introspect() as Metadata<Record<string, Metadata>>
+    const metadata = Primitives.introspect() as Meta$Schema
     // Base Types
     expect(metadata.schema?.str.baseType).toEqual('String')
     expect(metadata.schema?.num.baseType).toEqual('Number')
@@ -129,6 +129,17 @@ test("Primitives z.string(), z.number(), z.boolean() & z.date() work as expected
     expect(() => Primitives.shape.num.parse(51)).toThrow() // Too high
 })
 
+/* --- Subtypes -------------------------------------------------------------------------------- */
+
+test("Adds the .isInt metadata to z.number().int()", () => {
+    const Int = schema('Int', {
+        int: z.number().int(),
+    })
+    const metadata = Int.introspect() as Meta$Schema
+    expect(metadata.schema?.int.zodType).toEqual('ZodNumber')
+    expect(metadata.schema?.int.isInt).toEqual(true)
+})
+
 /* --- Advanced Types -------------------------------------------------------------------------- */
 
 const AdvancedTypes = schema('AdvancedTypes', {
@@ -139,7 +150,7 @@ const AdvancedTypes = schema('AdvancedTypes', {
 })
 
 test("Advanced types z.enum(), z.tuple(), z.union() & z.array() work as expected", () => {
-    const metadata = AdvancedTypes.introspect() as Metadata<Record<string, Metadata>>
+    const metadata = AdvancedTypes.introspect() as Meta$Schema
     // Base Types
     expect(metadata.schema?.enum.baseType).toEqual('String')
     expect(metadata.schema?.tuple.baseType).toEqual('Any') // Experimental support, serialized as JSON
@@ -180,6 +191,31 @@ test("Advanced types z.enum(), z.tuple(), z.union() & z.array() work as expected
     expect(() => AdvancedTypes.shape.tuple.parse(['world', '24'])).toThrow() // Wrong type
     expect(() => AdvancedTypes.shape.union.parse(false)).toThrow() // Wrong type
     expect(() => AdvancedTypes.shape.array.parse(['world', '24'])).toThrow() // Too long
+})
+
+test("Recognizes z.literal() based on the primitive type of the literal's value", () => {
+    const Literal = schema('Literal', {
+        literalStr: z.literal('Hello'),
+        literalNum: z.literal(42),
+        literalBln: z.literal(true),
+    })
+    const metadata = Literal.introspect() as Meta$Schema
+    // Metadata should contain the literal value
+    expect(metadata.schema?.literalStr.literalValue).toEqual('Hello')
+    expect(metadata.schema?.literalNum.literalValue).toEqual(42)
+    expect(metadata.schema?.literalBln.literalValue).toEqual(true)
+    // Metadata should contain the literal type
+    expect(metadata.schema?.literalStr.literalType).toEqual('string')
+    expect(metadata.schema?.literalNum.literalType).toEqual('number')
+    expect(metadata.schema?.literalBln.literalType).toEqual('boolean')
+    // Metadata should contain the literal baseType
+    expect(metadata.schema?.literalStr.literalBase).toEqual('String')
+    expect(metadata.schema?.literalNum.literalBase).toEqual('Number')
+    expect(metadata.schema?.literalBln.literalBase).toEqual('Boolean')
+    // Base Types
+    expect(metadata.schema?.literalStr.baseType).toEqual('String')
+    expect(metadata.schema?.literalNum.baseType).toEqual('Number')
+    expect(metadata.schema?.literalBln.baseType).toEqual('Boolean')
 })
 
 /* --- Derived Schemas ------------------------------------------------------------------------- */
@@ -226,7 +262,7 @@ const Nested = schema('Nested', {
 })
 
 test("Nested schemas work as expected", () => {
-    const metadata = Nested.introspect() as Metadata<Record<string, Metadata>>
+    const metadata = Nested.introspect() as Meta$Schema
     // Nested Schemas
     expect(metadata.schema?.user.zodType).toEqual('ZodObject')
     expect(metadata.schema?.primitives.zodType).toEqual('ZodObject')
@@ -247,3 +283,12 @@ test("Nested schemas work as expected", () => {
     })
 })
 
+/* --- Introspection flags --------------------------------------------------------------------- */
+
+test("Calling .introspect(true) includes the correct zodStruct", () => {
+    const metadata = Nested.introspect(true) as Meta$Schema
+    // Nested Schemas
+    expect(metadata.schema?.user.zodStruct).toEqual(User)
+    expect(metadata.schema?.primitives.zodStruct).toEqual(Primitives)
+    expect(metadata.schema?.advanced.zodStruct).toEqual(AdvancedTypes)
+})
