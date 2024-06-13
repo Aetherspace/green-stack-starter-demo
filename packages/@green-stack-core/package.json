@@ -10,6 +10,7 @@
         "@app/registries": "*",
         "@graphql-tools/load-files": "^7.0.0",
         "@types/bun": "^1.1.2",
+        "@types/glob": "^8.1.0",
         "esbuild-register": "^3.5.0",
         "module-alias": "^2.2.3",
         "tsx": "^4.15.2",

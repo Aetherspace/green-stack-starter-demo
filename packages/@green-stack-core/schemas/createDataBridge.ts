@@ -3,11 +3,21 @@ import { print } from 'graphql'
 import { z, Metadata, Meta$Schema } from './index'
 import { lowercaseFirstChar } from '../utils/stringUtils'
 
-/* --- Helpers --------------------------------------------------------------------------------- */
+/* --- Constants ------------------------------------------------------------------------------- */
 
+const INPUT_INDICATORS = ['Input', 'Args', 'Arguments'] as const
+
+const ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'GRAPHQL'] as const
+
+/* --- Types ----------------------------------------------------------------------------------- */
+
+export type INPUT_INDICATORS = typeof INPUT_INDICATORS[number]
+
+export type ALLOWED_METHODS = typeof ALLOWED_METHODS[number]
+
+/** --- normalizeInputSchemaName() ------------------------------------------------------------- */
+/** -i- Appends schema name with 'Input', but only if there isn't already an indicator of input in there */
 export const normalizeInputSchemaName = (schemaName: string, prefix: 'type' | 'input') => {
-    // Append with 'Input', only if there isn't already an indicator of input in there
-    const INPUT_INDICATORS = ['Input', 'Args', 'Arguments']
     const isInputSchemaName = INPUT_INDICATORS.some((term) => schemaName?.includes(term))
     if (prefix === 'input' && !isInputSchemaName) return `${schemaName}Input`
     return schemaName
@@ -125,7 +135,7 @@ export const createDataBridge = <
     argsSchema: z.ZodObject<ArgsShape>
     responseSchema: z.ZodObject<ResShape>
     apiPath?: string
-    allowedMethods?: ('GRAPHQL' | 'GET' | 'POST' | 'PUT' | 'DELETE')[]
+    allowedMethods?: ALLOWED_METHODS[]
     graphqlQuery?: CustomQuery
     isMutation?: boolean
 }) => {

@@ -29,7 +29,13 @@ export const replaceStringVars = (
 }
 
 /** --- findTargetString() --------------------------------------------------------------------- */
-/** -i- Finds a $target$ string inside another string */
+/** -i- Finds a $target$ string inside another string
+ * @example ```
+ *    const folderWithIcons = findTargetString(
+ *      'some/path/to/specific-folder/icons/',
+ *      'some/path/to/$target$/icons/'
+ *    ) // => 'specific-folder'
+ * ``` */
 export const findTargetString = (source: string, search = '($target$)') => {
   const [preTarget, postTarget] = search.split('$target$')
   const parts = source.split(preTarget)
@@ -38,7 +44,13 @@ export const findTargetString = (source: string, search = '($target$)') => {
 }
 
 /** --- replaceMany() -------------------------------------------------------------------------- */
-/** -i- Replaces every string you pass as the 2nd argument with the string in the 3rd argument */
+/** -i- Replaces every string you pass as the targets (2nd arg) with the string in the 3rd argument
+ * @example ```
+ *    replaceMany('useUpdateDataForm()', ['Update', 'Add'], '')
+ *    // => 'useDataForm()'
+ *    replaceMany('useAddUserForm()', ['Update', 'Add'], '')
+ *    // => 'useUserForm()'
+ * ``` */
 export const replaceMany = (source: string, targets: string[], replacement: string) => {
   const allTargets = targets.flatMap((target) => [uppercaseFirstChar(target), lowercaseFirstChar(target)]) // prettier-ignore
   let result = source

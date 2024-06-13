@@ -22,7 +22,8 @@
         "schema": "./graphql/schema.graphql",
         "tadaOutputLocation": "./graphql-env.d.ts"
       }
-    ]
+    ],
+    "types": ["node", "glob"]
   },
   "include": [
     "next-env.d.ts",
