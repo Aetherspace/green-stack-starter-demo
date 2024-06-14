@@ -4,6 +4,7 @@
     "private": true,
     "dependencies": {
         "crypto-js": "^4.2.0",
+        "dot-prop": "^9.0.0",
         "zod": "^3.23.7"
     },
     "devDependencies": {
@@ -18,6 +19,7 @@
     },
     "scripts": {
         "build:schema": "tsx --tsconfig ./tsconfig.scripts.json ./run-script.js ./scripts/build-graphql-schema.ts",
+        "check:workspaces": "tsx --tsconfig ./tsconfig.scripts.json ./run-script.js ./scripts/check-workspaces.ts",
         "test": "bun test --preload ./preload.test.ts --tsconfig-override tsconfig.test.json --verbose"
     }
 }
