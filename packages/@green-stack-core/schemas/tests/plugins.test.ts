@@ -3,7 +3,7 @@ import { print } from 'graphql'
 import { z, schema } from '../index'
 import { createSchemaPlugin } from '../createSchemaPlugin'
 import { createGraphSchemaDefs } from '../createGraphSchemaDefs'
-import { healthCheck } from '../../../@registries/resolversRegistry'
+import { healthCheck } from '../../../@registries/resolvers.generated'
 
 /* --- createSchemaPlugin() -------------------------------------------------------------------- */
 
@@ -203,6 +203,12 @@ test("createGraphSchemaDefs() generates correct nullable output data definitions
   // Check nullable field definitions
   expect(printedSchema).toContain('nullable: String')
   expect(printedSchema).not.toContain('nullable: String!')
+  // Check optional field definitions
+  expect(printedSchema).toContain('optional: String')
+  expect(printedSchema).not.toContain('optional: String!')
+  // Check defaulted field definitions
+  expect(printedSchema).toContain('defaulted: String')
+  expect(printedSchema).not.toContain('defaulted: String!')
 })
 
 test("createGraphSchemaDefs() can handle resolvers created by createGraphResolver()", () => {

@@ -15,7 +15,7 @@ const SKIPPED_WORKSPACES = ['@green-stack/core', '@app/registries']
 
 /* --- Templates ------------------------------------------------------------------------------- */
 
-const template = `// -i- Auto generated with "yarn check-workspaces"
+const template = `// -i- Auto generated with "npm run check-workspaces"
 module.exports = {{exports}}\n`
 
 /* --- check-workspaces ------------------------------------------------------------------------ */

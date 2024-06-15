@@ -1,2 +1,2 @@
-// -i- Auto generated with "yarn check-workspaces"
+// -i- Auto generated with "npm run check-workspaces"
 module.exports = {}

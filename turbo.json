@@ -31,10 +31,17 @@
         "@app-expo#add-dependencies": {
             "cache": false
         },
+        "@green-stack/core#collect:resolvers": {
+            "cache": true
+        },
         "@green-stack/core#build:schema": {
             "outputs": ["**/schema.graphql", "**/schema.ts", "**/graphql-env.d.ts"],
             "inputs": [],
+            "dependsOn": ["@green-stack/core#collect:resolvers"],
             "cache": true
+        },
+        "@green-stack/core#check:workspaces": {
+            "cache": false
         },
         "env:local": {
             "cache": false

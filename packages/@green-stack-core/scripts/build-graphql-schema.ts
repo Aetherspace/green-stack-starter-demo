@@ -8,7 +8,7 @@ import { loadFilesSync } from '@graphql-tools/load-files'
 import { mergeTypeDefs } from '@graphql-tools/merge'
 import { print } from 'graphql'
 import { createGraphSchemaDefs } from '../schemas/createGraphSchemaDefs'
-import * as resolvers from '@app/registries/resolversRegistry'
+import * as resolvers from '@app/registries/resolvers.generated'
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
