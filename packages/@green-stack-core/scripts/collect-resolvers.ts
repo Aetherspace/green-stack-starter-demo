@@ -5,7 +5,7 @@ import { excludeDirs, parseWorkspaces } from './helpers/scriptUtils'
 
 /* --- Constants ------------------------------------------------------------------------------ */
 
-const genMsg = `// -i- Auto generated with "npx turbo run @green-stack/core#collect:resolvers" -- /packages/@green-stack-core/scripts/collect-resolvers.ts\n`
+const genMsg = `// -i- Auto generated with "npx turbo run @green-stack/core#collect:resolvers"\n`
 
 /* --- collect-resolvers ---------------------------------------------------------------------- */
 

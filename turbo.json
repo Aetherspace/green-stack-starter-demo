@@ -43,7 +43,11 @@
             "inputs": [],
             "cache": true
         },
+        "@green-stack/core#collect:generators": {
+            "cache": false
+        },
         "@green-stack/core#check:workspaces": {
+            "dependsOn": ["@green-stack/core#collect:generators"],
             "cache": false
         },
         "env:local": {
