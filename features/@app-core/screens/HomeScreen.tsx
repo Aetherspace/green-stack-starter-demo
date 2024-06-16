@@ -1,7 +1,7 @@
 import React from 'react'
+import { HydratedRouteProps, createQueryBridge } from '@green-stack/core/navigation/UniversalRouteScreen.helpers'
 import { View, Link, Image, P, H3, Text } from '../components/styled'
 import { healthCheckFetcher } from '../resolvers/healthCheck.query'
-import { HydratedRouteProps, createQueryBridge } from '@green-stack/core/navigation/UniversalRouteScreen.helpers'
 
 /* --- Data Fetching --------------------------------------------------------------------------- */
 
