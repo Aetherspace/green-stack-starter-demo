@@ -3,12 +3,12 @@
     "version": "0.0.1",
     "private": true,
     "dependencies": {
+        "@app/registries": "*",
         "crypto-js": "^4.2.0",
         "dot-prop": "^9.0.0",
         "zod": "^3.23.7"
     },
     "devDependencies": {
-        "@app/registries": "*",
         "@graphql-tools/load-files": "^7.0.0",
         "@types/bun": "^1.1.2",
         "@types/glob": "^8.1.0",
