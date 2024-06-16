@@ -1,14 +1,18 @@
+import type { KnownRoutes } from '@app/registries/routeManifest.generated'
+import type { UniversalLinkProps } from './Link.types'
 import { Link as ExpoLink } from 'expo-router'
 import { parseNativeWindStyles } from '../styles/parseNativeWindStyles'
-import type { UniversalLinkProps } from './Link.types'
 
 /* --- <Link/> --------------------------------------------------------------------------------- */
 
-export const Link = (props: UniversalLinkProps) => {
+export const Link = <
+    HREF extends KnownRoutes
+>(props: UniversalLinkProps<HREF>) => {
     // Props
     const {
         children,
         href,
+        params = {},
         style,
         replace,
         onPress,
@@ -22,6 +26,16 @@ export const Link = (props: UniversalLinkProps) => {
         maxFontSizeMultiplier
     } = props
 
+    // -- Inject params? --
+
+    const finalHref = Object.keys(params).reduce((acc, key) => {
+        // Inject into [param] in href?
+        const isRouteParam = acc.includes(`[${key}]`)
+        if (isRouteParam) return acc.replace(`[${key}]`, params[key])
+        // Inject as query param instead?
+        return `${acc}${acc.includes('?') ? '&' : '?'}${key}=${params[key]}`
+    }, href)
+
     // -- Nativewind --
 
     const { nativeWindStyles, restStyle } = parseNativeWindStyles(style)
@@ -31,7 +45,7 @@ export const Link = (props: UniversalLinkProps) => {
 
     return (
         <ExpoLink
-            href={href}
+            href={finalHref}
             style={finalStyle}
             onPress={onPress}
             target={target}

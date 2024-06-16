@@ -4,6 +4,7 @@ import { UniversalRouterMethods } from '../navigation/useRouter.types'
 import { UniversalRouteScreenProps } from '../navigation/useRouteParams.types'
 import type { useLocalSearchParams } from 'expo-router'
 import type { UniversalImageMethods, UniversalImageProps } from '../components/Image.types'
+import { KnownRoutes } from '@app/registries/routeManifest.generated'
 
 /* --- Notes ----------------------------------------------------------------------------------- */
 
@@ -16,7 +17,7 @@ import type { UniversalImageMethods, UniversalImageProps } from '../components/I
 
 export type CoreContextType = {
     contextImage:  ((props: UniversalImageProps) => JSX.Element) & UniversalImageMethods
-    contextLink: (props: UniversalLinkProps) => JSX.Element
+    contextLink: <HREF extends KnownRoutes>(props: UniversalLinkProps<HREF>) => JSX.Element
     contextRouter: UniversalRouterMethods
     useContextRouteParams: (routeScreenProps: UniversalRouteScreenProps) => ReturnType<typeof useLocalSearchParams>
 }

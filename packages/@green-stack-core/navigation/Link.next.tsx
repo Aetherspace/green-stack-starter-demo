@@ -1,15 +1,19 @@
-import NextLink from 'next/link'
 import type { ComponentProps } from 'react'
+import type { KnownRoutes } from '@app/registries/routeManifest.generated'
 import type { UniversalLinkProps } from './Link.types'
+import NextLink from 'next/link'
 import { parseNativeWindStyles } from '../styles/parseNativeWindStyles'
 
 /* --- <Link/> --------------------------------------------------------------------------------- */
 
-export const Link = (props: UniversalLinkProps) => {
+export const Link = <
+    HREF extends KnownRoutes
+>(props: UniversalLinkProps<HREF>) => {
     // Props
     const {
         children,
         href,
+        params = {},
         className,
         style,
         replace,
@@ -23,6 +27,16 @@ export const Link = (props: UniversalLinkProps) => {
         as,
     } = props
 
+    // -- Inject params? --
+
+    const finalHref = Object.keys(params).reduce((acc, key) => {
+        // Inject into [param] in href?
+        const isRouteParam = acc.includes(`[${key}]`)
+        if (isRouteParam) return acc.replace(`[${key}]`, params[key])
+        // Inject as query param instead?
+        return `${acc}${acc.includes('?') ? '&' : '?'}${key}=${params[key]}`
+    }, href)
+
     // -- Nativewind --
 
     const { nativeWindStyles, nativeWindClassName, restStyle } = parseNativeWindStyles(style)
@@ -32,7 +46,7 @@ export const Link = (props: UniversalLinkProps) => {
 
     return (
         <NextLink
-            href={href}
+            href={finalHref}
             className={[className, nativeWindClassName].filter(Boolean).join(' ')}
             style={finalStyle as unknown as ComponentProps<typeof NextLink>['style']}
             onClick={onPress}

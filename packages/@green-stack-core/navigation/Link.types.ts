@@ -1,14 +1,27 @@
 import type { LinkProps as NextLinkProps } from 'next/link'
 import type { LinkProps as ExpoLinkProps } from 'expo-router/build/link/Link'
+import type { KnownRoutes } from '@app/registries/routeManifest.generated'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-export type UniversalLinkProps = {
+export type ExtractParams<HREF extends KnownRoutes> = HREF extends `${infer START}/[${infer PARAM}]${infer REST}`
+    ? PARAM | ExtractParams<REST>
+    : never
+
+export type LinkParams<HREF extends KnownRoutes> = {
+    [K in ExtractParams<HREF>]: string | number | boolean
+}
+
+export type RequireParamsIfDynamic<HREF extends KnownRoutes> = ExtractParams<HREF> extends never
+    ? { params?: ObjectType<any$Unknown> }
+    : { params: LinkParams<HREF> & ObjectType<any$Unknown> }
+
+export type UniversalLinkProps<HREF extends KnownRoutes = KnownRoutes> = {
 
     children: React.ReactNode;
 
     /** Universal - The path to route to on web or mobile. String only. */
-    href: string;
+    href: HREF;
 
     /** Universal - Style prop: https://reactnative.dev/docs/text#style */
     style?: ExpoLinkProps['style'];
@@ -63,6 +76,6 @@ export type UniversalLinkProps = {
     /** Web only - Optional decorator for the path that will be shown in the browser URL bar. Before Next.js 9.5.3 this was used for dynamic routes, check our [previous docs](https://github.com/vercel/next.js/blob/v9.5.2/docs/api-reference/next/link.md#dynamic-routes) to see how it worked. Note: when this path differs from the one provided in `href` the previous `href`/`as` behavior is used as shown in the [previous docs](https://github.com/vercel/next.js/blob/v9.5.2/docs/api-reference/next/link.md#dynamic-routes). */
     as?: NextLinkProps['as'];
 
-}
+} & RequireParamsIfDynamic<HREF>
 
 export { NextLinkProps, ExpoLinkProps }

@@ -25,8 +25,9 @@ const HomeScreen = (props: HydratedRouteProps<typeof queryBridge>) => {
       <Image src={require('../assets/green-stack-logo.png')} width={60} height={60} className="mb-3" />
       <H3 className="text-center max-w-[240px]">Full-Product, Universal App with the GREEN-stack 🚀</H3>
       <P className="mt-2 text-center text-sm px-6 md:px-0">
-        Open <Text className="font-bold">HomeScreen.tsx</Text> in <Text className="italic">features/@app-core/screens</Text> to start working on your app</P>
-      <Link href="/subpages/GREEN%20stack" className="mt-4 text-center text-base">
+        Open <Text className="font-bold">HomeScreen.tsx</Text> in <Text className="italic">features/@app-core/screens</Text> to start working on your app
+      </P>
+      <Link href="/subpages/[slug]" params={{ slug: 'GREEN%20stack', count: 0 }} className="mt-4 text-center text-base">
         Test navigation
       </Link>
       <Link href="/images" className="mt-4 text-center text-base">

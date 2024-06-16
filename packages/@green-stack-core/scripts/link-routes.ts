@@ -258,7 +258,7 @@ const linkRoutes = () => {
     })
 
     // Save route manifest
-    const routeManifestPath = '../../packages/@registries/routeManifest.ts'
+    const routeManifestPath = '../../packages/@registries/routeManifest.generated.ts'
     const routeManifestLines = Object.entries(routeManifest).map(([route, compName]) => {
       const routePath = route === '/' ? '/' : route.substring(0, route.length - 1) // prettier-ignore
       return `  ['${routePath}']: '${compName}',`
