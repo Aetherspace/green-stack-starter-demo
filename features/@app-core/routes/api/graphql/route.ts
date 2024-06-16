@@ -1,5 +1,5 @@
 import type { NextRequest } from 'next/server'
-import { createGraphQLServerHandler } from '@app/core/graphql/graphqlServer'
+import { createGraphQLServerHandler } from '../../../graphql/graphqlServer'
 
 /* --- Handler --------------------------------------------------------------------------------- */
 

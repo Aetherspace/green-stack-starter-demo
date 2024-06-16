@@ -56,6 +56,12 @@ export type HydratedRouteProps<
         routeParamsToQueryKey: any,
         routeParamsToQueryInput: any
         initialData?: any
+    } = {
+        fetcherDataToProps: (fetcherData: any$Unknown) => any$Unknown,
+        routeDataFetcher: (...args: any[]) => Promise<any>,
+        routeParamsToQueryKey: any,
+        routeParamsToQueryInput: any
+        initialData?: any
     }
 > = ReturnType<Exclude<QueryBridge['fetcherDataToProps'], undefined>> & {
     /** -i- The route key for the query */
@@ -87,3 +93,20 @@ export const createQueryBridge = <
         fetcherDataToProps: fetcherDataToProps as FetcherToProps,
     }
 }
+
+/* --- Defaults -------------------------------------------------------------------------------- */
+
+export const DEFAULT_QUERY_BRIDGE = {
+    routeParamsToQueryKey: (routeParams: Record<string, unknown>) => JSON.stringify(routeParams),
+    routeParamsToQueryInput: (routeParams: Record<string, unknown>) => routeParams,
+    routeDataFetcher: async () => ({}),
+    initialData: {},
+} as unknown as QueryBridgeConfig<
+    Record<string, any$Unknown>,
+    Record<string, any$Unknown>,
+    QueryFn<Record<string, any$Unknown>, Record<string, any$Unknown>>,
+    Record<string, any$Unknown>,
+    (data: Record<string, any$Unknown>) => Record<string, any$Unknown>,
+    (routeParams: Record<string, any$Unknown>) => QueryKey,
+    (routeParams: Record<string, any$Unknown>) => Record<string, any$Unknown>
+>

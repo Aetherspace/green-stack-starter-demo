@@ -1,7 +1,7 @@
 'use client'
 import { use, useState, useEffect } from 'react'
 import { useQueryClient, useQuery, dehydrate, HydrationBoundary } from '@tanstack/react-query'
-import type { UniversalRouteProps, QueryFn } from './UniversalRouteScreen.helpers'
+import { type UniversalRouteProps, type QueryFn, DEFAULT_QUERY_BRIDGE } from './UniversalRouteScreen.helpers'
 import { useRouteParams } from './useRouteParams'
 import { isExpoWebLocal } from '../../../features/@app-core/appConfig'
 
@@ -28,7 +28,7 @@ export const UniversalRouteScreen = <
     RES extends Record<string, unknown> = Record<string, unknown>,
 >(props: UniversalRouteProps<ARGS, RES>) => {
     // Props
-    const { params: routeParams, searchParams, queryBridge, routeScreen: RouteScreen, ...screenProps } = props
+    const { params: routeParams, searchParams, queryBridge = DEFAULT_QUERY_BRIDGE, routeScreen: RouteScreen, ...screenProps } = props
     const { routeParamsToQueryKey, routeParamsToQueryInput, routeDataFetcher } = queryBridge
     const fetcherDataToProps = queryBridge.fetcherDataToProps || ((data: Awaited<ReturnType<QueryFn<ARGS, RES>>>) => data)
 
@@ -44,8 +44,8 @@ export const UniversalRouteScreen = <
 
     // Vars
     const isBrowser = typeof window !== 'undefined'
-    const queryParams = { ...routeParams, ...searchParams, ...nextRouterParams }
-    const queryKey = routeParamsToQueryKey(queryParams as any)
+    const queryParams = { ...routeParams, ...searchParams, ...nextRouterParams } // @ts-ignore
+    const queryKey = routeParamsToQueryKey(queryParams as unknown as ARGS)
     const queryInput = routeParamsToQueryInput(queryParams as any)
 
     // -- Effects --
@@ -61,7 +61,7 @@ export const UniversalRouteScreen = <
 
     const queryConfig = {
         queryKey,
-        queryFn: async () => await routeDataFetcher(queryInput),
+        queryFn: async () => await routeDataFetcher(queryInput as unknown as ARGS),
         initialData: queryBridge.initialData,
     }
     

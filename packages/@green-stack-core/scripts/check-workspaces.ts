@@ -15,8 +15,10 @@ const SKIPPED_WORKSPACES = ['@green-stack/core', '@app/registries']
 
 /* --- Templates ------------------------------------------------------------------------------- */
 
-const template = `// -i- Auto generated with "npm run check-workspaces"
-module.exports = {{exports}}\n`
+const template = [
+    `// -i- Auto generated with "npx turbo run @green-stack/core#check:workspaces"`,
+    `module.exports = {{exports}}\n`
+].join('\n')
 
 /* --- check-workspaces ------------------------------------------------------------------------ */
 

@@ -1,4 +1,4 @@
-import { UniversalRouteScreen } from '../../../packages/@green-stack-core/navigation/UniversalRouteScreen'
+import { UniversalRouteScreen } from '@green-stack/core/navigation/UniversalRouteScreen'
 import HomeScreen, { queryBridge } from '../screens/HomeScreen'
 
 /* --- / --------------------------------------------------------------------------------------- */

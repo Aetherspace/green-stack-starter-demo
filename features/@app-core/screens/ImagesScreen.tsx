@@ -1,3 +1,4 @@
+import type { HydratedRouteProps } from '@green-stack/core/navigation/UniversalRouteScreen.helpers'
 import React from 'react'
 import { View, Text, Image, Link } from '../components/styled'
 
@@ -7,7 +8,7 @@ const greenStackLogo = require('../assets/green-stack-logo.png')
 
 /* --- <ImagesScreen/> ------------------------------------------------------------------------- */
 
-const ImagesScreen = () => {
+const ImagesScreen = (props: HydratedRouteProps) => {
   return (
     <View className="flex flex-1 justify-center items-center">
       <Link

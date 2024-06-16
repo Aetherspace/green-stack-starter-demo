@@ -25,6 +25,7 @@
     "build:schema": "npx turbo run @green-stack/core#build:schema",
     "check:workspaces": "npx turbo run @green-stack/core#check:workspaces",
     "collect:resolvers": "npx turbo run @green-stack/core#collect:resolvers",
+    "link:routes": "npx turbo run @green-stack/core#link:routes",
     "add:dependencies": "npx turbo run @app-expo#add-dependencies",
     "env:local": "npx turbo run env:local",
     "turbo:login": "npx turbo login",

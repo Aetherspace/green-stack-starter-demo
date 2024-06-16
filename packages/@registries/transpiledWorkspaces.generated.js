@@ -1,4 +1,4 @@
-// -i- Auto generated with "npm run check-workspaces"
+// -i- Auto generated with "npx turbo run @green-stack/core#check:workspaces"
 module.exports = [
   "@green-stack/core",
   "@app/registries",

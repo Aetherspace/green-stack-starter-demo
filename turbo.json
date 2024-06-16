@@ -32,12 +32,15 @@
             "cache": false
         },
         "@green-stack/core#collect:resolvers": {
-            "cache": true
+            "cache": false
+        },
+        "@green-stack/core#link:routes": {
+            "cache": false
         },
         "@green-stack/core#build:schema": {
+            "dependsOn": ["@green-stack/core#collect:resolvers", "@green-stack/core#link:routes"],
             "outputs": ["**/schema.graphql", "**/schema.ts", "**/graphql-env.d.ts"],
             "inputs": [],
-            "dependsOn": ["@green-stack/core#collect:resolvers"],
             "cache": true
         },
         "@green-stack/core#check:workspaces": {

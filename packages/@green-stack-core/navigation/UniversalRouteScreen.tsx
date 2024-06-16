@@ -1,6 +1,6 @@
 'use client'
 import { useQuery } from '@tanstack/react-query'
-import type { UniversalRouteProps, QueryFn } from './UniversalRouteScreen.helpers'
+import { type UniversalRouteProps, type QueryFn, DEFAULT_QUERY_BRIDGE } from './UniversalRouteScreen.helpers'
 import { useRouteParams } from './useRouteParams'
 
 /** --- <UniversalRouteScreen/> -------------------------------------------------------------------- */
@@ -10,7 +10,7 @@ export const UniversalRouteScreen = <
     RES extends Record<string, unknown> = Record<string, unknown>,
 >(props: UniversalRouteProps<ARGS, RES>) => {
     // Props
-    const { params: routeParams, searchParams, queryBridge, routeScreen: RouteScreen, ...screenProps } = props
+    const { params: routeParams, searchParams, routeScreen: RouteScreen, queryBridge = DEFAULT_QUERY_BRIDGE, ...screenProps } = props
     const { routeParamsToQueryKey, routeParamsToQueryInput, routeDataFetcher } = queryBridge
     const fetcherDataToProps = queryBridge.fetcherDataToProps || ((data: Awaited<ReturnType<QueryFn<ARGS, RES>>>) => data)
 
@@ -18,7 +18,7 @@ export const UniversalRouteScreen = <
     const expoRouterParams = useRouteParams(props)
 
     // Vars
-    const queryParams = { ...routeParams, ...searchParams, ...expoRouterParams }
+    const queryParams = { ...routeParams, ...searchParams, ...expoRouterParams } as ARGS // @ts-ignore
     const queryKey = routeParamsToQueryKey(queryParams as any)
     const queryInput = routeParamsToQueryInput(queryParams as any)
 
@@ -26,7 +26,7 @@ export const UniversalRouteScreen = <
 
     const queryConfig = {
         queryKey,
-        queryFn: async () => await routeDataFetcher(queryInput),
+        queryFn: async () => await routeDataFetcher(queryInput as ARGS),
         initialData: queryBridge.initialData as Awaited<RES>,
     }
 

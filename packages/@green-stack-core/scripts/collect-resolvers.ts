@@ -3,13 +3,17 @@ import fs from 'fs'
 import { findTargetString } from '../utils/stringUtils'
 import { excludeDirs, parseWorkspaces } from './helpers/scriptUtils'
 
+/* --- Constants ------------------------------------------------------------------------------ */
+
+const genMsg = `// -i- Auto generated with "npx turbo run @green-stack/core#collect:resolvers" -- /packages/@green-stack-core/scripts/collect-resolvers.ts\n`
+
 /* --- collect-resolvers ---------------------------------------------------------------------- */
 
 const collectResolvers = () => {
   try {
     // Get all resolver file paths in the next app's api folder
     const featureAPIRoutes = glob.sync('../../features/**/routes/api/**/route.ts').filter(excludeDirs) // prettier-ignore
-    const packageAPIRoutes = glob.sync('../../packages/**/routes/api/**/*.ts').filter(excludeDirs) // prettier-ignore
+    const packageAPIRoutes = glob.sync('../../packages/**/routes/api/**/route.ts').filter(excludeDirs) // prettier-ignore
     const allAPIRoutes = [...featureAPIRoutes, ...packageAPIRoutes]
 
     // Figure out import paths from each workspace
@@ -39,7 +43,7 @@ const collectResolvers = () => {
       const exportLine = `export { graphResolver as ${resolverName} } from '${importPath}'`
       // Add the resolver to the registry
       return `${acc}${exportLine}\n`
-    }, '// -i- Auto generated with "npm run collect-resolvers" -- /packages/@aetherspace/scripts/collect-resolvers.ts\n') // prettier-ignore
+    }, genMsg) // prettier-ignore
     // Write barrel file to 'packages/@registries/resolvers.generated.ts'
     fs.writeFileSync('../../packages/@registries/resolvers.generated.ts', resolverRegistry)
     console.log('-----------------------------------------------------------------')
