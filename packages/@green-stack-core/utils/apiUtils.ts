@@ -1,7 +1,7 @@
-import type { NextApiRequest, NextApiResponse, GetServerSidePropsContext } from 'next'
+import type { NextApiRequest, GetServerSidePropsContext } from 'next'
 import type { NextRequest } from 'next/server' // @ts-ignore
 import CryptoJS from 'crypto-js'
-import { appConfig } from '@app/core/appConfig'
+import { appConfig } from '@app/config'
 import { normalizeObjectProps } from './objectUtils'
 import { isEmpty, warnOnce } from './commonUtils'
 

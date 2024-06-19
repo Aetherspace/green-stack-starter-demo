@@ -1,5 +1,5 @@
 import type { TadaDocumentNode, VariablesOf, ResultOf } from 'gql.tada'
-import { graphqlQuery } from '@app/core/graphql/graphqlQuery' // '@app/core/graphql/graphqlQuery'
+import { graphqlQuery } from '@app/core/graphql/graphqlQuery'
 
 /** --- bridgedFetcher() ----------------------------------------------------------------------- */
 /** -i- Helper to create a typed fetcher from config created by `createDataBridge()` */

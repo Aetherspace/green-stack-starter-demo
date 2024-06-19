@@ -4,7 +4,7 @@ import { GraphQLJSON, GraphQLJSONObject } from 'graphql-type-json'
 import { gql } from 'graphql-tag'
 import { typeDefs } from './typeDefs'
 import * as resolvers from '@app/registries/resolvers.generated'
-import { createGraphSchemaDefs } from '@green-stack/core/schemas/createGraphSchemaDefs'
+import { createGraphSchemaDefs } from '@green-stack/schemas/createGraphSchemaDefs'
 
 /* --- Notes ----------------------------------------------------------------------------------- */
 

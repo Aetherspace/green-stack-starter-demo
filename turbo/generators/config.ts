@@ -112,10 +112,10 @@ export default function (plop: PlopTypes.NodePlopAPI) {
                     return new Promise((resolve, reject) => {
                         try {
                             console.log("Running 'install' on workspace root")
-                            execSync(`yarn install`)
+                            execSync(`npm install`)
                             resolve("Ran 'install' on workspace root")
                         } catch (error) {
-                            console.error("Failed to execute 'yarn install':", error)
+                            console.error("Failed to execute 'npm install':", error)
                             reject(error)
                         }
                     })

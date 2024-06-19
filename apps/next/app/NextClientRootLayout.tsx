@@ -1,10 +1,10 @@
 'use client'
 import React from 'react'
-import UniversalAppProviders from '@app/core/screens/UniversalAppProviders'
-import { Image as NextContextImage } from '@green-stack/core/components/Image.next'
-import { Link as NextContextLink } from '@green-stack/core/navigation/Link.next'
-import { useRouter as useNextContextRouter } from '@green-stack/core/navigation/useRouter.next'
-import { useRouteParams as useNextRouteParams } from '@green-stack/core/navigation/useRouteParams.next'
+import UniversalAppProviders from '@app/screens/UniversalAppProviders'
+import { Image as NextContextImage } from '@green-stack/components/Image.next'
+import { Link as NextContextLink } from '@green-stack/navigation/Link.next'
+import { useRouter as useNextContextRouter } from '@green-stack/navigation/useRouter.next'
+import { useRouteParams as useNextRouteParams } from '@green-stack/navigation/useRouteParams.next'
 
 // -i- This is a regular react client component
 // -i- It's still rendered on the server during SSR, but it also hydrates on the client

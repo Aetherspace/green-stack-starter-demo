@@ -1,6 +1,6 @@
 import * as OS from 'os'
 import type { NextRequest } from 'next/server'
-import { createResolver } from '@green-stack/core/schemas/createResolver'
+import { createResolver } from '@green-stack/schemas/createResolver'
 import { appConfig } from '../appConfig'
 import { healthCheckBridge } from './healthCheck.bridge'
 

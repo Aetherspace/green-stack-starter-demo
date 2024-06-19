@@ -1,5 +1,5 @@
 import { ResultOf, VariablesOf } from 'gql.tada'
-import { bridgedFetcher } from '@green-stack/core/schemas/bridgedFetcher'
+import { bridgedFetcher } from '@green-stack/schemas/bridgedFetcher'
 import { healthCheckBridge } from './healthCheck.bridge'
 import { graphql } from '../graphql/graphql'
 

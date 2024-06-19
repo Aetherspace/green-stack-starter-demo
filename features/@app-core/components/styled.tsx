@@ -1,9 +1,9 @@
 import type { KnownRoutes } from '@app/registries/routeManifest.generated'
 import { styled } from 'nativewind'
 import { Text as RNText, View as RNView } from 'react-native'
-import { Link as UniversalLink } from '@green-stack/core/navigation/Link'
-import { Image as UniversalImage } from '@green-stack/core/components/Image'
-import { UniversalLinkProps } from '@green-stack/core/navigation/Link.types'
+import { Link as UniversalLink } from '@green-stack/navigation/Link'
+import { UniversalLinkProps } from '@green-stack/navigation/Link.types'
+import { Image as UniversalImage } from '@green-stack/components/Image'
 
 /* --- Primitives ------------------------------------------------------------------------------ */
 

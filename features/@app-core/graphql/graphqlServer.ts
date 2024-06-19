@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 import { startServerAndCreateNextHandler } from '@as-integrations/next'
 import { createRequestContext } from '../middleware/createRequestContext'
 import { schemaBundle } from './schema'
-import { getHeaderContext } from '@green-stack/core/utils/apiUtils'
+import { getHeaderContext } from '@green-stack/utils/apiUtils'
 
 /* --- Apollo Server --------------------------------------------------------------------------- */
 

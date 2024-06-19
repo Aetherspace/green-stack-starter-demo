@@ -3,7 +3,7 @@
 import React from 'react'
 import { AppRegistry } from 'react-native'
 import { useServerInsertedHTML } from 'next/navigation'
-import UniversalRootLayout from '@app/core/screens/UniversalRootLayout'
+import UniversalRootLayout from '@app/screens/UniversalRootLayout'
 
 // -i- This is a regular react client component
 // -i- However, it is rendered on the server during SSR

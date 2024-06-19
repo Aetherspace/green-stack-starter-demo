@@ -1,6 +1,6 @@
 import { print } from 'graphql/language/printer'
 import type { TadaDocumentNode, ResultOf } from 'gql.tada'
-import { warnOnce } from '@green-stack/core/utils/commonUtils'
+import { warnOnce } from '@green-stack/utils/commonUtils'
 import type { QueryConfig } from './graphqlQuery.types'
 import { appConfig } from '../appConfig'
 

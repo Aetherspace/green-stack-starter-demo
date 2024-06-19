@@ -1,10 +1,10 @@
 import { Stack } from 'expo-router'
-import UniversalAppProviders from '@app/core/screens/UniversalAppProviders'
-import UniversalRootLayout from '@app/core/screens/UniversalRootLayout'
-import { Image as ExpoContextImage } from '@green-stack/core/components/Image.expo'
-import { Link as ExpoContextLink } from '@green-stack/core/navigation/Link.expo'
-import { useRouter as useExpoContextRouter } from '@green-stack/core/navigation/useRouter.expo'
-import { useRouteParams as useExpoRouteParams } from '@green-stack/core/navigation/useRouteParams.expo'
+import UniversalAppProviders from '@app/screens/UniversalAppProviders'
+import UniversalRootLayout from '@app/screens/UniversalRootLayout'
+import { Image as ExpoContextImage } from '@green-stack/components/Image.expo'
+import { Link as ExpoContextLink } from '@green-stack/navigation/Link.expo'
+import { useRouter as useExpoContextRouter } from '@green-stack/navigation/useRouter.expo'
+import { useRouteParams as useExpoRouteParams } from '@green-stack/navigation/useRouteParams.expo'
 import { NativeWindStyleSheet } from 'nativewind'
 
 // -i- Expo Router's layout setup is much simpler than Next.js's layout setup

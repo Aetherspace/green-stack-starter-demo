@@ -1,4 +1,4 @@
-import { z, schema } from '@green-stack/core/schemas'
+import { z, schema } from '@green-stack/schemas'
 
 /* --- Schemas --------------------------------------------------------------------------------- */
 

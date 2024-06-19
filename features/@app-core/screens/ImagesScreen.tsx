@@ -1,4 +1,4 @@
-import type { HydratedRouteProps } from '@green-stack/core/navigation/UniversalRouteScreen.helpers'
+import type { HydratedRouteProps } from '@green-stack/navigation/UniversalRouteScreen.helpers'
 import React from 'react'
 import { View, Text, Image, Link } from '../components/styled'
 

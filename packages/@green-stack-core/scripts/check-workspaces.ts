@@ -1,4 +1,3 @@
-import * as dotenv from 'dotenv'
 import glob from 'glob'
 import fs from 'fs'
 import { excludeDirs, parseWorkspaces } from './helpers/scriptUtils'
@@ -27,7 +26,8 @@ const checkWorkspaces = async (isDeepCheck = true) => {
         // Load .env file in dev mode
         const isDev = process.env.NODE_ENV !== 'production'
         const hasEnvFile = fs.existsSync('../../apps/next/.env')
-        if (isDev && hasEnvFile) dotenv.config({ path: '../../apps/next/.env' })
+        const { config: dotenvConfig } = await import('dotenv')
+        if (isDev && hasEnvFile) dotenvConfig({ path: '../../apps/next/.env' })
 
         // Scan all /features/  and /packages/ workspace .ts & .tsx files
         const featureFiles = glob.sync('../../features/**/*.ts*').filter(excludeDirs)

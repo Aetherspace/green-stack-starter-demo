@@ -77,6 +77,22 @@ export const registerWorkspaceGenerator = (plop: PlopTypes.NodePlopAPI) => {
                     templateFile: '../../packages/@green-stack-core/generators/templates/package-json.hbs',
                     data: { packageLicense, privateLine },
                 },
+                {
+                    type: 'add',
+                    path: `${workspacePath}/tsconfig.json`,
+                    template: `{
+                        "extends": "@app/core/tsconfig",
+                        "include": [
+                            "**/*.ts",
+                            "**/*.tsx",
+                            "../../features/**/*.ts",
+                            "../../features/**/*.tsx",
+                            "../../features/app-core/graphql-env.d.ts",
+                            "../../packages/@green-stack-core/global.d.ts"
+                        ],
+                        "exclude": ["node_modules"]
+                    }`,
+                }
             ] as PlopTypes.ActionType[]
             
             // -- Helpers --

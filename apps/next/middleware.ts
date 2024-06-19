@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createMiddlewareHeaderContext } from '@green-stack/core/utils/apiUtils'
+import { createMiddlewareHeaderContext } from '@green-stack/utils/apiUtils'
 
 /* --- Middleware ------------------------------------------------------------------------------ */
 

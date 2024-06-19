@@ -1,5 +1,5 @@
 import React from 'react'
-import UniversalRootLayout from '@app/core/screens/UniversalRootLayout'
+import UniversalRootLayout from '@app/screens/UniversalRootLayout'
 import ServerStylesProvider from './ServerStylesProvider'
 import '../global.css'
 

@@ -1,5 +1,5 @@
-import { z } from '@green-stack/core/schemas'
-import type { RequestContext } from '@app/core/middleware/createRequestContext'
+import { z } from '../schemas'
+import type { RequestContext } from '@app/middleware/createRequestContext'
  
 /** --- createGraphResolver() ------------------------------------------------------------------ **/
 /** -i- Codegen: Build a graphQL resolver from aether an resolver */
