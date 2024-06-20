@@ -58,12 +58,25 @@ export type Metadata<S = Record<string, any$Unknown> | any$Unknown[]> = {
     minValue?: number,
     maxValue?: number,
     isInt?: boolean,
+    isBase64?: boolean,
+    isEmail?: boolean,
+    isURL?: boolean,
+    isUUID?: boolean,
+    isDate?: boolean,
+    isDatetime?: boolean,
+    isTime?: boolean,
+    isIP?: boolean,
     literalValue?: any$Unknown,
     literalType?: 'string' | 'boolean' | 'number',
     literalBase?: BASE_TYPE,
     schema?: S,
     // only included when calling with .introspect(true)
     zodStruct?: z.ZodType & { _def: z.ZodTypeDef & { typeName: ZOD_TYPE } }, 
+    // compatibility with other systems like databases & drivers
+    isID?: boolean,
+    isIndex?: boolean,
+    isUnique?: boolean,
+    isSparse?: boolean,
 }
 
 export type Meta$Schema = Metadata<Record<string, Metadata>>
@@ -92,6 +105,9 @@ declare module 'zod' {
     interface ZodType {
         metadata(): Record<string, any>,
         addMeta(meta: Record<string, any>): this
+        index(): this
+        unique(): this
+        sparse(): this
         example<T extends this['_type']>(exampleValue: T): this
         eg<T extends this['_type']>(exampleValue: T): this
         ex<T extends this['_type']>(exampleValue: T): this
@@ -138,6 +154,18 @@ if (!ZodType.prototype.metadata) {
         })
     }
 
+    ZodType.prototype.index = function () {
+        return this.addMeta({ isIndex: true })
+    }
+
+    ZodType.prototype.unique = function () {
+        return this.addMeta({ isUnique: true, isIndex: true })
+    }
+
+    ZodType.prototype.sparse = function () {
+        return this.addMeta({ isSparse: true, isIndex: true })
+    }
+
     ZodType.prototype.example = function (exampleValue) {
         return this.addMeta({ exampleValue })
     }
@@ -174,6 +202,15 @@ if (!ZodType.prototype.metadata) {
         const stringType = zodStruct as unknown as z.ZodString
         if (stringType.minLength) meta.minLength = stringType.minLength
         if (stringType.maxLength) meta.maxLength = stringType.maxLength
+        if (stringType.isBase64) meta.isBase64 = true
+        if (stringType.isEmail) meta.isEmail = true
+        if (stringType.isURL) meta.isURL = true
+        if (stringType.isUUID) meta.isUUID = true
+        if (stringType.isDate) meta.isDate = true
+        if (stringType.isDatetime) meta.isDatetime = true
+        if (stringType.isTime) meta.isTime = true
+        if (stringType.isIP) meta.isIP = true
+        if (meta.isUUID) meta.isID = true
         // Add number metadata if present
         const numberType = zodStruct as unknown as z.ZodNumber
         if (numberType.minValue) meta.minValue = numberType.minValue

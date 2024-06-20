@@ -23,6 +23,6 @@
         "collect:resolvers": "tsx --tsconfig ./tsconfig.scripts.json ./run-script.js ./scripts/collect-resolvers.ts",
         "collect:generators": "tsx --tsconfig ./tsconfig.scripts.json ./run-script.js ./scripts/collect-generators.ts",
         "link:routes": "tsx --tsconfig ./tsconfig.scripts.json ./run-script.js ./scripts/link-routes.ts",
-        "test": "bun test --preload ./preload.test.ts --verbose"
+        "test": "cd ../../ && bun test --tsconfig-override ./packages/@green-stack-core/tsconfig.json --preload ./packages/@green-stack-core/preload.test.ts --verbose"
     }
 }

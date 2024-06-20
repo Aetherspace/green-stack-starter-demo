@@ -26,7 +26,7 @@ type ExtractRouteParams<T> = Partial<MergeUnion<ExtractPrimitives<DeepFlattenReq
 
 type Prettify<T> = {
   [K in keyof T]: T[K] extends Object ? Prettify<T[K]> : T[K]
-}
+} & {}
 
 type PrettifySingleKeyRecord<T> = T extends Record<infer K, infer V>
   ? K extends keyof T

@@ -6,25 +6,26 @@ import { mock } from 'bun:test'
 // -i- We need to mock the tsConfig paths for esbuild-register to work
 // -i- ... as it doesn't have the same path resolution as typescript.
 
-const featureTsConfigs = glob.sync('../../features/**/tsconfig.json')
-const packageTsConfigs = glob.sync('../../packages/**/tsconfig.json')
+const featureTsConfigs = glob.sync('./features/**/tsconfig.json')
+const packageTsConfigs = glob.sync('./packages/**/tsconfig.json')
 const relevantTsConfigs = [...featureTsConfigs, ...packageTsConfigs]
 relevantTsConfigs.forEach(async (tsConfigPath) => {
-    const tsConfig = await import(tsConfigPath)
+    const actualTsConfigPath = tsConfigPath.replace('./', '../../')
+    const tsConfig = await import(actualTsConfigPath)
     const tsConfigPathAliases = tsConfig.compilerOptions?.paths || {} // @ts-ignore
     Object.entries(tsConfigPathAliases).forEach(([aliasKey, [aliasedPath]]) => {
         // Aliases to single files
         if (!aliasKey.includes('*')) mock.module(aliasKey, () => import(aliasedPath))
         // Wildcard * aliases to multiple files
         if (aliasKey.includes('*')) {
-            const normalizedAliasKey = aliasKey.replace('/*', '/')
             const [importPathBase] = aliasedPath.split('*')
-            const aliasGlob = aliasedPath.replace('*', '**/*.{ts,tsx}')
+            const aliasGlob = aliasedPath.replace('*', '**/*.{ts,tsx}').replace('../../', './')
             const aliasedPaths = glob.sync(aliasGlob)
             aliasedPaths.forEach((file) => {
-                const modulePathFromAlias = file.split(importPathBase)[1]?.replace('.tsx', '').replace('.ts', '')
+                const actualFilePath = file.replace('./', '../../').replace('.tsx', '').replace('.ts', '') // prettier-ignore
+                const modulePathFromAlias = actualFilePath.split(importPathBase)[1]?.replace('.tsx', '').replace('.ts', '') // prettier-ignore
+                const normalizedAliasKey = aliasKey.replace('/*', '/').replace('./', '../../')
                 const aliasFilePath = `${normalizedAliasKey}${modulePathFromAlias}`
-                const actualFilePath = file.replace('.tsx', '').replace('.ts', '')
                 mock.module(aliasFilePath, () => import(actualFilePath))
             })
         }

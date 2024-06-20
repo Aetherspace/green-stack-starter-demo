@@ -83,6 +83,11 @@ export const createSchemaDefinition = (
             if (fieldMeta.baseType === 'Number' && fieldMeta.isInt) {
                 gqlType = 'Int'
             }
+
+            // Handle ID - e.g. `someKey: ID!`
+            if (fieldMeta.baseType === 'String' && fieldMeta.isID) {
+                gqlType = 'ID'
+            }
             
             // Handle nested schemas - e.g. `someKey: SomeData!`
             if (graphqlType === 'Schema' && fieldMeta.schema) {

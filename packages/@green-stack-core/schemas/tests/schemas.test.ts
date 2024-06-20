@@ -131,13 +131,64 @@ test("Primitives z.string(), z.number(), z.boolean() & z.date() work as expected
 
 /* --- Subtypes -------------------------------------------------------------------------------- */
 
-test("Adds the .isInt metadata to z.number().int()", () => {
+test("Adds isInt metadata to z.number().int()", () => {
     const Int = schema('Int', {
         int: z.number().int(),
     })
     const metadata = Int.introspect() as Meta$Schema
     expect(metadata.schema?.int.zodType).toEqual('ZodNumber')
     expect(metadata.schema?.int.isInt).toEqual(true)
+})
+
+test("Adds isBase64 / isEmail / isUUID / isURL / isDate metadata to z.string() subtypes", () => {
+    const StringSubtypes = schema('StringSubtypes', {
+        base64: z.string().base64(),
+        email: z.string().email(),
+        uuid: z.string().uuid(),
+        url: z.string().url(),
+        date: z.string().date(),
+        datetime: z.string().datetime(),
+        time: z.string().time(),
+        ip: z.string().ip(),
+    })
+    const metadata = StringSubtypes.introspect() as Meta$Schema
+    // Check subtypes
+    expect(metadata.schema?.base64.isBase64).toEqual(true)
+    expect(metadata.schema?.email.isEmail).toEqual(true)
+    expect(metadata.schema?.uuid.isUUID).toEqual(true)
+    expect(metadata.schema?.url.isURL).toEqual(true)
+    expect(metadata.schema?.date.isDate).toEqual(true)
+    expect(metadata.schema?.datetime.isDatetime).toEqual(true)
+    expect(metadata.schema?.time.isTime).toEqual(true)
+    expect(metadata.schema?.ip.isIP).toEqual(true)
+    // Check that isID is set when isUUID is also true
+    expect(metadata.schema?.uuid.isID).toEqual(true)
+})
+
+/* --- Compatibility --------------------------------------------------------------------------- */
+
+test("Adds isIndex: true to metadata when .index() is called", () => {
+    const Index = schema('Index', {
+        index: z.string().index(),
+    })
+    const metadata = Index.introspect() as Meta$Schema
+    expect(metadata.schema?.index.isIndex).toEqual(true)
+})
+
+test("Adds isUnique: true to metadata when .unique() is called", () => {
+    const Unique = schema('Unique', {
+        unique: z.string().unique(),
+    })
+    const metadata = Unique.introspect() as Meta$Schema
+    expect(metadata.schema?.unique.isUnique).toEqual(true)
+})
+
+test("Adds isSparse: true to metadata when .sparse() is called", () => {
+    const Sparse = schema('Sparse', {
+        sparse: z.string().sparse(),
+    })
+    const metadata = Sparse.introspect() as Meta$Schema
+    expect(metadata.schema?.sparse.isSparse).toEqual(true)
 })
 
 /* --- Advanced Types -------------------------------------------------------------------------- */

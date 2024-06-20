@@ -1,0 +1,7 @@
+{
+    "name": "@db/driver",
+    "version": "0.0.1",
+    "description": "Database Driver & types to create DB drivers with ease. Falls back to mock memory DB if no driver is provided.",
+    "scripts": {},
+    "dependencies": {}
+}
