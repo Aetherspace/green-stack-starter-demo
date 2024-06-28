@@ -1,5 +1,6 @@
 import Constants from 'expo-constants'
 import { Platform } from 'react-native'
+import { DRIVER_OPTIONS, createDriverConfig } from '@app/registries/drivers.config'
 
 /* --- Notes ----------------------------------------------------------------------------------- */
 
@@ -33,6 +34,10 @@ export const appConfig = {
     graphURL: process.env.NEXT_PUBLIC_GRAPH_URL || process.env.EXPO_PUBLIC_GRAPH_URL || `${fallbackBaseURL}/api/graphql`, // prettier-ignore
     // - Secrets -
     appSecret: process.env.APP_SECRET || process.env.APP_SECRET,
+    // - Drivers -
+    drivers: createDriverConfig({
+        db: DRIVER_OPTIONS.db.mockDB,
+    }),
 } as const
 
 /* --- Debug ----------------------------------------------------------------------------------- */

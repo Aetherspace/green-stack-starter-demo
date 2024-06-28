@@ -3,6 +3,8 @@ import type { NextRequest } from 'next/server'
 import { createResolver } from '@green-stack/schemas/createResolver'
 import { appConfig } from '../appConfig'
 import { healthCheckBridge } from './healthCheck.bridge'
+import { Settings } from '@db/models'
+import { DRIVER_KEYS } from '@app/registries/drivers.config'
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
@@ -28,6 +30,45 @@ export const healthCheck = createResolver(async ({ args, req, context }) => {
     const requestProtocol = rn?.headers?.get?.('x-forwarded-proto') ?? 'http'
     const requestURL = r?.url || `${requestProtocol}://${requestHost}/api/health`
     const { baseURL, backendURL, apiURL, graphURL } = appConfig
+
+    // -- Context --
+
+    const extraContext = { requestContext: headerContext, drivers: {} } as ObjectType<any$Unknown>
+
+    const addDriverStatus = (
+        driverName: DRIVER_KEYS,
+        driverType = 'UNKNOWN',
+        status: 'OK' | 'NOK' | 'NONE',
+    ) => {
+        extraContext.drivers[driverName] = {
+            type: driverType,
+            status,
+        }
+    }
+
+    // -- Test DB Driver --
+
+    try {
+
+        const hasDbDriverSetting = !!(await Settings.findMany({ key: 'dbDriver' })).length
+        
+        if (!hasDbDriverSetting) {
+            await Settings.createOne({
+                key: 'dbDriver',
+                value: appConfig.drivers.db,
+            })
+        }
+
+        const dbDriverSetting = await Settings.findOne({ key: 'dbDriver' })
+        const dbDriverValue = dbDriverSetting?.value || 'NONE'
+        addDriverStatus('db', dbDriverValue, dbDriverValue ? 'OK' : 'NOK')
+
+    } catch (error) {
+
+        console.error('Error testing DB driver:', error)
+        addDriverStatus('db', appConfig.drivers.db, 'NOK')
+
+    }
 
     // -- Respond --
 
@@ -64,6 +105,6 @@ export const healthCheck = createResolver(async ({ args, req, context }) => {
         systemTotalMemory: OS.totalmem(),
         systemLoadAverage: OS.loadavg(),
         // CONTEXT
-        context: showContext ? headerContext : undefined,
+        context: showContext ? extraContext : undefined,
     }
 }, healthCheckBridge)

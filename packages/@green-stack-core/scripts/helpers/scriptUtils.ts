@@ -25,6 +25,15 @@ export const matchMethods = (methods: HINTED_METHODS[], method: HINTED_METHODS) 
     return methods.includes(method)
 }
 
+/** --- createDivider() ------------------------------------------------------------------------ */
+/** -i- Creates a code divider that's always 100 chars wide */
+export const createDivider = (title: string, isDocDivider = false) => {
+    const baseTemplate = isDocDivider ? `/** --- ${title}  */` : `/* --- ${title}  */`
+    const remainingSpace = 100 - baseTemplate.length - 1
+    const remainingDashes = '-'.repeat(remainingSpace)
+    return baseTemplate.replace(`${title}  */`, `${title} ${remainingDashes} */`)
+}
+
 /** --- includesOption() ----------------------------------------------------------------------- */
 /** -i- HoC to prefill a list of options that are checked against in the actual filter method
  * @example ```

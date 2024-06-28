@@ -18,11 +18,13 @@
         "typescript": "5.3.3"
     },
     "scripts": {
-        "build:schema": "tsx --tsconfig ./tsconfig.scripts.json ./run-script.js ./scripts/build-graphql-schema.ts",
-        "check:workspaces": "tsx --tsconfig ./tsconfig.scripts.json ./run-script.js ./scripts/check-workspaces.ts",
-        "collect:resolvers": "tsx --tsconfig ./tsconfig.scripts.json ./run-script.js ./scripts/collect-resolvers.ts",
-        "collect:generators": "tsx --tsconfig ./tsconfig.scripts.json ./run-script.js ./scripts/collect-generators.ts",
-        "link:routes": "tsx --tsconfig ./tsconfig.scripts.json ./run-script.js ./scripts/link-routes.ts",
+        "run:script": "tsx --tsconfig ./tsconfig.scripts.json ./run-script.js",
+        "build:schema": "npm run run:script ./scripts/build-graphql-schema.ts",
+        "check:workspaces": "npm run run:script ./scripts/check-workspaces.ts",
+        "collect:resolvers": "npm run run:script ./scripts/collect-resolvers.ts",
+        "collect:generators": "npm run run:script ./scripts/collect-generators.ts",
+        "collect:drivers": "npm run run:script ../../packages/@green-stack-core/scripts/collect-drivers.ts",
+        "link:routes": "npm run run:script ./scripts/link-routes.ts",
         "test": "cd ../../ && bun test --tsconfig-override ./packages/@green-stack-core/tsconfig.json --preload ./packages/@green-stack-core/preload.test.ts --verbose"
     }
 }

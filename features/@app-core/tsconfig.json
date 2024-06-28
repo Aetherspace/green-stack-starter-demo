@@ -42,6 +42,9 @@
       "@green-stack/styles/*": ["../../packages/@green-stack-core/styles/*"],
       "@green-stack/navigation/*": ["../../packages/@green-stack-core/navigation/*"],
       "@green-stack/context/*": ["../../packages/@green-stack-core/context/*"],
+      "@green-stack/scripts/*": ["../../packages/@green-stack-core/scripts/*"],
+      "@db/models": ["../../packages/@db-driver/models.ts"],
+      "@db/mock": ["../../packages/@db-driver/drivers/mock.db.ts"]
     }
   },
   "include": [

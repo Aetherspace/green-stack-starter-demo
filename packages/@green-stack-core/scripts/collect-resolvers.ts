@@ -11,7 +11,7 @@ const genMsg = `// -i- Auto generated with "npx turbo run @green-stack/core#coll
 
 const collectResolvers = () => {
   try {
-    // Get all resolver file paths in the next app's api folder
+    // Get all resolver file paths in /features/ & /packages/ workspace api folders
     const featureAPIRoutes = glob.sync('../../features/**/routes/api/**/route.ts').filter(excludeDirs) // prettier-ignore
     const packageAPIRoutes = glob.sync('../../packages/**/routes/api/**/route.ts').filter(excludeDirs) // prettier-ignore
     const allAPIRoutes = [...featureAPIRoutes, ...packageAPIRoutes]

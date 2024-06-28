@@ -4,6 +4,7 @@ import { z } from '@green-stack/schemas'
 import { warnOnce } from '@green-stack/utils/commonUtils'
 import { getProperty } from '@green-stack/utils/objectUtils'
 import { memoryDB } from '../constants/memoryDB.mock'
+import http from 'http'
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
@@ -57,6 +58,8 @@ export const createSchemaModel = <
     if (memoryDB[modelKey]) {
         warnOnce(`-!- Model "${modelKey}" already exists in memory DB. Skipping recreation from createSchemaModel()`) // prettier-ignore
     }
+
+    http.createServer()
 
     /** --- matchesCondition() ----------------------------------------------------------------- */
     /** -i- Checks whether mongo-like condition matching keys `$eq`, `$ne`, `$gt`, `$gte`, `$lt`, `$lte`, `$in`, `$nin` match the query */
