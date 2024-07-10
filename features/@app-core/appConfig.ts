@@ -7,10 +7,13 @@ import { DRIVER_OPTIONS, createDriverConfig } from '@app/registries/drivers.conf
 // -i- Workpacke package '@green-stack/core' expects this file to be at '/features/app-core/appConfig.ts'
 // -i- Please keep it here to avoid issues
 
-/* --- Computed Fallbacks ---------------------------------------------------------------------- */
+/* --- Flags ----------------------------------------------------------------------------------- */
 
 export const isWebLocalhost = Platform.OS === 'web' && globalThis?.location?.hostname === 'localhost'
 export const isExpoWebLocal = isWebLocalhost && globalThis?.location?.port === '8081'
+
+/* --- Computed Fallbacks ---------------------------------------------------------------------- */
+
 export const fallbackExpoWebHost = isExpoWebLocal ? 'localhost' : ''
 
 export const expoDebuggerHost = Constants?.expoGoConfig?.debuggerHost || Constants.manifest2?.extra?.expoGo?.debuggerHost // prettier-ignore

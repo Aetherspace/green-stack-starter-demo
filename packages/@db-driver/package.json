@@ -6,5 +6,11 @@
     "scripts": {
         "collect:models": "npm -w @green-stack/core run run:script ../../packages/@db-driver/scripts/collect-models.ts",
         "collect:drivers": "npm -w @green-stack/core run run:script ../../packages/@green-stack-core/scripts/collect-drivers.ts"
+    },
+    "stackConfig": {
+        "relatedWorkspaces": [
+            "@app/registries"
+        ],
+        "requiredEnvVars": []
     }
 }

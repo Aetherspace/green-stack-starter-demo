@@ -52,7 +52,7 @@
     "../../packages/@green-stack-core/global.d.ts",
     "appConfig.ts",
     "**/*.ts",
-    "**/*.tsx",
+    "**/*.tsx"
   ],
   "exclude": [
     "node_modules"

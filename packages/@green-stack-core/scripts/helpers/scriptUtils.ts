@@ -75,10 +75,13 @@ export const parseWorkspaces = (folderLevel = '../../') => {
     const workspaceConfigs = {} as Record<string, any>
   
     // Build a map of workspace imports as { [workspacePath]: workspacePackage, ... }
-    const workspaceImports = packageJSONPaths.reduce((acc, wsPath) => {
-        const packageJSON = JSON.parse(fs.readFileSync(wsPath, 'utf8'))
-        const workspaceMatcher = wsPath.replace(`${folderLevel}`, '').replace('/package.json', '')
-        workspaceConfigs[workspaceMatcher] = packageJSON
+    const workspaceImports = packageJSONPaths.reduce((acc, packageJsonPath) => {
+        const packageJsonString = fs.readFileSync(packageJsonPath, 'utf8')
+        const packageJsonLines = packageJsonString.split('\n')
+        const __tabSize = packageJsonLines[1].split('"')[0].length
+        const packageJSON = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
+        const workspaceMatcher = packageJsonPath.replace(`${folderLevel}`, '').replace('/package.json', '')
+        workspaceConfigs[workspaceMatcher] = { ...packageJSON, __tabSize }
         return { ...acc, [workspaceMatcher]: packageJSON.name }
     }, {}) as Record<string, string>
   

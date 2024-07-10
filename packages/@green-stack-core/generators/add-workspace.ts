@@ -17,7 +17,7 @@ const WORKSPACE_FOLDER_MAPPER = {
 /** --- Workspace Generator -------------------------------------------------------------------- */
 /** -i- Simple generator to add a new feature or package workspace */
 export const registerWorkspaceGenerator = (plop: PlopTypes.NodePlopAPI) => {
-    plop.setGenerator('gen-workspace', {
+    plop.setGenerator('add-workspace', {
         description: 'Create a new feature or package workspace',
         prompts: [
             {

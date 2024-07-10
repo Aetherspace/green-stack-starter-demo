@@ -6,7 +6,7 @@ const universalTheme = {
     // -i- Reference this theme in the tailwind.config.js files in apps/expo, apps/next, features/app-core and other package or feature folders
     extend: {
         colors: {
-            primary: colors.green,
+            primary: colors.gray,
         },
     }
 }

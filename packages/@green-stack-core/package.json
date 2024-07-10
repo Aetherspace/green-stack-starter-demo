@@ -25,6 +25,7 @@
         "collect:generators": "npm run run:script ./scripts/collect-generators.ts",
         "collect:drivers": "npm run run:script ../../packages/@green-stack-core/scripts/collect-drivers.ts",
         "link:routes": "npm run run:script ./scripts/link-routes.ts",
+        "add:dependencies": "npm run run:script ../../packages/@green-stack-core/scripts/add-dependencies.ts",
         "test": "cd ../../ && bun test --tsconfig-override ./packages/@green-stack-core/tsconfig.json --preload ./packages/@green-stack-core/preload.test.ts --verbose"
     }
 }

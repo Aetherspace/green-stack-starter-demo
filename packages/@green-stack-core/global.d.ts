@@ -48,3 +48,4 @@ type any$Todo = any
 type any$Unknown = any
 type any$FixMe = any
 type any$TooComplex = any
+type any$Ignore = any
