@@ -23,7 +23,8 @@ export const Link = <
         nativeID,
         allowFontScaling,
         numberOfLines,
-        maxFontSizeMultiplier
+        maxFontSizeMultiplier,
+        suppressHighlighting = true,
     } = props
 
     // -- Inject params? --
@@ -57,6 +58,7 @@ export const Link = <
             allowFontScaling={allowFontScaling}
             numberOfLines={numberOfLines}
             maxFontSizeMultiplier={maxFontSizeMultiplier}
+            suppressHighlighting={suppressHighlighting}
         >
             {children}
         </ExpoLink>

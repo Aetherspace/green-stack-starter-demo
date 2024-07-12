@@ -16,15 +16,23 @@ import { KnownRoutes } from '@app/registries/routeManifest.generated'
 /* --- Types ----------------------------------------------------------------------------------- */
 
 export type CoreContextType = {
+    // Components
     contextImage:  ((props: UniversalImageProps) => JSX.Element) & UniversalImageMethods
     contextLink: <HREF extends KnownRoutes>(props: UniversalLinkProps<HREF>) => JSX.Element
     contextRouter: UniversalRouterMethods
+    // Hooks
     useContextRouteParams: (routeScreenProps: UniversalRouteScreenProps) => ReturnType<typeof useLocalSearchParams>
+    // Flags
+    isExpo?: boolean
+    isNext?: boolean
+    isDebugMode?: boolean
+    // Setters
+    setIsDebugMode?: (isDebugMode: boolean) => void
 }
 
 /* --- Dummy ----------------------------------------------------------------------------------- */
 
-const createDummyComponent = (contextComponentName: string) => (props: any) => {
+const createDummyComponent = (contextComponentName: string) => () => {
     throw new Error(`CoreContext was not provided with a ${contextComponentName}. Please provide one in UniversalAppProviders.`)
 }
 
@@ -35,4 +43,7 @@ export const CoreContext = React.createContext<CoreContextType>({
     contextLink: createDummyComponent('contextLink'),
     contextRouter: null as unknown as UniversalRouterMethods,
     useContextRouteParams: () => ({}),
+    isExpo: undefined,
+    isNext: undefined,
+    isDebugMode: false,
 })

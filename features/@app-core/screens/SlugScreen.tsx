@@ -1,57 +1,84 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { useRouteParams } from '@green-stack/navigation/useRouteParams'
-import { View, Text, H3, P, Link } from '../components/styled'
+import { View, Text, H1, P, Link } from '../components/styled'
 import { useRouter } from '@green-stack/navigation/useRouter'
 import type { UniversalRouteScreenProps } from '@green-stack/navigation/useRouteParams.types'
+import BackButton from '../components/BackButton'
+import { testableFeatures } from '../constants/testableFeatures'
 
 /* --- <SlugScreen/> --------------------------------------------------------------------------- */
 
 const SlugScreen = (props: UniversalRouteScreenProps) => {
   // Routing
-  const { slug, count = '' } = useRouteParams(props)
-  const { canGoBack, back, push, navigate, replace, setParams } = useRouter()
-
-  // Vars
-  const showBackButton = canGoBack()
+  const { slug, count = 0 } = useRouteParams(props)
+  const { push, navigate, replace, setParams } = useRouter()
 
   // -- Render --
 
   return (
-    <View className="flex flex-1 justify-center items-center">
-      {showBackButton && (
-        <Text
-          className="text-blue-500 absolute top-8 web:top-0 left-0 p-4"
-          onPress={back}
-        >
-          {`< Back`}
-        </Text>
-      )}
-      <H3>
-        Page slug: {decodeURIComponent(slug as string)}
-        {!!count && ` | count: ${count}`}
-      </H3>
-      <P className="mt-2 text-base text-center">
-        Need a more robust, Fully-Stacked, Full-Product, Universal App Setup?
+    <View className="flex flex-1 justify-center items-center bg-slate-800">
+      <BackButton />
+      <H1 className="text-3xl">
+        slug - {decodeURIComponent(slug as string)}
+      </H1>
+      <View className="h-4" />
+      <P className=" text-gray-300 text-base text-center max-w-[400px] px-6">
+        Universal URL routing built on Expo & Next.js routers, shared between Web and Native. e.g. Tap to change the <Text className="font-bold">count {`(${count})`}</Text> param:
       </P>
-      <Link
-        href="https://github.com/Aetherspace/green-stack-starter-demo#readme"
-        className="mt-4 text-base text-center"
-        target="_blank"
-      >
-        Check out the GREEN Stack Starter
-      </Link>
-      <Text className="mt-4 text-center text-base text-blue-500 underline" onPress={() => push('/subpages/push')}>
-        {`router.push()`}
-      </Text>
-      <Text className="mt-4 text-center text-base text-blue-500 underline" onPress={() => navigate('/subpages/navigate')}>
-        {`router.navigate()`}
-      </Text>
-      <Text className="mt-4 text-center text-base text-blue-500 underline" onPress={() => replace('/subpages/replace')}>
-        {`router.replace()`}
-      </Text>
-      <Text className="mt-4 text-center text-base text-blue-500 underline" onPress={() => setParams({ count: `${+count + 1}` })}>
+      <View className="h-2" />
+      <Text className="text-center text-base text-blue-300 underline" onPress={() => setParams({ count: `${+count + 1}` })}>
         {`router.setParams()`}
       </Text>
+
+      {/* Nav & Routing Tests */}
+
+      <View className="h-1 w-12 my-6 bg-slate-600" />
+
+      <Text className="text-center text-base text-blue-300 underline" onPress={() => push('/subpages/push')}>
+        {`router.push()`}
+      </Text>
+      <View className="h-4" />
+      <Text className="text-center text-base text-blue-300 underline" onPress={() => navigate('/subpages/navigate')}>
+        {`router.navigate()`}
+      </Text>
+      <View className="h-4" />
+      <Text className="text-center text-base text-blue-300 underline" onPress={() => replace('/subpages/replace')}>
+        {`router.replace()`}
+      </Text>
+
+      {/* Other Tests */}
+
+      <View className="h-1 w-12 my-6 bg-slate-600" />
+
+      {testableFeatures.map((feature, index) => (
+        <Fragment key={feature.link}>
+          <Link
+            href={feature.link}
+            className="text-base text-center"
+          >
+            {feature.title}
+          </Link>
+          {index < (testableFeatures.length - 1) && (
+            <View className="h-2" />
+          )}
+        </Fragment>
+      ))}
+
+      {/* Try the full startkit? */}
+
+      <View className="h-1 w-12 my-6 bg-slate-600" />
+
+      <P className="mt-2 text-gray-300 text-base text-center px-6">
+        Upgrade your Universal App Setup?
+      </P>
+      <Link
+        href="https://fullproduct.dev"
+        className="mt-4 text-lg text-center font-bold no-underline"
+        target="_blank"
+      >
+        FullProduct.dev
+      </Link>
+
     </View>
   )
 }

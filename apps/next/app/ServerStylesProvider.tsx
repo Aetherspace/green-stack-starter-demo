@@ -27,7 +27,7 @@ const ServerStylesProvider = (props: { children: React.ReactNode }) => {
       return (
         <>
           {reactNativeStyleElement}
-          {/* TODO: Insert other SSR'd styles here */}
+          {/* OPTIONAL: Insert other SSR'd styles here? */}
         </>
       )
     })

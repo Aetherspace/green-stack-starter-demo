@@ -55,6 +55,7 @@ export type UniversalLinkProps<HREF extends KnownRoutes = KnownRoutes> = {
     allowFontScaling?: ExpoLinkProps['allowFontScaling'];
     numberOfLines?: ExpoLinkProps['numberOfLines'];
     maxFontSizeMultiplier?: ExpoLinkProps['maxFontSizeMultiplier'];
+    suppressHighlighting?: ExpoLinkProps['suppressHighlighting'];
 
     // - Next -
 

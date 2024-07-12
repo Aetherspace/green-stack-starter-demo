@@ -31,6 +31,7 @@ const NextClientRootLayout = ({ children }: NextClientRootLayoutProps) => {
             contextLink={NextContextLink}
             contextRouter={nextContextRouter}
             useContextRouteParams={useNextRouteParams}
+            isNext
         >
             {children}
         </UniversalAppProviders>

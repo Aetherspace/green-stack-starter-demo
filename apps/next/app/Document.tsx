@@ -16,7 +16,7 @@ const Document = (props: { children: React.ReactNode }) => {
   // -- Render --
 
   return (
-    <html suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* - Title & Keywords - */}
         <title>Universal App Router</title>
@@ -26,7 +26,9 @@ const Document = (props: { children: React.ReactNode }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body>
-        <UniversalRootLayout>{children}</UniversalRootLayout>
+        <UniversalRootLayout>
+          <main className="flex min-w-screen min-h-screen">{children}</main>
+        </UniversalRootLayout>
       </body>
     </html>
   )

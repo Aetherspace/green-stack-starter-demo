@@ -1,5 +1,5 @@
 import Constants from 'expo-constants'
-import { Platform } from 'react-native'
+import { Platform, Dimensions } from 'react-native'
 import { DRIVER_OPTIONS, createDriverConfig } from '@app/registries/drivers.config'
 
 /* --- Notes ----------------------------------------------------------------------------------- */
@@ -11,6 +11,10 @@ import { DRIVER_OPTIONS, createDriverConfig } from '@app/registries/drivers.conf
 
 export const isWebLocalhost = Platform.OS === 'web' && globalThis?.location?.hostname === 'localhost'
 export const isExpoWebLocal = isWebLocalhost && globalThis?.location?.port === '8081'
+
+export const isMobile = ['ios', 'android'].includes(Platform.OS)
+export const isLargeScreen = Dimensions.get('window').width > 1024
+export const isLargeTablet = isMobile && isLargeScreen
 
 /* --- Computed Fallbacks ---------------------------------------------------------------------- */
 
@@ -30,6 +34,9 @@ export const appConfig = {
     isWebLocalhost,
     isExpoWebLocal,
     isExpoMobileLocal,
+    isMobile,
+    isLargeScreen,
+    isLargeTablet,
     // - Server URLs -
     baseURL: process.env.NEXT_PUBLIC_BASE_URL || process.env.EXPO_PUBLIC_BASE_URL || `${fallbackBaseURL}`, // prettier-ignore
     backendURL: process.env.NEXT_PUBLIC_BACKEND_URL || process.env.EXPO_PUBLIC_BACKEND_URL || `${fallbackBaseURL}`, // prettier-ignore

@@ -32,6 +32,7 @@ export default function ExpoRootLayout() {
       contextLink={ExpoContextLink}
       contextRouter={expoContextRouter}
       useContextRouteParams={useExpoRouteParams}
+      isExpo
     >
       <UniversalRootLayout>
         <Stack

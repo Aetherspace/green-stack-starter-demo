@@ -21,7 +21,7 @@ const Image = (props: UniversalImageProps): JSX.Element => {
         nextPlaceholder,
         /* - Next.js - */
         loader,
-        fill,
+        fill: fillProp,
         sizes,
         quality,
         onLoad,
@@ -40,9 +40,13 @@ const Image = (props: UniversalImageProps): JSX.Element => {
 
     // -- Overrides --
 
+    const fill = fillProp === true || width === '100%' || height === '100%'
+
     if (fill) finalStyle.height = '100%'
     if (fill) finalStyle.width = '100%'
     if (fill) finalStyle.objectFit = contentFit || 'cover'
+
+    const finalClassName = [className, nativeWindClassName].filter(Boolean).join(' ')
 
     // -- Render --
 
@@ -51,9 +55,9 @@ const Image = (props: UniversalImageProps): JSX.Element => {
             /* - Universal - */
             src={src as any}
             alt={alt || accessibilityLabel!}
-            width={width as any}
-            height={height as any}
-            className={[className, nativeWindClassName].filter(Boolean).join(' ')}
+            width={fill ? undefined : width as any}
+            height={fill ? undefined : height as any}
+            className={finalClassName}
             style={finalStyle}
             priority={priority === 'high'}
             onError={onError as any}

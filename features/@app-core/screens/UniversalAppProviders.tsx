@@ -20,11 +20,29 @@ const UniversalAppProviders = (props: UniversalAppProvidersProps) => {
     // Props
     const { children, contextImage, contextLink, contextRouter, useContextRouteParams } = props
 
+    // State
+    const [isDebugMode, setIsDebugMode] = React.useState(false)
+
+    // Flags
+    const isExpo = props.isExpo && !props.isNext
+    const isNext = props.isNext && !props.isExpo
+
     // -- Render --
 
     return (
         <UniversalQueryClientProvider>
-            <CoreContext.Provider value={{ contextImage, contextLink, contextRouter, useContextRouteParams }}>
+            <CoreContext.Provider
+                value={{
+                    contextImage,
+                    contextLink,
+                    contextRouter,
+                    useContextRouteParams,
+                    isExpo,
+                    isNext,
+                    isDebugMode,
+                    setIsDebugMode,
+                }}
+            >
                 {children}
             </CoreContext.Provider>
         </UniversalQueryClientProvider>

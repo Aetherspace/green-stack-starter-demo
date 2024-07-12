@@ -97,7 +97,7 @@ export const createQueryBridge = <
 /* --- Defaults -------------------------------------------------------------------------------- */
 
 export const DEFAULT_QUERY_BRIDGE = {
-    routeParamsToQueryKey: (routeParams: Record<string, unknown>) => JSON.stringify(routeParams),
+    routeParamsToQueryKey: (routeParams: Record<string, unknown>) => [JSON.stringify(routeParams)],
     routeParamsToQueryInput: (routeParams: Record<string, unknown>) => routeParams,
     routeDataFetcher: async () => ({}),
     initialData: {},
