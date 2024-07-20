@@ -8,7 +8,7 @@ It's a good starting point if you want to:
 - ✅ have a minimal monorepo setup with Typescript but no monorepo tool yet
 - ✅ leave all other tech choices for e.g. styling, dbs, component libs, etc. up to you
 
-> This template repo is the result of a frequent exercise where I attempt to recreate [Aetherspace](https://github.com/Aetherspace/green-stack-starter) from scratch. I usually do this using the latest recommended expo + next.js starter from the Expo docs. This helps me see whether the setup and config for aetherspace can be simplified. Also handy to notice where issues occur and how to fix them.
+> This template repo is the result of a frequent exercise where I attempt to recreate the [FullProduct.dev](https://fullproduct.dev) Universal App Starterkit from scratch. I usually do this using the latest recommended expo + next.js starter from the Expo docs. This helps me see whether the setup and config for the Universal App Starter can be simplified. Also handy to notice where issues occur and how to fix them.
 
 ## Getting Started
 
@@ -26,26 +26,55 @@ Install and/or open the [Expo Go](https://expo.io/client) app on your phone and 
 
 ## Documentation
 
-All docs for this basic Universal Starter can be found at [universal-base-starter-docs.vercel.app](https://universal-base-starter-docs.vercel.app/)
+All docs for this basic Universal Starter can be found at [universal-base-starter-docs.vercel.app](https://universal-base-starter-docs.vercel.app/) and are built from the `with/mdx-docs-nextra` branch.
 
 ## Alternative Universal App starters
 
 See [How to choose cross-platform tech](https://dev.to/codinsonn/why-use-react-native-over-flutter-a-recap-57b0) on dev.to for our more detailed list of alternatives.
 
-**Our main recommendation for a more opinionated, more automated and extensible Universal Expo + Next.js starter to [move fast and build things](https://dev.to/codinsonn/how-to-compete-with-elons-twitter-a-dev-perspective-4j64) will always be Aetherspace 👇**
+**The main recommendation for a more opinionated, more automated and extensible Universal Expo + Next.js starter to [move fast and build things](https://dev.to/codinsonn/how-to-compete-with-elons-twitter-a-dev-perspective-4j64) will always be FullProduct.dev 👇**
 
-## Main Aetherspace Universal App starter
+## Level up with [FullProduct.dev](https://fullproduct.dev) ⚡️
 
-- [Aetherspace GREEN stack starter](https://github.com/Aetherspace/green-stack-starter-demo)
+<img width="1433" alt="Screenshot 2024-07-19 at 16 37 07" src="https://github.com/user-attachments/assets/a2eecfd2-7889-4079-944b-1b5af6cf5ddf">
 
 <p>
-  <a href="https://main--62c9a236ee16e6611d719e94.chromatic.com/?path=/story/readme-md--page">
-    <img alt="Docs with Storybook" longdesc="Documented with Storybook" src="https://img.shields.io/badge/-Read_the_Docs-FF4785?style=for-the-badge&logo=storybook&logoColor=fff" />
-  </a>
   <a aria-label="sponsor @codinsonn on Github" href="https://github.com/sponsors/codinsonn">
     <img src="https://img.shields.io/static/v1?label=Sponsor&style=for-the-badge&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86" target="_blank" />
   </a>
 </p>
+
+### Git based Plugin Branches
+
+> "The best way to learn is through the Pull Requests"  
+> -- Theo / @t3dotgg
+
+![6374CBD9-9B1E-4815-8B93-BD9FCE7FFA97](https://github.com/user-attachments/assets/f2d4d836-c2ad-4249-bc53-de2ab7d5aac1)
+
+**PR & branch based plugins will provide you with the ability to:**  
+
+✅ Learn what code and files change together to add a feature  
+✅ By inspecting the diff that makes it possible  
+✅ Allowing you to check-out and test a plugin before adding it  
+✅ Making any edits yourself before mergin it in  
+
+*This universal base starter already has some git-based plugins in the form of mergeable pull-request.*
+
+Needless to say, the FullProduct.dev Universal App starterkit will take this to a next level with plugin branches for:
+
+🔐 Universal Auth  
+💸 Payment systems like Stripe  
+✉️ Sending emails to your users  
+📚 Automagic docgen  
+🔌 Various database integrations  
+
+On top of so many other options, you'll also be able to move *even faster* thanks to:
+
+🚀 Codegen & automation so you can focus on business logic  
+📋 Way of Working enabling copy & pasting entire features across projects  
+💡 Innovative way to use Zod as the Single Source of Truth for all data defs
+
+> Sounds interesting? 👉 [FullProduct.dev](https://fullproduct.dev)
 
 ## Next adapter & related docs
 
