@@ -36,7 +36,7 @@ See [How to choose cross-platform tech](https://dev.to/codinsonn/why-use-react-n
 
 ## Level up with [FullProduct.dev](https://fullproduct.dev) ⚡️
 
-<img width="1433" alt="Screenshot 2024-07-19 at 16 37 07" src="https://github.com/user-attachments/assets/a2eecfd2-7889-4079-944b-1b5af6cf5ddf">
+[![Screenshot of FullProduct.dev](https://github.com/user-attachments/assets/a2eecfd2-7889-4079-944b-1b5af6cf5ddf)](https://fullproduct.dev)
 
 <p>
   <a aria-label="sponsor @codinsonn on Github" href="https://github.com/sponsors/codinsonn">
@@ -49,7 +49,7 @@ See [How to choose cross-platform tech](https://dev.to/codinsonn/why-use-react-n
 > "The best way to learn is through the Pull Requests"  
 > -- Theo / @t3dotgg
 
-![6374CBD9-9B1E-4815-8B93-BD9FCE7FFA97](https://github.com/user-attachments/assets/f2d4d836-c2ad-4249-bc53-de2ab7d5aac1)
+[![Screenshot of list of Plugin Branches](https://github.com/user-attachments/assets/f2d4d836-c2ad-4249-bc53-de2ab7d5aac1)](https://github.com/Aetherspace/universal-app-router/pulls)
 
 **PR & branch based plugins will provide you with the ability to:**  
 
@@ -63,14 +63,14 @@ Needless to say, the FullProduct.dev Universal App starterkit will take this to 
 
 🔐 Universal Auth  
 💸 Payment systems like Stripe  
-✉️ Sending emails to your users  
-📚 Automagic docgen  
+✉️ Sending & building emails  
+📚 Automagic documentation  
 🔌 Various database integrations  
 
 On top of so many other options, you'll also be able to move *even faster* thanks to:
 
 🚀 Codegen & automation so you can focus on business logic  
-📋 Way of Working enabling copy & pasting entire features across projects  
+📋 Way of Working built for copy & pasting entire features across projects  
 💡 Innovative way to use Zod as the Single Source of Truth for all data defs
 
 > Sound interesting? 👉 [FullProduct.dev](https://fullproduct.dev)
