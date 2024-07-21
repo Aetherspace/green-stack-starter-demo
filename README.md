@@ -53,10 +53,9 @@ See [How to choose cross-platform tech](https://dev.to/codinsonn/why-use-react-n
 
 **PR & branch based plugins will provide you with the ability to:**  
 
-✅ Learn what code and files change together to add a feature  
-✅ By inspecting the diff that makes it possible  
-✅ Allowing you to check-out and test a plugin before adding it  
-✅ Making any edits yourself before mergin it in  
+✅ learn what code and files change together to add a feature  
+✅ inspecting the diff that makes it possible  
+✅ check-out, test and edit a plugin before merging   
 
 *This universal base starter already has some git-based plugins in the form of mergeable pull-request.*
 
@@ -74,7 +73,7 @@ On top of so many other options, you'll also be able to move *even faster* thank
 📋 Way of Working enabling copy & pasting entire features across projects  
 💡 Innovative way to use Zod as the Single Source of Truth for all data defs
 
-> Sounds interesting? 👉 [FullProduct.dev](https://fullproduct.dev)
+> Sound interesting? 👉 [FullProduct.dev](https://fullproduct.dev)
 
 ## Next adapter & related docs
 
