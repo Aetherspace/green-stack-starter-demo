@@ -1,5 +1,5 @@
 import React from 'react'
-import UniversalRootLayout from '@app/core/screens/UniversalRootLayout'
+import UniversalRootLayout from '@app/screens/UniversalRootLayout'
 import ServerStylesProvider from './ServerStylesProvider'
 import '../global.css'
 
@@ -16,7 +16,7 @@ const Document = (props: { children: React.ReactNode }) => {
   // -- Render --
 
   return (
-    <html suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* - Title & Keywords - */}
         <title>Universal App Router</title>
@@ -26,7 +26,9 @@ const Document = (props: { children: React.ReactNode }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body>
-        <UniversalRootLayout>{children}</UniversalRootLayout>
+        <UniversalRootLayout>
+          {children}
+        </UniversalRootLayout>
       </body>
     </html>
   )

@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import UniversalAppProviders from '@app/core/screens/UniversalAppProviders'
+import UniversalAppProviders from '@app/screens/UniversalAppProviders'
 
 // -i- This is a regular react client component
 // -i- It's still rendered on the server during SSR, but it also hydrates on the client

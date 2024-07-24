@@ -1,4 +1,5 @@
 import { Image as ExpoImage } from 'expo-image'
+import { Platform } from 'react-native'
 import { UniversalImageProps, UniversalImageMethods } from './Image.types'
 
 /* --- <Image/> -------------------------------------------------------------------------------- */
@@ -61,19 +62,25 @@ const Image = (props: UniversalImageProps): JSX.Element => {
             /* - Expo - */
             accessibilityLabel={alt || accessibilityLabel}
             accessible={accessible}
-            allowDownscaling={allowDownscaling}
-            autoplay={autoplay}
             blurRadius={blurRadius}
             cachePolicy={cachePolicy}
             contentFit={contentFit}
             contentPosition={contentPosition}
-            enableLiveTextInteraction={enableLiveTextInteraction}
             focusable={focusable}
             onLoadStart={onLoadStart}
             onProgress={onProgress}
             placeholderContentFit={placeholderContentFit}
             recyclingKey={recyclingKey}
             responsivePolicy={responsivePolicy}
+            /* - Platform diffs - */
+            {...(Platform.select({
+                web: {},
+                native: {
+                    autoplay,
+                    enableLiveTextInteraction,
+                    allowDownscaling,
+                },
+            }))}
         />
     )
 }

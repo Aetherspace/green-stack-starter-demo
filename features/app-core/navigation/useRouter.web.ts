@@ -20,7 +20,7 @@ export const useRouter = () => {
         return window.history.length > 1
     }
 
-    const setParams = (params?: Record<string, string>) => {
+    const setParams = (params: Record<string, string> = {}) => {
         if (typeof window === 'undefined') return
         const url = new URL(window.location.href)
         const search = new URLSearchParams(url.search)

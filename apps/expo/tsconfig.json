@@ -1,5 +1,12 @@
 {
     "extends": "@app/core/tsconfig",
-    "include": ["**/*.ts", "**/*.tsx"],
+    "include": [
+        "**/*.ts",
+        "**/*.tsx",
+        "../../features/**/*.tsx",
+        "../../features/**/*.ts",
+        "../../packages/**/*.tsx",
+        "../../packages/**/*.ts"
+    ],
     "exclude": ["node_modules"]
 }

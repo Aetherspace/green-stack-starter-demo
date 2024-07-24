@@ -1,5 +1,5 @@
 {
-  "name": "@aetherspace/universal-app-router",
+  "name": "@fullproduct-dot-dev/universal-app-router",
   "version": "1.0.0",
   "private": true,
   "workspaces": [
@@ -7,6 +7,12 @@
     "features/*",
     "packages/*"
   ],
+  "engines": {
+    "node": ">=18.19.1"
+  },
+  "overrides": {
+    "next": "~14.0.4"
+  },
   "scripts": {
     "dev": "npm run dev:web & npm run dev:mobile",
     "dev:web": "npm -w @app/next run dev",

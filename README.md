@@ -22,7 +22,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see your **Next.js 14** app on web.
 
-Install and/or open the [Expo Go](https://expo.io/client) app on your phone and scan the QR code to test your **Expo SDK 50** app on mobile.
+Install and/or open the [Expo Go](https://expo.io/client) app on your phone and scan the QR code to test your **Expo SDK 51** app on mobile.
 
 ## Documentation
 

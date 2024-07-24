@@ -15,7 +15,16 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "paths": {
+      "@app/config": ["../../features/app-core/appConfig.ts"],
+      "@app/hooks/*": ["../../features/app-core/hooks/*"],
+      "@app/components/*": ["../../features/app-core/components/*"],
+      "@app/screens/*": ["../../features/app-core/screens/*"],
+      "@app/assets/*": ["../../features/app-core/assets/*"],
+      "@app/resolvers/*": ["../../features/app-core/resolvers/*"],
+      "@app/middleware/*": ["../../features/app-core/middleware/*"]
+    },
   },
   "include": [
     "next-env.d.ts",
