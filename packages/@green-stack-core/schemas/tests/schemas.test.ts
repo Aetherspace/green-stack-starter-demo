@@ -9,6 +9,8 @@ const User = schema('User', {
     age: z.number(),
 })
 
+type User = z.infer<typeof User>
+
 test("Schemas can be introspected", () => {
     expect(User.introspect).toBeInstanceOf(Function)
     expect(User.introspect()).toEqual({
@@ -35,6 +37,8 @@ const Primitives = schema('Primitives', {
     bln: z.boolean().default(false).example(true).describe('Boolean'),
     date: z.date().default(new Date('2024-01-01')).example(new Date('2020-01-01')).describe('Date'),
 })
+
+type Primitives = z.infer<typeof Primitives>
 
 test("Optionality, defaults & example values persist in schema introspection", () => {
     const metadata = Primitives.introspect() as Meta$Schema
@@ -200,6 +204,8 @@ const AdvancedTypes = schema('AdvancedTypes', {
     array: z.array(z.string()).min(0).max(5).length(1).default([]).example(['world']),
 })
 
+type AdvancedTypes = z.infer<typeof AdvancedTypes>
+
 test("Advanced types z.enum(), z.tuple(), z.union() & z.array() work as expected", () => {
     const metadata = AdvancedTypes.introspect() as Meta$Schema
     // Base Types
@@ -276,6 +282,7 @@ test("Deriving schemas with .extendSchema(), .omitSchema(), .pickSchema() work a
     const Extended = Primitives.extendSchema('Extended', {
         newField: z.string().default('Hello'),
     })
+    type Extended = z.infer<typeof Extended>
     expect(Extended.introspect().name).toBe('Extended')
     expect(Extended.introspect().schema).toHaveProperty('newField')
     expect(Extended.parse({ newField: 'World' })).toEqual({
@@ -287,6 +294,7 @@ test("Deriving schemas with .extendSchema(), .omitSchema(), .pickSchema() work a
     })
     // Omit
     const Omitted = Primitives.omitSchema('Omitted', { str: true })
+    type Omitted = z.infer<typeof Omitted>
     expect(Omitted.introspect().name).toBe('Omitted')
     expect(Omitted.introspect().schema).not.toHaveProperty('str')
     expect(Omitted.parse({ num: 42 })).toEqual({
@@ -296,6 +304,7 @@ test("Deriving schemas with .extendSchema(), .omitSchema(), .pickSchema() work a
     })
     // Pick
     const Picked = Primitives.pickSchema('Picked', { str: true })
+    type Picked = z.infer<typeof Picked>
     expect(Picked.introspect().name).toBe('Picked')
     expect(Picked.introspect().schema).toHaveProperty('str')
     expect(Picked.introspect().schema).not.toHaveProperty('num')

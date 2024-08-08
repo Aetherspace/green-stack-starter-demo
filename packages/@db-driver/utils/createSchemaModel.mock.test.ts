@@ -62,7 +62,7 @@ test('createSchemaModel() creates a new schema model with DB driver methods atta
 })
 
 test('Model.driver.insertOne() inserts a new record in memory', async () => {
-    const UserModel = createSchemaModel(UserSchema, 'User1')
+    const UserModel = createSchemaModel(UserSchema, 'UserInsertOne1')
     const newUser = await UserModel.driver.insertOne({
         name: 'Thorr',
         email: 'thorr@codinsonn.dev',
@@ -74,7 +74,7 @@ test('Model.driver.insertOne() inserts a new record in memory', async () => {
 })
 
 test('Model.driver.insertOne() throws if inserted record does not match schema', async () => {
-    const UserModel = createSchemaModel(UserSchema, 'User2')
+    const UserModel = createSchemaModel(UserSchema, 'UserInsertOne2')
     // Check that we throw an error when inserting a record with invalid data
     await expect(UserModel.driver.insertOne({})).rejects.toThrow() // Missing required fields
     await expect(UserModel.driver.insertOne({ name: 'Thorr' })).rejects.toThrow() // Missing required field email
@@ -83,7 +83,7 @@ test('Model.driver.insertOne() throws if inserted record does not match schema',
 })
 
 test('Model.driver.insertMany() inserts multiple records in memory', async () => {
-    const UserModel = createSchemaModel(UserSchema, 'User3')
+    const UserModel = createSchemaModel(UserSchema, 'UserInsertMany1')
     const newUsers = await UserModel.driver.insertMany([
         {
             name: 'Thorr',
@@ -107,7 +107,7 @@ test('Model.driver.insertMany() inserts multiple records in memory', async () =>
 })
 
 test('Model.driver.insertMany() throws if inserted records do not match schema', async () => {
-    const UserModel = createSchemaModel(UserSchema, 'User4')
+    const UserModel = createSchemaModel(UserSchema, 'UserInsertMany2')
     // Check that we throw an error when inserting records with invalid data
     await expect(UserModel.driver.insertMany([{}])).rejects.toThrow() // Missing required fields
     await expect(UserModel.driver.insertMany([{ name: 'Thorr' }])).rejects.toThrow() // Missing required field email
@@ -116,7 +116,7 @@ test('Model.driver.insertMany() throws if inserted records do not match schema',
 })
 
 test('Model.driver.findOne() finds a record stored in memory', async () => {
-    const UserModel = createSchemaModel(UserSchema, 'User5')
+    const UserModel = createSchemaModel(UserSchema, 'UserFindOne1')
     const newUser = await UserModel.driver.insertOne({
         name: 'Thorr',
         email: 'thorr@codinsonn.dev',
@@ -145,7 +145,7 @@ test('Model.driver.findOne() finds a record stored in memory', async () => {
 })
 
 test('Model.driver.findMany() finds multiple records stored in memory', async () => {
-    const UserModel = createSchemaModel(UserSchema, 'User6')
+    const UserModel = createSchemaModel(UserSchema, 'UserFindMany1')
     const newUsers = await UserModel.driver.insertMany([
         {
             name: 'Thorr',
@@ -168,7 +168,7 @@ test('Model.driver.findMany() finds multiple records stored in memory', async ()
 })
 
 test('Model.driver.updateOne() updates a record stored in memory', async () => {
-    const UserModel = createSchemaModel(UserSchema, 'User7')
+    const UserModel = createSchemaModel(UserSchema, 'UserUpdateOne1')
     const newUser = await UserModel.driver.insertOne({
         name: 'Thorr',
         email: 'thorr@codinsonn.dev',
@@ -183,7 +183,7 @@ test('Model.driver.updateOne() updates a record stored in memory', async () => {
 })
 
 test('Model.driver.updateOne() with errorOnUnmatched: true throws if updated record does not match schema', async () => {
-    const UserModel = createSchemaModel(UserSchema, 'User8')
+    const UserModel = createSchemaModel(UserSchema, 'UserUpdateOne2')
     const newUser = await UserModel.driver.insertOne({
         name: 'Thorr',
         email: 'thorr@codinsonn.dev',
@@ -202,7 +202,7 @@ test('Model.driver.updateOne() with errorOnUnmatched: true throws if updated rec
 })
 
 test('Model.driver.updateMany() updates multiple records stored in memory', async () => {
-    const UserModel = createSchemaModel(UserSchema, 'User9')
+    const UserModel = createSchemaModel(UserSchema, 'UserUpdateMany1')
     const newUsers = await UserModel.driver.insertMany([
         {
             name: 'Thorr',
@@ -223,7 +223,7 @@ test('Model.driver.updateMany() updates multiple records stored in memory', asyn
 })
 
 test('Model.driver.updateMany() with errorOnUnmatched: true throws if updated records do not match schema', async () => {
-    const UserModel = createSchemaModel(UserSchema, 'User10')
+    const UserModel = createSchemaModel(UserSchema, 'UserUpdateMany2')
     const newUsers = await UserModel.driver.insertMany([
         {
             name: 'Thorr',
@@ -246,8 +246,59 @@ test('Model.driver.updateMany() with errorOnUnmatched: true throws if updated re
     await expect(() => UserModel.driver.updateMany({ email: '' }, { name: 'Thorr' })).not.toThrow()
 })
 
+test('Model.driver.upsertOne() inserts a new record if it does not exist', async () => {
+    const UserModel = createSchemaModel(UserSchema, 'UserUpsertOne1')
+    // Check that we can insert a new record
+    const newUser = await UserModel.driver.upsertOne({
+        name: 'Thorr',
+    }, {
+        name: 'Thorr',
+        email: 'thorr@codinsonn.dev',
+    })
+    // Check that the record was inserted
+    expect(newUser).toBeDefined()
+    expect(newUser.id).toBeDefined()
+    expect(newUser.name).toBe('Thorr')
+    expect(newUser.email).toBe('thorr@codinsonn.dev')
+    // Check that we can find the record by id
+    const foundById = await UserModel.driver.findOne({ id: newUser.id })
+    expect(foundById).toBeDefined()
+    expect(foundById.id).toBe(newUser.id)
+    expect(foundById.name).toBe('Thorr')
+    expect(foundById.email).toBe('thorr@codinsonn.dev')
+})
+
+test('Model.driver.upsertOne() updates an existing record if it exists', async () => {
+    const UserModel = createSchemaModel(UserSchema, 'UserUpsertOne2')
+    const onlyUser = await UserModel.driver.insertOne({
+        name: 'Thorr',
+        email: 'thorr@codinsonn.dev',
+    })
+    // Check that we can update an existing record
+    const updatedUser = await UserModel.driver.upsertOne({
+        name: 'Thorr',
+    }, {
+        name: 'Thorr',
+        email: 'thorr@fullproduct.dev',
+    })
+    // Check that the record was updated
+    expect(updatedUser).toBeDefined()
+    expect(updatedUser.id).toBe(onlyUser.id)
+    expect(updatedUser.name).toBe('Thorr')
+    expect(updatedUser.email).toBe('thorr@fullproduct.dev')
+    // Check that we can find the record by id
+    const foundById = await UserModel.driver.findOne({ id: onlyUser.id })
+    expect(foundById).toBeDefined()
+    expect(foundById.id).toBe(onlyUser.id)
+    expect(foundById.name).toBe('Thorr')
+    expect(foundById.email).toBe('thorr@fullproduct.dev')
+    // Check that we can no longer find the record by the old email
+    const notFoundByEmail = await UserModel.driver.findOne({ email: 'thorr@codinsonn.dev' })
+    expect(notFoundByEmail).toBeUndefined()
+})
+
 test('Model.driver.deleteOne() deletes a record stored in memory', async () => {
-    const UserModel = createSchemaModel(UserSchema, 'User11')
+    const UserModel = createSchemaModel(UserSchema, 'UserDeleteOne1')
     const newUsers = await UserModel.driver.insertMany([
         {
             name: 'Thorr',
@@ -275,7 +326,7 @@ test('Model.driver.deleteOne() deletes a record stored in memory', async () => {
 })
 
 test('Model.driver.deleteMany() deletes multiple records stored in memory', async () => {
-    const UserModel = createSchemaModel(UserSchema, 'User12')
+    const UserModel = createSchemaModel(UserSchema, 'UserDeleteMany1')
     const newUsers = await UserModel.driver.insertMany([
         {
             name: 'Thorr',
@@ -301,7 +352,7 @@ test('Model.driver.deleteMany() deletes multiple records stored in memory', asyn
 })
 
 test('Model.driver.deleteMany() returns an empty array by default if no records are found', async () => {
-    const UserModel = createSchemaModel(UserSchema, 'User13')
+    const UserModel = createSchemaModel(UserSchema, 'UserDeleteMany2')
     const newUsers = await UserModel.driver.insertMany([
         {
             name: 'Thorr',
@@ -319,7 +370,7 @@ test('Model.driver.deleteMany() returns an empty array by default if no records 
 })
 
 test('Model query filters support logical $and, $or, $nor & $not operators', async () => {
-    const UserModel = createSchemaModel(UserSchema, 'User14')
+    const UserModel = createSchemaModel(UserSchema, 'UserQueryFilters1')
     const newUsers = await UserModel.driver.insertMany([
         {
             name: 'Thorr',
@@ -364,7 +415,7 @@ test('Model query filters support logical $and, $or, $nor & $not operators', asy
 })
 
 test('Model query filters support conditional field operators $eq, $ne, $gt, $gte, $lt, $lte, $in, $nin', async () => {
-    const UserModel = createSchemaModel(UserSchema, 'User15')
+    const UserModel = createSchemaModel(UserSchema, 'UserQueryFilters2')
     const newUsers = await UserModel.driver.insertMany([
         {
             name: 'Thorr',
@@ -446,7 +497,7 @@ test('Model query filters support conditional field operators $eq, $ne, $gt, $gt
 })
 
 test("Model query filters support nested fields", async () => {
-    const UserModel = createSchemaModel(UserSchema, 'User16')
+    const UserModel = createSchemaModel(UserSchema, 'UserQueryFilters3')
     const newUsers = await UserModel.driver.insertMany([
         {
             name: 'Thorr',

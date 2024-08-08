@@ -1,5 +1,5 @@
 import { z, schema } from '@green-stack/schemas'
-import { createSchemaModel } from '@db/driver'
+import { createSchemaModel, validateDriverModel } from '@db/driver'
 
 /* --- Schema ---------------------------------------------------------------------------------- */
 
@@ -18,4 +18,4 @@ export const SettingsModel = createSchemaModel(Setting)
 
 /* --- Drivers --------------------------------------------------------------------------------- */
 
-export const driverModel = SettingsModel.driver
+export const driverModel = validateDriverModel(SettingsModel.driver)

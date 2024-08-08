@@ -284,6 +284,25 @@ export const createSchemaModel = <
         }
     }
 
+    /** --- upsertOne() ------------------------------------------------------------------------ */
+    /** -i- Updates or inserts a single record in the collection */
+    const upsertOne = async (query: QueryFilter, record: Partial<DataType>) => {
+        memoryDB[modelKey] = memoryDB[modelKey] || {}
+        try {
+            // Find the record to update
+            const recordToUpdate = await findOne(query) as DataType
+            if (recordToUpdate) {
+                // Update the record
+                return updateOne(query, record as Prettify<Partial<Omit<DataType, 'id'>>>, true)
+            } else {
+                // Insert the record
+                return insertOne(record)
+            }
+        } catch (error: any$FixMe) {
+            throw new Error(`Failed to upsert record in "${modelKey}" collection: ${error.message}`)
+        }
+    }
+
     /** --- deleteOne() ------------------------------------------------------------------------ */
     /** -i- Removes a single record from the collection */
     const deleteOne = async (query: QueryFilter, errorOnUnmatched = false) => {
@@ -340,6 +359,8 @@ export const createSchemaModel = <
         update: updateOne,
         updateOne,
         updateMany,
+        upsertOne,
+        upsert: upsertOne,
         delete: deleteOne,
         deleteOne,
         deleteMany,

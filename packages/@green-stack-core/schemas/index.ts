@@ -122,19 +122,38 @@ declare module 'zod' {
         Input = z.objectInputType<T, Catchall, UnknownKeys>
     > {
         nameSchema(name: string): this
+
         extendSchema<S extends z.ZodRawShape>(name: string, shape: S): ZodObject<T & S, UnknownKeys, Catchall>
+        
         pickSchema<Mask extends z.util.Exactly<{ [k in keyof T]?: true; }, Mask>>(
             schemaName: string,
             mask: Mask
         ): z.ZodObject<Pick<T, Extract<keyof T, keyof Mask>>, UnknownKeys, Catchall>
+
         omitSchema<Mask extends z.util.Exactly<{ [k in keyof T]?: true; }, Mask>>(
             schemaName: string,
             mask: Mask
         ): z.ZodObject<Omit<T, keyof Mask>, UnknownKeys, Catchall>
+
         applyDefaults<D extends Record<string, unknown> = Record<string, unknown>>(
             data: D,
             logErrors?: boolean
         ): D & Output
+
+        // -- Deprecations --
+
+        /** @deprecated Use `.extendSchema('NewName', { ...shape })` instead */
+        extend<S extends z.ZodRawShape>(shape: S): ZodObject<T & S, UnknownKeys, Catchall>
+
+        /** @deprecated Use `.pickSchema('NewName', { ...mask })` instead */
+        pick<Mask extends z.util.Exactly<{ [k in keyof T]?: true; }, Mask>>(
+            mask: Mask
+        ): z.ZodObject<Pick<T, Extract<keyof T, keyof Mask>>, UnknownKeys, Catchall>
+
+        /** @deprecated Use `.omitSchema('NewName', { ...mask })` instead */
+        omit<Mask extends z.util.Exactly<{ [k in keyof T]?: true; }, Mask>>(
+            mask: Mask
+        ): z.ZodObject<Omit<T, keyof Mask>, UnknownKeys, Catchall>
     }
 }
 

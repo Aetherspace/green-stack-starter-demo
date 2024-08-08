@@ -51,7 +51,7 @@ const collectModels = () => {
             
             // Skip if not a valid model
             const modelFileContents = fs.readFileSync(modelFilePath, 'utf-8')
-            const isValidModel = modelFileContents.includes('export const driverModel = ')
+            const isValidModel = modelFileContents.includes('export const driverModel = validateDriverModel(')
             if (!isValidModel) return acc
 
             // Figure out model workspace from filename
