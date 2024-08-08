@@ -63,20 +63,20 @@ export const createResolver = <
     resolverFn: (ctx: ResolverExecutionParamsType<ArgsInput, ResOutput, ResInput>) => Promise<ResOutput | unknown>,
     options: {
         paramKeys?: string,
-        argsSchema: z.ZodObject<ArgsShape>,
-        responseSchema: z.ZodObject<ResShape>,
+        inputSchema: z.ZodObject<ArgsShape>,
+        outputSchema: z.ZodObject<ResShape>,
         isMutation?: boolean
     },
 ) => {
     // Extract options
-    const { paramKeys, argsSchema, responseSchema, isMutation } = options
+    const { paramKeys, inputSchema, outputSchema, isMutation } = options
     // Build Resolver
     const resolverWrapper = (ctx?: ResolverInputType<ArgsInput>): Promise<ResOutput> => {
         const { req, res, nextSsrContext, parent, args, context, info, cookies: _, ...resolverContext } = ctx || {} // prettier-ignore
         const { logErrors, respondErrors, allowFail, onError, ...restParams } = resolverContext
         // Collect params from all possible sources
         const { body, method } = (req as NextApiRequest) || {}
-        const schemaParamKeys = Object.keys(argsSchema?.shape ?? {})
+        const schemaParamKeys = Object.keys(inputSchema?.shape ?? {})
         const apiParamKeys = [ctx?.paramKeys, paramKeys || schemaParamKeys].flat().filter(Boolean).join(' ') // prettier-ignore
         const query = { ...nextSsrContext?.query, ...(req as NextApiRequest)?.query }
         const params = { ...restParams, ...nextSsrContext?.params, ...context, ...ctx?.params } // @ts-ignore
@@ -124,9 +124,9 @@ export const createResolver = <
             }
         }
         // Validation helpers
-        const parseArgs = (args: ArgsInput) => argsSchema.parse(args) as ArgsInput
+        const parseArgs = (args: ArgsInput) => inputSchema.parse(args) as ArgsInput
             const withDefaults = (response: ResInput) => {
-            return responseSchema.applyDefaults(response as Record<string, unknown>) as ResOutput
+            return outputSchema.applyDefaults(response as Record<string, unknown>) as ResOutput
         }
         // Return resolver
         return resolverFn({
@@ -143,8 +143,8 @@ export const createResolver = <
     }
     // Return Resolver
     return Object.assign(resolverWrapper, {
-        argSchema: argsSchema,
-        resSchema: responseSchema,
+        argSchema: inputSchema,
+        resSchema: outputSchema,
         _input: undefined as ArgsInput,
         _output: undefined as ResOutput,
         isMutation,

@@ -1,14 +1,18 @@
 import { createDataBridge } from '@green-stack/schemas/createDataBridge'
-import { HealthCheckArgs } from '../schemas/HealthCheckArgs'
-import { HealthCheckResponse } from '../schemas/HealthCheckResponse'
+import { HealthCheckInput } from '../schemas/HealthCheckInput'
+import { HealthCheckOutput } from '../schemas/HealthCheckOutput'
 
-/* --- Bridge ---------------------------------------------------------------------------------- */
+/* --- Types ----------------------------------------------------------------------------------- */
 
+export { HealthCheckInput, HealthCheckOutput }
+
+/** --- Bridge --------------------------------------------------------------------------------- */
+/** -i- Bundled meta for the healthCheck() resolver, reusable on server, browser & mobile */
 export const healthCheckBridge = createDataBridge({
     resolverName: 'healthCheck',
-    resolverArgsName: 'HealthCheckArgs',
-    argsSchema: HealthCheckArgs,
-    responseSchema: HealthCheckResponse,
+    // resolverArgsName: 'HealthCheckInput',
+    inputSchema: HealthCheckInput,
+    outputSchema: HealthCheckOutput,
     apiPath: '/api/health',
     allowedMethods: ['GRAPHQL', 'GET'],
 })

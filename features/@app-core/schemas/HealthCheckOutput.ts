@@ -2,7 +2,7 @@ import { z, schema } from '@green-stack/schemas'
 
 /* --- Schemas --------------------------------------------------------------------------------- */
 
-export const HealthCheckResponse = schema('HealthCheckResponse', {
+export const HealthCheckOutput = schema('HealthCheckOutput', {
     echo: z.string().optional(),
     status: z.literal('OK'),
     alive: z.boolean(),
@@ -33,4 +33,4 @@ export const HealthCheckResponse = schema('HealthCheckResponse', {
 
 /* --- Type Alias ------------------------------------------------------------------------------ */
 
-export type HealthCheckResponse = z.infer<typeof HealthCheckResponse>
+export type HealthCheckOutput = z.infer<typeof HealthCheckOutput>

@@ -1,10 +1,10 @@
 import type { NextRequest, NextResponse } from 'next/server'
-import type { HealthCheckArgs, HealthCheckResponse } from './healthCheck.bridge'
+import type { HealthCheckInput, HealthCheckOutput } from './healthCheck.bridge'
 import { appConfig } from '../appConfig'
 
 /** --- healthCheckFetcher() ------------------------------------------------------------------- */
 /** -i- Isomorphic fetcher for our healthCheck() resolver at '/api/health' */
-export const healthCheckFetcher = async (args: HealthCheckArgs) => {
+export const healthCheckFetcher = async (args: HealthCheckInput) => {
     // Vars
     const isServer = typeof window === 'undefined'
 
@@ -18,7 +18,7 @@ export const healthCheckFetcher = async (args: HealthCheckArgs) => {
             },
         })
         const data = await response.json()
-        return data as HealthCheckResponse
+        return data as HealthCheckOutput
     }
 
     // -- Server --
@@ -31,5 +31,5 @@ export const healthCheckFetcher = async (args: HealthCheckArgs) => {
             res: {} as NextResponse,
         },
     })
-    return data as HealthCheckResponse
+    return data as HealthCheckOutput
 }

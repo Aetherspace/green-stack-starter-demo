@@ -6,12 +6,12 @@ scalar JSON
 
 scalar JSONObject
 
-input HealthCheckArgs {
+input HealthCheckInput {
   echo: String
-  showContext: Boolean
+  verbose: Boolean
 }
 
-type HealthCheckResponse {
+type HealthCheckOutput {
   echo: String
   status: String!
   alive: Boolean!
@@ -41,7 +41,7 @@ type HealthCheckResponse {
 }
 
 type Query {
-  healthCheck(args: HealthCheckArgs): HealthCheckResponse
+  healthCheck(args: HealthCheckInput): HealthCheckOutput
 }
 
 schema {

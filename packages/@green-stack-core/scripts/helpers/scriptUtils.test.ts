@@ -140,20 +140,20 @@ test('getWorkspaceOptions() lists all available workspace path options for gener
 test('getAvailableSchemas() lists all available schemas in the codebase for generators to use', () => {
     const schemaConfigMap = utils.getAvailableSchemas('')
     // Check that the healthCheck input & output schemas are included
-    expect(schemaConfigMap['@app/core - HealthCheckArgs']).toBeDefined()
-    expect(schemaConfigMap['@app/core - HealthCheckResponse']).toBeDefined()
+    expect(schemaConfigMap['@app/core - HealthCheckInput']).toBeDefined()
+    expect(schemaConfigMap['@app/core - HealthCheckOutput']).toBeDefined()
     // Check that the config for the healthCheck input schema is correct
-    const HealthCheckArgsInfo = schemaConfigMap['@app/core - HealthCheckArgs']
-    expect(HealthCheckArgsInfo.schemaName).toBe('HealthCheckArgs')
-    expect(HealthCheckArgsInfo.schemaPath).toBe('features/@app-core/schemas/HealthCheckArgs.ts')
+    const HealthCheckArgsInfo = schemaConfigMap['@app/core - HealthCheckInput']
+    expect(HealthCheckArgsInfo.schemaName).toBe('HealthCheckInput')
+    expect(HealthCheckArgsInfo.schemaPath).toBe('features/@app-core/schemas/HealthCheckInput.ts')
     expect(HealthCheckArgsInfo.workspacePath).toBe('features/@app-core')
     expect(HealthCheckArgsInfo.workspaceName).toBe('@app/core')
     expect(HealthCheckArgsInfo.isNamedExport).toBe(true)
     expect(HealthCheckArgsInfo.isDefaultExport).toBe(false)
     // Check that the config for the healthCheck output schema is correct
-    const HealthCheckResponseInfo = schemaConfigMap['@app/core - HealthCheckResponse']
-    expect(HealthCheckResponseInfo.schemaName).toBe('HealthCheckResponse')
-    expect(HealthCheckResponseInfo.schemaPath).toBe('features/@app-core/schemas/HealthCheckResponse.ts')
+    const HealthCheckResponseInfo = schemaConfigMap['@app/core - HealthCheckOutput']
+    expect(HealthCheckResponseInfo.schemaName).toBe('HealthCheckOutput')
+    expect(HealthCheckResponseInfo.schemaPath).toBe('features/@app-core/schemas/HealthCheckOutput.ts')
     expect(HealthCheckResponseInfo.workspacePath).toBe('features/@app-core')
     expect(HealthCheckResponseInfo.workspaceName).toBe('@app/core')
     expect(HealthCheckResponseInfo.isNamedExport).toBe(true)

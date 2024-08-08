@@ -2,11 +2,11 @@ import { z, schema } from '@green-stack/schemas'
 
 /* --- Schemas --------------------------------------------------------------------------------- */
 
-export const HealthCheckArgs = schema('HealthCheckArgs', {
+export const HealthCheckInput = schema('HealthCheckInput', {
    echo: z.string().default('Hello World'),
-   showContext: z.boolean().default(false),
+   verbose: z.boolean().default(false),
 })
 
 /* --- Type Alias ------------------------------------------------------------------------------ */
 
-export type HealthCheckArgs = z.infer<typeof HealthCheckArgs>
+export type HealthCheckInput = z.infer<typeof HealthCheckInput>

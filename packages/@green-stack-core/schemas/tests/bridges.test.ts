@@ -6,8 +6,8 @@ import { bridgedFetcher } from '../bridgedFetcher'
 
 const healtCheckBridge = createDataBridge({
     resolverName: 'healthCheck',
-    argsSchema: schema('HealthCheck', { echo: z.string().default('Hello World') }),
-    responseSchema: schema('HealthCheckResponse', { echo: z.string().optional() }),
+    inputSchema: schema('HealthCheck', { echo: z.string().default('Hello World') }),
+    outputSchema: schema('HealthCheckOutput', { echo: z.string().optional() }),
     apiPath: '/api/health',
     allowedMethods: ['GET', 'GRAPHQL'],
 })

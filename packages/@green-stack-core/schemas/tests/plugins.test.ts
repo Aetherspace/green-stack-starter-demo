@@ -216,11 +216,11 @@ test("createGraphSchemaDefs() can handle resolvers created by createGraphResolve
   const printedSchema = print(graphqlSchemaDefs)
   // Check queries
   expect(printedSchema).toContain('Query {')
-  expect(printedSchema).toContain('healthCheck(args: HealthCheckArgs): HealthCheckResponse')
+  expect(printedSchema).toContain('healthCheck(args: HealthCheckInput): HealthCheckOutput')
   // Check input definitions
-  expect(printedSchema).toContain('input HealthCheckArgs {')
+  expect(printedSchema).toContain('input HealthCheckInput {')
   // Check output definitions
-  expect(printedSchema).toContain('type HealthCheckResponse {')
+  expect(printedSchema).toContain('type HealthCheckOutput {')
 })
 
 test("createGraphSchemaDefs() correctly differentiates between Int & Float", () => {

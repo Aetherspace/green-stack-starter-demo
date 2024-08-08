@@ -6,7 +6,7 @@ import { graphql } from '../graphql/graphql'
 /* --- Query ----------------------------------------------------------------------------------- */
 
 export const healthCheckQuery = graphql(`
-  query healthCheck ($healthCheckArgs: HealthCheckArgs) {
+  query healthCheck ($healthCheckArgs: HealthCheckInput) {
     healthCheck(args: $healthCheckArgs) {
       echo
       status

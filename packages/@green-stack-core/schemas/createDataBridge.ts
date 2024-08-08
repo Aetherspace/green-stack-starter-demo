@@ -24,25 +24,25 @@ export const normalizeInputSchemaName = (schemaName: string, prefix: 'type' | 'i
 }
 
 /** --- renderGraphqlQuery() ------------------------------------------------------------------- */
-/** -i- Accepts a resolverName, argsSchema and responseSchema and spits out a graphql query that stops at 3 levels (or a custom number) of depth */
+/** -i- Accepts a resolverName, inputSchema and outputSchema and spits out a graphql query that stops at 3 levels (or a custom number) of depth */
 export const renderGraphqlQuery = <ArgsShape extends z.ZodRawShape, ResShape extends z.ZodRawShape>({
     resolverName,
     resolverArgsName,
     resolverType,
-    argsSchema,
-    responseSchema,
+    inputSchema,
+    outputSchema,
     maxFieldDepth = 5,
 }: {
     resolverName: string
     resolverArgsName: string
     resolverType: 'query' | 'mutation'
-    argsSchema: z.ZodObject<ArgsShape>
-    responseSchema: z.ZodObject<ResShape>
+    inputSchema: z.ZodObject<ArgsShape>
+    outputSchema: z.ZodObject<ResShape>
     maxFieldDepth?: number
 }) => {
     // Introspect input & output schemas
-    const argsSchemaDefs = argsSchema.introspect()
-    const responseSchemaDefs = responseSchema.introspect()
+    const argsSchemaDefs = inputSchema.introspect()
+    const responseSchemaDefs = outputSchema.introspect()
     const argsSchemaName = normalizeInputSchemaName(argsSchemaDefs.name!, 'input')
     const _resolverArgsName = lowercaseFirstChar(resolverArgsName)
 
@@ -122,8 +122,8 @@ export const createDataBridge = <
     resolverName,
     resolverType: customResolverType,
     resolverArgsName = `${resolverName}Args`,
-    argsSchema,
-    responseSchema,
+    inputSchema,
+    outputSchema,
     apiPath,
     allowedMethods,
     graphqlQuery,
@@ -132,8 +132,8 @@ export const createDataBridge = <
     resolverName: ResolverName
     resolverType?: 'query' | 'mutation'
     resolverArgsName?: ResolverArgsName | HintedKeys
-    argsSchema: z.ZodObject<ArgsShape>
-    responseSchema: z.ZodObject<ResShape>
+    inputSchema: z.ZodObject<ArgsShape>
+    outputSchema: z.ZodObject<ResShape>
     apiPath?: string
     allowedMethods?: ALLOWED_METHODS[]
     graphqlQuery?: CustomQuery
@@ -148,8 +148,8 @@ export const createDataBridge = <
     // -- Error Checks --
 
     if (!resolverName) throw new Error('Resolver name is required')
-    if (!argsSchema) throw new Error('Args schema is required')
-    if (!responseSchema) throw new Error('Response schema is required')
+    if (!inputSchema) throw new Error('Args schema is required')
+    if (!outputSchema) throw new Error('Response schema is required')
 
     // -- Build default graphql query? --
 
@@ -162,11 +162,11 @@ export const createDataBridge = <
             resolverName,
             resolverArgsName,
             resolverType,
-            argsSchema,
-            responseSchema,
+            inputSchema,
+            outputSchema,
         })
-        const gqlArgsSchema = z.object({ [resolverName as ResolverName]: argsSchema })
-        const gqlResSchema = z.object({ [resolverName as ResolverName]: responseSchema })
+        const gqlArgsSchema = z.object({ [resolverName as ResolverName]: inputSchema })
+        const gqlResSchema = z.object({ [resolverName as ResolverName]: outputSchema })
         const documentNode = graphql(defaultGraphqlQueryString) as TadaDocumentNode<
             z.infer<typeof gqlArgsSchema>,
             z.infer<typeof gqlResSchema>
@@ -180,8 +180,8 @@ export const createDataBridge = <
         resolverName,
         resolverType,
         resolverArgsName,
-        argsSchema,
-        responseSchema,
+        inputSchema,
+        outputSchema,
         apiPath,
         allowedMethods,
         isMutation,
