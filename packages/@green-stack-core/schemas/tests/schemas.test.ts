@@ -1,3 +1,4 @@
+// @ts-ignore
 import { expect, test } from 'bun:test'
 import { z, schema, Meta$Schema } from '../index'
 import { ZodError } from 'zod'

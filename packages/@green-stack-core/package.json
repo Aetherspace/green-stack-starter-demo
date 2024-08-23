@@ -4,6 +4,9 @@
     "private": true,
     "dependencies": {
         "@app/registries": "*",
+        "@happy-dom/global-registrator": "^15.0.0",
+        "@testing-library/jest-dom": "^6.4.8",
+        "@testing-library/react": "^16.0.0",
         "crypto-js": "^4.2.0",
         "dot-prop": "^9.0.0",
         "zod": "^3.23.7"

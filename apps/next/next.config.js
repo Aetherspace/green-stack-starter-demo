@@ -1,7 +1,7 @@
 const { withExpo } = require("@expo/next-adapter");
 
 /** @type {import('next').NextConfig} */
-const nextConfig = withExpo({
+const mainNextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   transpilePackages: [
@@ -25,6 +25,11 @@ const nextConfig = withExpo({
       }
     ]
   }
-});
+}
+
+/** @type {import('next').NextConfig} */
+const nextConfig = withExpo(mainNextConfig);
 
 module.exports = nextConfig;
+
+module.exports.mainNextConfig = mainNextConfig;

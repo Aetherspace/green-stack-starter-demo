@@ -53,15 +53,15 @@ export const registerDependencyGenerator = (plop: PlopTypes.NodePlopAPI) => {
 
             // Extract the new dependencies from the package json
             const newExpoPackageJson = JSON.parse(fs.readFileSync(`apps/expo/package.json`, 'utf-8')) // prettier-ignore
-            const newDeps = Object.entries(newExpoPackageJson.dependencies).filter(([key]) => !originalDeps[key]) // prettier-ignore
+            const newDeps = Object.entries<string>(newExpoPackageJson.dependencies).filter(([pkg]) => !originalDeps[pkg]) // prettier-ignore
 
             // Restore the old package json
             fs.writeFileSync(`apps/expo/package.json`, originalExpoPackageJsonFile)
 
             // Add the new dependencies to the chosen workspace
-            const installStatements = newDeps.map(([key, value]) => `${key}@${value}`).join(' ')
+            const installStatements = newDeps.map(([pkg, v]) => `${pkg}@${v}`).join(' ')
             console.log(`> Moving ${installStatements} to '${workspaceTarget}' workspace`)
-            execSync(`npm -w ${workspaceTarget} install ${installStatements}`)
+            execSync(`npm -w ${workspaceTarget} install ${installStatements} --force`)
             console.log(`> Install successfull`, '\n')
 
             // Log out the dependency list

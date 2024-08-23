@@ -47,9 +47,9 @@ export const findTargetString = (source: string, search = '($target$)') => {
 /** -i- Replaces every string you pass as the targets (2nd arg) with the string in the 3rd argument
  * @example ```
  *    replaceMany('useUpdateDataForm()', ['Update', 'Add'], '')
- *    // => 'useDataForm()'
+ *    // => 'useDataForm()' -- Removed 'Update'
  *    replaceMany('useAddUserForm()', ['Update', 'Add'], '')
- *    // => 'useUserForm()'
+ *    // => 'useUserForm()' -- Removed 'Add'
  * ``` */
 export const replaceMany = (source: string, targets: string[], replacement: string) => {
   const allTargets = targets.flatMap((target) => [uppercaseFirstChar(target), lowercaseFirstChar(target)]) // prettier-ignore

@@ -1,5 +1,9 @@
-import glob from 'glob' // @ts-ignore
-import { mock } from 'bun:test'
+// @ts-ignore
+export * from '@testing-library/jest-dom/jest-globals'
+import glob from 'glob'
+import { GlobalRegistrator } from '@happy-dom/global-registrator'
+import { cleanup } from '@testing-library/react' // @ts-ignore
+import { mock, afterEach } from 'bun:test'
 
 /* --- Mock tsConfig paths --------------------------------------------------------------------- */
 
@@ -41,3 +45,11 @@ mock.module('expo-constants', () => import('./__mocks__/expo-constants.mock'))
 mock.module(require.resolve('expo-constants'), () => import('./__mocks__/expo-constants.mock')) // @ts-ignore
 mock.module('react-native', () => import('react-native-web')) // @ts-ignore
 mock.module(require.resolve('react-native'), () => import('react-native-web'))
+
+/* --- React Testing Library ------------------------------------------------------------------- */
+
+afterEach(() => {
+    cleanup()
+})
+
+GlobalRegistrator.register()

@@ -10,9 +10,24 @@ import { validateNonEmptyNoSpaces } from '../scripts/helpers/scriptUtils'
 /* --- Constants ------------------------------------------------------------------------------- */
 
 const WORKSPACE_FOLDER_MAPPER = {
-  feature: 'features',
-  package: 'packages',
+    feature: 'features',
+    package: 'packages',
 } as const
+
+/* --- Templates ------------------------------------------------------------------------------- */
+
+const tsConfigTemplate = `{
+    "extends": "@app/core/tsconfig",
+    "include": [
+        "**/*.ts",
+        "**/*.tsx",
+        "../../features/**/*.ts",
+        "../../features/**/*.tsx",
+        "../../features/app-core/graphql-env.d.ts",
+        "../../packages/@green-stack-core/global.d.ts"
+    ],
+    "exclude": ["node_modules"]
+}`
 
 /** --- Workspace Generator -------------------------------------------------------------------- */
 /** -i- Simple generator to add a new feature or package workspace */
@@ -80,18 +95,7 @@ export const registerWorkspaceGenerator = (plop: PlopTypes.NodePlopAPI) => {
                 {
                     type: 'add',
                     path: `${workspacePath}/tsconfig.json`,
-                    template: `{
-                        "extends": "@app/core/tsconfig",
-                        "include": [
-                            "**/*.ts",
-                            "**/*.tsx",
-                            "../../features/**/*.ts",
-                            "../../features/**/*.tsx",
-                            "../../features/app-core/graphql-env.d.ts",
-                            "../../packages/@green-stack-core/global.d.ts"
-                        ],
-                        "exclude": ["node_modules"]
-                    }`,
+                    template: tsConfigTemplate,
                 }
             ] as PlopTypes.ActionType[]
             
