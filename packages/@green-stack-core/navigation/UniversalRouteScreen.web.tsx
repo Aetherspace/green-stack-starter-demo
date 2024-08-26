@@ -1,7 +1,7 @@
 'use client'
 import { use, useState, useEffect } from 'react'
 import { useQueryClient, useQuery, dehydrate, HydrationBoundary } from '@tanstack/react-query'
-import { type UniversalRouteProps, type QueryFn, DEFAULT_QUERY_BRIDGE } from './UniversalRouteScreen.helpers'
+import { UniversalRouteProps, QueryFn, DEFAULT_QUERY_BRIDGE } from './UniversalRouteScreen.helpers'
 import { useRouteParams } from './useRouteParams'
 import { isExpoWebLocal } from '../../../features/@app-core/appConfig'
 

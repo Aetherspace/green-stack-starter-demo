@@ -25,7 +25,7 @@
     "android": "npx turbo run android",
     "ios": "npx turbo run ios",
     "expo:web": "npx turbo run @app/expo#web",
-    "build": "npx turbo run build",
+    "build": "node -v && npx turbo run build",
     "build:schema": "npx turbo run @green-stack/core#build:schema",
     "check:workspaces": "npx turbo run @green-stack/core#check:workspaces",
     "check:workspaces:fix": "FIX_MODE=true npx turbo run @green-stack/core#check:workspaces",

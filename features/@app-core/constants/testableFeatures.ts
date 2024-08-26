@@ -2,6 +2,10 @@
 export const testableFeatures = [
     {
         title: 'Test Images?',
-        link: '/images'
+        link: '/demos/images'
+    },
+    {
+        title: 'Test Forms?',
+        link: '/demos/forms'
     },
 ]

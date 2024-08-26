@@ -1,11 +1,11 @@
 import { UniversalRouteScreen } from '@green-stack/core/navigation/UniversalRouteScreen'
-import ImagesScreen from '../../screens/ImagesScreen'
+import FormsScreen from '../../../screens/FormsScreen'
 
 /* --- /images --------------------------------------------------------------------------------- */
 
 export default (props: any) => (
     <UniversalRouteScreen
         {...props}
-        routeScreen={ImagesScreen}
+        routeScreen={FormsScreen}
     />
 )

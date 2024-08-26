@@ -1,8 +1,8 @@
 'use client'
 import React from 'react'
 import UniversalAppProviders from '@app/screens/UniversalAppProviders'
-import { Image as NextContextImage } from '@green-stack/components/Image.next'
-import { Link as NextContextLink } from '@green-stack/navigation/Link.next'
+import { Image as NextContextImage } from '@green-stack/core/components/Image.next'
+import { Link as NextContextLink } from '@green-stack/core/navigation/Link.next'
 import { useRouter as useNextContextRouter } from '@green-stack/navigation/useRouter.next'
 import { useRouteParams as useNextRouteParams } from '@green-stack/navigation/useRouteParams.next'
 

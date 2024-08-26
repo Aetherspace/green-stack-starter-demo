@@ -1,6 +1,6 @@
 'use client'
 import { useQuery } from '@tanstack/react-query'
-import { type UniversalRouteProps, type QueryFn, DEFAULT_QUERY_BRIDGE } from './UniversalRouteScreen.helpers'
+import { UniversalRouteProps, QueryFn, DEFAULT_QUERY_BRIDGE } from './UniversalRouteScreen.helpers'
 import { useRouteParams } from './useRouteParams'
 
 /** --- <UniversalRouteScreen/> -------------------------------------------------------------------- */
