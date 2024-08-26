@@ -1,7 +1,7 @@
 import type { KnownRoutes } from '@app/registries/routeManifest.generated'
 import type { UniversalLinkProps } from './Link.types'
 import { Link as ExpoLink } from 'expo-router'
-import { parseNativeWindStyles } from '../styles/parseNativeWindStyles'
+import { parseNativewindStyles } from '../styles/parseNativewindStyles'
 
 /* --- <Link/> --------------------------------------------------------------------------------- */
 
@@ -39,7 +39,7 @@ export const Link = <
 
     // -- Nativewind --
 
-    const { nativeWindStyles, restStyle } = parseNativeWindStyles(style)
+    const { nativeWindStyles, restStyle } = parseNativewindStyles(style)
     const finalStyle = { ...nativeWindStyles, ...restStyle }
 
     // -- Render --

@@ -1,5 +1,6 @@
 import NextImage from 'next/image'
-import { parseNativeWindStyles } from '../styles/parseNativeWindStyles'
+import { parseNativewindStyles } from '../styles/parseNativewindStyles'
+import { cn } from '../utils/tailwindUtils'
 import type { UniversalImageProps, UniversalImageMethods } from './Image.types'
 
 /* --- <Image/> -------------------------------------------------------------------------------- */
@@ -35,7 +36,7 @@ const Image = (props: UniversalImageProps): JSX.Element => {
 
     // -- Nativewind --
 
-    const { nativeWindStyles, nativeWindClassName, restStyle } = parseNativeWindStyles(style)
+    const { nativeWindStyles, nativeWindClassName, restStyle } = parseNativewindStyles(style)
     const finalStyle = { width, height, ...nativeWindStyles, ...restStyle } as React.CSSProperties
 
     // -- Overrides --
@@ -46,7 +47,7 @@ const Image = (props: UniversalImageProps): JSX.Element => {
     if (fill) finalStyle.width = '100%'
     if (fill) finalStyle.objectFit = contentFit || 'cover'
 
-    const finalClassName = [className, nativeWindClassName].filter(Boolean).join(' ')
+    const finalClassName = cn(className, nativeWindClassName)
 
     // -- Render --
 

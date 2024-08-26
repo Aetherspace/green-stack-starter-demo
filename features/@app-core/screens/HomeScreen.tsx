@@ -1,7 +1,7 @@
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { HydratedRouteProps, createQueryBridge } from '@green-stack/navigation'
-import { View, Link, Image, P, H1, H3, Text, H2 } from '../components/styled'
+import { View, Link, Image, P, H1, H3, Text, H2, cn } from '../components/styled'
 import { healthCheckFetcher } from '../resolvers/healthCheck.query'
 import { ArrowRightFilled } from '../icons/ArrowRightFilled'
 import { isLargeTablet } from '../appConfig'
@@ -40,10 +40,10 @@ const HomeScreen = (props: HomeScreenProps) => {
         style={{ backgroundColor: '#1e293b' }}
       >
         <View
-          className={[
+          className={cn(
             "flex flex-1 flex-col justify-between items-center bg-slate-800",
             "lg:p-24 lg:justify-start",
-          ].join(' ')}
+          )}
         >
 
           <View className="hidden invisible lg:visible lg:flex lg:w-full lg:max-w-5xl h-14" accessibilityElementsHidden>
@@ -53,11 +53,11 @@ const HomeScreen = (props: HomeScreenProps) => {
           {/* Side Icons */}
 
           <View
-            className={[
+            className={cn(
               "hidden invisible flex-row top-28 w-screen max-w-5xl h-20 items-center justify-between",
               "lg:absolute lg:visible lg:flex lg:h-[90%] lg:top-0",
               "ios:lg:top-24", // -i- If you need platform specifc flags, e.g. iPad in this case
-            ].join(' ')}
+            )}
           >
             <View className="w-[57px] h-[98px] lg:w-[114px] lg:h-[197px]">
               <Image
@@ -82,11 +82,11 @@ const HomeScreen = (props: HomeScreenProps) => {
           {/* Logo & Tagline */}
 
           <View
-            className={[
+            className={cn(
               "flex flex-row absolute top-28 w-screen max-w-5xl h-20 items-center justify-center",
               "lg:h-[90%] lg:top-0 lg:max-w-[100%]",
               "ios:lg:top-24",
-            ].join(' ')}
+            )}
           >
             <Link href="https://fullproduct.dev" target="_blank" className="flex flex-row no-underline">
               <View className="w-20 h-20 lg:w-24 lg:h-24">
@@ -115,10 +115,10 @@ const HomeScreen = (props: HomeScreenProps) => {
           <View className="h-64" />
 
           <View
-            className={[
+            className={cn(
               "flex flex-col relative bottom-auto w-screen max-w-5xl items-center justify-center px-8",
               "lg:absolute lg:bottom-24 lg:flex-row lg:top-auto lg:items-start lg:px-0",
-            ].join(' ')}
+            )}
           >
             <InfoSection
               title="Docs 📚"
@@ -156,11 +156,11 @@ const HomeScreen = (props: HomeScreenProps) => {
           <View className="h-16 lg:h-0" />
 
           <View
-            className={[
+            className={cn(
               "flex flex-row relative w-screen max-w-5xl h-14 items-center justify-center",
               "lg:bottom-auto lg:absolute lg:justify-end",
               "ios:lg:top-24",
-            ].join(' ')}
+            )}
           >
             <Link
               className="flex flex-row items-center no-underline"
@@ -209,17 +209,17 @@ const HomeScreen = (props: HomeScreenProps) => {
 
 const GettingStarted = () => (
   <View
-    className={[
+    className={cn(
       "flex flex-1 flex-row absolute lg:max-w-5xl h-14 items-center justify-start",
       "left-0 right-0",
-    ].join(' ')}
+    )}
   >
     <P
-      className={[
+      className={cn(
         "flex flex-1 absolute left-0 top-0 justify-center bg-slate-700 border-b border-solid border-gray-700 pb-4 pt-10 text-center text-sm text-gray-100",
         "lg:relative lg:rounded-xl lg:border lg:bg-gray-800 lg:p-4 lg:text-lg",
         "left-0 right-0 lg:flex-grow-0 lg:flex-row lg:flex-initial",
-      ].join(' ')}
+      )}
       style={isLargeTablet ? {
         borderWidth: 1,
         borderColor: '#374151',

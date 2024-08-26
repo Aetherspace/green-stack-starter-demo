@@ -8,6 +8,11 @@ import {
 import { Link as UniversalLink } from '@green-stack/navigation/Link'
 import { UniversalLinkProps } from '@green-stack/navigation/Link.types'
 import { Image as UniversalImage } from '@green-stack/components/Image'
+import { cn } from '@green-stack/utils/tailwindUtils'
+
+/* --- Reexports ------------------------------------------------------------------------------- */
+
+export { styled, cn }
 
 /* --- Primitives ------------------------------------------------------------------------------ */
 

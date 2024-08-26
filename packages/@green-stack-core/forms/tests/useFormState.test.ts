@@ -92,17 +92,19 @@ test('formState.getChangeHandler() should return the correct handler for the giv
 
 test('formState.validate() should return the correct validation result', () => {
     // Hook
-    const { result } = renderHook(() => useFormState({ schema: User }))
+    const { result, rerender } = renderHook(() => useFormState({ schema: User }))
 
-    // Act
     const changeName = result.current.getChangeHandler('name')
-    act(() => {
-        // @ts-expect-error
-        changeName(2)
-    })
+
+    // @ts-expect-error
+    changeName(2)
+
+    rerender()
 
     // Validate
     const isValid = result.current.validate()
+
+    rerender()
 
     // Expect
     expect(isValid).toBe(false)
@@ -123,20 +125,21 @@ test('formState.validate() should populate errors with our custom error messages
     })
 
     // Hook
-    const { result } = renderHook(() => useFormState({ schema: User2 }))
+    const { result, rerender } = renderHook(() => useFormState({ schema: User2 }))
 
-    // Act
     const changeName = result.current.getChangeHandler('name')
     const changeAge = result.current.getChangeHandler('age')
-    act(() => {
-        // @ts-expect-error
-        changeName(0)
-        // @ts-expect-error
-        changeAge('')
-    })
 
+    // @ts-expect-error
+    changeName(0)
+
+    // @ts-expect-error
+    changeAge('')
+    
     // Validate
+    rerender()
     result.current.validate()
+    rerender()
 
     // Expect
     expect(result.current.errors).toEqual({
@@ -147,15 +150,11 @@ test('formState.validate() should populate errors with our custom error messages
 
 test('passing `validateOnChange: true` to useFormState() should update validation errors on every change', () => {
     // Hook
-    const { result } = renderHook(() => useFormState({ schema: User, validateOnChange: true }))
+    const { result, rerender } = renderHook(() => useFormState({ schema: User, validateOnChange: true }))
 
-    // Act
-    const changeName = result.current.getChangeHandler('name')
-
-    act(() => {
-        // @ts-expect-error
-        changeName(2)
-    })
+    const changeName = result.current.getChangeHandler('name') // @ts-expect-error
+    changeName(2)
+    rerender()
 
     // Expect
     expect(result.current.errors.name).toBeDefined()
@@ -164,17 +163,15 @@ test('passing `validateOnChange: true` to useFormState() should update validatio
 
 test('formState.hasError() should return the correct error status for the given form field', () => {
     // Hook
-    const { result } = renderHook(() => useFormState({ schema: User }))
+    const { result, rerender } = renderHook(() => useFormState({ schema: User }))
 
-    // Act
-    const changeName = result.current.getChangeHandler('name')
-    act(() => {
-        // @ts-expect-error
-        changeName(2)
-    })
+    // @ts-expect-error
+    result.current.handleChange('name', 2)
+    rerender()
 
     // Validate
     result.current.validate()
+    rerender()
 
     // Expect
     expect(result.current.hasError('name')).toBe(true)

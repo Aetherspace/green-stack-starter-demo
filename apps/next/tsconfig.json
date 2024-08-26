@@ -10,6 +10,11 @@
         "../../packages/**/*.tsx",
         "../../packages/**/*.ts"
     ],
+    "compilerOptions": {
+        "plugins": [{
+            "name": "next"
+        }]
+    },
     "exclude": [
         "node_modules"
     ],

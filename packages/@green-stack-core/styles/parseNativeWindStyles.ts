@@ -1,7 +1,7 @@
 
-/** --- parseNativeWindStyles() ---------------------------------------------------------------- */
+/** --- parseNativewindStyles() ---------------------------------------------------------------- */
 /** -i- Util to extract Nativewind's style and/or className from a styled() components style prop */
-export const parseNativeWindStyles = (style: any) => {
+export const parseNativewindStyles = (style: any) => {
     return Object.entries(style || {}).reduce(
         (acc, [key, value]) => {
             // If the key is unsupported, ignore it
