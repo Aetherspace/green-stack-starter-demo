@@ -1,6 +1,4 @@
 #!/usr/bin/env node --experimental-specifier-resolution=node
-// import 'tsconfig-paths/register'
-// import 'ts-node/register/transpile-only'
 import path from 'path'
 import fs from 'fs'
 import { fileURLToPath } from 'node:url'

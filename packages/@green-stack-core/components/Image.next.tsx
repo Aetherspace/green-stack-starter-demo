@@ -47,7 +47,7 @@ const Image = (props: UniversalImageProps): JSX.Element => {
     if (fill) finalStyle.width = '100%'
     if (fill) finalStyle.objectFit = contentFit || 'cover'
 
-    const finalClassName = cn(className, nativeWindClassName)
+    const finalClassName = cn(className, nativeWindClassName, fill && 'w-full h-full')
 
     // -- Render --
 

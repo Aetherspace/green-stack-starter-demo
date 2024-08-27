@@ -1,7 +1,7 @@
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { HydratedRouteProps, createQueryBridge } from '@green-stack/navigation'
-import { View, Link, Image, P, H1, H3, Text, H2, cn } from '../components/styled'
+import { Pressable, View, Link, Image, P, H1, H3, Text, H2, cn } from '../components/styled'
 import { healthCheckFetcher } from '../resolvers/healthCheck.query'
 import { ArrowRightFilled } from '../icons/ArrowRightFilled'
 import { isLargeTablet } from '../appConfig'
@@ -64,8 +64,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                 src={require('../assets/automagic-api-gen-icons.png')}
                 alt="FullProduct.dev Starterkit Logo"
                 quality={100}
-                width="100%"
-                height="100%"
+                fill
               />
             </View>
             <View className="w-[81px] h-[116px] lg:w-[162px] lg:h-[233px]">
@@ -73,8 +72,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                 src={require('../assets/cross-platform-icons.png')}
                 alt="FullProduct.dev Starterkit Logo"
                 quality={100}
-                width="100%"
-                height="100%"
+                fill
               />
             </View>
           </View>
@@ -123,13 +121,13 @@ const HomeScreen = (props: HomeScreenProps) => {
             <InfoSection
               title="Docs 📚"
               summary="Documentation that grows as you build or paste app features"
-              href="https://universal-base-starter-docs.vercel.app/" // TODO: Update this link
+              href="https://universal-base-starter-docs.vercel.app/quickstart" // TODO: Update this link
             />
             <View className="w-0 h-8 lg:w-16 lg:h-0" />
             <InfoSection
               title="Concepts"
               summary="Discover a way of working that's portable, write-once and universal"
-              href="https://universal-base-starter-docs.vercel.app/" // TODO: Update this link
+              href="https://universal-base-starter-docs.vercel.app/core-concepts"
             />
             <View className="w-0 h-8 lg:w-16 lg:h-0" />
             <InfoSection
@@ -147,7 +145,7 @@ const HomeScreen = (props: HomeScreenProps) => {
             <InfoSection
               title="Codegen"
               summary="Build even faster with generators for Routes, APIs, GraphQL & more"
-              href="https://universal-base-starter-docs.vercel.app/" // TODO: Update this link
+              href="https://universal-base-starter-docs.vercel.app/quickstart" // TODO: Update this link
             />
           </View>
 
@@ -239,19 +237,22 @@ const GettingStarted = () => (
 const InfoSection = (props: { title: string, titleIcon?: any, summary: string, href: string }) => (
   <View className="flex flex-col flex-1 w-full max-w-[420px]">
     <Link
-      className="flex flex-row items-center justify-center lg:justify-start text-center lg:text-left no-underline mb-2 lg:mb-4"
+      className="flex flex-row w-full items-center justify-center lg:justify-start text-center lg:text-left no-underline mb-2 lg:mb-4"
       href={props.href}
       target={props.href.includes('http') ? "_blank" : undefined}
+      asChild
     >
-      <H2 className="text-gray-100 text-2xl lg:text-3xl">
-        {props.title}
-      </H2>
-      {!!props.titleIcon && (
-        <>
-          <View className="w-2" />
-          {props.titleIcon}
-        </>
-      )}
+      <Pressable className="flex flex-row items-center justify-center">
+        <H2 className="text-gray-100 text-2xl lg:text-3xl">
+          {props.title}
+        </H2>
+        {!!props.titleIcon && (
+          <>
+            <View className="w-2" />
+            {props.titleIcon}
+          </>
+        )}
+      </Pressable>
     </Link>
     <P className="text-center lg:text-left text-lg text-gray-500">
       {props.summary}

@@ -1,3 +1,5 @@
+/* @jsxImportSource react */
+import type { ReactNode } from 'react'
 import Document from './Document'
 import NextClientRootLayout from './NextClientRootLayout'
 
@@ -9,7 +11,7 @@ import NextClientRootLayout from './NextClientRootLayout'
 /* --- Types ----------------------------------------------------------------------------------- */
 
 type NextServerRootLayoutProps = {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 /* --- <NextServerRootLayout/> ----------------------------------------------------------------- */

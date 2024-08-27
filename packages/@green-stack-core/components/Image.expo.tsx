@@ -1,7 +1,15 @@
 import { Image as ExpoImage } from 'expo-image'
 import { Platform } from 'react-native'
+import { cssInterop, remapProps } from 'nativewind'
 import { parseNativewindStyles } from '../styles/parseNativewindStyles'
+import { cn } from '../utils/tailwindUtils'
 import type { UniversalImageProps, UniversalImageMethods } from './Image.types'
+
+/* --- Styles ---------------------------------------------------------------------------------- */
+
+const StyledExpoImage = cssInterop(ExpoImage, {
+    className: 'style',
+})
 
 /* --- <Image/> -------------------------------------------------------------------------------- */
 
@@ -14,6 +22,7 @@ const Image = (props: UniversalImageProps): JSX.Element => {
         width,
         height,
         style,
+        className,
         priority,
         onError,
         onLoadEnd,
@@ -50,14 +59,18 @@ const Image = (props: UniversalImageProps): JSX.Element => {
     if (fill) finalStyle.height = '100%'
     if (fill) finalStyle.width = '100%'
 
+    const finalClassName = cn(className, fill && 'w-full h-full')
+
     // -- Render --
 
     return (
-        <ExpoImage
+        <StyledExpoImage
             /* - Universal - */
             source={src as any}
-            alt={alt || accessibilityLabel} // @ts-ignore
+            alt={alt || accessibilityLabel}
+            // @ts-ignore
             style={finalStyle}
+            className={finalClassName}
             priority={priority}
             onError={onError}
             onLoadEnd={onLoadEnd || onLoad as any}

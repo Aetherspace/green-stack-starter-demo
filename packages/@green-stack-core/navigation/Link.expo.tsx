@@ -14,6 +14,7 @@ export const Link = <
         href,
         params = {},
         style,
+        className,
         replace,
         onPress,
         target,
@@ -48,6 +49,7 @@ export const Link = <
         <ExpoLink
             href={finalHref}
             style={finalStyle}
+            className={className}
             onPress={onPress}
             target={target}
             asChild={asChild}

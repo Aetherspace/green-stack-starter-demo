@@ -1,9 +1,8 @@
 'use client'
 /* eslint-disable @next/next/no-head-element */
 import React from 'react'
-import { AppRegistry } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { useServerInsertedHTML } from 'next/navigation'
-import UniversalRootLayout from '@app/screens/UniversalRootLayout'
 
 // -i- This is a regular react client component
 // -i- However, it is rendered on the server during SSR
@@ -18,23 +17,19 @@ const ServerStylesProvider = (props: { children: React.ReactNode }) => {
     // -- Serverside Styles --
   
     useServerInsertedHTML(() => {
-      // Get react-native-web styles
-      const Main = () => <UniversalRootLayout>{children}</UniversalRootLayout>
-      AppRegistry.registerComponent('Main', () => Main) // @ts-ignore
-      const mainApp = AppRegistry.getApplication('Main')
-      const reactNativeStyleElement = mainApp.getStyleElement()
-      // Inject styles
+      // @ts-ignore
+      const sheet = StyleSheet.getSheet()
       return (
-        <>
-          {reactNativeStyleElement}
-          {/* OPTIONAL: Insert other SSR'd styles here? */}
-        </>
+        <style
+          dangerouslySetInnerHTML={{ __html: sheet.textContent}}
+          id={sheet.id}
+        />
       )
     })
   
     // -- Render --
   
-    return null
+    return <>{children}</>
   }
   
   /* --- Exports --------------------------------------------------------------------------------- */

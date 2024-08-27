@@ -42,6 +42,7 @@
       "@green-stack/hooks/*": ["../../packages/@green-stack-core/hooks/*"],
       "@green-stack/components/*": ["../../packages/@green-stack-core/components/*"],
       "@green-stack/styles/*": ["../../packages/@green-stack-core/styles/*"],
+      "@green-stack/forms/*": ["../../packages/@green-stack-core/forms/*"],
       "@green-stack/context/*": ["../../packages/@green-stack-core/context/*"],
       "@green-stack/scripts/*": ["../../packages/@green-stack-core/scripts/*"],
       "@db/models": ["../../packages/@db-driver/models.ts"],
@@ -49,9 +50,10 @@
     }
   },
   "include": [
-    "next-env.d.ts",
+    "../../apps/next/next-env.d.ts",
     "../../packages/@green-stack-core/global.d.ts",
-    "appConfig.ts",
+    "../../features/@app-core/nativewind-env.d.ts",
+    "../../features/@app-core/appConfig.ts",
     "**/*.ts",
     "**/*.tsx"
   ],

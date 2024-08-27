@@ -1,3 +1,4 @@
+/* @jsxImportSource react */
 import NextServerRootLayout from './NextServerRootLayout'
 
 // -i- We render the server layout as a react server component first

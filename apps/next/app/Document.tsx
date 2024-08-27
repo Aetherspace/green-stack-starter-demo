@@ -1,4 +1,5 @@
-import React from 'react'
+/* @jsxImportSource react */
+import type { ReactNode } from 'react'
 import UniversalRootLayout from '@app/screens/UniversalRootLayout'
 import ServerStylesProvider from './ServerStylesProvider'
 import '../global.css'
@@ -9,7 +10,7 @@ import '../global.css'
 
 /* --- <Document> ------------------------------------------------------------------------------ */
 
-const Document = (props: { children: React.ReactNode }) => {
+const Document = (props: { children: ReactNode }) => {
   // Props
   const { children } = props
 
@@ -20,15 +21,15 @@ const Document = (props: { children: React.ReactNode }) => {
       <head>
         {/* - Title & Keywords - */}
         <title>Universal App Router</title>
-        {/* - Styling - */}
-        <ServerStylesProvider>{children}</ServerStylesProvider>
         {/* - Other - */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body>
-        <UniversalRootLayout>
-          <main className="flex min-w-screen min-h-screen">{children}</main>
-        </UniversalRootLayout>
+        <ServerStylesProvider>
+          <UniversalRootLayout>
+            <main className="flex min-w-screen min-h-screen">{children}</main>
+          </UniversalRootLayout>
+        </ServerStylesProvider>
       </body>
     </html>
   )

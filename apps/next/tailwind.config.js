@@ -7,7 +7,8 @@ module.exports = {
     '../../features/**/*.tsx',
     '../../packages/**/*.tsx',
   ],
-  plugins: [require('nativewind/tailwind/css')],
+  presets: [require('nativewind/preset')],
+  plugins: [],
   important: 'html',
   theme: {
     ...universalTheme,

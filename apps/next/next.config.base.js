@@ -7,6 +7,7 @@ const mainNextConfig = {
     "react-native-web",
     "expo",
     "nativewind",
+    "react-native-css-interop",
     // Add more React Native / Expo packages here...
   ],
   typescript: {

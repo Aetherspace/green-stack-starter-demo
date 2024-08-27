@@ -1,5 +1,4 @@
 import type { KnownRoutes } from '@app/registries/routeManifest.generated'
-import { styled } from 'nativewind'
 import {
     Text as RNText,
     View as RNView,
@@ -9,6 +8,7 @@ import { Link as UniversalLink } from '@green-stack/navigation/Link'
 import { UniversalLinkProps } from '@green-stack/navigation/Link.types'
 import { Image as UniversalImage } from '@green-stack/components/Image'
 import { cn } from '@green-stack/utils/tailwindUtils'
+import { styled } from '@green-stack/core/styles'
 
 /* --- Reexports ------------------------------------------------------------------------------- */
 
