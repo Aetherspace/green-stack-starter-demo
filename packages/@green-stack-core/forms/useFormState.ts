@@ -9,36 +9,43 @@ export const useFormState = <
     T extends z.infer<z.ZodObject<S>> = z.infer<z.ZodObject<S>>,
     K extends keyof z.infer<z.ZodObject<S>> = keyof z.infer<z.ZodObject<S>>,
     E extends Partial<Record<K, string[]>> = Partial<Record<K, string[]>>
->(options: {
+>(
     schema: z.ZodObject<S>,
-    initialValues?: Partial<T>,
-    validateOnBlur?: boolean,
-    validateOnChange?: boolean,
-}) => {
+    options: {
+        initialValues?: Partial<T>,
+        validateOnBlur?: boolean,
+        validateOnChange?: boolean,
+    } = {},
+) => {
     // Props
-    const { schema, validateOnBlur, validateOnChange } = options
+    const { validateOnBlur, validateOnChange } = options
     const initialValues = (options.initialValues || {}) as T
 
     // Initial
     const initialState = useMemo(() => {
-        return schema.applyDefaults(initialValues) as T
+        return schema.applyDefaults(initialValues, { stripUnknown: true }) as T
     }, [schema, options.initialValues])
 
     // State
     const [values, setValues] = useState<T>(initialState)
     const [errors, updateErrors] = useState<E>({} as E)
 
+    // Vars
+    const valuesKey = Object.entries(values).map(([k, v]) => `${k}-${v || 'x'}`).join('-')
+
     // -- Memos --
 
     const isDefaultState = useMemo(() => {
         return JSON.stringify(values) === JSON.stringify(initialState)
-    }, [values, initialState])
+    }, [valuesKey, initialState])
 
     // -- Validation --
 
     const validate = (showErrors = true) => {
+        // Parse values
         const validationResult = schema.safeParse(values)
         const validationError = validationResult.error
+        // Set errors if invalid
         if (showErrors && validationError) {
             const zodIssues = validationError.issues.flat()
             const fieldErrors = zodIssues.reduce((acc, issue) => {
@@ -48,6 +55,10 @@ export const useFormState = <
             }, {} as E)
             updateErrors(fieldErrors)
         }
+        // Clear errors if valid
+        const shouldUpdateErrors = !validationError && !isEmpty(errors) && showErrors
+        if (shouldUpdateErrors) updateErrors({} as E)
+        // Return state validity
         return validationResult.success
     }
 
@@ -93,9 +104,25 @@ export const useFormState = <
 
     const getTextInputProps = <KEY extends K>(key: KEY) => {
         const { onChange, ...inputProps } = getInputProps(key)
+        return { ...inputProps, onChangeText: onChange }
+    }
+
+    const getNumberTextInputProps = <KEY extends K>(key: KEY) => {
+        const { onChange, ...inputProps } = getInputProps(key)
         return {
             ...inputProps,
-            onChangeText: onChange,
+            value: inputProps.value ? `${values[key]}` : '',
+            onChangeText: (value = '') => {
+                // Strip non-numeric characters
+                const strippedValue = value.replace(/[^0-9]/g, '')
+                console.log({ strippedValue })
+                // If empty, show placeholder
+                if (!strippedValue) return onChange(undefined as T[KEY])
+                // Convert to number
+                const numberValue = +strippedValue 
+                // @ts-ignore
+                onChange(numberValue)
+            },
         }
     }
 
@@ -109,7 +136,7 @@ export const useFormState = <
     useEffect(() => {
         if (validateOnChange) validate()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [JSON.stringify(values)])
+    }, [valuesKey])
 
     // -- Return --
 
@@ -152,5 +179,7 @@ export const useFormState = <
         getInputProps,
         /** -i- The props to add to a text input to manage its state, uses `onTextChange` instead */
         getTextInputProps,
+        /** -i- The props to add to a number input to manage its state, uses `onTextChange` instead */
+        getNumberTextInputProps,
     }
 }

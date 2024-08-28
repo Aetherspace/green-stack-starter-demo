@@ -5,9 +5,10 @@ const mainNextConfig = {
   transpilePackages: [
     "react-native",
     "react-native-web",
+    "react-native-svg",
     "expo",
-    "nativewind",
     "react-native-css-interop",
+    "nativewind",
     // Add more React Native / Expo packages here...
   ],
   typescript: {

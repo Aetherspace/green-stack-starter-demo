@@ -1,6 +1,6 @@
 import { Image as ExpoImage } from 'expo-image'
 import { Platform } from 'react-native'
-import { cssInterop, remapProps } from 'nativewind'
+import { cssInterop } from 'nativewind'
 import { parseNativewindStyles } from '../styles/parseNativewindStyles'
 import { cn } from '../utils/tailwindUtils'
 import type { UniversalImageProps, UniversalImageMethods } from './Image.types'

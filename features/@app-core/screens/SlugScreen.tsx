@@ -18,7 +18,7 @@ const SlugScreen = (props: UniversalRouteScreenProps) => {
   return (
     <View className="flex flex-1 justify-center items-center bg-slate-800">
       <BackButton />
-      <H1 className="text-3xl">
+      <H1 className="text-3xl text-white">
         slug - {decodeURIComponent(slug as string)}
       </H1>
       <View className="h-4" />

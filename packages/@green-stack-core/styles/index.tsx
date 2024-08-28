@@ -12,14 +12,20 @@ export const styled = <
     REF extends React.ElementRef<COMP>,
     PROPS extends React.ComponentProps<COMP>,
 >(Component: COMP, className = '') => { 
-    return forwardRef<REF, PROPS & { className?: string }>(
-        (props: React.ComponentProps<COMP>, ref) => (
-            // @ts-ignore
-            <Component
-                ref={ref}
-                {...props}
-                className={cn(className, props.className)}
-            />
-        )
+    const displayName = [Component.displayName, Component.name].filter(Boolean).join('.')
+    const StyledComponent = forwardRef<REF, PROPS & { className?: string }>(
+        (props: React.ComponentProps<COMP>, ref) => {
+            const finalClassName = cn(className, props.className)
+            return (
+                // @ts-ignore
+                <Component
+                    ref={ref}
+                    {...props}
+                    className={finalClassName}
+                />
+            )
+        }
     )
+    StyledComponent.displayName = displayName
+    return StyledComponent
 }

@@ -1,3 +1,5 @@
+import resolveConfig from 'tailwindcss/resolveConfig'
+import tailwindConfig from '../tailwind.config'
 import type { KnownRoutes } from '@app/registries/routeManifest.generated'
 import {
     Text as RNText,
@@ -7,12 +9,15 @@ import {
 import { Link as UniversalLink } from '@green-stack/navigation/Link'
 import { UniversalLinkProps } from '@green-stack/navigation/Link.types'
 import { Image as UniversalImage } from '@green-stack/components/Image'
-import { cn } from '@green-stack/utils/tailwindUtils'
-import { styled } from '@green-stack/core/styles'
+import { styled, cn } from '@green-stack/core/styles'
 
 /* --- Reexports ------------------------------------------------------------------------------- */
 
 export { styled, cn }
+
+/* --- Theme ----------------------------------------------------------------------------------- */
+
+export const { theme } = resolveConfig(tailwindConfig)
 
 /* --- Primitives ------------------------------------------------------------------------------ */
 
@@ -23,9 +28,9 @@ export const Pressable = styled(RNPressable, '')
 
 /* --- Typography ------------------------------------------------------------------------------ */
 
-export const H1 = styled(RNText, 'font-bold text-2xl text-primary-100')
-export const H2 = styled(RNText, 'font-bold text-xl text-primary-100')
-export const H3 = styled(RNText, 'font-bold text-lg text-primary-100')
+export const H1 = styled(RNText, 'font-bold text-2xl')
+export const H2 = styled(RNText, 'font-bold text-xl')
+export const H3 = styled(RNText, 'font-bold text-lg')
 
 export const P = styled(RNText, 'text-base')
 

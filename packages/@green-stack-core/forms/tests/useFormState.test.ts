@@ -17,8 +17,7 @@ type User = z.infer<typeof User>
 
 test('passing `initialValues` to useFormState() should apply the correct initial values', () => {
     // Hook
-    const { result } = renderHook(() => useFormState({
-        schema: User,
+    const { result } = renderHook(() => useFormState(User, {
         initialValues: { name: 'Loki', age: 29 },
     }))
 
@@ -28,7 +27,7 @@ test('passing `initialValues` to useFormState() should apply the correct initial
 
 test('formState.values should apply the correct defaults from the zod schema if no initialValues were provided', () => {
     // Hook
-    const { result } = renderHook(() => useFormState({ schema: User }))
+    const { result } = renderHook(() => useFormState(User))
 
     // Expect
     expect(result.current.values).toEqual({ name: 'Thorr', age: 31 })
@@ -36,7 +35,7 @@ test('formState.values should apply the correct defaults from the zod schema if 
 
 test('formState.setValues() should update the entire form state', () => {
     // Hook
-    const { result } = renderHook(() => useFormState({ schema: User }))
+    const { result } = renderHook(() => useFormState(User))
 
     // Act
     act(() => {
@@ -49,7 +48,7 @@ test('formState.setValues() should update the entire form state', () => {
 
 test('formState.getValue() should return the correct value for the given form field', () => {
     // Hook
-    const { result } = renderHook(() => useFormState({ schema: User }))
+    const { result } = renderHook(() => useFormState(User))
 
     // Act
     act(() => {
@@ -65,7 +64,7 @@ test('formState.getValue() should return the correct value for the given form fi
 
 test('formState.handleChange() should update the correct value for the given form field', () => {
     // Hook
-    const { result } = renderHook(() => useFormState({ schema: User }))
+    const { result } = renderHook(() => useFormState(User))
 
     // Act
     act(() => {
@@ -78,7 +77,7 @@ test('formState.handleChange() should update the correct value for the given for
 
 test('formState.getChangeHandler() should return the correct handler for the given form field', () => {
     // Hook
-    const { result } = renderHook(() => useFormState({ schema: User }))
+    const { result } = renderHook(() => useFormState(User))
 
     // Act
     const changeName = result.current.getChangeHandler('name')
@@ -92,7 +91,7 @@ test('formState.getChangeHandler() should return the correct handler for the giv
 
 test('formState.validate() should return the correct validation result', () => {
     // Hook
-    const { result, rerender } = renderHook(() => useFormState({ schema: User }))
+    const { result, rerender } = renderHook(() => useFormState(User))
 
     const changeName = result.current.getChangeHandler('name')
 
@@ -125,7 +124,7 @@ test('formState.validate() should populate errors with our custom error messages
     })
 
     // Hook
-    const { result, rerender } = renderHook(() => useFormState({ schema: User2 }))
+    const { result, rerender } = renderHook(() => useFormState(User2))
 
     const changeName = result.current.getChangeHandler('name')
     const changeAge = result.current.getChangeHandler('age')
@@ -150,7 +149,7 @@ test('formState.validate() should populate errors with our custom error messages
 
 test('passing `validateOnChange: true` to useFormState() should update validation errors on every change', () => {
     // Hook
-    const { result, rerender } = renderHook(() => useFormState({ schema: User, validateOnChange: true }))
+    const { result, rerender } = renderHook(() => useFormState(User, { validateOnChange: true }))
 
     const changeName = result.current.getChangeHandler('name') // @ts-expect-error
     changeName(2)
@@ -163,7 +162,7 @@ test('passing `validateOnChange: true` to useFormState() should update validatio
 
 test('formState.hasError() should return the correct error status for the given form field', () => {
     // Hook
-    const { result, rerender } = renderHook(() => useFormState({ schema: User }))
+    const { result, rerender } = renderHook(() => useFormState(User))
 
     // @ts-expect-error
     result.current.handleChange('name', 2)
@@ -180,7 +179,7 @@ test('formState.hasError() should return the correct error status for the given 
 
 test('formState.updateErrors() should update the errors for the entire form state', () => {
     // Hook
-    const { result } = renderHook(() => useFormState({ schema: User }))
+    const { result } = renderHook(() => useFormState(User))
 
     // Act
     act(() => {
@@ -193,7 +192,7 @@ test('formState.updateErrors() should update the errors for the entire form stat
 
 test('formState.getErrors() should return the correct errors for the given form field', () => {
     // Hook
-    const { result } = renderHook(() => useFormState({ schema: User }))
+    const { result } = renderHook(() => useFormState(User))
 
     // Act
     act(() => {
@@ -207,7 +206,7 @@ test('formState.getErrors() should return the correct errors for the given form 
 
 test('formState.isValid should return the correct form validation status without needing to validate first', () => {
     // Hook
-    const { result } = renderHook(() => useFormState({ schema: User }))
+    const { result } = renderHook(() => useFormState(User))
 
     // -- Unhappy path --
 
@@ -231,7 +230,7 @@ test('formState.isValid should return the correct form validation status without
 
 test('formState.isUnsaved should return the correct form unsaved status', () => {
     // Hook
-    const { result } = renderHook(() => useFormState({ schema: User }))
+    const { result } = renderHook(() => useFormState(User))
 
     // -- Start --
 
@@ -256,7 +255,7 @@ test('formState.isUnsaved should return the correct form unsaved status', () => 
 
 test('formState.clearErrors() should clear all errors until validated again', () => {
     // Hook
-    const { result } = renderHook(() => useFormState({ schema: User }))
+    const { result } = renderHook(() => useFormState(User))
 
     // Act
     act(() => {
@@ -277,10 +276,10 @@ test('formState.clearErrors() should clear all errors until validated again', ()
 
 test('formState.clearForm() should clear the form values, applying only the schema defaults', () => {
     // Hook
-    const { result } = renderHook(() => useFormState({
-        schema: User, // Has age: 31 as default
-        initialValues: { age: 29 }, // Should be ignored when using clearForm()
-    }))
+    const { result } = renderHook(() => useFormState(
+        User, // Has age: 31 as default
+        { initialValues: { age: 29 } }, // Should be ignored when using clearForm()
+    ))
 
     // Act
     act(() => {
@@ -301,8 +300,7 @@ test('formState.clearForm() should clear the form values, applying only the sche
 
 test('formState.resetForm() should reset the form to its original state using initialValues & schema defaults', () => {
     // Hook
-    const { result } = renderHook(() => useFormState({
-        schema: User,
+    const { result } = renderHook(() => useFormState(User, {
         initialValues: { name: 'Loki', age: 29 },
     }))
 
@@ -325,7 +323,7 @@ test('formState.resetForm() should reset the form to its original state using in
 
 test('formState.getInputProps() should return value, error state and handlers for the given form field', () => {
     // Hook
-    const { result } = renderHook(() => useFormState({ schema: User }))
+    const { result } = renderHook(() => useFormState(User))
 
     // Act
     const nameInputProps = result.current.getInputProps('name')
@@ -348,7 +346,7 @@ test('formState.getInputProps() should return value, error state and handlers fo
 
 test('formState.getTextInputProps() should return text value, error state and handlers for the given text input field', () => {
     // Hook
-    const { result } = renderHook(() => useFormState({ schema: User }))
+    const { result } = renderHook(() => useFormState(User))
 
     // Act
     const nameInputProps = result.current.getTextInputProps('name')

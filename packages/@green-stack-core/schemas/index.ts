@@ -1,4 +1,5 @@
 import { z, ZodObject, ZodType } from 'zod'
+import type { ComponentProps, JSX, JSXElementConstructor } from 'react'
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
@@ -99,6 +100,16 @@ export type ZodSchema<S extends z.ZodRawShape = z.ZodRawShape> = z.ZodObject<S>
     | z.ZodDefault<z.ZodNullable<z.ZodObject<S>>>
     | z.ZodDefault<z.ZodOptional<z.ZodObject<S>>>
 
+export type ApplyDefaultsOptions = {
+    logErrors?: boolean,
+    stripUnknown?: boolean,
+}
+
+export type PropsOf<
+    C extends keyof JSX.IntrinsicElements | JSXElementConstructor<any$Unknown>,
+    Z extends z.ZodObject<z.ZodRawShape>,
+> = ComponentProps<C> & z.input<Z>
+
 /* --- Zod extensions -------------------------------------------------------------------------- */
 
 declare module 'zod' {
@@ -135,9 +146,11 @@ declare module 'zod' {
             mask: Mask
         ): z.ZodObject<Omit<T, keyof Mask>, UnknownKeys, Catchall>
 
-        applyDefaults<D extends Record<string, unknown> = Record<string, unknown>>(
+        applyDefaults<
+            D extends Partial<Output> & Record<string, any$Unknown>
+        >(
             data: D,
-            logErrors?: boolean
+            options?: ApplyDefaultsOptions
         ): D & Output
 
         // -- Deprecations --
@@ -365,11 +378,26 @@ if (!ZodType.prototype.metadata) {
         return this.omit(picks).nameSchema(schemaName)
     }
 
-    ZodObject.prototype.applyDefaults = function (data, logErrors = false) {
+    ZodObject.prototype.applyDefaults = function <
+        D extends Partial<(typeof thisSchema)['_type']> & Record<string, any$Unknown>
+    >(
+        data: D,
+        options: ApplyDefaultsOptions = {},
+    ) {
+        const { logErrors = false, stripUnknown = false } = options
         const thisSchema = this.extend({})
         const result = thisSchema.safeParse(data)
-        if (!result.success && logErrors) console.warn(JSON.stringify(result.error, null, 2)) // @ts-ignore
-        return { ...data, ...result.data } as D & (typeof thisSchema)['_type']
+        const values = { ...data, ...result.data } as (typeof thisSchema)['_type']
+        // Log errors if requested
+        if (!result.success && logErrors) console.warn(JSON.stringify(result.error, null, 2))
+        // Strip unknown keys if requested
+        if (stripUnknown) {
+            const validKeys = Object.keys(thisSchema.shape)
+            const validData = Object.fromEntries(Object.entries(values).filter(([key]) => validKeys.includes(key)))
+            return { ...validData } as D & (typeof thisSchema)['_type']
+        }
+        // @ts-ignore
+        return values as D & (typeof thisSchema)['_type']
     }
 }
 
