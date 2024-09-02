@@ -103,8 +103,8 @@ export const useFormState = <
     })
 
     const getTextInputProps = <KEY extends K>(key: KEY) => {
-        const { onChange, ...inputProps } = getInputProps(key)
-        return { ...inputProps, onChangeText: onChange }
+        const { onChange, value, ...inputProps } = getInputProps(key)
+        return { ...inputProps, value: value || '', onChangeText: onChange }
     }
 
     const getNumberTextInputProps = <KEY extends K>(key: KEY) => {
@@ -115,7 +115,6 @@ export const useFormState = <
             onChangeText: (value = '') => {
                 // Strip non-numeric characters
                 const strippedValue = value.replace(/[^0-9]/g, '')
-                console.log({ strippedValue })
                 // If empty, show placeholder
                 if (!strippedValue) return onChange(undefined as T[KEY])
                 // Convert to number

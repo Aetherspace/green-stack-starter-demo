@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { forwardRef, ElementRef } from 'react'
 import { TextInput as BaseTextInput } from '@green-stack/forms/TextInput.primitives'
 import { cn } from '@green-stack/utils/tailwindUtils'
 import { z, schema, PropsOf } from '@green-stack/schemas'
@@ -18,8 +18,8 @@ export type TextInputProps = PropsOf<typeof BaseTextInput, typeof TextInputProps
 
 /* --- <TextInput/> ---------------------------------------------------------------------------- */
 
-export const TextInput = React.forwardRef<
-    React.ElementRef<typeof BaseTextInput>,
+export const TextInput = forwardRef<
+    ElementRef<typeof BaseTextInput>,
     TextInputProps
 >((rawProps, ref) => {
     // Props

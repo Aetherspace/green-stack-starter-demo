@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { forwardRef, ElementRef } from 'react'
 import { CheckboxRoot, CheckboxIndicator } from '@green-stack/forms/Checkbox.primitives'
 import { cn, theme, View, Text, Pressable } from '../components/styled'
 import { CheckFilled } from '../icons/CheckFilled'
@@ -10,8 +10,10 @@ export const CheckboxProps = schema('CheckboxProps', {
     checked: z.boolean().default(false),
     label: z.string().optional(),
     className: z.string().optional(),
+    checkboxClassName: z.string().optional(),
     indicatorClassName: z.string().optional(),
-    hitSlop: z.number().default(24),
+    labelClassName: z.string().optional(),
+    hitSlop: z.number().optional().example(10),
     hasError: z.boolean().default(false),
 })
 
@@ -19,8 +21,8 @@ export type CheckboxProps = PropsOf<typeof CheckboxRoot, typeof CheckboxProps>
 
 /* --- <Checkbox/> ----------------------------------------------------------------------------- */
 
-export const Checkbox = React.forwardRef<
-    React.ElementRef<typeof CheckboxRoot>,
+export const Checkbox = forwardRef<
+    ElementRef<typeof CheckboxRoot>,
     CheckboxProps
 >((rawProps, ref) => {
     // Props
@@ -30,9 +32,11 @@ export const Checkbox = React.forwardRef<
     // -- Render --
 
     return (
-        <View className="flex flex-row items-center">
+        <View className={cn('flex flex-row items-center', props.className)}>
             <CheckboxRoot
                 ref={ref}
+                hitSlop={props.hitSlop}
+                {...rawProps}
                 className={cn(
                     'h-4 w-4 shrink-0 rounded-sm border border-primary',
                     'native:h-[20] native:w-[20] native:rounded',
@@ -42,11 +46,9 @@ export const Checkbox = React.forwardRef<
                     checked && 'bg-primary',
                     checked && hasError && 'bg-error',
                     hasError && 'border border-error',
-                    props.className,
+                    props.checkboxClassName,
                 )}
-                hitSlop={props.hitSlop}
                 asChild
-                {...rawProps}
             >
                 <Pressable>
                     <CheckboxIndicator
@@ -74,7 +76,11 @@ export const Checkbox = React.forwardRef<
             </CheckboxRoot>
             {!!label && (
                 <Text
-                    className="flex items-center ml-2"
+                    className={cn(
+                        'flex items-center ml-2 web:select-none',
+                        props.labelClassName,
+                    )}
+                    role="checkbox"
                     onPress={() => onCheckedChange(!checked)}
                 >
                     {label}
