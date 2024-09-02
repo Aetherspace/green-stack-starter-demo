@@ -6,7 +6,7 @@ import type {
   GetStaticPropsContext,
 } from 'next'
 import { getApiParams, getHeaderContext } from '../utils/apiUtils'
-import { normalizeObjectProps } from '../utils/objectUtils'
+import { parseUrlParamsObject } from '../utils/objectUtils'
 import { z } from './index'
 
 /* --- Types ----------------------------------------------------------------------------------- */
@@ -82,7 +82,7 @@ export const createResolver = <
         const params = { ...restParams, ...nextSsrContext?.params, ...context, ...ctx?.params } // @ts-ignore
         const cookies = nextSsrContext?.req?.cookies || req?.cookies || ctx?.cookies
         const relatedArgs = apiParamKeys ? getApiParams(apiParamKeys, { query, params, body, args, context }) : {} // prettier-ignore
-        const normalizedArgs = normalizeObjectProps(relatedArgs)
+        const normalizedArgs = parseUrlParamsObject(relatedArgs)
         // Build config from all possible sources
         const errorConfig = { logErrors, respondErrors, onError, allowFail }
         const config = {
@@ -125,8 +125,8 @@ export const createResolver = <
         }
         // Validation helpers
         const parseArgs = (args: ArgsInput) => inputSchema.parse(args) as ArgsInput
-            const withDefaults = (response: ResInput) => {
-            return outputSchema.applyDefaults(response as Record<string, unknown>) as ResOutput
+        const withDefaults = (response: ResInput) => {
+            return outputSchema.applyDefaults(response as any$Ignore) as ResOutput
         }
         // Return resolver
         return resolverFn({

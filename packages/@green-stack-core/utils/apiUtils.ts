@@ -2,7 +2,7 @@ import type { NextApiRequest, GetServerSidePropsContext } from 'next'
 import type { NextRequest } from 'next/server' // @ts-ignore
 import CryptoJS from 'crypto-js'
 import { appConfig } from '@app/config'
-import { normalizeObjectProps } from './objectUtils'
+import { parseUrlParamsObject } from './objectUtils'
 import { isEmpty, warnOnce } from './commonUtils'
 
 /* --- Types ----------------------------------------------------------------------------------- */
@@ -55,7 +55,7 @@ export const getApiParams = (keys: string | string[], apiSources: APISources) =>
 export const getUrlParams = (url: string) => {
     const queryString = url.split('?')[1] || ''
     const urlSearchParams = new URLSearchParams(queryString)
-    return normalizeObjectProps(Object.fromEntries(urlSearchParams))
+    return parseUrlParamsObject(Object.fromEntries(urlSearchParams))
 }
 
 /** --- fireGetAndForget() --------------------------------------------------------------------- */

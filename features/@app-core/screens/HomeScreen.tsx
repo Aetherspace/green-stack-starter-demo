@@ -46,7 +46,10 @@ const HomeScreen = (props: HomeScreenProps) => {
           )}
         >
 
-          <View className="hidden invisible lg:visible lg:flex lg:w-full lg:max-w-5xl h-14" accessibilityElementsHidden>
+          <View
+            className="hidden invisible lg:visible lg:flex lg:w-full lg:max-w-5xl h-14"
+            accessibilityElementsHidden
+          >
             <GettingStarted />
           </View>
 
@@ -138,7 +141,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                   fill="#FFFFFF"
                 />
               )}
-              summary="Test universal navigation for Web & Mobile, sharing up to 90% UI code"
+              summary="Test universal navigation for Web & Mobile, and share up to 90% UI code"
               href="/subpages/Universal%20Nav"
             />
             <View className="w-0 h-8 lg:w-16 lg:h-0" />
@@ -195,7 +198,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
       {/* Start from */}
 
-      <View className="flex lg:hidden absolute web:fixed top-0 w-screen max-w-5xl h-14">
+      <View className="flex lg:hidden absolute web:fixed top-0 w-screen h-14">
         <GettingStarted />
       </View>
       
@@ -208,23 +211,17 @@ const HomeScreen = (props: HomeScreenProps) => {
 const GettingStarted = () => (
   <View
     className={cn(
-      "flex flex-1 flex-row absolute lg:max-w-5xl h-14 items-center justify-start",
-      "left-0 right-0",
+      'flex flex-1 flex-row absolute h-14 items-center justify-start left-0 right-0',
+      'lg:ios:flex-col ios:lg:items-start',
     )}
   >
     <P
       className={cn(
-        "flex flex-1 absolute left-0 top-0 justify-center bg-slate-700 border-b border-solid border-gray-700 pb-4 pt-10 text-center text-sm text-gray-100",
-        "lg:relative lg:rounded-xl lg:border lg:bg-gray-800 lg:p-4 lg:text-lg",
-        "left-0 right-0 lg:flex-grow-0 lg:flex-row lg:flex-initial",
+        'flex flex-1 right-0 absolute left-0 top-0 justify-center bg-slate-700 border-b border-solid border-gray-700 pb-4 pt-10 text-center text-sm text-gray-100',
+        'lg:flex-grow-1 lg:flex-shrink-1 lg:flex-row lg:flex-initial lg:relative lg:rounded-xl lg:border lg:bg-gray-800 lg:p-4 lg:pt-4 lg:text-lg',
       )}
-      style={isLargeTablet ? {
-        borderWidth: 1,
-        borderColor: '#374151',
-        borderRadius: 12
-      } : null}
     >
-      <Text>
+      <Text className="flex">
         <Text>Start from </Text>
         <Text className="font-bold">@app-core/screens/HomeScreen.tsx</Text>
       </Text>

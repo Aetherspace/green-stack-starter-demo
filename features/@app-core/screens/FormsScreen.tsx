@@ -33,7 +33,6 @@ const FormsScreen = (props: TestForm) => {
 
   // Forms
   const formState = useFormState(TestForm, {
-    // @ts-ignore
     initialValues: { ...props, ...params },
     validateOnChange,
   })
@@ -41,13 +40,7 @@ const FormsScreen = (props: TestForm) => {
   // -- Handlers --
 
   const submitForm = () => {
-    // Convert values to strings
-    const stringValues = Object.entries(formState.values).reduce((acc, [key, value]) => {
-      // Ignore empty values?
-      return !value ? acc : { ...acc, [key]: `${value}` }
-    }, {} as Record<string, string>)
-    // Update route params
-    setParams(stringValues)
+    setParams(formState.values)
   }
 
   // -- Effects --
@@ -56,11 +49,14 @@ const FormsScreen = (props: TestForm) => {
     if (!validateOnChange && !isEmpty(formState.errors)) formState.updateErrors({})
   }, [validateOnChange])
 
+  useEffect(() => {
+    if (!formState.isDefaultState) submitForm()
+  }, [formState.values])
+
   // -- Render --
 
   return (
     <>
-      <BackButton backLink="/subpages/Universal%20Nav" color="#333333" />
       <ScrollView>
         <View className="flex flex-1 justify-center items-center pt-28 pb-16">
           <View className="flex flex-col w-full max-w-[500px] px-8">
@@ -171,6 +167,7 @@ const FormsScreen = (props: TestForm) => {
           </View>
         </View>
       </ScrollView>
+      <BackButton backLink="/subpages/Universal%20Nav" color="#333333" />
     </>
   )
 }
