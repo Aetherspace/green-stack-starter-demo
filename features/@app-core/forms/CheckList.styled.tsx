@@ -17,7 +17,7 @@ export const useCheckListContext = () => {
     return context
 }
 
-/* --- <CheckList.Option/> --------------------------------------------------------------------- */
+/* --- CheckListOption Props ------------------------------------------------------------------- */
 
 export const CheckListOptionProps = CheckboxProps
     .omit({ checked: true })
@@ -28,21 +28,28 @@ export const CheckListOptionProps = CheckboxProps
 
 export type CheckListOptionProps = z.input<typeof CheckListOptionProps>
 
+/* --- <CheckList.Option/> --------------------------------------------------------------------- */
+
 export const CheckListOption = (props: CheckListOptionProps) => {
     // Props
     const { value, label, ...restProps } = CheckListOptionProps.applyDefaults(props)
     const { className, checkboxClassName, indicatorClassName } = restProps
 
+    // Vars
+    const nativeID = `checklist-option-${value}`
+
     // Context
-    const { values, toggleValue } = useCheckListContext()
+    const { values: contextValues, toggleValue } = useCheckListContext()
+    const checked = contextValues.includes(value)
 
     // -- Render --
 
     return (
         <Checkbox
-            checked={values.includes(value)}
+            checked={checked}
             onCheckedChange={() => toggleValue(value)}
             label={label || value}
+            nativeID={nativeID}
             {...restProps}
             className={className}
             checkboxClassName={checkboxClassName}
@@ -51,7 +58,7 @@ export const CheckListOption = (props: CheckListOptionProps) => {
     )
 }
 
-/* --- <CheckList/> ---------------------------------------------------------------------------- */
+/* --- CheckList Props ------------------------------------------------------------------------- */
 
 export const CheckListProps = CheckboxProps
     .omit({ checked: true,  })
@@ -64,6 +71,8 @@ export type CheckListProps = z.input<typeof CheckListProps> & {
     children?: ReactNode,
     onChange: (value: string[]) => void,
 }
+
+/* --- <CheckList/> ---------------------------------------------------------------------------- */
 
 const CheckListComponent = (rawProps: CheckListProps) => {
     // Props
@@ -106,5 +115,6 @@ const CheckListComponent = (rawProps: CheckListProps) => {
 /* --- Exports --------------------------------------------------------------------------------- */
 
 export const CheckList = Object.assign(CheckListComponent, {
+    Item: CheckListOption,
     Option: CheckListOption,
 })

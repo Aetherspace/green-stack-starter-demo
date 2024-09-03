@@ -48,7 +48,8 @@ export const buildUrlParamsObject = (obj: ObjectType<any$Unknown> = {}) => {
     const newObj: ObjectType<any$Unknown> = {}
     deepKeys(obj).map((key) => {
         const val = getProperty(obj, key)
-        if (!isEmpty(val)) newObj[key] = val
+        if (isEmpty(val)) deleteProperty(newObj, key)
+        else newObj[key] = val
     })
     return newObj
 }

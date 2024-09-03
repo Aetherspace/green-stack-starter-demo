@@ -4,7 +4,6 @@ import { HydratedRouteProps, createQueryBridge } from '@green-stack/navigation'
 import { Pressable, View, Link, Image, P, H1, H3, Text, H2, cn } from '../components/styled'
 import { healthCheckFetcher } from '../resolvers/healthCheck.query'
 import { ArrowRightFilled } from '../icons/ArrowRightFilled'
-import { isLargeTablet } from '../appConfig'
 
 /* --- Data Fetching --------------------------------------------------------------------------- */
 

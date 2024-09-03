@@ -25,14 +25,14 @@ export const useRouter = () => {
     const setParams = (params: Record<string, any$Unknown> = {}) => {
         if (typeof window === 'undefined') return
         const url = new URL(window.location.href)
-        const search = new URLSearchParams(url.search)
+        const search = new URLSearchParams()
         const newParams = buildUrlParamsObject(params)
         Object.keys(newParams).forEach((key) => {
             const paramVal = newParams[key]
             if (!isEmpty(paramVal)) search.set(key, paramVal)
         })
         url.search = search.toString()
-        replace(url.toString())
+        nextRouter.replace(url.toString(), { scroll: false })
     }
 
     // -- Return --

@@ -13,7 +13,7 @@ export const CheckboxProps = schema('CheckboxProps', {
     checkboxClassName: z.string().optional(),
     indicatorClassName: z.string().optional(),
     labelClassName: z.string().optional(),
-    hitSlop: z.number().optional().example(10),
+    hitSlop: z.number().default(6),
     hasError: z.boolean().default(false),
 })
 
@@ -27,16 +27,23 @@ export const Checkbox = forwardRef<
 >((rawProps, ref) => {
     // Props
     const props = CheckboxProps.applyDefaults(rawProps)
-    const { checked, label, hasError, onCheckedChange } = props
+    const { checked, label, hasError, nativeID, onCheckedChange } = props
+    const labelledByFallback = props.nativeID ? `${props.nativeID}-label` : undefined
+    const labelledByID = props['aria-labelledby'] || labelledByFallback
 
     // -- Render --
 
     return (
-        <View className={cn('flex flex-row items-center', props.className)}>
+        <Pressable
+            className={cn('flex flex-row items-center', props.className)}
+            onPress={() => onCheckedChange(!checked)}
+            hitSlop={props.hitSlop}
+        >
             <CheckboxRoot
                 ref={ref}
-                hitSlop={props.hitSlop}
-                {...rawProps}
+                nativeID={nativeID}
+                aria-labelledby={labelledByID}
+                {...props}
                 className={cn(
                     'h-4 w-4 shrink-0 rounded-sm border border-primary',
                     'native:h-[20] native:w-[20] native:rounded',
@@ -48,6 +55,7 @@ export const Checkbox = forwardRef<
                     hasError && 'border border-error',
                     props.checkboxClassName,
                 )}
+                hitSlop={props.hitSlop}
                 asChild
             >
                 <Pressable>
@@ -56,7 +64,6 @@ export const Checkbox = forwardRef<
                             'items-center justify-center h-full w-full',
                             props.indicatorClassName,
                         )}
-                        hitSlop={props.hitSlop}
                         asChild
                     >
                         <Pressable>
@@ -81,11 +88,12 @@ export const Checkbox = forwardRef<
                         props.labelClassName,
                     )}
                     role="checkbox"
+                    nativeID={labelledByID}
                     onPress={() => onCheckedChange(!checked)}
                 >
                     {label}
                 </Text>
             )}
-        </View>
+        </Pressable>
     )
 })

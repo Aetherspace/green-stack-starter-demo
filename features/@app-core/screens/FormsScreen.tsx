@@ -8,14 +8,15 @@ import { useFormState } from '@green-stack/forms/useFormState'
 import { z, schema } from '@green-stack/schemas'
 import { useRouteParams, useRouter } from '@green-stack/navigation'
 import { CheckList } from '../forms/CheckList.styled'
+import { RadioGroup } from '../forms/RadioGroup.styled'
 import { isEmpty } from '@green-stack/utils/commonUtils'
 
 /* --- Schema --------------------------------------------------------------------------------- */
 
 const TestForm = schema('TestForm', {
   email: z.string().email().default(''),
-  age: z.number().optional(),
-  identifiesWith: z.array(z.string()).default([]),
+  age: z.number().min(1).max(130).optional(),
+  identifiesWith: z.string().optional(),
   excitingFeatures: z.array(z.string()).default([]),
 })
 
@@ -102,14 +103,14 @@ const FormsScreen = (props: TestForm) => {
 
             <View className="h-4" />
 
-            <CheckList
+            <RadioGroup
               options={{ fullproduct: 'Full-stack web Developer' }}
               {...formState.getInputProps('identifiesWith')}
             >
-              <CheckList.Option value="startup-founder" label="Startup Founder" />
-              <CheckList.Option value="indiehacker" label="Indie Hacker" />
-              <CheckList.Option value="studio-lead" label="Studio Lead / CEO / Architect" />
-            </CheckList>
+              <RadioGroup.Option value="startup-founder" label="Startup Founder" />
+              <RadioGroup.Option value="indiehacker" label="Indie Hacker" />
+              <RadioGroup.Option value="studio-lead" label="Studio Lead / CEO / Architect" />
+            </RadioGroup>
 
             <View className="h-1 w-12 my-6 bg-slate-300" />
 
