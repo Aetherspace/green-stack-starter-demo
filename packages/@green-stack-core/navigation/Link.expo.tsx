@@ -21,12 +21,14 @@ export const Link = <
         asChild,
         push,
         testID,
-        nativeID,
         allowFontScaling,
         numberOfLines,
         maxFontSizeMultiplier,
         suppressHighlighting = true,
     } = props
+
+    // Vars
+    const nativeID = props.id || props.nativeID
 
     // -- Inject params? --
 

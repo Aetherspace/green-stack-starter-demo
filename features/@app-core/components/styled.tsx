@@ -5,11 +5,13 @@ import {
     Text as RNText,
     View as RNView,
     Pressable as RNPressable,
+    ScrollView as RNScrollView,
 } from 'react-native'
 import { Link as UniversalLink } from '@green-stack/navigation/Link'
 import { UniversalLinkProps } from '@green-stack/navigation/Link.types'
 import { Image as UniversalImage } from '@green-stack/components/Image'
 import { styled, cn } from '@green-stack/core/styles'
+import { remapProps } from 'nativewind'
 
 /* --- Reexports ------------------------------------------------------------------------------- */
 
@@ -25,6 +27,12 @@ export const View = styled(RNView, '')
 export const Text = styled(RNText, '')
 export const Image = styled(UniversalImage, '')
 export const Pressable = styled(RNPressable, '')
+
+/* --- React-Native ---------------------------------------------------------------------------- */
+
+export const ScrollView = remapProps(styled(RNScrollView), {
+    contentContainerClassName: 'contentContainerStyle',
+})
 
 /* --- Typography ------------------------------------------------------------------------------ */
 

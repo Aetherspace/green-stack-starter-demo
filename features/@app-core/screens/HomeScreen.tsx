@@ -1,5 +1,6 @@
 import React from 'react'
 import { ScrollView } from 'react-native'
+import { StatusBar } from 'expo-status-bar'
 import { HydratedRouteProps, createQueryBridge } from '@green-stack/navigation'
 import { Pressable, View, Link, Image, P, H1, H3, Text, H2, cn } from '../components/styled'
 import { healthCheckFetcher } from '../resolvers/healthCheck.query'
@@ -34,6 +35,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
   return (
     <>
+      <StatusBar style="light" />
       <ScrollView
         contentContainerStyle={{ position: 'relative', minWidth: '100%', minHeight: '100%' }}
         style={{ backgroundColor: '#1e293b' }}

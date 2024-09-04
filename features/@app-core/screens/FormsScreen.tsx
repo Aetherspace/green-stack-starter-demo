@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { ScrollView } from 'react-native'
-import { View, Text, H1, H2, H3, Link } from '../components/styled'
+import { StatusBar } from 'expo-status-bar'
+import { View, Text, H1, H2, H3, Link, ScrollView } from '../components/styled'
 import BackButton from '../components/BackButton'
 import { TextInput } from '../forms/TextInput.styled'
 import { Checkbox } from '../forms/Checkbox.styled'
@@ -58,7 +58,11 @@ const FormsScreen = (props: TestForm) => {
 
   return (
     <>
-      <ScrollView>
+      <StatusBar style="dark" />
+      <ScrollView
+        className="flex flex-1 min-h-screen bg-white"
+        contentContainerClassName="min-h-screen"
+      >
         <View className="flex flex-1 justify-center items-center pt-28 pb-16">
           <View className="flex flex-col w-full max-w-[500px] px-8">
 
@@ -98,13 +102,16 @@ const FormsScreen = (props: TestForm) => {
             {/* -- Radiogroup -- */}
 
             <H2 className="text-black">
-              How do you identify the most?
+              What role describes you best?
             </H2>
 
             <View className="h-4" />
 
             <RadioGroup
-              options={{ fullproduct: 'Full-stack web Developer' }}
+              options={{
+                'full-product-dev': 'Full-stack web or mobile dev',
+                'freelance-app-dev': 'Freelance App Developer',
+              }}
               {...formState.getInputProps('identifiesWith')}
             >
               <RadioGroup.Option value="startup-founder" label="Startup Founder" />
@@ -117,7 +124,7 @@ const FormsScreen = (props: TestForm) => {
             {/* -- CheckList -- */}
 
             <H2 className="text-black">
-              Which features excite you?
+              Which DX features excite you?
             </H2>
 
             <View className="h-4" />
@@ -125,21 +132,22 @@ const FormsScreen = (props: TestForm) => {
             <CheckList
               options={{
                 'universal-starter': 'Start + Deploy for Web, iOS and Android',
-                'git-plugins': 'Git plugin branches to choose my own stack',
+                'git-plugins': 'Git based plugin branches & PRs',
               }}
               {...formState.getInputProps('excitingFeatures')}
             >
-              <CheckList.Option value="zod-toolkit" label="Toolkit + Way of Working for Zod + react-query" />
+              <CheckList.Option value="stack-freedom" label="Pick and choose my own Auth / DB / Mail / ..." />
+              <CheckList.Option value="zod-query-toolkit" label="Toolkit built for zod & react-query" />
               <CheckList.Option value="generators-scripts" label="Scripts and Generators to save more time" />
-              <CheckList.Option value="universal-fs-routing" label="Universal fs based routing in Expo and Next.js" />
               <CheckList.Option value="designed-for-copypaste" label="Portable structure designed for copy-paste" />
+              <CheckList.Option value="universal-fs-routing" label="Universal fs based routing in Expo and Next.js" />
             </CheckList>
 
             <View className="h-1 w-12 my-6 bg-slate-300" />
 
             {/* -- useFormstate -- */}
 
-            <H3 className="text-black">
+            <H3>
               <Link
                 className="text-black no-underline"
                 href="https://universal-base-starter-docs.vercel.app/quickstart"

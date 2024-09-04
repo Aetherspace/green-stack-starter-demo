@@ -49,7 +49,7 @@ export const CheckListOption = (props: CheckListOptionProps) => {
             checked={checked}
             onCheckedChange={() => toggleValue(value)}
             label={label || value}
-            nativeID={nativeID}
+            id={nativeID}
             {...restProps}
             className={className}
             checkboxClassName={checkboxClassName}

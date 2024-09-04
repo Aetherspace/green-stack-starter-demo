@@ -50,7 +50,7 @@ export const RadioButton = forwardRef<
     const { value, label, disabled, hasError } = props
 
     // Vars
-    const nativeID = props.nativeID || `radio-option-${value}`
+    const nativeID = props.id || props.nativeID || `radio-option-${value}`
     const labelledByID = `${nativeID}-label`
 
     // Context
@@ -67,10 +67,10 @@ export const RadioButton = forwardRef<
         >
             <RadioGroupItem
                 ref={ref}
-                hitSlop={props.hitSlop}
-                onPress={() => setValue(value)}
-                nativeID={nativeID}
+                id={nativeID}
                 aria-labelledby={labelledByID}
+                onPress={() => setValue(value)}
+                hitSlop={props.hitSlop}
                 {...rawProps}
                 className={cn(
                     'aspect-square h-4 w-4 rounded-full justify-centeritems-center border border-primary text-primary ',
@@ -106,12 +106,12 @@ export const RadioButton = forwardRef<
             </RadioGroupItem>
             {!!label && (
                 <Text
+                    id={labelledByID}
+                    role="checkbox"
                     className={cn(
                         'flex items-center ml-2 web:select-none',
                         props.labelClassName,
                     )}
-                    role="checkbox"
-                    nativeID={labelledByID}
                     onPress={() => setValue(value)}
                 >
                     {label}

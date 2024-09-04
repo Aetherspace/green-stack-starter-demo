@@ -27,8 +27,11 @@ export const Checkbox = forwardRef<
 >((rawProps, ref) => {
     // Props
     const props = CheckboxProps.applyDefaults(rawProps)
-    const { checked, label, hasError, nativeID, onCheckedChange } = props
-    const labelledByFallback = props.nativeID ? `${props.nativeID}-label` : undefined
+    const { checked, label, hasError, onCheckedChange } = props
+
+    // Vars
+    const nativeID = props.id || props.nativeID
+    const labelledByFallback = nativeID ? `${nativeID}-label` : undefined
     const labelledByID = props['aria-labelledby'] || labelledByFallback
 
     // -- Render --
@@ -41,7 +44,7 @@ export const Checkbox = forwardRef<
         >
             <CheckboxRoot
                 ref={ref}
-                nativeID={nativeID}
+                id={nativeID}
                 aria-labelledby={labelledByID}
                 {...props}
                 className={cn(
@@ -88,7 +91,7 @@ export const Checkbox = forwardRef<
                         props.labelClassName,
                     )}
                     role="checkbox"
-                    nativeID={labelledByID}
+                    id={labelledByID}
                     onPress={() => onCheckedChange(!checked)}
                 >
                     {label}

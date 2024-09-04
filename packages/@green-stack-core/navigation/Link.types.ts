@@ -24,7 +24,7 @@ export type UniversalLinkProps<HREF extends KnownRoutes = KnownRoutes> = {
     href: HREF;
 
     /** Universal - Style prop: https://reactnative.dev/docs/text#style */
-    style?: ExpoLinkProps['style'];
+    style?: ExpoLinkProps<KnownRoutes>['style'];
 
     /** -!- Nativewind classNames should be applied to either the parent or children of Link. Ideally, create or use a TextLink component instead */
     className?: string; // never;
@@ -33,10 +33,10 @@ export type UniversalLinkProps<HREF extends KnownRoutes = KnownRoutes> = {
     replace?: boolean;
 
     /** Universal - Extra handler that fires when the link is pressed. */
-    onPress?: ExpoLinkProps['onPress'];
+    onPress?: ExpoLinkProps<KnownRoutes>['onPress'];
 
     /** Universal -  */
-    target?: ExpoLinkProps['target'];
+    target?: ExpoLinkProps<KnownRoutes>['target'];
 
     // - Expo -
 
@@ -49,13 +49,14 @@ export type UniversalLinkProps<HREF extends KnownRoutes = KnownRoutes> = {
     /** Mobile only - Used to locate this view in end-to-end tests. */
     testID?: string | undefined;
 
-    /** Mobile only - Used to reference react managed views from native code. */
+    /** Mobile only - Used to reference react managed views from native code. @deprecated use `id` instead. */
     nativeID?: string | undefined;
+    id?: string | undefined;
 
-    allowFontScaling?: ExpoLinkProps['allowFontScaling'];
-    numberOfLines?: ExpoLinkProps['numberOfLines'];
-    maxFontSizeMultiplier?: ExpoLinkProps['maxFontSizeMultiplier'];
-    suppressHighlighting?: ExpoLinkProps['suppressHighlighting'];
+    allowFontScaling?: ExpoLinkProps<KnownRoutes>['allowFontScaling'];
+    numberOfLines?: ExpoLinkProps<KnownRoutes>['numberOfLines'];
+    maxFontSizeMultiplier?: ExpoLinkProps<KnownRoutes>['maxFontSizeMultiplier'];
+    suppressHighlighting?: ExpoLinkProps<KnownRoutes>['suppressHighlighting'];
 
     // - Next -
 

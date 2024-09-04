@@ -8,6 +8,7 @@
     ],
     "web": {
       "bundler": "metro"
-    }
+    },
+    "userInterfaceStyle": "automatic"
   }
 }

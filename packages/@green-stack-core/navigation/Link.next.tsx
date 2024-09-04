@@ -28,6 +28,9 @@ export const Link = <
         as,
     } = props
 
+    // Vars
+    const nativeID = props.id || props.nativeID
+
     // -- Inject params? --
 
     const finalHref = Object.keys(params).reduce((acc, key) => {
@@ -48,6 +51,7 @@ export const Link = <
     return (
         <NextLink
             href={finalHref}
+            id={nativeID}
             className={cn(className, nativeWindClassName)}
             style={finalStyle as unknown as ComponentProps<typeof NextLink>['style']}
             onClick={onPress}
