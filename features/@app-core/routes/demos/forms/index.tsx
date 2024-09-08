@@ -9,3 +9,7 @@ export default (props: any) => (
         routeScreen={FormsScreen}
     />
 )
+
+/* --- Exports --------------------------------------------------------------------------------- */
+
+export const dynamic = 'force-dynamic'

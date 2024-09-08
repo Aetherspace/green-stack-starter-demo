@@ -9,15 +9,17 @@ import { z, schema } from '@green-stack/schemas'
 import { useRouteParams, useRouter } from '@green-stack/navigation'
 import { CheckList } from '../forms/CheckList.styled'
 import { RadioGroup } from '../forms/RadioGroup.styled'
+import { Select } from '../forms/Select.styled'
 import { isEmpty } from '@green-stack/utils/commonUtils'
 
 /* --- Schema --------------------------------------------------------------------------------- */
 
 const TestForm = schema('TestForm', {
-  email: z.string().email().default(''),
+  email: z.string().email().optional(),
   age: z.number().min(1).max(130).optional(),
   identifiesWith: z.string().optional(),
   excitingFeatures: z.array(z.string()).default([]),
+  minHourlyPrice: z.number().default(50),
 })
 
 type TestForm = z.input<typeof TestForm>
@@ -131,17 +133,41 @@ const FormsScreen = (props: TestForm) => {
 
             <CheckList
               options={{
-                'universal-starter': 'Start + Deploy for Web, iOS and Android',
+                'universal-starter': 'A write-once workflow for Web, iOS & Android',
                 'git-plugins': 'Git based plugin branches & PRs',
               }}
               {...formState.getInputProps('excitingFeatures')}
             >
               <CheckList.Option value="stack-freedom" label="Pick and choose my own Auth / DB / Mail / ..." />
-              <CheckList.Option value="zod-query-toolkit" label="Toolkit built for zod & react-query" />
+              <CheckList.Option value="zod-query-toolkit" label="Auto typed API's + fetching (zod, react-query)" />
               <CheckList.Option value="generators-scripts" label="Scripts and Generators to save more time" />
               <CheckList.Option value="designed-for-copypaste" label="Portable structure designed for copy-paste" />
               <CheckList.Option value="universal-fs-routing" label="Universal fs based routing in Expo and Next.js" />
             </CheckList>
+
+            <View className="h-1 w-12 my-6 bg-slate-300" />
+
+            {/* -- Select -- */}
+
+            <H2 className="text-black">
+              How do you value your time?
+            </H2>
+
+            <View className="h-4" />
+
+            <Select
+              placeholder="Select hourly rate..."
+              options={{
+                '10': '10 - 20 per hour or less',
+                '20': '20 - 50 per hour range',
+              }}
+              value={`${formState.values.minHourlyPrice || ''}`}
+              onChange={(price) => formState.handleChange('minHourlyPrice', +price)}
+            >
+              <Select.Option value="50" label="50 - 75 per hour" />
+              <Select.Option value="75" label="75 - 100 per hour" />
+              <Select.Option value="100" label="100+ per hour" />
+            </Select>
 
             <View className="h-1 w-12 my-6 bg-slate-300" />
 

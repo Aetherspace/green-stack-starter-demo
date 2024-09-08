@@ -9,21 +9,25 @@ const universalTheme = {
             primary: colors.gray[900],
             primaryLight: colors.white,
             error: colors.red[500],
+            foreground: colors.zinc[900],
         },
         borderColor: (theme) => ({
             error: theme('colors.error'),
             primary: theme('colors.primary'),
             primaryLight: theme('colors.primaryLight'),
+            foreground: theme('colors.foreground'),
         }),
         backgroundColor: (theme) => ({
             error: theme('colors.error'),
             primary: theme('colors.primary'),
             primaryLight: theme('colors.primaryLight'),
+            foreground: theme('colors.foreground'),
         }),
         textColor: (theme) => ({
             error: theme('colors.error'),
             primary: theme('colors.primary'),
             primaryLight: theme('colors.primaryLight'),
+            foreground: theme('colors.foreground'),
         }),
     }
 }

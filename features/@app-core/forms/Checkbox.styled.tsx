@@ -1,6 +1,6 @@
 import { forwardRef, ElementRef } from 'react'
 import { CheckboxRoot, CheckboxIndicator } from '@green-stack/forms/Checkbox.primitives'
-import { cn, theme, View, Text, Pressable } from '../components/styled'
+import { cn, theme, Text, Pressable } from '../components/styled'
 import { CheckFilled } from '../icons/CheckFilled'
 import { z, schema, PropsOf } from '@green-stack/schemas'
 

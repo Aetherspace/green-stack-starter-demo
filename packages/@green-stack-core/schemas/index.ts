@@ -387,7 +387,13 @@ if (!ZodType.prototype.metadata) {
         const { logErrors = false, stripUnknown = false } = options
         const thisSchema = this.extend({})
         const result = thisSchema.safeParse(data)
-        const values = { ...data, ...result.data } as (typeof thisSchema)['_type']
+        const introSpectionResult = thisSchema.introspect()
+        const defaultValues = Object.keys(introSpectionResult.schema!).reduce((acc, key) => {
+            const { defaultValue } = introSpectionResult.schema![key] as Metadata
+            const hasDefault = defaultValue !== undefined
+            return hasDefault ? { ...acc, [key]: defaultValue } : acc
+        }, {})
+        const values = { ...defaultValues, ...data, ...result.data } as (typeof thisSchema)['_type']
         // Log errors if requested
         if (!result.success && logErrors) console.warn(JSON.stringify(result.error, null, 2))
         // Strip unknown keys if requested

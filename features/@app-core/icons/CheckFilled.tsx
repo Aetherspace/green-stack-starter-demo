@@ -1,19 +1,24 @@
 import Svg, { Path } from 'react-native-svg'
-import type { SvgProps } from 'react-native-svg'
 import { cssInterop } from 'nativewind'
+import { z, iconProps, IconProps } from '../schemas/IconProps'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-type IconProps = SvgProps & { fill?: string; stroke?: string; size?: number }
+export const CheckFilledProps = iconProps('CheckFilled', {
+    color: z.string().default('#333333'),
+})
+
+export type CheckFilledProps = IconProps<typeof CheckFilledProps>
 
 /* --- <CheckFilled/> -------------------------------------------------------------------------- */
 
-export const CheckFilledBase = ({ size = 24, fill, ...svgProps }: IconProps) => {
-    // @ts-ignore
-    const color = fill || svgProps.color || svgProps.style?.color || svgProps.styles?.[0]?.color || '#333333'
+export const CheckFilledBase = (rawProps: CheckFilledProps) => {
+    // Props
+    const props = CheckFilledProps.applyDefaults(rawProps)
+    const color = CheckFilledProps.getIconColor(props)
     // Render
     return (
-        <Svg width={size} height={size} fill="none" viewBox="0 0 24 24" {...svgProps}>
+        <Svg width={props.size} height={props.size} fill="none" viewBox="0 0 24 24" {...props}>
             <Path
                 fill={color}
                 fillRule="evenodd"

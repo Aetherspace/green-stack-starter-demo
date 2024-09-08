@@ -1,4 +1,4 @@
-import type { ReactNode, ElementRef } from 'react'
+import type { ReactNode, ElementRef, Dispatch, SetStateAction } from 'react'
 import { createContext, useContext, useState, useEffect, forwardRef } from 'react'
 import { RadioGroupRoot, RadioGroupItem, RadioGroupIndicator } from '@green-stack/forms/RadioGroup.primitives'
 import { cn, View, Text, Pressable } from '../components/styled'
@@ -8,7 +8,7 @@ import { z, schema, PropsOf } from '@green-stack/schemas'
 
 export type RadioGroupContext = {
     value: string,
-    setValue: (value: string) => void,
+    setValue: Dispatch<SetStateAction<string>>,
 }
 
 export const RadioGroupContext = createContext<RadioGroupContext | undefined>(undefined)
@@ -70,8 +70,8 @@ export const RadioButton = forwardRef<
                 id={nativeID}
                 aria-labelledby={labelledByID}
                 onPress={() => setValue(value)}
+                {...props}
                 hitSlop={props.hitSlop}
-                {...rawProps}
                 className={cn(
                     'aspect-square h-4 w-4 rounded-full justify-centeritems-center border border-primary text-primary ',
                     'native:h-[20] native:w-[20]',

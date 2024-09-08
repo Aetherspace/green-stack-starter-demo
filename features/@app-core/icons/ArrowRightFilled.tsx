@@ -1,28 +1,46 @@
-import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
-import type { SvgProps } from 'react-native-svg'
+import { cssInterop } from 'nativewind'
+import { z, iconProps, IconProps } from '../schemas/IconProps'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
-type IconProps = SvgProps & { fill?: string; stroke?: string; size?: number }
+export const ArrowRightFilledProps = iconProps('ArrowRightFilled', {
+    color: z.string().default('#333333'),
+})
+
+export type ArrowRightFilledProps = IconProps<typeof ArrowRightFilledProps>
 
 /* --- <ArrowRightFilled/> --------------------------------------------------------------------- */
 
-export const ArrowRightFilled = ({ size = 24, fill = '#333333', ...svgProps }: IconProps) => (
-  <Svg width={size} height={size} fill="none" viewBox="0 0 24 24" {...svgProps}>
-    <Path
-      d="M14 6L20 12L14 18"
-      stroke={fill}
-      strokeWidth="4"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <Path
-      d="M4 12H20"
-      stroke={fill}
-      strokeWidth="4"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </Svg>
-)
+const ArrowRightFilledBase = (rawProps: ArrowRightFilledProps) => {
+    // Props
+    const props = ArrowRightFilledProps.applyDefaults(rawProps)
+    const color = ArrowRightFilledProps.getIconColor(rawProps)
+    // Render
+    return (
+        <Svg width={props.size} height={props.size} fill="none" viewBox="0 0 24 24" {...props}>
+            <Path
+                d="M14 6L20 12L14 18"
+                stroke={color}
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <Path
+                d="M4 12H20"
+                stroke={color}
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </Svg>
+    )
+}
+
+/* --- Exports --------------------------------------------------------------------------------- */
+
+export const ArrowRightFilled = cssInterop(ArrowRightFilledBase, {
+    className: {
+        target: 'style',
+    },
+})

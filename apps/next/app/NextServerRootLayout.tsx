@@ -11,17 +11,17 @@ import NextClientRootLayout from './NextClientRootLayout'
 /* --- Types ----------------------------------------------------------------------------------- */
 
 type NextServerRootLayoutProps = {
-  children: ReactNode
+    children: ReactNode
 }
 
 /* --- <NextServerRootLayout/> ----------------------------------------------------------------- */
 
 const NextServerRootLayout = ({ children }: NextServerRootLayoutProps) => (
-  <Document>
-    <NextClientRootLayout>
-      {children}
-    </NextClientRootLayout>
-  </Document>
+    <Document>
+        <NextClientRootLayout>
+            {children}
+        </NextClientRootLayout>
+    </Document>
 )
 
 /* --- Exports --------------------------------------------------------------------------------- */

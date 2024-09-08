@@ -224,7 +224,9 @@ const GettingStarted = () => (
     >
       <Text className="flex">
         <Text>Start from </Text>
-        <Text className="font-bold">@app-core/screens/HomeScreen.tsx</Text>
+        <Text className="font-bold">@app/core</Text>
+        <Text>{` → `}</Text>
+        <Text className="font-bold">HomeScreen.tsx</Text>
       </Text>
     </P>
   </View>
