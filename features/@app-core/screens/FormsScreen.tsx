@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar'
 import { View, Text, H1, H2, H3, Link, ScrollView } from '../components/styled'
 import BackButton from '../components/BackButton'
 import { TextInput } from '../forms/TextInput.styled'
+import { NumberStepper } from '../forms/NumberStepper'
 import { Checkbox } from '../forms/Checkbox.styled'
 import { useFormState } from '@green-stack/forms/useFormState'
 import { z, schema } from '@green-stack/schemas'
@@ -19,7 +20,7 @@ const TestForm = schema('TestForm', {
   age: z.number().min(1).max(130).optional(),
   identifiesWith: z.string().optional(),
   excitingFeatures: z.array(z.string()).default([]),
-  minHourlyPrice: z.number().default(50),
+  minHourlyPrice: z.number().optional(),
 })
 
 type TestForm = z.input<typeof TestForm>
@@ -33,6 +34,7 @@ const FormsScreen = (props: TestForm) => {
 
   // State
   const [validateOnChange, setValidateOnChange] = useState(!!params.validateOnChange)
+  const [showFormState, setShowFormState] = useState(false)
 
   // Forms
   const formState = useFormState(TestForm, {
@@ -75,21 +77,31 @@ const FormsScreen = (props: TestForm) => {
             {/* -- TextInput -- */}
 
             <TextInput
-              placeholder="email..."
-              placeholderTextColor={'#999999'}
+              placeholder="e.g. thorr@fullproduct.dev"
               {...formState.getTextInputProps('email')}
             />
 
+            <Text className="text-sm text-secondary mt-2">
+              Your email
+            </Text>
+
             <View className="h-4" />
 
-            <TextInput
-              placeholder="age..."
-              placeholderTextColor={'#999999'}
-              inputMode="numeric"
-              {...formState.getNumberTextInputProps('age')}
+            {/* -- Stepper -- */}
+
+            <NumberStepper
+              placeholder="e.g. 32"
+              min={18}
+              max={150}
+              step={1}
+              {...formState.getInputProps('age')}
             />
 
-            <View className="h-4" />
+            <Text className="text-sm text-secondary mt-2">
+              Your age
+            </Text>
+
+            <View className="h-6" />
 
             {/* -- Checkbox -- */}
 
@@ -164,40 +176,48 @@ const FormsScreen = (props: TestForm) => {
               value={`${formState.values.minHourlyPrice || ''}`}
               onChange={(price) => formState.handleChange('minHourlyPrice', +price)}
             >
-              <Select.Option value="50" label="50 - 75 per hour" />
-              <Select.Option value="75" label="75 - 100 per hour" />
-              <Select.Option value="100" label="100+ per hour" />
+              <Select.Option value="50" label="50 - 75 per hour range" />
+              <Select.Option value="75" label="75 - 100 per hour range" />
+              <Select.Option value="100" label="100 or more per hour" />
             </Select>
+
+            <Text className="text-sm text-secondary mt-2">
+              Your hourly rate
+            </Text>
 
             <View className="h-1 w-12 my-6 bg-slate-300" />
 
             {/* -- useFormstate -- */}
 
-            <H3>
-              <Link
-                className="text-black no-underline"
-                href="https://universal-base-starter-docs.vercel.app/quickstart"
-                target="_blank"
-              >
-                {`formState = useFormState( zod )`}
-              </Link>
-            </H3>
+            {validateOnChange && (
+              <>
+                <H3>
+                  <Link
+                    className="text-black no-underline"
+                    href="https://universal-base-starter-docs.vercel.app/quickstart"
+                    target="_blank"
+                  >
+                    {`formState = useFormState( zod )`}
+                  </Link>
+                </H3>
 
-            <View className="h-2" />
+                <View className="h-2" />
 
-            <Link
-              className="no-underline"
-              href="https://universal-base-starter-docs.vercel.app/quickstart"
-              target="_blank"
-            >
-              📗 Read the docs
-            </Link>
+                <Link
+                  className="no-underline"
+                  href="https://universal-base-starter-docs.vercel.app/quickstart"
+                  target="_blank"
+                >
+                  📗 Read the docs
+                </Link>
 
-            <View className="h-4" />
+                <View className="h-4" />
 
-            <Text className="text-start text-muted">
-              {JSON.stringify(formState, null, 2)}
-            </Text>
+                <Text className="text-start">
+                  {JSON.stringify(formState, null, 2)}
+                </Text>
+              </>
+            )}
 
           </View>
         </View>

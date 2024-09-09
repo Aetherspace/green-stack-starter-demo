@@ -36,7 +36,7 @@ export const ScrollView = remapProps(styled(RNScrollView), {
 
 /* --- Typography ------------------------------------------------------------------------------ */
 
-export const H1 = styled(RNText, 'font-bold text-2xl')
+export const H1 = styled(RNText, 'font-bold text-3xl')
 export const H2 = styled(RNText, 'font-bold text-xl')
 export const H3 = styled(RNText, 'font-bold text-lg')
 

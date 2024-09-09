@@ -419,6 +419,7 @@ const SelectComponent = forwardRef<
                             className={cn(
                                 'text-foreground text-sm',
                                 'native:text-lg',
+                                !value && !!placeholder && 'text-muted',
                                 props.valueClassName,
                             )}
                             placeholder={placeholder}

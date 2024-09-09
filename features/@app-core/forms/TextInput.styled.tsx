@@ -1,6 +1,6 @@
 import { forwardRef, ElementRef } from 'react'
 import { TextInput as BaseTextInput } from '@green-stack/forms/TextInput.primitives'
-import { cn } from '@green-stack/utils/tailwindUtils'
+import { cn, theme } from '../components/styled'
 import { z, schema, PropsOf } from '@green-stack/schemas'
 
 /* --- Props ----------------------------------------------------------------------------------- */
@@ -9,9 +9,11 @@ export const TextInputProps = schema('TextInputProps', {
     value: z.string().optional(),
     placeholder: z.string().optional().example('Start typing...'),
     className: z.string().optional(),
-    placeholderClassName: z.string().optional(),
+    placeholderClassName: z.string().optional(), // @ts-ignore
+    placeholderTextColor: z.string().default(theme?.colors?.muted),
     hasError: z.boolean().default(false),
     readOnly: z.boolean().default(false),
+    disabled: z.boolean().default(false),
 })
 
 export type TextInputProps = PropsOf<typeof BaseTextInput, typeof TextInputProps>
@@ -30,6 +32,11 @@ export const TextInput = forwardRef<
     return (
         <BaseTextInput
             ref={ref}
+            {...props}
+            placeholderClassName={cn(
+                'text-muted',
+                props.placeholderClassName,
+            )}
             className={cn(
                 'h-10 rounded-md bg-background px-3 text-base text-foreground',
                 'border border-input',
@@ -39,10 +46,9 @@ export const TextInput = forwardRef<
                 'web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2',
                 'file:border-0 file:bg-transparent file:font-medium',
                 props.readOnly && 'opacity-50 eb:cursor-not-allowed',
-                !!props.hasError && 'border border-error',
+                props.hasError && 'border border-error',
+                props.className,
             )}
-            placeholderClassName={cn('text--muted-foreground', props.placeholderClassName)}
-            {...props}
         />
     )
 })
