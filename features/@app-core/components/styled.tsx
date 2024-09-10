@@ -6,6 +6,7 @@ import {
     View as RNView,
     Pressable as RNPressable,
     ScrollView as RNScrollView,
+    KeyboardAvoidingView as RNKeyboardAvoidingView,
 } from 'react-native'
 import { Link as UniversalLink } from '@green-stack/navigation/Link'
 import { UniversalLinkProps } from '@green-stack/navigation/Link.types'
@@ -33,6 +34,8 @@ export const Pressable = styled(RNPressable, '')
 export const ScrollView = remapProps(styled(RNScrollView), {
     contentContainerClassName: 'contentContainerStyle',
 })
+
+export const KeyboardAvoidingView = styled(RNKeyboardAvoidingView, '')
 
 /* --- Typography ------------------------------------------------------------------------------ */
 

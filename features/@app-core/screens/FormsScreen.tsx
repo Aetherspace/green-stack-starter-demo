@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { View, Text, H1, H2, H3, Link, ScrollView } from '../components/styled'
+import { View, Text, H1, H2, H3, Link, ScrollView, KeyboardAvoidingView } from '../components/styled'
 import BackButton from '../components/BackButton'
 import { TextInput } from '../forms/TextInput.styled'
-import { NumberStepper } from '../forms/NumberStepper'
+import { NumberStepper } from '../forms/NumberStepper.styled'
 import { Checkbox } from '../forms/Checkbox.styled'
 import { useFormState } from '@green-stack/forms/useFormState'
 import { z, schema } from '@green-stack/schemas'
@@ -12,6 +12,8 @@ import { CheckList } from '../forms/CheckList.styled'
 import { RadioGroup } from '../forms/RadioGroup.styled'
 import { Select } from '../forms/Select.styled'
 import { isEmpty } from '@green-stack/utils/commonUtils'
+import { useScrollToFocusedInput } from '@green-stack/hooks/useScrollToFocusedInput'
+import { TextArea } from '../forms/TextArea.styled'
 
 /* --- Schema --------------------------------------------------------------------------------- */
 
@@ -21,6 +23,7 @@ const TestForm = schema('TestForm', {
   identifiesWith: z.string().optional(),
   excitingFeatures: z.array(z.string()).default([]),
   minHourlyPrice: z.number().optional(),
+  feedbackSuggestions: z.string().optional(),
 })
 
 type TestForm = z.input<typeof TestForm>
@@ -31,6 +34,14 @@ const FormsScreen = (props: TestForm) => {
   // Nav
   const { setParams } = useRouter()
   const params = useRouteParams(props)
+
+  // Refs
+  const emailInputRef = useRef<any$Ignore>(null)
+  const ageInputRef = useRef<any$Ignore>(null)
+  const feedbackInputRef = useRef<any$Ignore>(null)
+
+  // Hooks
+  const kbScroller = useScrollToFocusedInput()
 
   // State
   const [validateOnChange, setValidateOnChange] = useState(!!params.validateOnChange)
@@ -61,9 +72,10 @@ const FormsScreen = (props: TestForm) => {
   // -- Render --
 
   return (
-    <>
+    <KeyboardAvoidingView {...kbScroller.avoidingViewProps}>
       <StatusBar style="dark" />
       <ScrollView
+        {...kbScroller.scrollViewProps}
         className="flex flex-1 min-h-screen bg-white"
         contentContainerClassName="min-h-screen"
       >
@@ -79,6 +91,7 @@ const FormsScreen = (props: TestForm) => {
             <TextInput
               placeholder="e.g. thorr@fullproduct.dev"
               {...formState.getTextInputProps('email')}
+              {...kbScroller.registerInput(emailInputRef)}
             />
 
             <Text className="text-sm text-secondary mt-2">
@@ -95,6 +108,7 @@ const FormsScreen = (props: TestForm) => {
               max={150}
               step={1}
               {...formState.getInputProps('age')}
+              {...kbScroller.registerInput(ageInputRef)}
             />
 
             <Text className="text-sm text-secondary mt-2">
@@ -187,6 +201,26 @@ const FormsScreen = (props: TestForm) => {
 
             <View className="h-1 w-12 my-6 bg-slate-300" />
 
+            {/* -- TextArea -- */}
+
+            <H2 className="text-black">
+              What's missing?
+            </H2>
+
+            <View className="h-4" />
+
+            <TextArea
+              placeholder="How could we further improve your workflow?"
+              {...formState.getTextInputProps('feedbackSuggestions')}
+              {...kbScroller.registerInput(feedbackInputRef)}
+            />
+
+            <Text className="text-sm text-secondary mt-2">
+              Feedback or suggestions appreciated
+            </Text>
+
+            <View className="h-1 w-12 my-6 bg-slate-300" />
+
             {/* -- useFormstate -- */}
 
             {validateOnChange && (
@@ -219,11 +253,14 @@ const FormsScreen = (props: TestForm) => {
               </>
             )}
 
+            {kbScroller.keyboardPaddedView}
+
           </View>
         </View>
+
       </ScrollView>
       <BackButton backLink="/subpages/Universal%20Nav" color="#333333" />
-    </>
+    </KeyboardAvoidingView>
   )
 }
 
