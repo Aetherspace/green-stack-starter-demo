@@ -1,6 +1,6 @@
 import { forwardRef, ElementRef } from 'react'
 import { CheckboxRoot, CheckboxIndicator } from '@green-stack/forms/Checkbox.primitives'
-import { cn, theme, Text, Pressable } from '../components/styled'
+import { cn, theme, View, Text, Pressable } from '../components/styled'
 import { CheckFilled } from '../icons/CheckFilled'
 import { z, schema, PropsOf } from '@green-stack/schemas'
 
@@ -13,6 +13,7 @@ export const CheckboxProps = schema('CheckboxProps', {
     checkboxClassName: z.string().optional(),
     indicatorClassName: z.string().optional(),
     labelClassName: z.string().optional(),
+    disabled: z.boolean().default(false),
     hitSlop: z.number().default(6),
     hasError: z.boolean().default(false),
 })
@@ -41,12 +42,15 @@ export const Checkbox = forwardRef<
             className={cn('flex flex-row items-center', props.className)}
             onPress={() => onCheckedChange(!checked)}
             hitSlop={props.hitSlop}
+            role="checkbox"
+            aria-labelledby={labelledByID}
+            focusable={false}
         >
             <CheckboxRoot
                 ref={ref}
                 id={nativeID}
-                aria-labelledby={labelledByID}
                 {...props}
+                aria-labelledby={labelledByID}
                 className={cn(
                     'h-4 w-4 shrink-0 rounded-sm border border-primary',
                     'native:h-[20] native:w-[20] native:rounded',
@@ -69,7 +73,7 @@ export const Checkbox = forwardRef<
                         )}
                         asChild
                     >
-                        <Pressable>
+                        <View>
                             {checked && (
                                 <CheckFilled
                                     size={12} // @ts-ignore
@@ -80,7 +84,7 @@ export const Checkbox = forwardRef<
                                     )}
                                 />
                             )}
-                        </Pressable>
+                        </View>
                     </CheckboxIndicator>
                 </Pressable>
             </CheckboxRoot>
@@ -90,9 +94,7 @@ export const Checkbox = forwardRef<
                         'flex items-center ml-2 web:select-none',
                         props.labelClassName,
                     )}
-                    role="checkbox"
                     id={labelledByID}
-                    onPress={() => onCheckedChange(!checked)}
                 >
                     {label}
                 </Text>
