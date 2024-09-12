@@ -1,6 +1,4 @@
-import Svg, { Path } from 'react-native-svg'
-import { cssInterop } from 'nativewind'
-import { z, iconProps, IconProps } from '../schemas/IconProps'
+import { Svg, Path, z, iconProps, IconProps } from '@green-stack/svg'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -12,7 +10,7 @@ export type RemoveFilledProps = IconProps<typeof RemoveFilledProps>
 
 /* --- <RemoveFilled/> -------------------------------------------------------------------------- */
 
-export const RemoveFilledBase = (rawProps: RemoveFilledProps) => {
+export const RemoveFilled = (rawProps: RemoveFilledProps) => {
     // Props
     const props = RemoveFilledProps.applyDefaults(rawProps)
     const color = RemoveFilledProps.getIconColor(props)
@@ -28,11 +26,3 @@ export const RemoveFilledBase = (rawProps: RemoveFilledProps) => {
         </Svg>
     )
 }
-
-/* --- Exports --------------------------------------------------------------------------------- */
-
-export const RemoveFilled = cssInterop(RemoveFilledBase, {
-    className: {
-        target: 'style',
-    },
-})

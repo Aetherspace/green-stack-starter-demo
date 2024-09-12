@@ -1,6 +1,4 @@
-import Svg, { Path } from 'react-native-svg'
-import { cssInterop } from 'nativewind'
-import { z, iconProps, IconProps } from '../schemas/IconProps'
+import { Svg, Path, z, iconProps, IconProps } from '@green-stack/svg'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -12,7 +10,7 @@ export type ArrowRightFilledProps = IconProps<typeof ArrowRightFilledProps>
 
 /* --- <ArrowRightFilled/> --------------------------------------------------------------------- */
 
-const ArrowRightFilledBase = (rawProps: ArrowRightFilledProps) => {
+export const ArrowRightFilled = (rawProps: ArrowRightFilledProps) => {
     // Props
     const props = ArrowRightFilledProps.applyDefaults(rawProps)
     const color = ArrowRightFilledProps.getIconColor(rawProps)
@@ -36,11 +34,3 @@ const ArrowRightFilledBase = (rawProps: ArrowRightFilledProps) => {
         </Svg>
     )
 }
-
-/* --- Exports --------------------------------------------------------------------------------- */
-
-export const ArrowRightFilled = cssInterop(ArrowRightFilledBase, {
-    className: {
-        target: 'style',
-    },
-})

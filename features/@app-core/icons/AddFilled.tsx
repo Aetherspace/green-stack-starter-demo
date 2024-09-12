@@ -1,6 +1,4 @@
-import Svg, { Path } from 'react-native-svg'
-import { cssInterop } from 'nativewind'
-import { z, iconProps, IconProps } from '../schemas/IconProps'
+import { Svg, Path, z, iconProps, IconProps } from '@green-stack/svg'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -12,7 +10,7 @@ export type AddFilledProps = IconProps<typeof AddFilledProps>
 
 /* --- <AddFilled/> -------------------------------------------------------------------------- */
 
-export const AddFilledBase = (rawProps: AddFilledProps) => {
+export const AddFilled = (rawProps: AddFilledProps) => {
     // Props
     const props = AddFilledProps.applyDefaults(rawProps)
     const color = AddFilledProps.getIconColor(props)
@@ -34,11 +32,3 @@ export const AddFilledBase = (rawProps: AddFilledProps) => {
         </Svg>
     )
 }
-
-/* --- Exports --------------------------------------------------------------------------------- */
-
-export const AddFilled = cssInterop(AddFilledBase, {
-    className: {
-        target: 'style',
-    },
-})

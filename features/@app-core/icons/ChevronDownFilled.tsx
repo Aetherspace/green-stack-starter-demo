@@ -1,6 +1,4 @@
-import Svg, { Path } from 'react-native-svg'
-import { cssInterop } from 'nativewind'
-import { z, iconProps, IconProps } from '../schemas/IconProps'
+import { Svg, Path, z, iconProps, IconProps } from '@green-stack/svg'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -12,7 +10,7 @@ export type ChevronDownFilledProps = IconProps<typeof ChevronDownFilledProps>
 
 /* --- <ChevronDownFilled/> -------------------------------------------------------------------- */
 
-const ChevronDownFilledBase = (rawProps: ChevronDownFilledProps) => {
+export const ChevronDownFilled = (rawProps: ChevronDownFilledProps) => {
     // Props
     const props = ChevronDownFilledProps.applyDefaults(rawProps)
     const color = ChevronDownFilledProps.getIconColor(props)
@@ -28,11 +26,3 @@ const ChevronDownFilledBase = (rawProps: ChevronDownFilledProps) => {
         </Svg>
     )
 }
-
-/* --- Exports --------------------------------------------------------------------------------- */
-
-export const ChevronDownFilled = cssInterop(ChevronDownFilledBase, {
-    className: {
-        target: 'style',
-    },
-})

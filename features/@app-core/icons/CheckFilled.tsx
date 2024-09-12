@@ -1,6 +1,4 @@
-import Svg, { Path } from 'react-native-svg'
-import { cssInterop } from 'nativewind'
-import { z, iconProps, IconProps } from '../schemas/IconProps'
+import { Svg, Path, z, iconProps, IconProps } from '@green-stack/svg'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -12,7 +10,7 @@ export type CheckFilledProps = IconProps<typeof CheckFilledProps>
 
 /* --- <CheckFilled/> -------------------------------------------------------------------------- */
 
-export const CheckFilledBase = (rawProps: CheckFilledProps) => {
+export const CheckFilled = (rawProps: CheckFilledProps) => {
     // Props
     const props = CheckFilledProps.applyDefaults(rawProps)
     const color = CheckFilledProps.getIconColor(props)
@@ -34,11 +32,3 @@ export const CheckFilledBase = (rawProps: CheckFilledProps) => {
         </Svg>
     )
 }
-
-/* --- Exports --------------------------------------------------------------------------------- */
-
-export const CheckFilled = cssInterop(CheckFilledBase, {
-    className: {
-        target: 'style',
-    },
-})
