@@ -8,8 +8,8 @@ module.exports = {
     '../../packages/**/*.tsx',
   ],
   presets: [require('nativewind/preset')],
-  plugins: [],
   theme: {
     ...universalTheme,
   },
+  plugins: [require('tailwindcss-animate')],
 }

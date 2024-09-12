@@ -29,6 +29,7 @@
     "expo:web": "npx turbo run @app/expo#web",
     "build": "node -v && npx turbo run build",
     "build:schema": "npx turbo run @green-stack/core#build:schema",
+    "build:theme-colors": "npx turbo run @green-stack/core#build:theme-colors",
     "check:workspaces": "npx turbo run @green-stack/core#check:workspaces",
     "check:workspaces:fix": "FIX_MODE=true npx turbo run @green-stack/core#check:workspaces",
     "collect:generators": "npx turbo run @green-stack/core#collect:generators",

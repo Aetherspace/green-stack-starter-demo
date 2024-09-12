@@ -9,6 +9,7 @@
         "@rn-primitives/portal": "^1.0.3",
         "@rn-primitives/radio-group": "^1.0.3",
         "@rn-primitives/select": "^1.0.4",
+        "@rn-primitives/switch": "^1.0.3",
         "@testing-library/jest-dom": "^6.4.8",
         "@testing-library/react": "^16.0.0",
         "clsx": "^2.1.1",
@@ -30,6 +31,7 @@
     "scripts": {
         "run:script": "tsx --tsconfig ./tsconfig.scripts.json ./run-script.js",
         "build:schema": "npm run run:script ./scripts/build-graphql-schema.ts",
+        "build:theme-colors": "npm run run:script ./scripts/build-theme-colors.ts",
         "check:workspaces": "npm run run:script ./scripts/check-workspaces.ts",
         "collect:resolvers": "npm run run:script ./scripts/collect-resolvers.ts",
         "collect:generators": "npm run run:script ./scripts/collect-generators.ts",

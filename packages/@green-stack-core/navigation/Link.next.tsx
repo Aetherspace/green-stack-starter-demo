@@ -3,7 +3,7 @@ import type { KnownRoutes } from '@app/registries/routeManifest.generated'
 import type { UniversalLinkProps } from './Link.types'
 import NextLink from 'next/link'
 import { parseNativewindStyles } from '../styles/parseNativewindStyles'
-import { cn } from '../utils/tailwindUtils'
+import { cn } from '../utils/styleUtils'
 
 /* --- <Link/> --------------------------------------------------------------------------------- */
 

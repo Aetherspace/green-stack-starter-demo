@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { getUrlParams } from '../utils/apiUtils'
 
 /** --- createNextRouteHandler() --------------------------------------------------------------- */
-/** -i- Codegen: Build next.js app dir api route from an aether resolver  */
+/** -i- Codegen: Build next.js app dir api route from a schema resolver  */
 export const createNextRouteHandler = (handler: any$Todo) => {
     return async (req: Request, { params }: any$Todo) => {
         // Parse query params

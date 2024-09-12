@@ -2,7 +2,7 @@ import { z } from '../schemas'
 import type { RequestContext } from '@app/middleware/createRequestContext'
  
 /** --- createGraphResolver() ------------------------------------------------------------------ **/
-/** -i- Codegen: Build a graphQL resolver from aether an resolver */
+/** -i- Codegen: Build a graphQL resolver from a schema resolver */
 export const createGraphResolver = <
     ArgsShape extends z.ZodRawShape,
     ResShape extends z.ZodRawShape,

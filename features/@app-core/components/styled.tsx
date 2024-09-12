@@ -11,12 +11,12 @@ import {
 import { Link as UniversalLink } from '@green-stack/navigation/Link'
 import { UniversalLinkProps } from '@green-stack/navigation/Link.types'
 import { Image as UniversalImage } from '@green-stack/components/Image'
-import { styled, cn } from '@green-stack/core/styles'
+import { styled, cn, getThemeColor } from '@green-stack/styles'
 import { remapProps } from 'nativewind'
 
 /* --- Reexports ------------------------------------------------------------------------------- */
 
-export { styled, cn }
+export { styled, cn, getThemeColor }
 
 /* --- Theme ----------------------------------------------------------------------------------- */
 

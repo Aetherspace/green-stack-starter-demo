@@ -19,19 +19,19 @@ const collectResolvers = () => {
     // Figure out import paths from each workspace
     const { workspaceImports } = parseWorkspaces()
 
-    // Filter out the next.js api paths that don't work with aether schemas
+    // Filter out the next.js api paths that don't work with zod schemas
     const resolverRegistry = allAPIRoutes.reduce((acc, resolverPath) => {
       // Figure out the workspace import
       const [packageParts, routeParts] = resolverPath.split('/routes') as [string, string]
       const workspaceMatcher = packageParts.replace('../../', '')
       const workspacePackageName = workspaceImports[workspaceMatcher]
       const importPath = `${workspacePackageName}/routes${routeParts.replace('.ts', '')}`
-      // Skip files that don't export an aetherResolver
+      // Skip files that don't export a schema resolver
       const pathContents = fs.readFileSync(resolverPath, 'utf8')
-      const exportsAetherResolver = pathContents.includes('createGraphResolver')
+      const exportsSchemaResolver = pathContents.includes('createGraphResolver')
       const isCommented = pathContents.includes('// export const graphResolver')
       const exportsGraphQLResolver = pathContents.includes('export const graphResolver') && !isCommented // prettier-ignore
-      if (!exportsAetherResolver || !exportsGraphQLResolver) return acc
+      if (!exportsSchemaResolver || !exportsGraphQLResolver) return acc
       // Find the resolver name
       const lines = pathContents.split('\n')
       const graphResolverLine = lines.find((line) => {

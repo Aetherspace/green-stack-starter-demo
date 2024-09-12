@@ -10,7 +10,8 @@
     "graphql-tag": "^2.12.6",
     "graphql-type-json": "^0.3.2",
     "nativewind": "^4.1.1",
-    "react-native-svg": "^15.2.0"
+    "react-native-svg": "^15.2.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@0no-co/graphqlsp": "^1.9.1",

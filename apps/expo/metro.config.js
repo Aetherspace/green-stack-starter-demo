@@ -6,7 +6,7 @@ const path = require('path')
 // Find the project and workspace directories
 const projectRoot = __dirname
 const workspaceRoot = path.resolve(projectRoot, '../..')
-const config = getDefaultConfig(projectRoot)
+const config = getDefaultConfig(projectRoot, { isCSSEnabled: true })
 
 // 1. Watch all files within the monorepo
 config.watchFolders = [workspaceRoot]

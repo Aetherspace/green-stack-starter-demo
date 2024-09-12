@@ -78,12 +78,12 @@ export default function (plop: PlopTypes.NodePlopAPI) {
                 function (answers, config, plop: PlopTypes.NodePlopAPI) {
                     return new Promise((resolve, reject) => {
                         try {
-                            console.log("Running 'collect-resolvers' script from '@aetherspace' workspace...")
-                            execSync(`yarn workspace aetherspace run collect-resolvers`)
-                            resolve("Ran 'collect-resolvers' script from '@aetherspace' workspace")
+                            console.log("Running 'collect-resolvers' script from '@green-stack/core' workspace...")
+                            execSync(`npm -w @green-stack/core run collect-resolvers`)
+                            resolve("Ran 'collect-resolvers' script from '@green-stack/core' workspace")
                         } catch (error) {
                             console.error(
-                                "Failed to execute 'yarn workspace aetherspace run collect-resolvers':",
+                                "Failed to execute 'npm -w @green-stack/core run collect-resolvers':",
                                 error
                             )
                             reject(error)
@@ -97,11 +97,11 @@ export default function (plop: PlopTypes.NodePlopAPI) {
                 function (answers, config, plop: PlopTypes.NodePlopAPI) {
                     return new Promise((resolve, reject) => {
                         try {
-                            console.log("Running 'link-routes' script from '@aetherspace' workspace...")
-                            execSync(`yarn workspace aetherspace run link-routes`)
-                            resolve("Ran 'link-routes' script from '@aetherspace' workspace")
+                            console.log("Running 'link-routes' script from '@green-stack/core' workspace...")
+                            execSync(`npm -w @green-stack/core run link-routes`)
+                            resolve("Ran 'link-routes' script from '@green-stack/core' workspace")
                         } catch (error) {
-                            console.error("Failed to execute 'yarn workspace aetherspace run link-routes':", error)
+                            console.error("Failed to execute 'npm -w @green-stack/core run link-routes':", error)
                             reject(error)
                         }
                     })
@@ -113,9 +113,9 @@ export default function (plop: PlopTypes.NodePlopAPI) {
                 function (answers, config, plop: PlopTypes.NodePlopAPI) {
                     return new Promise((resolve, reject) => {
                         try {
-                            console.log("Running 'install' on workspace root")
+                            console.log("Running 'install' on monorepo root")
                             execSync(`npm install`)
-                            resolve("Ran 'install' on workspace root")
+                            resolve("Ran 'install' on monorepo root")
                         } catch (error) {
                             console.error("Failed to execute 'npm install':", error)
                             reject(error)

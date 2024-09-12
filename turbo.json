@@ -48,11 +48,17 @@
             "inputs": [],
             "cache": true
         },
+        "@green-stack/core#build:theme-colors": {
+            "cache": false
+        },
         "@green-stack/core#collect:generators": {
             "cache": false
         },
         "@green-stack/core#check:workspaces": {
-            "dependsOn": ["@green-stack/core#collect:generators"],
+            "dependsOn": [
+                "@green-stack/core#build:theme-colors",
+                "@green-stack/core#collect:generators"
+            ],
             "cache": false
         },
         "@green-stack/core#collect:drivers": {

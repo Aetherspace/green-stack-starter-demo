@@ -1,6 +1,6 @@
 import NextImage from 'next/image'
 import { parseNativewindStyles } from '../styles/parseNativewindStyles'
-import { cn } from '../utils/tailwindUtils'
+import { cn } from '../utils/styleUtils'
 import type { UniversalImageProps, UniversalImageMethods } from './Image.types'
 
 /* --- <Image/> -------------------------------------------------------------------------------- */

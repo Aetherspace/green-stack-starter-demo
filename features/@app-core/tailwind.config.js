@@ -11,5 +11,5 @@ module.exports = {
   theme: {
     ...universalTheme,
   },
-  plugins: [],
+  plugins: [require('tailwindcss-animate')],
 }

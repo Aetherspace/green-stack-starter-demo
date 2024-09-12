@@ -41,10 +41,12 @@
       "@green-stack/utils/*": ["../../packages/@green-stack-core/utils/*"],
       "@green-stack/hooks/*": ["../../packages/@green-stack-core/hooks/*"],
       "@green-stack/components/*": ["../../packages/@green-stack-core/components/*"],
+      "@green-stack/styles": ["../../packages/@green-stack-core/styles/index.tsx"],
       "@green-stack/styles/*": ["../../packages/@green-stack-core/styles/*"],
       "@green-stack/forms/*": ["../../packages/@green-stack-core/forms/*"],
       "@green-stack/context/*": ["../../packages/@green-stack-core/context/*"],
       "@green-stack/scripts/*": ["../../packages/@green-stack-core/scripts/*"],
+      "@green-stack/svg": ["../../packages/@green-stack-core/svg/svg.primitives.tsx"],
       "@db/models": ["../../packages/@db-driver/models.ts"],
       "@db/mock": ["../../packages/@db-driver/drivers/mock.db.ts"]
     }

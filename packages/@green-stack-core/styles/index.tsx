@@ -1,9 +1,9 @@
-import { cn } from '../utils/tailwindUtils'
+import { cn } from '../utils/styleUtils'
 import { forwardRef } from 'react'
 
 /* --- Reexports ------------------------------------------------------------------------------- */
 
-export { cn }
+export * from '../utils/styleUtils'
 
 /* --- Utility --------------------------------------------------------------------------------- */
 
