@@ -111,17 +111,17 @@ export const createMiddlewareHeaderContext = async (
     // Set all extra headers first
     const requestHeaders = new Headers(req.headers)
     Object.keys(extraHeaders).forEach((key) => {
-      requestHeaders.set(key, extraHeaders[key])
+        requestHeaders.set(key, extraHeaders[key])
     })
     // Serialise context data and add signature?
     const shouldAddData = !!APP_SECRET && !isEmpty(data)
     if (shouldAddData) {
-      const serialisedData = JSON.stringify(data)
-      const signableString = `${serialisedData}:${APP_SECRET}`
-      const signature = createHmac(signableString, 'md5')
-      const dataWithSignature = { ...data, signature }
-      const signedHeaderContext = JSON.stringify(dataWithSignature)
-      requestHeaders.set('context', signedHeaderContext)
+        const serialisedData = JSON.stringify(data)
+        const signableString = `${serialisedData}:${APP_SECRET}`
+        const signature = createHmac(signableString, 'md5')
+        const dataWithSignature = { ...data, signature }
+        const signedHeaderContext = JSON.stringify(dataWithSignature)
+        requestHeaders.set('context', signedHeaderContext)
     }
     // Return updated headers
     return requestHeaders
