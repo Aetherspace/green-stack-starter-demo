@@ -2,10 +2,13 @@ import { themeColors as THEME_COLORS } from '@app/registries/themeColors.generat
 import { ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
+/* --- Types ----------------------------------------------------------------------------------- */
+
+export type THEME_COLOR_KEYS = keyof typeof THEME_COLORS['light']
+
 /** --- cn() ----------------------------------------------------------------------------------- */
 /** -i- Combines an array of classNames but filters out falsy array elements */
 export const cn = (...classNames: ClassValue[]) => twMerge(clsx(...classNames))
-
 
 /** --- extractCssVar() ------------------------------------------------------------------------ */
 /** -i- Extracts the css variable name from any string if present */
@@ -16,11 +19,11 @@ export const extractCssVar = (str: string) => {
 
 /** --- getThemeColor() ------------------------------------------------------------------------ */
 /** -i- Retrieves the nativewind theme color for the global.css variable provided */
-export const getThemeColor = <V extends keyof typeof THEME_COLORS['light']>(
-    colorVar: V | HintedKeys,
+export const getThemeColor = <V extends THEME_COLOR_KEYS>(
+    colorVar: V,
     theme: 'light' | 'dark' = 'light',
 ) => {
-    return THEME_COLORS[theme][colorVar as V]
+    return THEME_COLORS[theme][colorVar]
 }
 
 /** --- parseGlobalCSS() ----------------------------------------------------------------------- */

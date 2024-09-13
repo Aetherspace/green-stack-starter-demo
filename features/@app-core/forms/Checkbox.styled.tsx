@@ -1,8 +1,8 @@
 import { forwardRef, ElementRef } from 'react'
 import { CheckboxRoot, CheckboxIndicator } from '@green-stack/forms/Checkbox.primitives'
-import { cn, theme, View, Text, Pressable } from '../components/styled'
-import { CheckFilled } from '../icons/CheckFilled'
+import { cn, View, Text, Pressable, getThemeColor } from '../components/styled'
 import { z, schema, PropsOf } from '@green-stack/schemas'
+import { Icon } from '@green-stack/components/Icon'
 
 /* --- Props ----------------------------------------------------------------------------------- */
 
@@ -75,11 +75,12 @@ export const Checkbox = forwardRef<
                     >
                         <View>
                             {checked && (
-                                <CheckFilled
-                                    size={12} // @ts-ignore
-                                    color={theme?.colors?.primaryLight}
+                                <Icon
+                                    name="CheckFilled"
+                                    size={12}
+                                    color={getThemeColor('--primary-light')}
                                     className={cn(
-                                        checked && 'text-white',
+                                        'text-primary-light',
                                         hasError && 'text-red-500',
                                     )}
                                 />

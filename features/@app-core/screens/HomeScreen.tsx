@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar'
 import { HydratedRouteProps, createQueryBridge } from '@green-stack/navigation'
 import { Pressable, View, Link, Image, P, H1, H3, Text, H2, cn } from '../components/styled'
 import { healthCheckFetcher } from '../resolvers/healthCheck.query'
-import { ArrowRightFilled } from '../icons/ArrowRightFilled'
+import { Icon } from '@green-stack/components/Icon'
 
 /* --- Data Fetching --------------------------------------------------------------------------- */
 
@@ -137,9 +137,11 @@ const HomeScreen = (props: HomeScreenProps) => {
             <InfoSection
               title="Cross Nav"
               titleIcon={(
-                <ArrowRightFilled
+                <Icon
+                  name="ArrowRightFilled"
                   size={24}
-                  fill="#FFFFFF"
+                  color="white"
+                  className="text-white"
                 />
               )}
               summary="Test universal navigation for Web & Mobile, and share up to 90% UI code"

@@ -1,9 +1,9 @@
-import { Svg, Path, z, iconProps, IconProps } from '@green-stack/svg'
+import { Svg, Path, z, iconProps, IconProps, getThemeColor } from '@green-stack/svg'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
 export const ChevronUpFilledProps = iconProps('ChevronUpFilled', {
-    color: z.string().default('#333333'),
+    color: z.string().default(getThemeColor('--primary')),
 })
 
 export type ChevronUpFilledProps = IconProps<typeof ChevronUpFilledProps>

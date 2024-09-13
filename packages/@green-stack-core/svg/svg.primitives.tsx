@@ -1,6 +1,6 @@
 import * as RNSVG from 'react-native-svg'
 import { cssInterop } from 'nativewind'
-import { extractCssVar, getThemeColor } from '@green-stack/utils/styleUtils'
+import { extractCssVar, getThemeColor, THEME_COLOR_KEYS } from '@green-stack/utils/styleUtils'
 import { z, schema } from '../schemas'
 
 /* --- Nativewind Support ---------------------------------------------------------------------- */
@@ -33,11 +33,12 @@ export const Text = cssInterop(RNSVG.Text, {})
 /* --- Schemas --------------------------------------------------------------------------------- */
 
 const IconPropsBase = schema('IconProps', {
-    size: z.number().optional(),
-    fill: z.string().optional(),
-    color: z.string().optional(),
-    stroke: z.string().optional(),
-    className: z.string().optional(),
+    size: z.number().optional().describe('Icon size in pixels, encapsulates both width and height'),
+    fill: z.string().optional().describe('Icon fill color, can also use the color prop'),
+    color: z.string().optional().describe('Icon color, can also use the fill prop'),
+    stroke: z.string().optional().describe('Icon stroke color to use, if stroke is needed'),
+    className: z.string().optional().describe('Icon class name, transformed through nativewind cssInterop'),
+    style: z.record(z.unknown()).optional().describe('Icon styles, combined with nativewind className'),
 })
 
 /** --- iconProps() ---------------------------------------------------------------------------- */
@@ -51,6 +52,7 @@ export const iconProps = <S extends z.ZodRawShape>(iconName: string, override?: 
     // Utils
     const getIconColor = (props: SvgProps & z.infer<typeof IconPropsBase>): string => {
         const defaults = IconProps.applyDefaults(props as any$Todo)
+        // Check for color in props, className transformed styles
         const extractColor = () => {
             if (props.fill) return props.fill
             if (props.color) return props.color // @ts-ignore
@@ -58,10 +60,12 @@ export const iconProps = <S extends z.ZodRawShape>(iconName: string, override?: 
             if (Array.isArray(props.styles) && props.styles?.[0]?.color) return props.styles[0].color
         }
         const color = extractColor()
+        // Transform theme colors
         if (color.includes('--')) {
             const cssVar = extractCssVar(color)
-            if (cssVar) return getThemeColor(cssVar)
+            if (cssVar) return getThemeColor(cssVar as THEME_COLOR_KEYS)
         }
+        // Return color
         return defaults.fill || defaults.color || ''
     }
     // Return
@@ -81,4 +85,4 @@ export type IconProps<
 
 /* --- Re-exports ------------------------------------------------------------------------------ */
 
-export { z }
+export { z, getThemeColor }

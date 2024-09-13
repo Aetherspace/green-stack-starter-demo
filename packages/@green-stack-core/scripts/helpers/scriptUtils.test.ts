@@ -1,3 +1,4 @@
+// @ts-ignore
 import { test, expect } from 'bun:test'
 import * as utils from './scriptUtils'
 

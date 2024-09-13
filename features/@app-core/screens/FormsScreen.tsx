@@ -222,13 +222,15 @@ const FormsScreen = (props: TestForm) => {
 
                         <View className="h-1 w-12 my-6 bg-slate-300" />
 
-                        {/* -- useFormstate -- */}
-
+                        {/* -- Switch -- */}
+                        
                         <Switch
                             label="Show formState"
                             checked={showFormState}
                             onCheckedChange={setShowFormState}
                         />
+
+                        {/* -- useFormstate() -- */}
 
                         {showFormState && (
                             <>

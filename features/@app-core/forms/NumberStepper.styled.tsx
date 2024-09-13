@@ -3,8 +3,7 @@ import type { NativeSyntheticEvent, TextInputKeyPressEventData } from 'react-nat
 import { TextInput } from './TextInput.styled'
 import { z, schema } from '@green-stack/schemas'
 import { cn, View, Pressable } from '../components/styled'
-import { AddFilled } from '../icons/AddFilled'
-import { RemoveFilled } from '../icons/RemoveFilled'
+import { Icon } from '@green-stack/components/Icon'
 
 /* --- Schema ---------------------------------------------------------------------------------- */
 
@@ -92,7 +91,7 @@ export const NumberStepper = forwardRef<
                 disabled={hasReachedMin}
                 hitSlop={10}
             >
-                <RemoveFilled size={20} />
+                <Icon name="RemoveFilled" size={20} />
             </Pressable>
             <TextInput
                 ref={ref}
@@ -129,7 +128,7 @@ export const NumberStepper = forwardRef<
                 disabled={hasReachedMax}
                 hitSlop={10}
             >
-                <AddFilled size={20} />
+                <Icon name="AddFilled" size={20} />
             </Pressable>
         </View>
     )
