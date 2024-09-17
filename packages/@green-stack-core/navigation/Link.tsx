@@ -5,9 +5,7 @@ import { CoreContext } from '../context/CoreContext'
 
 /* --- <Link/> --------------------------------------------------------------------------------- */
 
-export const Link = <
-    HREF extends KnownRoutes
->(props: UniversalLinkProps<HREF>) => {
+export const Link = <HREF extends KnownRoutes>(props: UniversalLinkProps<HREF>) => {
     // Context
     const { contextLink: ContextLink } = React.useContext(CoreContext)
 

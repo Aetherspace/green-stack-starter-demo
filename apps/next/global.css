@@ -14,7 +14,7 @@
         --secondary: 217, 13%, 19%; /* #1f2937; /* tailwind: colors.gray[800] */
         --secondary-light: 210, 16%, 96%; /* #f3f4f6; /* tailwind: colors.gray[100] */
         --muted: 220, 8%, 65%; /* #9ca3af; /* tailwind: colors.gray[400] */
-        --error: 0, 82%, 66%; /* #ef4444; /* tailwind: colors.red[500] */
+        --danger: 0, 82%, 66%; /* #ef4444; /* tailwind: colors.red[500] */
         --ring: 222, 22%, 15%; /* #0f172a; /* tailwind: colors.slate[900] */
         --input: 216, 12%, 83%; /* #d1d5db; /* tailwind: colors.gray[300] */
     }
@@ -27,7 +27,7 @@
         --secondary: 217, 13%, 19%; /* #1f2937; /* tailwind: colors.gray[800] */
         --secondary-light: 210, 16%, 96%; /* #f3f4f6; /* tailwind: colors.gray[100] */
         --muted: 220, 8%, 65%; /* #9ca3af; /* tailwind: colors.gray[400] */
-        --error: 0, 82%, 66%; /* #ef4444; /* tailwind: colors.red[500] */
+        --danger: 0, 82%, 66%; /* #ef4444; /* tailwind: colors.red[500] */
         --ring: 222, 22%, 15%; /* #0f172a; /* tailwind: colors.slate[900] */
         --input: 216, 12%, 83%; /* #d1d5db; /* tailwind: colors.gray[300] */
     }

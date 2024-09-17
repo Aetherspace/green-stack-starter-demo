@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { View, Text, H1, H2, H3, Link, ScrollView, KeyboardAvoidingView } from '../components/styled'
 import BackButton from '../components/BackButton'
@@ -15,6 +15,7 @@ import { Switch } from '../forms/Switch.styled'
 import { isEmpty } from '@green-stack/utils/commonUtils'
 import { useScrollToFocusedInput } from '@green-stack/hooks/useScrollToFocusedInput'
 import { TextArea } from '../forms/TextArea.styled'
+import { Button } from '../components/Button'
 
 /* --- Schema --------------------------------------------------------------------------------- */
 
@@ -53,6 +54,12 @@ const FormsScreen = (props: TestForm) => {
         initialValues: { ...props, ...params },
         validateOnChange,
     })
+
+    // -- Calculate --
+
+    useMemo(() => {
+
+    }, [formState.valuesKey])
 
     // -- Handlers --
 
@@ -165,12 +172,32 @@ const FormsScreen = (props: TestForm) => {
                             }}
                             {...formState.getInputProps('excitingFeatures')}
                         >
-                            <CheckList.Option value="stack-freedom" label="Pick and choose my own Auth / DB / Mail / ..." />
+                            <CheckList.Option value="stack-freedom" label="Pick and choose my own Auth / DB / Mail plugin" />
                             <CheckList.Option value="zod-query-toolkit" label="Auto typed API's + fetching (zod, react-query)" />
                             <CheckList.Option value="generators-scripts" label="Scripts and Generators to save more time" />
                             <CheckList.Option value="designed-for-copypaste" label="Portable structure designed for copy-paste" />
                             <CheckList.Option value="universal-fs-routing" label="Universal fs based routing in Expo and Next.js" />
                         </CheckList>
+
+                        <View className="h-1 w-12 my-6 bg-slate-300" />
+
+                        {/* -- TextArea -- */}
+
+                        <H2 className="text-black">
+                            What's missing?
+                        </H2>
+
+                        <View className="h-4" />
+
+                        <TextArea
+                            placeholder="How could we further improve your workflow?"
+                            {...formState.getTextInputProps('feedbackSuggestions')}
+                            {...kbScroller.registerInput(feedbackInputRef)}
+                        />
+
+                        <Text className="text-sm text-secondary mt-2">
+                            Feedback or suggestions appreciated
+                        </Text>
 
                         <View className="h-1 w-12 my-6 bg-slate-300" />
 
@@ -202,27 +229,25 @@ const FormsScreen = (props: TestForm) => {
 
                         <View className="h-1 w-12 my-6 bg-slate-300" />
 
-                        {/* -- TextArea -- */}
+                        {/* -- Button -- */}
 
-                        <H2 className="text-black">
-                            What's missing?
-                        </H2>
-
-                        <View className="h-4" />
-
-                        <TextArea
-                            placeholder="How could we further improve your workflow?"
-                            {...formState.getTextInputProps('feedbackSuggestions')}
-                            {...kbScroller.registerInput(feedbackInputRef)}
-                        />
-
-                        <Text className="text-sm text-secondary mt-2">
-                            Feedback or suggestions appreciated
-                        </Text>
-
-                        <View className="h-1 w-12 my-6 bg-slate-300" />
+                        <View className="flex-row">
+                            <Button
+                                iconRight="ArrowRightFilled"
+                                type="danger"
+                                size="md"
+                                href="/"
+                                onPress={submitForm}
+                                disabled={!formState.isValid}
+                                fullWidth
+                            >
+                                Submit + View Results
+                            </Button>
+                        </View>
 
                         {/* -- Switch -- */}
+
+                        <View className="h-1 w-12 my-6 bg-slate-300" />
                         
                         <Switch
                             label="Show formState"

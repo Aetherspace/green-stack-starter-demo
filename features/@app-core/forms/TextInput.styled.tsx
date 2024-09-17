@@ -46,7 +46,7 @@ export const TextInput = forwardRef<
                 'web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2',
                 'file:border-0 file:bg-transparent file:font-medium',
                 props.readOnly && 'opacity-50 eb:cursor-not-allowed',
-                props.hasError && 'border border-error',
+                props.hasError && 'border border-danger',
                 props.className,
             )}
         />

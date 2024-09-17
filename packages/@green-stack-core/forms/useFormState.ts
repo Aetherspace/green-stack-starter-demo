@@ -180,5 +180,7 @@ export const useFormState = <
         getTextInputProps,
         /** -i- The props to add to a number input to manage its state, uses `onTextChange` instead */
         getNumberTextInputProps,
+        /** -i- The key of the current form values, good for use in hook dependencies to trigger recalculations */
+        valuesKey,
     }
 }

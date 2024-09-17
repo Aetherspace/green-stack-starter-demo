@@ -60,7 +60,7 @@ export const SelectTrigger = forwardRef<
                 'native:h-12',
                 'web:ring-offset-background web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2 [&>span]:line-clamp-1',
                 disabled && 'web:cursor-not-allowed',
-                hasError && 'border-error',
+                hasError && 'border-danger',
                 props.className,
             )}
             disabled={disabled}
@@ -273,7 +273,7 @@ export const SelectItem = forwardRef<
                 'web:cursor-default web:select-none web:hover:bg-accent/50 web:outline-none',
                 'web:focus:bg-accent active:bg-accent',
                 disabled && 'web:pointer-events-none opacity-50',
-                hasError && 'border border-error',
+                hasError && 'border border-danger',
                 props.className,
             )}
             value={value}

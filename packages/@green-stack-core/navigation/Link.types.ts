@@ -13,7 +13,7 @@ export type LinkParams<HREF extends KnownRoutes> = {
 }
 
 export type RequireParamsIfDynamic<HREF extends KnownRoutes> = ExtractParams<HREF> extends never
-    ? { params?: ObjectType<any$Unknown> }
+    ? { params?: ObjectType<any$Unknown> | undefined }
     : { params: LinkParams<HREF> & ObjectType<any$Unknown> }
 
 export type UniversalLinkProps<HREF extends KnownRoutes = KnownRoutes> = {
@@ -33,7 +33,7 @@ export type UniversalLinkProps<HREF extends KnownRoutes = KnownRoutes> = {
     replace?: boolean;
 
     /** Universal - Extra handler that fires when the link is pressed. */
-    onPress?: ExpoLinkProps<KnownRoutes>['onPress'];
+    onPress?: ExpoLinkProps<KnownRoutes>['onPress'] | null;
 
     /** Universal -  */
     target?: ExpoLinkProps<KnownRoutes>['target'];

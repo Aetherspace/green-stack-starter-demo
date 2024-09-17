@@ -58,8 +58,8 @@ export const Checkbox = forwardRef<
                     'web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2',
                     'disabled:cursor-not-allowed disabled:opacity-50',
                     checked && 'bg-primary',
-                    checked && hasError && 'bg-error',
-                    hasError && 'border border-error',
+                    checked && hasError && 'bg-danger',
+                    hasError && 'border border-danger',
                     props.checkboxClassName,
                 )}
                 hitSlop={props.hitSlop}

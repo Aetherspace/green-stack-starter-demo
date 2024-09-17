@@ -20,7 +20,7 @@ const universalTheme = {
 
             /* light - #FFFFFF - colors.white */
             /* dark - #111827 - colors.gray[900] */
-            primaryLight: 'hsl(var(--primary-light))',
+            'primary-light': 'hsl(var(--primary-light))',
 
             /* light - #1f2937 - colors.gray[800] */
             /* dark - #1f2937 - colors.gray[800] */
@@ -28,7 +28,7 @@ const universalTheme = {
 
             /* light - #f3f4f6 - colors.gray[100] */
             /* dark - #f3f4f6 - colors.gray[100] */
-            secondaryLight: 'hsl(var(--secondary-light))',
+            'secondary-light': 'hsl(var(--secondary-light))',
 
             /* light - #9ca3af - colors.gray[400] */
             /* dark - #9ca3af - colors.gray[400] */
@@ -36,7 +36,7 @@ const universalTheme = {
 
             /* light - #ef4444 - colors.red[500] */
             /* dark - #ef4444 - colors.red[500] */
-            error: 'hsl(var(--error))',
+            danger: 'hsl(var(--danger))',
 
             /* light - #0f172a - colors.slate[900] */
             /* dark - #0f172a - colors.slate[900] */
@@ -50,11 +50,11 @@ const universalTheme = {
             background: theme('colors.background'),
             foreground: theme('colors.foreground'),
             primary: theme('colors.primary'),
-            primaryLight: theme('colors.primaryLight'),
+            'primary-light': theme('colors.primary-light'),
             secondary: theme('colors.secondary'),
-            secondaryLight: theme('colors.secondaryLight'),
+            'secondary-light': theme('colors.secondary-light'),
             muted: theme('colors.muted'),
-            error: theme('colors.error'),
+            danger: theme('colors.danger'),
             ring: theme('colors.ring'),
             input: theme('colors.input'),
         }),
@@ -62,11 +62,11 @@ const universalTheme = {
             background: theme('colors.background'),
             foreground: theme('colors.foreground'),
             primary: theme('colors.primary'),
-            primaryLight: theme('colors.primaryLight'),
+            'primary-light': theme('colors.primary-light'),
             secondary: theme('colors.secondary'),
-            secondaryLight: theme('colors.secondaryLight'),
+            'secondary-light': theme('colors.secondary-light'),
             muted: theme('colors.muted'),
-            error: theme('colors.error'),
+            danger: theme('colors.danger'),
             ring: theme('colors.ring'),
             input: theme('colors.input'),
         }),
@@ -74,11 +74,11 @@ const universalTheme = {
             background: theme('colors.background'),
             foreground: theme('colors.foreground'),
             primary: theme('colors.primary'),
-            primaryLight: theme('colors.primaryLight'),
+            'primary-light': theme('colors.primary-light'),
             secondary: theme('colors.secondary'),
-            secondaryLight: theme('colors.secondaryLight'),
+            'secondary-light': theme('colors.secondary-light'),
             muted: theme('colors.muted'),
-            error: theme('colors.error'),
+            danger: theme('colors.danger'),
             ring: theme('colors.ring'),
             input: theme('colors.input'),
         }),

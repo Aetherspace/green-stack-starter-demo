@@ -77,7 +77,7 @@ export const RadioButton = forwardRef<
                     'native:h-[20] native:w-[20]',
                     'web:ring-offset-background web:focus:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2',
                     disabled && 'web:cursor-not-allowed opacity-50',
-                    hasError && 'border border-error',
+                    hasError && 'border border-danger',
                     props.radioButtonClassName,
                 )}
                 asChild
@@ -96,7 +96,7 @@ export const RadioButton = forwardRef<
                                     className={cn(
                                         'relative aspect-square h-[9px] w-[9px] bg-primary rounded-full',
                                         'native:h-[10] native:w-[10]',
-                                        hasError && 'bg-error',
+                                        hasError && 'bg-danger',
                                     )}
                                 />
                             </Pressable>

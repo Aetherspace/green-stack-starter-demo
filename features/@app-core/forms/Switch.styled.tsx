@@ -57,7 +57,7 @@ export const SwitchWeb = forwardRef<
                     'disabled:cursor-not-allowed',
                     checked ? 'bg-primary' : 'bg-input',
                     disabled && 'opacity-50',
-                    hasError && 'border-error',
+                    hasError && 'border-danger',
                     props.switchClassName,
                 )}
                 asChild

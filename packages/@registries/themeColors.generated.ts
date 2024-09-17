@@ -8,7 +8,7 @@ export const themeColors = {
         "--secondary": "hsl(217, 13%, 19%)",
         "--secondary-light": "hsl(210, 16%, 96%)",
         "--muted": "hsl(220, 8%, 65%)",
-        "--error": "hsl(0, 82%, 66%)",
+        "--danger": "hsl(0, 82%, 66%)",
         "--ring": "hsl(222, 22%, 15%)",
         "--input": "hsl(216, 12%, 83%)"
     },
@@ -20,7 +20,7 @@ export const themeColors = {
         "--secondary": "hsl(217, 13%, 19%)",
         "--secondary-light": "hsl(210, 16%, 96%)",
         "--muted": "hsl(220, 8%, 65%)",
-        "--error": "hsl(0, 82%, 66%)",
+        "--danger": "hsl(0, 82%, 66%)",
         "--ring": "hsl(222, 22%, 15%)",
         "--input": "hsl(216, 12%, 83%)"
     }
