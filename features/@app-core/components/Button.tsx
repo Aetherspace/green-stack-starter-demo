@@ -1,10 +1,11 @@
-import type { ReactNode } from 'react'
+import { useState, useEffect, ReactNode } from 'react'
 import type { KnownRoutes } from '@app/registries/routeManifest.generated'
 import type { UniversalLinkProps, RequireParamsIfDynamic } from '@green-stack/navigation/Link.types'
 import type { PressableProps } from 'react-native'
 import { cn, Pressable, View, Text, Link, getThemeColor } from './styled'
 import { z, schema } from '@green-stack/schemas'
 import { Icon, UniversalIconProps } from '@green-stack/components/Icon'
+import { useRouter } from '@green-stack/navigation'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -51,10 +52,18 @@ export const Button = <HREF extends KnownRoutes | never = never>(rawProps: Butto
     const props = ButtonProps.applyDefaults(rawProps)
     const { text, children } = props
 
+    // State
+    const [didMount, setDidMount] = useState(false)
+
+    // Hooks
+    const router = useRouter()
+
     // Vars
     const buttonText = typeof children === 'string' ? children : text
 
     // Flags
+    const isPressable = !!props.onPress && !didMount
+    const asLink = !!props.href && !isPressable
     const hasLabel = !!buttonText || !!children
     const hasLeftIcon = !!props.iconLeft
     const hasRightIcon = !!props.iconRight
@@ -106,6 +115,23 @@ export const Button = <HREF extends KnownRoutes | never = never>(rawProps: Butto
     if (props.size === 'sm') iconSize = 12
     if (props.size === 'lg') iconSize = 18
 
+    // -- Handlers --
+
+    const onButtonPress = (evt: any$TooComplex) => {
+        // Ignore?
+        if (props.disabled) return
+        // Call event handler?
+        props.onPress?.(evt)
+        // Navigate?
+        if (props.href && props.replace) return router.replace(props.href)
+        if (props.href && props.push) return router.push(props.href)
+        if (props.href) router.navigate(props.href)
+    }
+
+    // -- Effects --
+
+    useEffect(() => { setDidMount(true) }, [])
+
     // -- Content --
 
     const buttonContent = (
@@ -115,7 +141,7 @@ export const Button = <HREF extends KnownRoutes | never = never>(rawProps: Butto
                     <Icon
                         name={props.iconLeft!}
                         className={iconClassNames}
-                        size={props.iconSize}
+                        size={iconSize}
                         color={iconColor}
                     />
                 </View>
@@ -136,7 +162,7 @@ export const Button = <HREF extends KnownRoutes | never = never>(rawProps: Butto
                     <Icon
                         name={props.iconRight!}
                         className={iconClassNames}
-                        size={props.iconSize}
+                        size={iconSize}
                         color={iconColor}
                     />
                 </View>
@@ -146,8 +172,7 @@ export const Button = <HREF extends KnownRoutes | never = never>(rawProps: Butto
 
     // -- Render as Link --
 
-    if (props.href) {
-        const onLinkPress = !props.disabled ? (props.onPress as UniversalLinkProps['onPress']) : undefined
+    if (asLink) {
         return (
             // @ts-ignore
             <Link
@@ -158,7 +183,7 @@ export const Button = <HREF extends KnownRoutes | never = never>(rawProps: Butto
                 target={props.target}
                 replace={props.replace}
                 push={props.push}
-                onPress={onLinkPress}
+                onPress={onButtonPress as UniversalLinkProps['onPress']}
                 disabled={props.disabled}
                 hitSlop={props.hitSlop}
                 asChild
@@ -176,7 +201,7 @@ export const Button = <HREF extends KnownRoutes | never = never>(rawProps: Butto
         <Pressable
             className={buttonClassNames}
             style={props.style}
-            onPress={props.onPress}
+            onPress={onButtonPress}
             onPressIn={props.onPressIn}
             onPressOut={props.onPressOut}
             onHoverIn={props.onHoverIn}

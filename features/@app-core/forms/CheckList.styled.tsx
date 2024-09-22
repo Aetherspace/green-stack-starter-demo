@@ -67,25 +67,26 @@ export const CheckListProps = CheckboxProps
         value: z.array(z.string()).default([]),
     })
 
-export type CheckListProps = z.input<typeof CheckListProps> & {
+export type CheckListProps<T extends string[] = string[]> = z.input<typeof CheckListProps> & {
+    value: T,
     children?: ReactNode,
-    onChange: (value: string[]) => void,
+    onChange: (value: T) => void,
 }
 
 /* --- <CheckList/> ---------------------------------------------------------------------------- */
 
-const CheckListComponent = (rawProps: CheckListProps) => {
+const CheckListComponent = <T extends string[] = string[]>(rawProps: CheckListProps<T>) => {
     // Props
     const props = CheckListProps.applyDefaults(rawProps)
     const { value: currentItems, options, children, onChange, ...restProps } = props
 
     // State
-    const [values, setValues] = useState(props.value)
+    const [values, setValues] = useState<T>(props.value)
 
     // -- Handlers --
 
     const toggleValue = (value: string) => {
-        const shouldAdd = !currentItems.includes(value)
+        const shouldAdd = !currentItems.includes(value) // @ts-ignore
         setValues(shouldAdd ? [...currentItems, value] : values.filter((v) => v !== value))
     }
 

@@ -84,7 +84,7 @@ export const NumberStepper = forwardRef<
                     "absolute top-0 left-0 items-center justify-center select-none z-10",
                     "w-10 h-10 native:w-12 native:h-12",
                     "border-r border-r-input",
-                    hasReachedMin && 'opacity-50',
+                    hasReachedMin && 'opacity-50 web:cursor-not-allowed',
                     props.hasError && 'border-r-danger',
                 )}
                 onPress={onDecrement}
@@ -121,7 +121,7 @@ export const NumberStepper = forwardRef<
                     "absolute top-0 right-0 items-center justify-center select-none z-10",
                     "w-10 h-10 native:w-12 native:h-12",
                     "border-l border-l-input",
-                    hasReachedMax && 'opacity-50',
+                    hasReachedMax && 'opacity-50 web:cursor-not-allowed',
                     props.hasError && 'border-l-danger',
                 )}
                 onPress={onIncrement}

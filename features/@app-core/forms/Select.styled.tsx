@@ -355,25 +355,27 @@ export const SelectProps = schema('SelectProps', {
     contentClassName: z.string().default('w-full bg-white'),
 })
 
-export type SelectProps = Omit<
+export type SelectProps<T extends string = string> = Omit<
     PropsOf<typeof SP.SelectRoot, typeof SelectProps>,
     'onValueChange' | 'value' | 'defaultValue'
 > & {
-    value: z.input<(typeof SelectProps)['shape']['value']>,
+    value: T,
     children?: ReactNode,
-    onChange: (value: string) => void,
+    onChange: (value: T) => void,
 }
 
-const SelectComponent = forwardRef<
+/** --- createSelect() ------------------------------------------------------------------------- */
+/** -i- Create a Universal Select where you can pass a Generic type to narrow the string `value` & `onChange()` params */
+export const createSelectComponent = <T extends string = string>() => Object.assign(forwardRef<
     ElementRef<typeof SP.SelectRoot>,
-    SelectProps
+    SelectProps<T>
 >((rawProps, ref) => {
     // Props
     const props = SelectProps.applyDefaults(rawProps)
     const { placeholder, hasError, children, onChange, ...restProps } = props
 
     // State
-    const [value, setValue] = useState(props.value)
+    const [value, setValue] = useState<string>(props.value)
     const [options, setOptions] = useState(props.options)
 
     // Hooks
@@ -393,7 +395,7 @@ const SelectComponent = forwardRef<
 
     useEffect(() => {
         const isValid = value && Object.keys(options || {})?.includes?.(value)
-        if (isValid) onChange(value)
+        if (isValid) onChange(value as T)
     }, [value])
 
     // -- Render --
@@ -455,17 +457,18 @@ const SelectComponent = forwardRef<
 
         </SelectContext.Provider>
     )
-})
-
-SelectComponent.displayName = 'Select'
-
-/* --- Exports --------------------------------------------------------------------------------- */
-
-export const Select = Object.assign(SelectComponent, {
+}), {
+    displayName: 'Select',
     Option: SelectItem,
     Item: SelectItem,
     Separator: SelectSeparator,
     Group: SP.SelectGroup,
     Label: SelectLabel,
     Content: SelectContent,
+    /** -i- Create a Universal Select where you can pass a Generic type to narrow the string `value` & `onChange()` params */
+    create: createSelectComponent,
 })
+
+/* --- Exports --------------------------------------------------------------------------------- */
+
+export const Select = createSelectComponent()

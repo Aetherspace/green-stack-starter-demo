@@ -1,5 +1,6 @@
-import { z, ZodObject, ZodType } from 'zod'
+import { EnumLike, z, ZodObject, ZodType } from 'zod'
 import type { ComponentProps, JSX, JSXElementConstructor } from 'react'
+import { swapEntries } from '../utils/objectUtils'
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
@@ -260,8 +261,8 @@ if (!ZodType.prototype.metadata) {
         }
         // Enums
         if (zodType === 'ZodEnum') {
-            const _zodEnum = zodStruct as unknown as z.ZodEnum<any>
-            meta.schema = _zodEnum.options?.reduce((acc: Record<string, unknown>, value: any) => {
+            const _inputOptions = zodStruct as unknown as z.ZodEnum<any>
+            meta.schema = _inputOptions.options?.reduce((acc: Record<string, unknown>, value: any) => {
                 return { ...acc, [value]: value }
             }, {})
         }
@@ -407,10 +408,38 @@ if (!ZodType.prototype.metadata) {
     }
 }
 
-/* --- Schema Definitions ---------------------------------------------------------------------- */
-
+/** --- schema() ------------------------------------------------------------------------------- */
+/** -i- Similar to z.object(), but requires a name so it may serve as a single source of truth */
 export const schema = <S extends z.ZodRawShape>(name: string, shape: S) => {
     return z.object(shape).nameSchema(name)
+}
+
+/** --- inputOptions() --------------------------------------------------------------------------- */
+/** -i- Builds a zod enum from a read-only object keys, but ensures you can still use it as an actual enum
+ * @example const MyEnum = inputOptions({ key1: 'Some label', key2: '...' })
+ * 
+ * // 💡 Use .entries to get the original object with keys + labels
+ * MyEnum.entries // { key1: 'Some label', key2: '...' }
+ * 
+ * // 💡 Get auto-completion for the enum values / option keys
+ * MyEnum.key1 // => 'key1'
+ * MyEnum.enum.key1 // => 'key1' (alternatively)
+ * 
+ * // 💡 Retrieve list of options as a tuple with the .options property
+ * MyEnum.options // => ['key1', 'key2'] */
+export const inputOptions = <T extends Readonly<Record<string, string>>>(obj: T) => {
+    // Extract the keys from the object
+    type K = Exclude<keyof T, number | symbol>
+    // Create the enum from the keys only
+    const zEnum = z.enum(Object.keys(obj) as [K, ...K[]])
+    // Assign the entries to the enum so it can still be used as such
+    const reassigned = Object.keys(obj).reduce((acc, key) => {
+        return Object.assign(acc, { [key]: obj[key] })
+    }, zEnum)
+    // Return the enum with the entries
+    return Object.assign(reassigned, { entries: obj }) as typeof zEnum & { entries: T } & {
+        [K in keyof T]: T[K]
+    }
 }
 
 /* --- Reexports ------------------------------------------------------------------------------- */

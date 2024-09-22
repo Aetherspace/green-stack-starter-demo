@@ -94,9 +94,9 @@ export const useFormState = <
 
     // -- Connectors --
 
-    const getInputProps = <KEY extends K>(key: KEY, ) => ({
+    const getInputProps = <KEY extends K, VAL extends T[KEY] = T[KEY]>(key: KEY, ) => ({
         value: values[key],
-        onChange: getChangeHandler(key),
+        onChange: getChangeHandler<KEY, VAL>(key),
         onBlur: () => validateOnBlur && validate(),
         onFocus: () => validateOnBlur && validate(),
         hasError: hasError(key),

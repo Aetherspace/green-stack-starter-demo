@@ -1,11 +1,13 @@
 import { isEmpty } from './commonUtils'
 import { isValidNumber } from './numberUtils'
 import { getProperty, setProperty, deleteProperty, hasProperty, deepKeys } from 'dot-prop'
-export { createLookup } from './arrayUtils'
+import { EnumLike } from 'zod'
 
 /* --- Reexports ------------------------------------------------------------------------------- */
 
 export { getProperty, setProperty, deleteProperty, hasProperty, deepKeys }
+
+export { createLookup } from './arrayUtils'
 
 /** --- parseUrlParamsObject() ----------------------------------------------------------------- */
 /** -i- Parses object property values like "1" to 1, and "true" to true.
@@ -52,4 +54,17 @@ export const buildUrlParamsObject = (obj: ObjectType<any$Unknown> = {}) => {
         else newObj[key] = val
     })
     return newObj
+}
+
+/** --- swapEntries() -------------------------------------------------------------------------- */
+/** -i- Swaps the object's keys and values while keeping the types intact. Handy for object enums. */
+export const swapEntries = <T extends EnumLike>(obj: T): { [K in keyof T as T[K]]: K } => {
+    const swapped: { [K in keyof T as T[K]]: K } = {} as { [K in keyof T as T[K]]: K }
+    for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            // @ts-ignore
+            swapped[obj[key]] = key
+        }
+    }
+    return swapped
 }

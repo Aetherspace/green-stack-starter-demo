@@ -134,30 +134,33 @@ export const RadioGroupProps = RadioButtonProps
         radioButtonClassName: z.string().optional(),
     })
 
-export type RadioGroupProps = Omit<
+export type RadioGroupProps<T extends string | undefined = string | undefined> = Omit<
     PropsOf<typeof RadioGroupRoot, typeof RadioGroupProps>,
     'onValueChange'
 > & {
+    value?: T,
     children?: ReactNode,
-    onChange: (value: string) => void,
+    onChange: (value: NonNullableRequired<T>) => void,
 }
 
-/* --- <RadioGroup/> --------------------------------------------------------------------------- */
-
-const RadioGroupComponent = forwardRef<
+/** --- createRadioGroup() --------------------------------------------------------------------- */
+/** -i- Create a Universal Radio Group where you can pass a Generic type to narrow the string `value` & `onChange()` params */
+const createRadioGroup = <T extends string | undefined = string | undefined>() => Object.assign(forwardRef<
     ElementRef<typeof RadioGroupRoot>,
-    RadioGroupProps
+    RadioGroupProps<T>
 >((rawProps, ref) => {
     // Props
     const props = RadioGroupProps.applyDefaults(rawProps)
     const { className, options, children, onChange, ...restProps } = props
 
     // State
-    const [value, setValue] = useState(props.value)
+    const [value, setValue] = useState<string>(props.value)
 
     // -- Effects --
 
-    useEffect(() => onChange(value), [value])
+    useEffect(() => {
+        if (value) onChange(value as NonNullableRequired<T>)
+    }, [value])
 
     // -- Render --
 
@@ -186,13 +189,14 @@ const RadioGroupComponent = forwardRef<
             </RadioGroupRoot>
         </RadioGroupContext.Provider>
     )
+}), {
+    displayName: 'RadioGroup',
+    Item: RadioButton,
+    Option: RadioButton,
+    /** -i- Create a Universal Radio Group where you can pass a Generic type to narrow the string `value` & `onChange()` params */
+    create: createRadioGroup,
 })
-
-RadioGroupComponent.displayName = 'RadioGroup'
 
 /* --- Exports --------------------------------------------------------------------------------- */
 
-export const RadioGroup = Object.assign(RadioGroupComponent, {
-    Item: RadioButton,
-    Option: RadioButton,
-})
+export const RadioGroup = createRadioGroup()
