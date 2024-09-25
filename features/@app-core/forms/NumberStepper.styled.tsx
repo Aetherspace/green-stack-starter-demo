@@ -14,6 +14,8 @@ export const NumberStepperProps = schema('NumberStepperProps', {
     step: z.number().default(1),
     placeholder: z.string().optional().example('Enter number...'),
     className: z.string().optional(),
+    pressableClassName: z.string().optional(),
+    textInputClassName: z.string().optional(),
     placeholderClassName: z.string().optional(),
     placeholderTextColor: z.string().optional(),
     hasError: z.boolean().default(false),
@@ -77,6 +79,7 @@ export const NumberStepper = forwardRef<
                 'h-10 native:h-12',
                 'web:flex web:w-full',
                 'web:max-w-[200px]',
+                props.className,
             )}
         >
             <Pressable
@@ -86,6 +89,7 @@ export const NumberStepper = forwardRef<
                     "border-r border-r-input",
                     hasReachedMin && 'opacity-50 web:cursor-not-allowed',
                     props.hasError && 'border-r-danger',
+                    props.pressableClassName,
                 )}
                 onPress={onDecrement}
                 disabled={hasReachedMin}
@@ -101,7 +105,8 @@ export const NumberStepper = forwardRef<
                     'text-center',
                     'px-10 native:px-12',
                     'web:max-w-[200px]',
-                    props.className,
+                    'native:min-w-[130]',
+                    props.textInputClassName,
                 )}
                 onKeyPress={onKeyPress}
                 value={value ? `${value}` : ''}
@@ -123,6 +128,7 @@ export const NumberStepper = forwardRef<
                     "border-l border-l-input",
                     hasReachedMax && 'opacity-50 web:cursor-not-allowed',
                     props.hasError && 'border-l-danger',
+                    props.pressableClassName,
                 )}
                 onPress={onIncrement}
                 disabled={hasReachedMax}

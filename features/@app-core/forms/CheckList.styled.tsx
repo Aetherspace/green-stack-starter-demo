@@ -81,7 +81,7 @@ const CheckListComponent = <T extends string[] = string[]>(rawProps: CheckListPr
     const { value: currentItems, options, children, onChange, ...restProps } = props
 
     // State
-    const [values, setValues] = useState<T>(props.value)
+    const [values, setValues] = useState<T>(currentItems)
 
     // -- Handlers --
 
@@ -92,9 +92,7 @@ const CheckListComponent = <T extends string[] = string[]>(rawProps: CheckListPr
 
     // -- Effects --
 
-    useEffect(() => {
-        onChange(values)
-    }, [values?.filter?.(Boolean).join('-')])
+    useEffect(() => onChange(values), [values?.filter?.(Boolean).join('-')])
 
     // -- Render --
 
