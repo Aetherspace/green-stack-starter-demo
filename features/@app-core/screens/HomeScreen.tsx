@@ -224,11 +224,11 @@ const GettingStarted = () => (
         'lg:flex-grow-1 lg:flex-shrink-1 lg:flex-row lg:flex-initial lg:relative lg:rounded-xl lg:border lg:bg-gray-800 lg:p-4 lg:pt-4 lg:text-lg',
       )}
     >
-      <Text className="flex">
-        <Text>Start from </Text>
-        <Text className="font-bold">@app/core</Text>
-        <Text>{` → `}</Text>
-        <Text className="font-bold">HomeScreen.tsx</Text>
+      <Text className="flex text-white">
+        <Text className="text-white">Start from </Text>
+        <Text className="text-white font-bold">@app/core</Text>
+        <Text className="text-white">{` → `}</Text>
+        <Text className="text-white font-bold">HomeScreen.tsx</Text>
       </Text>
     </P>
   </View>

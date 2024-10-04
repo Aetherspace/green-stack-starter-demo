@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Link, Pressable } from '../components/styled'
+import { View, Text, Link, Pressable, getThemeColor } from '../components/styled'
 import { useRouter } from '@green-stack/navigation/useRouter'
 import { schema, z } from '@green-stack/schemas'
 import { Icon } from '@green-stack/components/Icon'
@@ -7,7 +7,7 @@ import { Icon } from '@green-stack/components/Icon'
 /* --- Props ----------------------------------------------------------------------------------- */
 
 const BackButtonProps = schema('BackButtonProps', {
-    color: z.string().default('#FFFFFF'),
+    color: z.string().default(getThemeColor('--background')),
     iconSize: z.number().default(24),
     backText: z.string().optional().example('Back'),
     backLink: z.string().default('/'),

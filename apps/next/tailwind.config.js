@@ -4,9 +4,9 @@ const { universalTheme } = require('@app/core/tailwind.theme.js')
 module.exports = {
   darkMode: 'class',
   content: [
-    '../../apps/**/*.tsx',
-    '../../features/**/*.tsx',
-    '../../packages/**/*.tsx',
+    '../../apps/**/*.{js,jsx,ts,tsx,md,mdx}',
+    '../../features/**/*.{js,jsx,ts,tsx,md,mdx}',
+    '../../packages/**/*.{js,jsx,ts,tsx,md,mdx}',
   ],
   presets: [require('nativewind/preset')],
   important: 'html',

@@ -1,5 +1,5 @@
 import * as RNSVG from 'react-native-svg'
-import { cssInterop } from 'nativewind'
+import { colorScheme, cssInterop } from 'nativewind'
 import { extractCssVar, getThemeColor, THEME_COLOR_KEYS } from '@green-stack/utils/styleUtils'
 import { z, schema } from '../schemas'
 
@@ -15,7 +15,9 @@ export const Svg = cssInterop(RNSVG.Svg, {
 // @ts-ignore
 export const Path = cssInterop(RNSVG.Path, {
     className: {
+        // @ts-ignore
         target: 'style',
+        // @ts-ignore
         nativeStyleToProp: { fill: true, color: true, stroke: true }
     }
 })

@@ -110,6 +110,7 @@ export const RadioButton = forwardRef<
                     role="checkbox"
                     className={cn(
                         'flex items-center ml-2 web:select-none',
+                        'text-primary',
                         props.labelClassName,
                     )}
                     onPress={() => setValue(value)}

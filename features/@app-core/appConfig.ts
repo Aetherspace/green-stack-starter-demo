@@ -9,7 +9,8 @@ import { DRIVER_OPTIONS, createDriverConfig } from '@app/registries/drivers.conf
 
 /* --- Flags ----------------------------------------------------------------------------------- */
 
-export const isWebLocalhost = Platform.OS === 'web' && globalThis?.location?.hostname === 'localhost'
+export const isWeb = Platform.OS === 'web'
+export const isWebLocalhost = isWeb && globalThis?.location?.hostname === 'localhost'
 export const isExpoWebLocal = isWebLocalhost && globalThis?.location?.port === '8081'
 
 export const isMobile = ['ios', 'android'].includes(Platform.OS)
@@ -31,6 +32,7 @@ export const fallbackBaseURL = localURL ? `http://${localURL}:3000` : ''
 export const appConfig = {
     // - Flags -
     isLocal: isWebLocalhost || isExpoMobileLocal,
+    isWeb,
     isWebLocalhost,
     isExpoWebLocal,
     isExpoMobileLocal,

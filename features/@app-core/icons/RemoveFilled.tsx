@@ -13,7 +13,7 @@ export type RemoveFilledProps = IconProps<typeof RemoveFilledProps>
 export const RemoveFilled = (rawProps: RemoveFilledProps) => {
     // Props
     const props = RemoveFilledProps.applyDefaults(rawProps)
-    const color = RemoveFilledProps.getIconColor(props)
+    const color = RemoveFilledProps.getIconColor(props, true)
     // Render
     return (
         <Svg width={props.size} height={props.size} fill="none" viewBox="0 0 24 24" {...props}>

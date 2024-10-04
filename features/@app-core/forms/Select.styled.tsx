@@ -4,7 +4,7 @@ import { Platform, StyleSheet } from 'react-native'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import * as SP from '@green-stack/forms/Select.primitives'
-import { cn, View, Text, Pressable } from '../components/styled'
+import { cn, View, Text, Pressable, getThemeColor } from '../components/styled'
 import { ChevronDownFilled } from '../icons/ChevronDownFilled'
 import { ChevronUpFilled } from '../icons/ChevronUpFilled'
 import { CheckFilled } from '../icons/CheckFilled'
@@ -72,6 +72,7 @@ export const SelectTrigger = forwardRef<
                     size={16}
                     aria-hidden={true}
                     className="text-foreground opacity-50"
+                    color={getThemeColor('--foreground')}
                 />
             </Pressable>
         </SP.SelectTrigger>
@@ -292,7 +293,10 @@ export const SelectItem = forwardRef<
                     >
                         <SP.SelectItemIndicator asChild>
                             <View>
-                                <CheckFilled size={16} className="text-popover-foreground" />
+                                <CheckFilled
+                                    size={16}
+                                    color={getThemeColor('--primary', 'light')}
+                                />
                             </View>
                         </SP.SelectItemIndicator>
                     </View>
@@ -416,16 +420,32 @@ export const createSelectComponent = <T extends string = string>() => Object.ass
                         key={`select-trigger-${optionsKey}-${!!options?.[value]}`}
                         className={cn('w-full', props.triggerClassName)}
                     >
-                        <SP.SelectValue
-                            key={`select-value-${optionsKey}-${!!options?.[value]}`}
+                        <Text
                             className={cn(
                                 'text-foreground text-sm',
                                 'native:text-lg',
                                 !value && !!placeholder && 'text-muted',
                                 props.valueClassName,
                             )}
-                            placeholder={placeholder}
-                        />
+                        >
+                            <SP.SelectValue
+                                key={`select-value-${optionsKey}-${!!options?.[value]}`}
+                                className={cn(
+                                    'text-primary text-sm',
+                                    'native:text-lg',
+                                    !value && !!placeholder && 'text-muted',
+                                    props.valueClassName,
+                                )}
+                                placeholder={placeholder}
+                                asChild={isWeb}
+                            >
+                                {isWeb && (
+                                    <Text>
+                                        {options?.[value] || placeholder}
+                                    </Text>
+                                )}
+                            </SP.SelectValue>
+                        </Text>
                     </SelectTrigger>
                     <SelectContent
                         insets={contentInsets}

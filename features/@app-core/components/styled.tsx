@@ -25,7 +25,7 @@ export const { theme } = resolveConfig(tailwindConfig)
 /* --- Primitives ------------------------------------------------------------------------------ */
 
 export const View = styled(RNView, '')
-export const Text = styled(RNText, '')
+export const Text = styled(RNText, 'text-primary')
 export const Image = styled(UniversalImage, '')
 export const Pressable = styled(RNPressable, '')
 
@@ -37,22 +37,27 @@ export const ScrollView = remapProps(styled(RNScrollView), {
 
 export const KeyboardAvoidingView = styled(RNKeyboardAvoidingView, '')
 
+/* --- Flexbox --------------------------------------------------------------------------------- */
+
+export const Row = styled(View, 'relative flex flex-row')
+export const Col = styled(View, 'relative flex flex-col')
+
 /* --- Typography ------------------------------------------------------------------------------ */
 
-export const H1 = styled(RNText, 'font-bold text-3xl')
-export const H2 = styled(RNText, 'font-bold text-xl')
-export const H3 = styled(RNText, 'font-bold text-lg')
+export const H1 = styled(RNText, 'text-primary font-bold text-3xl')
+export const H2 = styled(RNText, 'text-secondary font-bold text-xl')
+export const H3 = styled(RNText, 'text-primary font-bold text-lg')
 
-export const P = styled(RNText, 'text-base')
+export const P = styled(RNText, 'text-primary text-base')
 
 /* --- Fix for Next Link ----------------------------------------------------------------------- */
 
 export const Link = <HREF extends KnownRoutes>(props: UniversalLinkProps<HREF>) => {
-    const StyledLink = styled(UniversalLink, 'text-blue-300 underline') // @ts-ignore
+    const StyledLink = styled(UniversalLink, 'text-link underline') // @ts-ignore
     return <StyledLink {...props} />
 }
 
-export const LinkText = styled(RNText, 'text-blue-300 underline')
+export const LinkText = styled(RNText, 'text-link underline')
 
 export const TextLink = (props: Omit<React.ComponentProps<typeof UniversalLink>, 'className'> & { className?: string }) => {
     const { className, style, children, ...universalLinkProps } = props

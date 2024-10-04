@@ -78,9 +78,9 @@ export const Checkbox = forwardRef<
                                 <Icon
                                     name="CheckFilled"
                                     size={12}
-                                    color={getThemeColor('--primary-light')}
+                                    color={getThemeColor('--primary-inverse')}
                                     className={cn(
-                                        'text-primary-light',
+                                        'text-primary-inverse',
                                         hasError && 'text-red-500',
                                     )}
                                 />
@@ -93,6 +93,7 @@ export const Checkbox = forwardRef<
                 <Text
                     className={cn(
                         'flex items-center ml-2 web:select-none',
+                        'text-primary',
                         props.labelClassName,
                     )}
                     id={labelledByID}

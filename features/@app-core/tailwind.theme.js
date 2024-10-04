@@ -6,81 +6,68 @@ const universalTheme = {
     // -i- Reference this theme in the tailwind.config.js files in apps/expo, apps/next, features/app-core and other package or feature folders
     extend: {
         colors: {
-            /* light - #FFFFFF - colors.white */
-            /* dark - #111827 - colors.gray[900] */
-            background: 'hsl(var(--background))',
-
-            /* light - #18181b - colors.zinc[900] */
-            /* dark - #f3f4f6 - colors.gray[100] */
-            foreground: 'hsl(var(--foreground))', 
-
-            /* light - #111827 - colors.gray[900] */
-            /* dark - #f3f4f6 - colors.gray[100] */
-            primary: 'hsl(var(--primary))',
-
-            /* light - #FFFFFF - colors.white */
-            /* dark - #111827 - colors.gray[900] */
-            'primary-light': 'hsl(var(--primary-light))',
-
-            /* light - #1f2937 - colors.gray[800] */
-            /* dark - #1f2937 - colors.gray[800] */
-            secondary: 'hsl(var(--secondary))',
-
-            /* light - #f3f4f6 - colors.gray[100] */
-            /* dark - #f3f4f6 - colors.gray[100] */
-            'secondary-light': 'hsl(var(--secondary-light))',
-
-            /* light - #9ca3af - colors.gray[400] */
-            /* dark - #9ca3af - colors.gray[400] */
-            muted: 'hsl(var(--muted))',
-
-            /* light - #ef4444 - colors.red[500] */
-            /* dark - #ef4444 - colors.red[500] */
-            danger: 'hsl(var(--danger))',
-
-            /* light - #0f172a - colors.slate[900] */
-            /* dark - #0f172a - colors.slate[900] */
-            ring: 'hsl(var(--ring))',
-
-            /* light - #d1d5db - colors.gray[300] */
-            /* dark - #d1d5db - colors.gray[300] */
-            input: 'hsl(var(--input))',
+            'background': 'hsl(var(--background))',
+            'foreground': 'hsl(var(--foreground))',
+            'primary': 'hsl(var(--primary))',
+            'primary-inverse': 'hsl(var(--primary-inverse))',
+            'secondary': 'hsl(var(--secondary))',
+            'secondary-inverse': 'hsl(var(--secondary-inverse))',
+            'link': 'hsl(var(--link))',
+            'muted': 'hsl(var(--muted))',
+            'warn': 'hsl(var(--warn))',
+            'danger': 'hsl(var(--danger))',
+            'info': 'hsl(var(--info))',
+            'success': 'hsl(var(--success))',
+            'ring': 'hsl(var(--ring))',
+            'input': 'hsl(var(--input))',
         },
         borderColor: (theme) => ({
-            background: theme('colors.background'),
-            foreground: theme('colors.foreground'),
-            primary: theme('colors.primary'),
-            'primary-light': theme('colors.primary-light'),
-            secondary: theme('colors.secondary'),
-            'secondary-light': theme('colors.secondary-light'),
-            muted: theme('colors.muted'),
-            danger: theme('colors.danger'),
-            ring: theme('colors.ring'),
-            input: theme('colors.input'),
+            'background': theme('colors.background'),
+            'foreground': theme('colors.foreground'),
+            'primary': theme('colors.primary'),
+            'primary-inverse': theme('colors.primary-inverse'),
+            'secondary': theme('colors.secondary'),
+            'secondary-inverse': theme('colors.secondary-inverse'),
+            'link': theme('colors.link'),
+            'muted': theme('colors.muted'),
+            'warn': theme('colors.warn'),
+            'danger': theme('colors.danger'),
+            'info': theme('colors.info'),
+            'success': theme('colors.success'),
+            'ring': theme('colors.ring'),
+            'input': theme('colors.input'),
         }),
         backgroundColor: (theme) => ({
-            background: theme('colors.background'),
-            foreground: theme('colors.foreground'),
-            primary: theme('colors.primary'),
-            'primary-light': theme('colors.primary-light'),
-            secondary: theme('colors.secondary'),
-            'secondary-light': theme('colors.secondary-light'),
-            muted: theme('colors.muted'),
-            danger: theme('colors.danger'),
-            ring: theme('colors.ring'),
-            input: theme('colors.input'),
+            'background': theme('colors.background'),
+            'foreground': theme('colors.foreground'),
+            'primary': theme('colors.primary'),
+            'primary-inverse': theme('colors.primary-inverse'),
+            'secondary': theme('colors.secondary'),
+            'secondary-inverse': theme('colors.secondary-inverse'),
+            'link': theme('colors.link'),
+            'muted': theme('colors.muted'),
+            'warn': theme('colors.warn'),
+            'danger': theme('colors.danger'),
+            'info': theme('colors.info'),
+            'success': theme('colors.success'),
+            'ring': theme('colors.ring'),
+            'input': theme('colors.input'),
         }),
         textColor: (theme) => ({
-            background: theme('colors.background'),
-            foreground: theme('colors.foreground'),
-            primary: theme('colors.primary'),
-            'primary-light': theme('colors.primary-light'),
-            secondary: theme('colors.secondary'),
-            'secondary-light': theme('colors.secondary-light'),
-            muted: theme('colors.muted'),
-            danger: theme('colors.danger'),
-            ring: theme('colors.ring'),
-            input: theme('colors.input'),
+            'background': theme('colors.background'),
+            'foreground': theme('colors.foreground'),
+            'primary': theme('colors.primary'),
+            'primary-inverse': theme('colors.primary-inverse'),
+            'secondary': theme('colors.secondary'),
+            'secondary-inverse': theme('colors.secondary-inverse'),
+            'link': theme('colors.link'),
+            'muted': theme('colors.muted'),
+            'warn': theme('colors.warn'),
+            'danger': theme('colors.danger'),
+            'info': theme('colors.info'),
+            'success': theme('colors.success'),
+            'ring': theme('colors.ring'),
+            'input': theme('colors.input'),
         }),
         borderWidth: {
             hairline: hairlineWidth(),

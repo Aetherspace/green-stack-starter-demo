@@ -1,6 +1,5 @@
-import { EnumLike, z, ZodObject, ZodType } from 'zod'
+import { z, ZodObject, ZodType } from 'zod'
 import type { ComponentProps, JSX, JSXElementConstructor } from 'react'
-import { swapEntries } from '../utils/objectUtils'
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
@@ -104,6 +103,7 @@ export type ZodSchema<S extends z.ZodRawShape = z.ZodRawShape> = z.ZodObject<S>
 export type ApplyDefaultsOptions = {
     logErrors?: boolean,
     stripUnknown?: boolean,
+    applyExamples?: boolean,
 }
 
 export type PropsOf<
@@ -153,6 +153,13 @@ declare module 'zod' {
             data: D,
             options?: ApplyDefaultsOptions
         ): D & Output
+
+        documentationProps<N extends string>(componentName: N): {
+            componentName: N,
+            propSchema: ZodObject<T, UnknownKeys, Catchall>,
+            propMeta: Record<string, Meta$Schema>,
+            previewProps: Record<string, any$Unknown>,
+        }
 
         // -- Deprecations --
 
@@ -385,12 +392,13 @@ if (!ZodType.prototype.metadata) {
         data: D,
         options: ApplyDefaultsOptions = {},
     ) {
-        const { logErrors = false, stripUnknown = false } = options
+        const { logErrors = false, stripUnknown = false, applyExamples = false } = options
         const thisSchema = this.extend({})
         const result = thisSchema.safeParse(data)
         const introSpectionResult = thisSchema.introspect()
         const defaultValues = Object.keys(introSpectionResult.schema!).reduce((acc, key) => {
-            const { defaultValue } = introSpectionResult.schema![key] as Metadata
+            const fieldMeta = introSpectionResult.schema![key] as Metadata
+            const defaultValue = applyExamples ? fieldMeta.exampleValue : fieldMeta.defaultValue
             const hasDefault = defaultValue !== undefined
             return hasDefault ? { ...acc, [key]: defaultValue } : acc
         }, {})
@@ -405,6 +413,15 @@ if (!ZodType.prototype.metadata) {
         }
         // @ts-ignore
         return values as D & (typeof thisSchema)['_type']
+    }
+
+    ZodObject.prototype.documentationProps = function (componentName) {
+        return {
+            componentName,
+            propSchema: this,
+            propMeta: this.introspect().schema as Record<string, Meta$Schema>,
+            previewProps: this.applyDefaults({}, { applyExamples: true }),
+        }
     }
 }
 

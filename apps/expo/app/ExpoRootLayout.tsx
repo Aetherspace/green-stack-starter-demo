@@ -1,6 +1,9 @@
+import { useEffect } from 'react'
 import { Stack } from 'expo-router'
+import { isWeb } from '@app/config'
 import UniversalAppProviders from '@app/screens/UniversalAppProviders'
 import UniversalRootLayout from '@app/screens/UniversalRootLayout'
+import { useColorScheme } from 'nativewind'
 import { Image as ExpoContextImage } from '@green-stack/components/Image.expo'
 import { Link as ExpoContextLink } from '@green-stack/navigation/Link.expo'
 import { useRouter as useExpoContextRouter } from '@green-stack/navigation/useRouter.expo'
@@ -14,28 +17,42 @@ import { useRouteParams as useExpoRouteParams } from '@green-stack/navigation/us
 /* --- <ExpoRootLayout> ------------------------------------------------------------------------ */
 
 export default function ExpoRootLayout() {
-  // Navigation
-  const expoContextRouter = useExpoContextRouter()
+    // Navigation
+    const expoContextRouter = useExpoContextRouter()
 
-  // -- Render --
+    // Theme
+    const scheme = useColorScheme()
 
-  return (
-    <UniversalAppProviders
-      contextImage={ExpoContextImage}
-      contextLink={ExpoContextLink}
-      contextRouter={expoContextRouter}
-      useContextRouteParams={useExpoRouteParams}
-      isExpo
-    >
-      <UniversalRootLayout>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            contentStyle: { backgroundColor: '#FFFFFF' },
-            animation: 'slide_from_right',
-          }}
-        />
-      </UniversalRootLayout>
-    </UniversalAppProviders>
-  )
+    // -- Effects --
+
+    useEffect(() => {
+        // -i- Make nativewind dark mode work with Expo for Web
+        if (isWeb && typeof window !== 'undefined') {
+            const $html = document.querySelector('html')
+            const isDarkMode = scheme.colorScheme === 'dark'
+            $html?.classList.toggle('dark', isDarkMode)
+        }
+    }, [scheme.colorScheme])
+
+    // -- Render --
+
+    return (
+        <UniversalAppProviders
+            contextImage={ExpoContextImage}
+            contextLink={ExpoContextLink}
+            contextRouter={expoContextRouter}
+            useContextRouteParams={useExpoRouteParams}
+            isExpo
+        >
+            <UniversalRootLayout>
+                <Stack
+                    screenOptions={{
+                        headerShown: false,
+                        contentStyle: { backgroundColor: '#FFFFFF' },
+                        animation: 'slide_from_right',
+                    }}
+                />
+            </UniversalRootLayout>
+        </UniversalAppProviders>
+    )
 }

@@ -3,7 +3,7 @@ import { Svg, Path, z, iconProps, IconProps, getThemeColor } from '@green-stack/
 /* --- Types ----------------------------------------------------------------------------------- */
 
 export const AddFilledProps = iconProps('AddFilled', {
-    color: z.string().default(getThemeColor('--primary')),
+    color: z.string().default(getThemeColor('--primary', 'light')),
 })
 
 export type AddFilledProps = IconProps<typeof AddFilledProps>
@@ -13,7 +13,7 @@ export type AddFilledProps = IconProps<typeof AddFilledProps>
 export const AddFilled = (rawProps: AddFilledProps) => {
     // Props
     const props = AddFilledProps.applyDefaults(rawProps)
-    const color = AddFilledProps.getIconColor(props)
+    const color = AddFilledProps.getIconColor(props, true)
     // Render
     return (
         <Svg width={props.size} height={props.size} fill="none" viewBox="0 0 24 24" {...props}>

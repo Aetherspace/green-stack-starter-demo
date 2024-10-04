@@ -1,3 +1,4 @@
+import { colorScheme, useColorScheme } from 'nativewind'
 import { themeColors as THEME_COLORS } from '@app/registries/themeColors.generated'
 import { ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
@@ -21,9 +22,16 @@ export const extractCssVar = (str: string) => {
 /** -i- Retrieves the nativewind theme color for the global.css variable provided */
 export const getThemeColor = <V extends THEME_COLOR_KEYS>(
     colorVar: V,
-    theme: 'light' | 'dark' = 'light',
+    theme: 'light' | 'dark' = colorScheme.get() || 'light',
 ) => {
     return THEME_COLORS[theme][colorVar]
+}
+
+/** --- useThemeColor() ------------------------------------------------------------------------ */
+/** -i- Retrieves the nativewind theme color for the global.css variable provided */
+export const useThemeColor = <V extends THEME_COLOR_KEYS>(colorVar: V) => {
+    const scheme = useColorScheme()
+    return getThemeColor(colorVar, scheme.colorScheme)
 }
 
 /** --- parseGlobalCSS() ----------------------------------------------------------------------- */

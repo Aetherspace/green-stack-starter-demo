@@ -29,7 +29,7 @@ const SlugScreen = (props: UniversalRouteScreenProps) => {
           </H1>
           <View className="h-4" />
           <P className=" text-gray-300 text-base text-center max-w-[400px] px-6">
-            Universal URL routing built on Expo & Next.js routers, shared between Web and Native. e.g. Tap to change the <Text className="font-bold">count {`(${count})`}</Text> param:
+            Universal URL routing built on Expo & Next.js routers, shared between Web and Native. e.g. Tap to change the <Text className="text-white font-bold">count {`(${count})`}</Text> param:
           </P>
           <View className="h-2" />
           <Text className="text-center text-base text-blue-300 underline" onPress={() => setParams({ count: `${+count + 1}` })}>
@@ -87,7 +87,7 @@ const SlugScreen = (props: UniversalRouteScreenProps) => {
 
         </View>
       </ScrollView>
-      <BackButton />
+      <BackButton color="#FFFFFF" />
     </>
   )
 }

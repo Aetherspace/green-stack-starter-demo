@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { cn, View, Text, H1, H2, H3, Link, ScrollView, KeyboardAvoidingView } from '../components/styled'
+import { useColorScheme } from 'nativewind'
+import { cn, View, Text, H1, H2, H3, Link, ScrollView, KeyboardAvoidingView, getThemeColor } from '../components/styled'
 import BackButton from '../components/BackButton'
 import { TextInput } from '../forms/TextInput.styled'
 import { NumberStepper } from '../forms/NumberStepper.styled'
@@ -113,6 +114,9 @@ const FormsScreen = (props: TestForm) => {
     // Vars
     const { showFormState, showResults, excitingFeatures, platformsTargeted } = formState.values
     const { projectsPerYear, currentSetupHoursPerProject, pluginsToMerge, knownTech } = formState.values
+
+    // Theme
+    const scheme = useColorScheme()
 
     // -- Result Calculation --
 
@@ -240,16 +244,16 @@ const FormsScreen = (props: TestForm) => {
 
     return (
         <KeyboardAvoidingView {...inputScrollUtils.avoidingViewProps}>
-            <StatusBar style="dark" />
+            <StatusBar style={scheme.colorScheme === 'light' ? 'dark' : 'light'} />
             <ScrollView
                 {...inputScrollUtils.scrollViewProps}
-                className="flex flex-1 min-h-screen bg-white"
+                className="flex flex-1 min-h-screen bg-background"
                 contentContainerClassName="min-h-screen"
             >
                 <View className="flex flex-1 justify-center items-center pt-28 pb-16">
                     <View className="flex flex-col w-full max-w-[500px] px-8">
 
-                        <H1>Forms Demo</H1>
+                        <H1 onPress={scheme.toggleColorScheme}>{`Universal Forms Demo`}</H1>
 
                         <View className="h-4" />
 
@@ -296,7 +300,7 @@ const FormsScreen = (props: TestForm) => {
 
                         {/* -- Radiogroup -- */}
 
-                        <H2 className="text-black">
+                        <H2 className="text-primary">
                             What role describes you best?
                         </H2>
 
@@ -318,7 +322,7 @@ const FormsScreen = (props: TestForm) => {
 
                         {/* -- Select -- */}
 
-                        <H2 className="text-black">
+                        <H2 className="text-primary">
                             What platforms do you typically ship?
                         </H2>
 
@@ -338,7 +342,7 @@ const FormsScreen = (props: TestForm) => {
 
                         {/* -- CheckList -- */}
 
-                        <H2 className="text-black">
+                        <H2 className="text-primary">
                             Which DX features excite you?
                         </H2>
 
@@ -355,7 +359,7 @@ const FormsScreen = (props: TestForm) => {
 
                         {excitingFeatures.includes('git-plugins') && (
                             <>
-                                <H2 className="text-black">
+                                <H2 className="text-primary">
                                     What plugins would you merge?
                                 </H2>
 
@@ -372,7 +376,7 @@ const FormsScreen = (props: TestForm) => {
 
                         {/* -- TextArea -- */}
 
-                        <H2 className="text-black">
+                        <H2 className="text-primary">
                             What's missing?
                         </H2>
 
@@ -441,6 +445,7 @@ const FormsScreen = (props: TestForm) => {
                                         key={`projects-per-year-${formState.values.identifiesWith}`}
                                         placeholder="projects per year"
                                         className="mr-4"
+                                        textInputClassName="max-w-[130]"
                                         min={1}
                                         {...formState.getInputProps('projectsPerYear')}
                                     />
@@ -506,7 +511,7 @@ const FormsScreen = (props: TestForm) => {
 
                                 <H3>
                                     <Link
-                                        className="text-black no-underline"
+                                        className="text-primary no-underline"
                                         href="https://universal-base-starter-docs.vercel.app/quickstart"
                                         target="_blank"
                                     >
@@ -544,7 +549,10 @@ const FormsScreen = (props: TestForm) => {
                 </View>
 
             </ScrollView>
-            <BackButton backLink="/subpages/Universal%20Nav" color="#333333" />
+            <BackButton
+                backLink="/subpages/Universal%20Nav"
+                color={getThemeColor('--primary')}
+            />
         </KeyboardAvoidingView>
     )
 }
