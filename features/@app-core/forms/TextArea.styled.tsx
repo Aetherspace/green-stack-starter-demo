@@ -41,6 +41,7 @@ export const TextArea = forwardRef<
                 'lg:text-sm',
                 'placeholder:text-muted',
                 props.editable === false && 'opacity-50 web:cursor-not-allowed',
+                props.hasError && 'border-danger',
                 props.className,
             )}
         />

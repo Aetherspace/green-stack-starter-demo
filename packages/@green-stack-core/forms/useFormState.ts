@@ -31,12 +31,13 @@ export const useFormState = <
     const [errors, updateErrors] = useState<E>({} as E)
 
     // Vars
+    const defaultsKey = Object.entries(initialState).map(([k, v]) => `${k}-${v || 'x'}`).join('-')
     const valuesKey = Object.entries(values).map(([k, v]) => `${k}-${v || 'x'}`).join('-')
 
     // -- Memos --
 
     const isDefaultState = useMemo(() => {
-        return JSON.stringify(values) === JSON.stringify(initialState)
+        return valuesKey === defaultsKey
     }, [valuesKey, initialState])
 
     // -- Validation --

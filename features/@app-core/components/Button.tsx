@@ -2,11 +2,12 @@ import { useState, useEffect, ReactNode } from 'react'
 import type { KnownRoutes } from '@app/registries/routeManifest.generated'
 import type { UniversalLinkProps, RequireParamsIfDynamic } from '@green-stack/navigation/Link.types'
 import type { PressableProps } from 'react-native'
-import { cn, Pressable, View, Text, Link, getThemeColor } from './styled'
+import { cn, Pressable, View, Text, Link } from './styled'
 import { z, schema } from '@green-stack/schemas'
 import { Icon, UniversalIconProps } from '@green-stack/components/Icon'
 import { useRouter } from '@green-stack/navigation'
 import { useThemeColor } from '@green-stack/styles'
+import { isWeb } from '@app/config'
 
 /* --- Types ----------------------------------------------------------------------------------- */
 
@@ -15,17 +16,17 @@ export const ButtonProps = schema('ButtonProps', {
     text: z.string().optional().example('Press me'),
     size: z.enum(['sm', 'md', 'lg']).default('md'),
     href: z.string().url().optional().example('https://fullproduct.dev'),
-    className: z.string().optional(),
-    textClassName: z.string().optional(),
     iconLeft: UniversalIconProps.shape.name.optional(),
     iconRight: UniversalIconProps.shape.name.optional().example('ArrowRightFilled'),
-    iconSize: z.number().default(16),
-    fullWidth: z.boolean().default(false),
     disabled: z.boolean().default(false),
+    fullWidth: z.boolean().default(false),
+    className: z.string().optional(),
+    textClassName: z.string().optional(),
+    iconSize: z.number().default(16),
     // - Pressable Props -
     hitSlop: z.number().default(10),
     // - Link Props -
-    target: z.enum(['_blank', '_self', '_parent', '_top']).default('_self'),
+    target: z.enum(['_blank', '_self', '_parent', '_top']).default('_self').example('_blank'),
     replace: z.boolean().optional(),
     push: z.boolean().optional(),
 })
@@ -87,7 +88,7 @@ export const Button = <HREF extends KnownRoutes | never = never>(rawProps: Butto
         props.size === 'lg' && 'p-4',
         props.type === 'link' && 'p-0 justify-start',
         props.disabled && 'opacity-75 cursor-not-allowed',
-        props.fullWidth && 'w-full',
+        props.fullWidth ? 'w-full' : 'self-start',
         props.className,
     )
 
@@ -148,6 +149,9 @@ export const Button = <HREF extends KnownRoutes | never = never>(rawProps: Butto
         if (props.disabled) return
         // Call event handler?
         props.onPress?.(evt)
+        // Open in new tab?
+        const isWebBlankLink = isWeb && props.href && props.target === '_blank'
+        if (isWebBlankLink) return window.open(props.href, '_blank')
         // Navigate?
         if (props.href && props.replace) return router.replace(props.href)
         if (props.href && props.push) return router.push(props.href)
@@ -214,7 +218,7 @@ export const Button = <HREF extends KnownRoutes | never = never>(rawProps: Butto
                 hitSlop={props.hitSlop}
                 asChild
             >
-                <Pressable className="flex-row">
+                <Pressable className="flex flex-row">
                     {buttonContent}
                 </Pressable>
             </Link>

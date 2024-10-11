@@ -9,6 +9,6 @@
     "web": {
       "bundler": "metro"
     },
-    "userInterfaceStyle": "automatic"
+    "userInterfaceStyle": "light"
   }
 }

@@ -332,7 +332,10 @@ const FormsScreen = (props: TestForm) => {
                             placeholder="Select devices and targets"
                             options={{ '1': 'Web only 👉 Static / SSR + Hydration' }}
                             value={`${formState.values.platformsTargeted || ''}`}
-                            onChange={(targets) => formState.handleChange('platformsTargeted', +targets)}
+                            onChange={(targets) => {
+                                if (targets) formState.handleChange('platformsTargeted', +targets) // @ts-ignore
+                                else formState.handleChange('platformsTargeted', undefined)
+                            }}
                         >
                             <Select.Option value="2" label="Mobile 📲 iOS + Android" />
                             <Select.Option value="3" label="Universal 🚀 Web + Mobile" />
@@ -413,21 +416,21 @@ const FormsScreen = (props: TestForm) => {
                                         text={!isNewToNextJS ? "✅  Web" : "❇️  +Web"}
                                         type="outline"
                                         size="sm"
-                                        className={cn('cursor-default', isNewToNextJS && 'border-green-500')}
+                                        className={cn('cursor-default', isNewToNextJS && 'border-success')}
                                     />
                                     <View className="w-4" />
                                     <Button
                                         text={!isNewToReactNative ? "✅  iOS" : "❇️  +iOS"}
                                         type="outline"
                                         size="sm"
-                                        className={cn('cursor-default', isNewToReactNative && 'border-green-500')}
+                                        className={cn('cursor-default', isNewToReactNative && 'border-success')}
                                     />
                                     <View className="w-4" />
                                     <Button
                                         text={!isNewToReactNative ? "✅  Android" : "❇️  +Android"}
                                         type="outline"
                                         size="sm"
-                                        className={cn('cursor-default', isNewToReactNative && 'border-green-500')}
+                                        className={cn('cursor-default', isNewToReactNative && 'border-success')}
                                     />
                                 </View>
 
@@ -449,7 +452,7 @@ const FormsScreen = (props: TestForm) => {
                                         min={1}
                                         {...formState.getInputProps('projectsPerYear')}
                                     />
-                                    <H2 className="text-slate-700">
+                                    <H2 className="text-secondary opacity-50">
                                         {`project${projectsPerYear > 1 ? 's' : ''} per year`}
                                     </H2>
                                 </View>
