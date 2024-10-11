@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import { z } from '@green-stack/schemas'
 import { isEmpty } from '../utils/commonUtils'
+import { createKey } from '../utils/objectUtils'
 
 /** --- useFormState() ------------------------------------------------------------------------- */
 /** -i- Returns a set of form management tools to handle form state, including validation, errors and even the required props to add to inputs */
@@ -20,19 +21,20 @@ export const useFormState = <
     // Props
     const { validateOnBlur, validateOnChange } = options
     const initialValues = (options.initialValues || {}) as T
+    const initialValuesKey = createKey(initialValues)
 
     // Initial
     const initialState = useMemo(() => {
         return schema.applyDefaults(initialValues, { stripUnknown: true }) as T
-    }, [schema, options.initialValues])
+    }, [schema, initialValuesKey])
 
     // State
     const [values, setValues] = useState<T>(initialState)
     const [errors, updateErrors] = useState<E>({} as E)
 
     // Vars
-    const defaultsKey = Object.entries(initialState).map(([k, v]) => `${k}-${v || 'x'}`).join('-')
-    const valuesKey = Object.entries(values).map(([k, v]) => `${k}-${v || 'x'}`).join('-')
+    const defaultsKey = createKey(initialState)
+    const valuesKey = createKey(values)
 
     // -- Memos --
 

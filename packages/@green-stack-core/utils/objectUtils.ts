@@ -68,3 +68,19 @@ export const swapEntries = <T extends EnumLike>(obj: T): { [K in keyof T as T[K]
     }
     return swapped
 }
+
+/** --- createKey() ---------------------------------------------------------------------------- */
+/** -i- Turns an object into a string by deeply rendering both keys & values to string and joining them */
+export const createKey = (obj: ObjectType<any$Unknown> = {}, separator = '-'): string => {
+    const valueKeys = Object.entries(obj).map(([key, val]) => {
+        let value = val
+        if (typeof value === 'object') value = createKey(value)
+        if (Array.isArray(value)) {
+            const itemType = typeof value[0]
+            if (itemType === 'object') value = value.map((v) => createKey(v))
+            value = value.join(separator)
+        }
+        return `${key}${separator}${value || 'x'}`
+    })
+    return valueKeys.join(separator)
+}
