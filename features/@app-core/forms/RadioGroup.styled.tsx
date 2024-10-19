@@ -24,12 +24,13 @@ export const useRadioGroupContext = () => {
 export const RadioButtonProps = schema('RadioButtonProps', {
     value: z.string(),
     label: z.string(),
+    disabled: z.boolean().default(false),
+    hasError: z.boolean().default(false),
     className: z.string().default('mb-4'),
     radioButtonClassName: z.string().optional(),
     indicatorClassName: z.string().optional(),
     labelClassName: z.string().optional(),
     hitSlop: z.number().default(6),
-    hasError: z.boolean().default(false),
 })
 
 export type RadioButtonProps = Omit<
@@ -56,21 +57,30 @@ export const RadioButton = forwardRef<
     // Context
     const { value: contextValue, setValue } = useRadioGroupContext()
     const checked = contextValue === value
+
+    // -- Handlers --
+
+    const onPress = disabled ? () => {} : () => setValue(value)
     
     // -- Render --
 
     return (
         <Pressable
-            className={cn('flex flex-row items-center', props.className)}
-            onPress={() => setValue(value)}
+            className={cn(
+                'flex flex-row items-center',
+                disabled && 'cursor-not-allowed',
+                props.className,
+            )}
+            onPress={onPress}
             hitSlop={props.hitSlop}
         >
             <RadioGroupItem
                 ref={ref}
                 id={nativeID}
                 aria-labelledby={labelledByID}
-                onPress={() => setValue(value)}
+                onPress={onPress}
                 {...props}
+                disabled={disabled}
                 hitSlop={props.hitSlop}
                 className={cn(
                     'aspect-square h-4 w-4 rounded-full justify-centeritems-center border border-primary text-primary ',
@@ -82,7 +92,7 @@ export const RadioButton = forwardRef<
                 )}
                 asChild
             >
-                <Pressable>
+                <Pressable disabled={disabled}>
                     {checked && (
                         <RadioGroupIndicator
                             className={cn(
@@ -111,9 +121,11 @@ export const RadioButton = forwardRef<
                     className={cn(
                         'flex items-center ml-2 web:select-none',
                         'text-primary',
+                        disabled && 'opacity-50 cursor-not-allowed',
                         props.labelClassName,
                     )}
-                    onPress={() => setValue(value)}
+                    onPress={onPress}
+                    disabled={disabled}
                 >
                     {label}
                 </Text>
@@ -196,6 +208,20 @@ const createRadioGroup = <T extends string | undefined = string | undefined>() =
     Option: RadioButton,
     /** -i- Create a Universal Radio Group where you can pass a Generic type to narrow the string `value` & `onChange()` params */
     create: createRadioGroup,
+})
+
+/* --- Docs ------------------------------------------------------------------------------------ */
+
+export const getDocumentationProps = RadioGroupProps.documentationProps('RadioGroup', {
+    exampleProps: {
+        options: {
+            'full-product-dev': 'Full-Product Universal App Dev',
+            'front-end-dev': 'Front-End Web Developer',
+            'back-end-dev': 'Back-End Web Developer',
+            'mobile-app-dev': 'Mobile App Developer',
+        },
+        value: 'full-product-dev',
+    },
 })
 
 /* --- Exports --------------------------------------------------------------------------------- */

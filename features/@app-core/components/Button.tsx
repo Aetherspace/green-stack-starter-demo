@@ -246,3 +246,7 @@ export const Button = <HREF extends KnownRoutes | never = never>(rawProps: Butto
         </Pressable>
     )
 }
+
+/* --- Documentation --------------------------------------------------------------------------- */
+
+export const getDocumentationProps = ButtonProps.documentationProps('Button')

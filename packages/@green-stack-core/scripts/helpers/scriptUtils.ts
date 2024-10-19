@@ -1,6 +1,7 @@
 import glob from 'glob'
 import fs from 'fs'
 import type { ALLOWED_METHODS } from '../../schemas/createDataBridge'
+import tsconfig from '@app/core/tsconfig.json'
 export * from '../../utils/stringUtils'
 
 /* --- Types ----------------------------------------------------------------------------------- */
@@ -258,4 +259,25 @@ export const getAvailableDataBridges = (
         }
     >
     return availableDataBridges
+}
+
+/** --- importAliases -------------------------------------------------------------------------- */
+/** -i- Import aliases from @app/core tsconfig.json */
+export const importAliases = Object.entries(tsconfig.compilerOptions.paths).reduce((acc, [alias, [path]]) => {
+    const trimmedAlias = alias.replace('/*', '')
+    const trimmedPath = path.replace('/*', '').replaceAll('../', '').replace('.tsx', '').replace('.ts', '')
+    const { workspaceImports } = parseWorkspaces()
+    const workspaceEntry = Object.entries(workspaceImports).find(([pathKey]) => {
+        return trimmedPath.includes(pathKey)
+    })
+    const [workspacePath, workspaceName] = workspaceEntry!
+    const importPath = trimmedPath.replace(workspacePath, workspaceName)
+    return { ...acc, [importPath]: trimmedAlias }
+}, {} as Record<string, string>)
+
+/** --- swapImportAlias() ---------------------------------------------------------------------- */
+/** -i- Swap an import path with an alias if a match occurs */
+export const swapImportAlias = (importPath: string) => {
+    const aliasMatch = Object.keys(importAliases).find((alias) => importPath.includes(alias))
+    return aliasMatch ? importPath.replace(aliasMatch, importAliases[aliasMatch]) : importPath
 }

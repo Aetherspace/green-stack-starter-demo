@@ -16,13 +16,13 @@ import Animated, {
 export const SwitchProps = schema('SwitchProps', {
     checked: z.boolean().default(false),
     label: z.string().optional(),
+    disabled: z.boolean().default(false),
+    hasError: z.boolean().default(false),
     className: z.string().optional(),
     switchClassName: z.string().optional(),
     switchThumbClassName: z.string().optional(),
     labelClassName: z.string().optional(),
-    disabled: z.boolean().default(false),
     hitSlop: z.number().default(6),
-    hasError: z.boolean().default(false),
 })
 
 export type SwitchProps = PropsOf<typeof SP['SwitchRoot'], typeof SwitchProps>
@@ -37,6 +37,10 @@ export const SwitchWeb = forwardRef<
     const props = SwitchProps.applyDefaults(rawProps)
     const { checked, disabled, label, hasError, onCheckedChange } = props
 
+    // -- Handlers --
+
+    const onPress = disabled ? () => {} : () => onCheckedChange(!checked)
+
     // -- Render --
 
     return (
@@ -45,7 +49,7 @@ export const SwitchWeb = forwardRef<
                 'flex-row items-center',
                 props.className,
             )}
-            onPress={() => onCheckedChange(!checked)}
+            onPress={onPress}
             disabled={disabled}
         >
             <SP.SwitchRoot
@@ -56,13 +60,14 @@ export const SwitchWeb = forwardRef<
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
                     'disabled:cursor-not-allowed',
                     checked ? 'bg-success' : 'bg-input',
+                    checked && hasError && 'bg-danger',
                     disabled && 'opacity-50',
                     hasError && 'border-danger',
                     props.switchClassName,
                 )}
                 asChild
             >
-                <Pressable>
+                <Pressable disabled={disabled}>
                     <SP.SwitchThumb
                         className={cn(
                             'pointer-events-none block h-5 w-5 rounded-full bg-background ring-0 transition-transform',
@@ -82,6 +87,7 @@ export const SwitchWeb = forwardRef<
                         'ml-2 text-sm text-primary select-none',
                         props.labelClassName,
                     )}
+                    disabled={disabled}
                 >
                     {label}
                 </Text>
@@ -150,7 +156,8 @@ export const SwitchNative = forwardRef<
                     {...props}
                     className={cn(
                         'flex-row h-8 w-[46px] shrink-0 items-center rounded-full border-2 border-transparent',
-                        props.checked ? 'bg-primary' : 'bg-input',
+                        props.checked ? 'bg-success' : 'bg-input',
+                        props.checked && props.hasError && 'bg-danger',
                         props.switchClassName,
                     )}
                     asChild
@@ -195,4 +202,11 @@ export const Switch = Platform.select({
     windows: SwitchNative,
     ios: SwitchNative,
     android: SwitchNative,
+})
+
+/* --- Docs ------------------------------------------------------------------------------------ */
+
+export const getDocumentationProps = SwitchProps.documentationProps<SwitchProps>('Switch', {
+    valueProp: 'checked',
+    onChangeProp: 'onCheckedChange',
 })

@@ -8,14 +8,14 @@ import { Icon } from '@green-stack/components/Icon'
 
 export const CheckboxProps = schema('CheckboxProps', {
     checked: z.boolean().default(false),
-    label: z.string().optional(),
+    label: z.string().optional().eg('Label'),
+    disabled: z.boolean().default(false),
+    hasError: z.boolean().default(false),
     className: z.string().optional(),
     checkboxClassName: z.string().optional(),
     indicatorClassName: z.string().optional(),
     labelClassName: z.string().optional(),
-    disabled: z.boolean().default(false),
     hitSlop: z.number().default(6),
-    hasError: z.boolean().default(false),
 })
 
 export type CheckboxProps = PropsOf<typeof CheckboxRoot, typeof CheckboxProps>
@@ -28,22 +28,31 @@ export const Checkbox = forwardRef<
 >((rawProps, ref) => {
     // Props
     const props = CheckboxProps.applyDefaults(rawProps)
-    const { checked, label, hasError, onCheckedChange } = props
+    const { checked, disabled, label, hasError, onCheckedChange } = props
 
     // Vars
     const nativeID = props.id || props.nativeID
     const labelledByFallback = nativeID ? `${nativeID}-label` : undefined
     const labelledByID = props['aria-labelledby'] || labelledByFallback
 
+    // -- Handlers --
+
+    const onPress = disabled ? () => {} : () => onCheckedChange(!checked)
+
     // -- Render --
 
     return (
         <Pressable
-            className={cn('flex flex-row items-center', props.className)}
-            onPress={() => onCheckedChange(!checked)}
+            className={cn(
+                'flex flex-row items-center',
+                disabled && 'opacity-50 cursor-not-allowed',
+                props.className,
+            )}
+            onPress={onPress}
             hitSlop={props.hitSlop}
             role="checkbox"
             aria-labelledby={labelledByID}
+            disabled={disabled}
             focusable={false}
         >
             <CheckboxRoot
@@ -57,6 +66,7 @@ export const Checkbox = forwardRef<
                     'web:peer web:ring-offset-background',
                     'web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2',
                     'disabled:cursor-not-allowed disabled:opacity-50',
+                    disabled && 'border border-muted opacity-50 cursor-not-allowed',
                     checked && 'bg-primary',
                     checked && hasError && 'bg-danger',
                     hasError && 'border border-danger',
@@ -97,10 +107,18 @@ export const Checkbox = forwardRef<
                         props.labelClassName,
                     )}
                     id={labelledByID}
+                    disabled={disabled}
                 >
                     {label}
                 </Text>
             )}
         </Pressable>
     )
+})
+
+/* --- Docs ------------------------------------------------------------------------------------ */
+
+export const getDocumentationProps = CheckboxProps.documentationProps<CheckboxProps>('Checkbox', {
+    valueProp: 'checked',
+    onChangeProp: 'onCheckedChange',
 })

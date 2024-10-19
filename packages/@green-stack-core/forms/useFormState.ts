@@ -16,10 +16,11 @@ export const useFormState = <
         initialValues?: Partial<T>,
         validateOnBlur?: boolean,
         validateOnChange?: boolean,
+        syncFromPropsKey?: string,
     } = {},
 ) => {
     // Props
-    const { validateOnBlur, validateOnChange } = options
+    const { validateOnBlur, validateOnChange, syncFromPropsKey = 'none' } = options
     const initialValues = (options.initialValues || {}) as T
     const initialValuesKey = createKey(initialValues)
 
@@ -139,6 +140,10 @@ export const useFormState = <
         if (validateOnChange) validate()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [valuesKey])
+
+    useEffect(() => {
+        setValues(schema.applyDefaults(initialState, { stripUnknown: true }) as T)
+    }, [syncFromPropsKey])
 
     // -- Return --
 

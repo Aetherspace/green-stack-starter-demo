@@ -59,7 +59,7 @@ export const SelectTrigger = forwardRef<
                 'flex flex-row h-10 items-center text-sm justify-between rounded-md border border-input bg-background px-3 py-2 text-muted-foreground',
                 'native:h-12',
                 'web:ring-offset-background web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2 [&>span]:line-clamp-1',
-                disabled && 'web:cursor-not-allowed',
+                disabled && 'border-muted web:cursor-not-allowed',
                 hasError && 'border-danger',
                 props.className,
             )}
@@ -238,6 +238,7 @@ export const SelectItemProps = schema('SelectItemProps', {
     value: z.string(),
     label: z.string(),
     className: z.string().optional(),
+    disabled: z.boolean().default(false),
     hasError: z.boolean().default(false),
 })
 
@@ -352,6 +353,7 @@ export const SelectProps = schema('SelectProps', {
     options: z.record(z.string()).default({}),
     value: z.string().default(''),
     placeholder: z.string().default('Select an option'),
+    disabled: z.boolean().default(false),
     hasError: z.boolean().default(false),
     className: z.string().optional(),
     triggerClassName: z.string().optional(),
@@ -376,7 +378,7 @@ export const createSelectComponent = <T extends string = string>() => Object.ass
 >((rawProps, ref) => {
     // Props
     const props = SelectProps.applyDefaults(rawProps)
-    const { placeholder, hasError, children, onChange, ...restProps } = props
+    const { placeholder, disabled, hasError, children, onChange, ...restProps } = props
 
     // State
     const [value, setValue] = useState<string>(props.value)
@@ -407,6 +409,10 @@ export const createSelectComponent = <T extends string = string>() => Object.ass
         }
     }, [value])
 
+    useEffect(() => {
+        if (props.value !== value) setValue(props.value)
+    }, [props.value])
+
     // -- Render --
 
     return (
@@ -418,20 +424,26 @@ export const createSelectComponent = <T extends string = string>() => Object.ass
                 value={{ value, label: options?.[value] }}
                 className={cn('w-full relative', props.className)}
                 onValueChange={(option) => setValue(option!.value!)}
+                disabled={disabled}
                 asChild
             >
                 <View>
                     <SelectTrigger
                         key={`select-trigger-${selectValueKey}`}
                         className={cn('w-full', props.triggerClassName)}
+                        disabled={disabled}
+                        hasError={hasError}
                     >
                         <Text
+                            key={`select-value-${optionsKey}-${!!value}-${!!options?.[value]}`}
                             className={cn(
                                 'text-foreground text-sm',
                                 'native:text-lg',
                                 !value && !!placeholder && 'text-muted',
+                                disabled && 'opacity-50',
                                 props.valueClassName,
                             )}
+                            disabled={disabled}
                         >
                             <SP.SelectValue
                                 key={`select-value-${selectValueKey}`}
@@ -492,6 +504,21 @@ export const createSelectComponent = <T extends string = string>() => Object.ass
     Content: SelectContent,
     /** -i- Create a Universal Select where you can pass a Generic type to narrow the string `value` & `onChange()` params */
     create: createSelectComponent,
+})
+
+/* --- Docs ------------------------------------------------------------------------------------ */
+
+export const getDocumentationProps = SelectProps.documentationProps('Select', {
+    exampleProps: {
+        options: {
+            'write-once': 'Universal  -  write-once  -  🚀 💸 ⚡️',
+            'react-native': 'React Native first  -  Web later  -  ⏳⏳',
+            'web-first': 'Web first  -  Mobile later  -  💰💰(💰)',
+            'ios-first': 'iOS first  -  Web + Android later  -  ⏳⏳⏳',
+            'android-first': 'Android first  -  Web + iOS later  -  💰💰💰',
+        },
+        placeholder: 'Select a build and release strategy',
+    }
 })
 
 /* --- Exports --------------------------------------------------------------------------------- */

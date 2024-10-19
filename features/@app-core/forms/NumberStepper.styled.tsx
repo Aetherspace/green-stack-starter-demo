@@ -13,14 +13,14 @@ export const NumberStepperProps = schema('NumberStepperProps', {
     max: z.number().optional(),
     step: z.number().default(1),
     placeholder: z.string().optional().example('Enter number...'),
+    disabled: z.boolean().default(false),
+    readOnly: z.boolean().default(false),
+    hasError: z.boolean().default(false),
     className: z.string().optional(),
     pressableClassName: z.string().optional(),
     textInputClassName: z.string().optional(),
     placeholderClassName: z.string().optional(),
     placeholderTextColor: z.string().optional(),
-    hasError: z.boolean().default(false),
-    readOnly: z.boolean().default(false),
-    disabled: z.boolean().default(false),
 })
 
 type NumberStepperProps = z.input<typeof NumberStepperProps> & {
@@ -35,7 +35,7 @@ export const NumberStepper = forwardRef<
 >((rawProps, ref) => {
     // Props
     const props = NumberStepperProps.applyDefaults(rawProps)
-    const { min, max, step, onChange, ...restProps } = props
+    const { min, max, step, disabled, hasError, onChange, ...restProps } = props
 
     // State
     const [value, setValue] = useState(props.value)
@@ -51,6 +51,8 @@ export const NumberStepper = forwardRef<
     const hasMaxValue = typeof rawProps.max !== undefined
     const hasReachedMin = hasMinValue && numberValue === min
     const hasReachedMax = hasMaxValue && numberValue === max
+    const isDecrementDisabled = disabled || hasReachedMin
+    const isIncrementDisabled = disabled || hasReachedMax
  
     // -- Handlers --
 
@@ -71,6 +73,10 @@ export const NumberStepper = forwardRef<
         if (value) onChange(value)
     }, [value])
 
+    useEffect(() => {
+        if (props.value !== value) setValue(props.value)
+    }, [props.value])
+
     // -- Render --
 
     return (
@@ -87,12 +93,12 @@ export const NumberStepper = forwardRef<
                     "absolute top-0 left-0 items-center justify-center select-none z-10",
                     "w-10 h-10 native:w-12 native:h-12",
                     "border-r border-r-input",
-                    hasReachedMin && 'opacity-50 web:cursor-not-allowed',
+                    isDecrementDisabled && 'opacity-50 web:cursor-not-allowed',
                     props.hasError && 'border-r-danger',
                     props.pressableClassName,
                 )}
                 onPress={onDecrement}
-                disabled={hasReachedMin}
+                disabled={isDecrementDisabled}
                 hitSlop={10}
             >
                 <Icon name="RemoveFilled" size={20} color={getThemeColor('--primary')} />
@@ -106,11 +112,14 @@ export const NumberStepper = forwardRef<
                     'px-10 native:px-12',
                     'web:max-w-[200px]',
                     'native:min-w-[130]',
+                    disabled && 'cursor-not-allowed text-muted border-muted',
                     props.textInputClassName,
                 )}
                 onKeyPress={onKeyPress}
+                disabled={disabled}
                 value={value ? `${value}` : ''}
                 onChangeText={(newValue = '') => {
+                    if (disabled) return
                     // Strip non-numeric characters
                     const strippedValue = newValue.replace(/[^0-9]/g, '')
                     // If empty, show placeholder
@@ -126,12 +135,12 @@ export const NumberStepper = forwardRef<
                     "absolute top-0 right-0 items-center justify-center select-none z-10",
                     "w-10 h-10 native:w-12 native:h-12",
                     "border-l border-l-input",
-                    hasReachedMax && 'opacity-50 web:cursor-not-allowed',
+                    isIncrementDisabled && 'opacity-50 web:cursor-not-allowed',
                     props.hasError && 'border-l-danger',
                     props.pressableClassName,
                 )}
                 onPress={onIncrement}
-                disabled={hasReachedMax}
+                disabled={isIncrementDisabled}
                 hitSlop={10}
             >
                 <Icon name="AddFilled" size={20} color={getThemeColor('--primary')} />
@@ -140,4 +149,6 @@ export const NumberStepper = forwardRef<
     )
 })
 
+/* --- Docs ------------------------------------------------------------------------------------ */
 
+export const getDocumentationProps = NumberStepperProps.documentationProps('NumberStepper')

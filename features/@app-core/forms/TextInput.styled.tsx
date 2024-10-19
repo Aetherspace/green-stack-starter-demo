@@ -33,10 +33,7 @@ export const TextInput = forwardRef<
         <BaseTextInput
             ref={ref}
             {...props}
-            placeholderClassName={cn(
-                'text-muted',
-                props.placeholderClassName,
-            )}
+            placeholderClassName={cn('text-muted', props.placeholderClassName)}
             className={cn(
                 'h-10 rounded-md bg-background px-3 text-base text-foreground',
                 'border border-input',
@@ -45,10 +42,18 @@ export const TextInput = forwardRef<
                 'web:flex web:w-full web:py-2 web:ring-offset-background',
                 'web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2',
                 'file:border-0 file:bg-transparent file:font-medium',
-                props.readOnly && 'opacity-50 eb:cursor-not-allowed',
+                props.editable === false && 'web:cursor-not-allowed',
+                props.readOnly && 'web:cursor-not-allowed',
+                props.disabled && 'opacity-50 web:cursor-not-allowed',
                 props.hasError && 'border border-danger',
                 props.className,
             )}
         />
     )
+})
+
+/* --- Docs ------------------------------------------------------------------------------------ */
+
+export const getDocumentationProps = TextInputProps.documentationProps('TextInput', {
+    onChangeProp: 'onChangeText',
 })

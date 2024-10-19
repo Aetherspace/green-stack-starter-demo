@@ -61,7 +61,7 @@ export const CheckListOption = (props: CheckListOptionProps) => {
 /* --- CheckList Props ------------------------------------------------------------------------- */
 
 export const CheckListProps = CheckboxProps
-    .omit({ checked: true,  })
+    .omit({ checked: true, label: true })
     .extendSchema('CheckListProps', {
         options: z.record(z.string()),
         value: z.array(z.string()).default([]),
@@ -83,16 +83,27 @@ const CheckListComponent = <T extends string[] = string[]>(rawProps: CheckListPr
     // State
     const [values, setValues] = useState<T>(currentItems)
 
+    // Vars
+    const valuesKey = values?.filter?.(Boolean).join('-')
+    const propValuesKey = currentItems?.filter?.(Boolean).join('-')
+
     // -- Handlers --
 
     const toggleValue = (value: string) => {
+        if (props.disabled) return
         const shouldAdd = !currentItems.includes(value) // @ts-ignore
         setValues(shouldAdd ? [...currentItems, value] : values.filter((v) => v !== value))
     }
 
     // -- Effects --
 
-    useEffect(() => onChange(values), [values?.filter?.(Boolean).join('-')])
+    useEffect(() => {
+        onChange(values)
+    }, [valuesKey])
+
+    useEffect(() => {
+        if (valuesKey !== propValuesKey) setValues(currentItems)
+    }, [propValuesKey])
 
     // -- Render --
 
@@ -110,6 +121,19 @@ const CheckListComponent = <T extends string[] = string[]>(rawProps: CheckListPr
         </CheckListContext.Provider>
     )
 }
+
+/* --- Docs ------------------------------------------------------------------------------------ */
+
+export const getDocumentationProps = CheckListProps.documentationProps('CheckList', {
+    exampleProps: {
+        value: ['web'],
+        options: {
+            'web': 'Web - Organic traffic on Google',
+            'ios': 'iOS - Mobile App in App Store',
+            'android': 'Android - Mobile App in Play Store',
+        }
+    }
+})
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

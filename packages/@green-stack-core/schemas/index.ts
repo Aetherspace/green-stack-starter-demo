@@ -111,6 +111,23 @@ export type PropsOf<
     Z extends z.ZodObject<z.ZodRawShape>,
 > = ComponentProps<C> & z.input<Z>
 
+export type DocumentationProps<
+    T extends Record<string, any$Unknown> = Record<string, any$Unknown>,
+> = {
+    componentName: string,
+    propSchema: z.ZodObject<z.ZodRawShape>,
+    propMeta: Record<string, Meta$Schema>,
+    previewProps: Record<string, any$Unknown>,
+    valueProp?: keyof T | HintedKeys,
+    onChangeProp?: keyof T | HintedKeys,
+    exampleProps?: Partial<T>,
+    previewState?: {
+        didMount?: boolean,
+        didApplyParams?: boolean,
+        didRegister?: boolean,
+    }
+}
+
 /* --- Zod extensions -------------------------------------------------------------------------- */
 
 declare module 'zod' {
@@ -154,11 +171,17 @@ declare module 'zod' {
             options?: ApplyDefaultsOptions
         ): D & Output
 
-        documentationProps<N extends string>(componentName: N): {
+        documentationProps<
+            P extends Input = Input,
+            N extends string = string,
+        >(
+            componentName: N,
+            config?: Partial<DocumentationProps<Partial<P>>>
+        ): {
             componentName: N,
             propSchema: ZodObject<T, UnknownKeys, Catchall>,
             propMeta: Record<string, Meta$Schema>,
-            previewProps: Record<string, any$Unknown>,
+            previewProps: Partial<Input>,
         }
 
         // -- Deprecations --
@@ -415,12 +438,16 @@ if (!ZodType.prototype.metadata) {
         return values as D & (typeof thisSchema)['_type']
     }
 
-    ZodObject.prototype.documentationProps = function (componentName) {
+    ZodObject.prototype.documentationProps = function (
+        componentName,
+        config = {},
+    ) {
         return {
+            ...config,
             componentName,
             propSchema: this,
             propMeta: this.introspect().schema as Record<string, Meta$Schema>,
-            previewProps: this.applyDefaults({}, { applyExamples: true }),
+            previewProps: this.applyDefaults(config.exampleProps || {}, { applyExamples: true }),
         }
     }
 }
