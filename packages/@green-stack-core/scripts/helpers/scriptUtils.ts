@@ -262,22 +262,32 @@ export const getAvailableDataBridges = (
 }
 
 /** --- importAliases -------------------------------------------------------------------------- */
-/** -i- Import aliases from @app/core tsconfig.json */
-export const importAliases = Object.entries(tsconfig.compilerOptions.paths).reduce((acc, [alias, [path]]) => {
-    const trimmedAlias = alias.replace('/*', '')
-    const trimmedPath = path.replace('/*', '').replaceAll('../', '').replace('.tsx', '').replace('.ts', '')
-    const { workspaceImports } = parseWorkspaces()
-    const workspaceEntry = Object.entries(workspaceImports).find(([pathKey]) => {
-        return trimmedPath.includes(pathKey)
-    })
-    const [workspacePath, workspaceName] = workspaceEntry!
-    const importPath = trimmedPath.replace(workspacePath, workspaceName)
-    return { ...acc, [importPath]: trimmedAlias }
-}, {} as Record<string, string>)
+/** -i- Retrieve the import aliases from the main tsconfig.json in '@app/core' */
+export const readImportAliases = (folderLevel = '../../') => {
+    return Object.entries(tsconfig.compilerOptions.paths).reduce((acc, [alias, [path]]) => {
+        const trimmedAlias = alias.replace('/*', '')
+        const trimmedPath = path.replace('/*', '').replaceAll('../', '').replace('.tsx', '').replace('.ts', '')
+        const { workspaceImports } = parseWorkspaces(folderLevel)
+        const workspaceEntry = Object.entries(workspaceImports).find(([pathKey]) => {
+            return trimmedPath.includes(pathKey)
+        })
+        if (!workspaceEntry) {
+            console.error([
+                `Could not find matching workspace for path: ${trimmedPath}.`,
+                `You may need to specify / finetune the folder level in the function args.`,
+            ].join(' '))
+            return acc
+        }
+        const [workspacePath, workspaceName] = workspaceEntry!
+        const importPath = trimmedPath.replace(workspacePath, workspaceName)
+        return { ...acc, [importPath]: trimmedAlias }
+    }, {} as Record<string, string>)
+}
 
 /** --- swapImportAlias() ---------------------------------------------------------------------- */
 /** -i- Swap an import path with an alias if a match occurs */
-export const swapImportAlias = (importPath: string) => {
+export const swapImportAlias = (importPath: string, folderLevel = '../../') => {
+    const importAliases = readImportAliases(folderLevel)
     const aliasMatch = Object.keys(importAliases).find((alias) => importPath.includes(alias))
     return aliasMatch ? importPath.replace(aliasMatch, importAliases[aliasMatch]) : importPath
 }

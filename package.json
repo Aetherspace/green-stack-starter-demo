@@ -39,6 +39,7 @@
     "link:routes": "npx turbo run @green-stack/core#link:routes",
     "add:dependencies": "npx turbo gen add-dependencies",
     "add:workspace": "npx turbo gen add-workspace",
+    "add:schema": "npx turbo gen add-schema",
     "env:local": "npx turbo run env:local",
     "gen": "npx turbo gen",
     "turbo:login": "npx turbo login",
