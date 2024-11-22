@@ -59,3 +59,4 @@ yarn-error.log*
 # -- @end @expo/next-adapter --
 
 .turbo
+.vscode/tmp
