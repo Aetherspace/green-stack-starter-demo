@@ -41,7 +41,7 @@ export const useFormState = <
 
     const isDefaultState = useMemo(() => {
         return valuesKey === defaultsKey
-    }, [valuesKey, initialState])
+    }, [valuesKey, defaultsKey])
 
     // -- Validation --
 

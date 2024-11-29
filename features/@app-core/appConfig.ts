@@ -13,13 +13,16 @@ import { DRIVER_OPTIONS, createDriverConfig } from '@app/registries/drivers.conf
 /* --- Env Flags ------------------------------------------------------------------------------- */
 
 export const isWeb = Platform.OS === 'web'
-export const isMobile = ['ios', 'android'].includes(Platform.OS)
+export const isAndroid = Platform.OS === 'android'
+export const isIOS = Platform.OS === 'ios'
+export const isMobile = isAndroid || isIOS
 export const isServer = typeof window === 'undefined'
 
 export const isExpo = Constants?.appOwnership === 'expo' || process.env.EXPO_PUBLIC_APP_ENV === 'expo'
 export const isNext = (!isExpo && isWeb) || process.env.NEXT_PUBLIC_APP_ENV === 'next'
 
-export const isWebLocalhost = isWeb && globalThis?.location?.hostname === 'localhost'
+export const isWebLocalServer = isWeb && isServer && process.env.PORT === '3000'
+export const isWebLocalhost = isWeb && (globalThis?.location?.hostname === 'localhost' || isWebLocalServer)
 export const isExpoWebLocal = isWebLocalhost && globalThis?.location?.port === '8081'
 export const isNextLocal = isNext && isWebLocalhost && !isExpoWebLocal
 
@@ -57,6 +60,8 @@ export const appConfig = {
     // - Flags -
     isWeb,
     isMobile,
+    isAndroid,
+    isIOS,
     isServer,
     isExpo,
     isNext,

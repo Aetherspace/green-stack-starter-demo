@@ -41,7 +41,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
     // TODO: Remove this useEffect once you're done with testing this demo
     useEffect(() => {
-        if (serverHealth) console.log('Server Health:', JSON.stringify(serverHealth, null, 4))
+        // if (serverHealth) console.log('Server Health:', JSON.stringify(serverHealth, null, 4))
     }, [!!serverHealth])
 
     // -- Render --
