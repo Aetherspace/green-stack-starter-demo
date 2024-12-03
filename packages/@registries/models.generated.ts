@@ -1,5 +1,5 @@
 // -i- Auto generated with "npx turbo run @db/driver#collect-models"
-import { driverModel as Settings } from '@app/core/models/Settings.model'
+import { driverModel as Settings } from '@app/core/models/Settings.model.ts'
 
 /* --- Reexports ------------------------------------------------------------------------------- */
 
