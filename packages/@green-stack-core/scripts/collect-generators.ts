@@ -1,7 +1,6 @@
-import glob from 'glob'
 import fs from 'fs'
 import { findTargetString } from '../utils/stringUtils'
-import { excludeDirs, parseWorkspaces } from './helpers/scriptUtils'
+import { excludeDirs, parseWorkspaces, globRel } from './helpers/scriptUtils'
 
 /* --- constants ------------------------------------------------------------------------------- */
 
@@ -12,9 +11,16 @@ const genMsg = '// -i- Auto generated with "npx turbo run @green-stack/core#coll
 const collectGenerators = () => {
   try {
     // Get all resolver file paths in the next app's api folder
-    const featureGenerators = glob.sync('../../features/**/generators/*.ts').filter(excludeDirs)
-    const packageGenerators = glob.sync('../../packages/**/generators/*.ts').filter(excludeDirs)
-    const allGenerators = [...featureGenerators, ...packageGenerators].filter((path) => !path.includes('.d.ts')) // prettier-ignore
+    const featureGenerators = globRel('../../features/**/generators/*.ts').filter(excludeDirs)
+    const packageGenerators = globRel('../../packages/**/generators/*.ts').filter(excludeDirs)
+    const rawGenerators = [...featureGenerators, ...packageGenerators].filter((path) => !path.includes('.d.ts')) // prettier-ignore
+    
+    // Replace all before 'packages' or 'features' with '../../'
+    const allGenerators = rawGenerators.map((path) => {
+        const packageOrFeatureRegex = /packages|features/
+        const [replaceTarget] = path.split(packageOrFeatureRegex)
+        return path.replace(replaceTarget, '../../')
+    })
 
     // Figure out import paths from each workspace
     const { workspaceImports } = parseWorkspaces()

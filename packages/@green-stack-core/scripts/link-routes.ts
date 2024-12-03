@@ -1,6 +1,5 @@
-import glob from 'glob'
 import fs from 'fs'
-import { excludeDirs, parseWorkspaces } from './helpers/scriptUtils'
+import { excludeDirs, parseWorkspaces, globRel } from './helpers/scriptUtils'
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
@@ -23,8 +22,8 @@ const linkRoutes = () => {
     const routeManifest = {} as ObjectType<any$Todo>
 
     // Get all route paths in the features & package folders
-    const packageRoutePaths = glob.sync('../../packages/**/routes/**/*.{ts,tsx}').filter(excludeDirs) // prettier-ignore
-    const featureRoutePaths = glob.sync('../../features/**/routes/**/*.{ts,tsx}').filter(excludeDirs) // prettier-ignore
+    const packageRoutePaths = globRel('../../packages/**/routes/**/*.{ts,tsx}').filter(excludeDirs)
+    const featureRoutePaths = globRel('../../features/**/routes/**/*.{ts,tsx}').filter(excludeDirs)
     const allRoutePaths = [...packageRoutePaths, ...featureRoutePaths]
 
     // Determine each route type

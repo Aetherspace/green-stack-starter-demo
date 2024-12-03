@@ -1,6 +1,6 @@
 // @ts-ignore
 export * from '@testing-library/jest-dom/jest-globals'
-import glob from 'glob'
+import { globRel } from '@green-stack/core/scripts/helpers/scriptUtils'
 import { GlobalRegistrator } from '@happy-dom/global-registrator'
 import { cleanup } from '@testing-library/react' // @ts-ignore
 import { mock, afterEach } from 'bun:test'
@@ -10,8 +10,8 @@ import { mock, afterEach } from 'bun:test'
 // -i- We need to mock the tsConfig paths for esbuild-register to work
 // -i- ... as it doesn't have the same path resolution as typescript.
 
-const featureTsConfigs = glob.sync('./features/**/tsconfig.json')
-const packageTsConfigs = glob.sync('./packages/**/tsconfig.json')
+const featureTsConfigs = globRel('./features/**/tsconfig.json')
+const packageTsConfigs = globRel('./packages/**/tsconfig.json')
 const relevantTsConfigs = [...featureTsConfigs, ...packageTsConfigs]
 relevantTsConfigs.forEach(async (tsConfigPath) => {
     const actualTsConfigPath = tsConfigPath.replace('./', '../../')
@@ -24,7 +24,7 @@ relevantTsConfigs.forEach(async (tsConfigPath) => {
         if (aliasKey.includes('*')) {
             const [importPathBase] = aliasedPath.split('*')
             const aliasGlob = aliasedPath.replace('*', '**/*.{ts,tsx}').replace('../../', './')
-            const aliasedPaths = glob.sync(aliasGlob)
+            const aliasedPaths = globRel(aliasGlob)
             aliasedPaths.forEach((file) => {
                 const actualFilePath = file.replace('./', '../../').replace('.tsx', '').replace('.ts', '') // prettier-ignore
                 const modulePathFromAlias = actualFilePath.split(importPathBase)[1]?.replace('.tsx', '').replace('.ts', '') // prettier-ignore

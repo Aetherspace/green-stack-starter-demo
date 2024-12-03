@@ -1,6 +1,5 @@
-import glob from 'glob'
 import fs from 'fs'
-import { excludeDirs, parseWorkspaces } from './helpers/scriptUtils'
+import { excludeDirs, excludeModules, parseWorkspaces, globRel } from './helpers/scriptUtils'
 import { isEmpty } from '../utils/commonUtils'
 
 /* --- Goal ------------------------------------------------------------------------------------ */
@@ -42,9 +41,9 @@ const checkWorkspaces = async (isDeepCheck = true) => {
         const typescriptAliases = Object.keys(appCoreTsConfig.compilerOptions.paths).map((path: string) => path.split('/*')[0])
 
         // Scan all /features/  and /packages/ workspace .ts & .tsx files
-        const featureFiles = glob.sync('../../features/**/*.ts*').filter(excludeDirs)
-        const packageFiles = glob.sync('../../packages/**/*.ts*').filter(excludeDirs)
-        const allWsFiles = [...featureFiles, ...packageFiles]
+        const featureFiles = globRel('../../features/**/*.ts*').filter(excludeDirs)
+        const packageFiles = globRel('../../packages/**/*.ts*').filter(excludeDirs)
+        const allWsFiles = [...featureFiles, ...packageFiles].filter(excludeModules)
 
         // Figure out import paths from each workspace
         const { workspaceConfigs, workspaceImports, workspacePaths, workspacePackages } = parseWorkspaces() // prettier-ignore

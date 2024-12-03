@@ -1,7 +1,6 @@
-import glob from 'glob'
 import fs from 'fs'
 import { addSetItem } from '@green-stack/utils/arrayUtils'
-import { parseWorkspaces, replaceMany } from '@green-stack/scripts/helpers/scriptUtils'
+import { parseWorkspaces, replaceMany, globRel } from '@green-stack/scripts/helpers/scriptUtils'
 
 /* --- models.generated.ts --------------------------------------------------------------------- */
 
@@ -39,8 +38,8 @@ type ModelRegistry = {
 const collectModels = () => {
     try {
         // Get all model file paths in /features/ & /packages/ workspaces
-        const featureModelPaths = glob.sync('../../features/**/models/*.model.ts')
-        const packageModelPaths = glob.sync('../../packages/**/models/*.model.ts')
+        const featureModelPaths = globRel('../../features/**/models/*.model.ts')
+        const packageModelPaths = globRel('../../packages/**/models/*.model.ts')
         const allModelPaths = [...featureModelPaths, ...packageModelPaths]
 
         // Figure out import paths from each workspace
@@ -65,7 +64,7 @@ const collectModels = () => {
             const modelFilename = innerModelFilePath.replace('/models/', '')
             const modelFileModuleName = modelFilename.replace('.tsx', '').replace('.ts', '')
             const [modelName] = modelFileModuleName.split('.')
-            const modelImportPath = `${modelWorkspace}/models/${modelFileModuleName}`
+            const modelImportPath = `${modelWorkspace}/models/${modelFilename}`
             const modelImportLine = `import { driverModel as ${modelName} } from '${modelImportPath}'` // prettier-ignore
             const modelModuleAliasLine = `    ${modelName}`
             

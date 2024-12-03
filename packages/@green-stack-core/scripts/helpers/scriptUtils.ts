@@ -1,4 +1,4 @@
-import glob from 'glob'
+import { globSync } from 'glob'
 import fs from 'fs'
 import type { ALLOWED_METHODS } from '../../schemas/createDataBridge'
 import tsconfig from '@app/core/tsconfig.json'
@@ -24,6 +24,30 @@ export const normalizeName = (str: string) => str.replace(/[^a-zA-Z]/g, '')
 /** -i- Checks that a certain method (like `'GET'`, `'POST'`, ...) is included in list of method names */
 export const matchMethods = (methods: HINTED_METHODS[], method: HINTED_METHODS) => {
     return methods.includes(method)
+}
+
+/** --- globRel() ------------------------------------------------------------------------------ */
+/** -i- Gets the relative glob path of a glob-style selector with globSync */
+export const globRel = (globPath: string) => {
+    // Check that the glob path contains one of our workspace folder locations
+    const workspaceFoldersRegex = /features|packages|apps/
+    if (!workspaceFoldersRegex.test(globPath)) {
+        throw new Error([
+            `The glob path passed to globRel() should contain either`,
+            `'/features/', '/packages/' or '/apps/'...\n`,
+            `Instead we received: ${globPath}`,
+        ].join(' '))
+    }
+    // Get all matches
+    const rawMatches = globSync(globPath, { absolute: true })
+    // Filter out any node_modules files if present
+    const allMatches = rawMatches.filter(excludeModules)
+    // Determine the folder level from the glob path
+    const folderLevel = globPath.split(workspaceFoldersRegex)?.[0] || '../../'
+    // Determine the absolute root dir where our app starts
+    const [absoluteRootDir] = __dirname.split('packages/@green-stack-core/scripts')
+    // Replace the root app dir with the folder level
+    return allMatches.map((match) => match.replace(absoluteRootDir, folderLevel))
 }
 
 /** --- createDivider() ------------------------------------------------------------------------ */
@@ -68,8 +92,8 @@ export const validateNonEmptyNoSpaces = (input: string) => {
 /** -i- Figure out all info about all workspaces and return mapped linking info for use in scripts */
 export const parseWorkspaces = (folderLevel = '../../') => {
     // Get all workspace package.json paths
-    const packageConfigPaths = glob.sync(`${folderLevel}packages/**/package.json`).filter(excludeModules) // prettier-ignore
-    const featureConfigPaths = glob.sync(`${folderLevel}features/**/package.json`).filter(excludeModules) // prettier-ignore
+    const packageConfigPaths = globRel(`${folderLevel}packages/**/package.json`).filter(excludeModules) // prettier-ignore
+    const featureConfigPaths = globRel(`${folderLevel}features/**/package.json`).filter(excludeModules) // prettier-ignore
     const packageJSONPaths = [...packageConfigPaths, ...featureConfigPaths]
   
     // Map to keep track of all workspace package configs, filled in next step
@@ -80,7 +104,7 @@ export const parseWorkspaces = (folderLevel = '../../') => {
         const packageJsonString = fs.readFileSync(packageJsonPath, 'utf8')
         const packageJsonLines = packageJsonString.split('\n')
         const __tabSize = packageJsonLines[1].split('"')[0].length
-        const packageJSON = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
+        const packageJSON = JSON.parse(packageJsonString)
         const workspaceMatcher = packageJsonPath.replace(`${folderLevel}`, '').replace('/package.json', '')
         workspaceConfigs[workspaceMatcher] = { ...packageJSON, __tabSize }
         return { ...acc, [workspaceMatcher]: packageJSON.name }
@@ -114,12 +138,12 @@ export const parseWorkspaces = (folderLevel = '../../') => {
 /** --- getWorkspaceOptions() ------------------------------------------------------------------ */
 /** -i- List all the available workspaces for generators to use (map of options to workspace paths)
  * @example ```
- *  const workspaceOptions = getWorkspaceOptions()
+ *  const workspaceOptions = getWorkspaceOptions('./')
  *  // => {
  *  //  "features/@app-core  --  importable from: '@app/core'":
  *  //      'features/@app-core',
  *  //  ...
- *  // }   
+ *  // }
  * ``` */
 export const getWorkspaceOptions = (folderLevel = '../../') => {
     const { workspaceImports } = parseWorkspaces(folderLevel)
@@ -142,8 +166,8 @@ export const getAvailableSchemas = (folderLevel = '../../') => {
     const { workspaceImports } = parseWorkspaces(folderLevel)
   
     // Get paths of all schemas
-    const packageSchemaPaths = glob.sync(`${folderLevel}packages/**/schemas/[A-Z]*.ts`).filter(excludeModules) // prettier-ignore
-    const featureSchemaPaths = glob.sync(`${folderLevel}features/**/schemas/[A-Z]*.ts`).filter(excludeModules) // prettier-ignore
+    const packageSchemaPaths = globRel(`${folderLevel}packages/**/schemas/[A-Z]*.ts`).filter(excludeModules) // prettier-ignore
+    const featureSchemaPaths = globRel(`${folderLevel}features/**/schemas/[A-Z]*.ts`).filter(excludeModules) // prettier-ignore
     const allSchemaPaths = [...packageSchemaPaths, ...featureSchemaPaths].filter((pth) => {
         return !['createSchema', '.bridge', '.resolver', '.enum'].some((excluded) => pth.includes(excluded))
     })
@@ -201,8 +225,8 @@ export const getAvailableDataBridges = (
     const { workspaceImports } = parseWorkspaces(folderLevel)
 
     // Get paths of all Data Bridges
-    const packageBridgePaths = glob.sync(`${folderLevel}packages/**/resolvers/**.bridge.ts`).filter(excludeModules) // prettier-ignore
-    const featureBridgePaths = glob.sync(`${folderLevel}features/**/resolvers/**.bridge.ts`).filter(excludeModules) // prettier-ignore
+    const packageBridgePaths = globRel(`${folderLevel}packages/**/resolvers/**.bridge.ts`).filter(excludeModules) // prettier-ignore
+    const featureBridgePaths = globRel(`${folderLevel}features/**/resolvers/**.bridge.ts`).filter(excludeModules) // prettier-ignore
     const allDataBridgePaths = [...packageBridgePaths, ...featureBridgePaths].filter((pth) => !pth.includes('createDataBridge')) // prettier-ignore
 
     // Map to build list of available resolvers to integrate with
