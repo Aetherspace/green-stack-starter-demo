@@ -1,8 +1,8 @@
 diff --git a/node_modules/@react-native/assets-registry/registry.js b/node_modules/@react-native/assets-registry/registry.js
-index 02470da..a91800f 100644
+index 64b2735..a91800f 100644
 --- a/node_modules/@react-native/assets-registry/registry.js
 +++ b/node_modules/@react-native/assets-registry/registry.js
-@@ -4,34 +4,20 @@
+@@ -4,37 +4,20 @@
   * This source code is licensed under the MIT license found in the
   * LICENSE file in the root directory of this source tree.
   *
@@ -11,6 +11,9 @@ index 02470da..a91800f 100644
   */
  
  'use strict';
+ 
+-export type AssetDestPathResolver = 'android' | 'generic';
++const assets = [];
  
 -export type PackagerAsset = {
 -  +__packager_asset: boolean,
@@ -22,10 +25,10 @@ index 02470da..a91800f 100644
 -  +hash: string,
 -  +name: string,
 -  +type: string,
+-  +resolver?: AssetDestPathResolver,
 -  ...
 -};
-+const assets = [];
- 
+-
 -const assets: Array<PackagerAsset> = [];
 -
 -function registerAsset(asset: PackagerAsset): number {

@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Stack } from 'expo-router'
+import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated'
 import { isWeb } from '@app/config'
 import UniversalAppProviders from '@app/screens/UniversalAppProviders'
 import UniversalRootLayout from '@app/screens/UniversalRootLayout'
@@ -13,6 +14,13 @@ import { useRouteParams as useExpoRouteParams } from '@green-stack/navigation/us
 // -i- Since Expo doesn't require a custom document setup or server component root layout
 // -i- Use this file to apply your Expo specific layout setup:
 // -i- like rendering our Universal Layout and App Providers
+
+/* --- Reanimated Setup ------------------------------------------------------------------------ */
+
+configureReanimatedLogger({
+    level: ReanimatedLogLevel.warn,
+    strict: false,
+})
 
 /* --- <ExpoRootLayout> ------------------------------------------------------------------------ */
 

@@ -1,5 +1,5 @@
 import Constants from 'expo-constants'
-import { Platform, Dimensions } from 'react-native'
+import { Platform } from 'react-native'
 import { DRIVER_OPTIONS, createDriverConfig } from '@app/registries/drivers.config'
 
 /* --- Notes ----------------------------------------------------------------------------------- */
@@ -18,18 +18,15 @@ export const isIOS = Platform.OS === 'ios'
 export const isMobile = isAndroid || isIOS
 export const isServer = typeof window === 'undefined'
 
-export const isExpo = Constants?.appOwnership === 'expo' || process.env.EXPO_PUBLIC_APP_ENV === 'expo'
+export const isExpoGo = Constants?.appOwnership === 'expo' || !!Constants?.expoVersion
+
+export const isExpo = isExpoGo || process.env.EXPO_PUBLIC_APP_ENV === 'expo'
 export const isNext = (!isExpo && isWeb) || process.env.NEXT_PUBLIC_APP_ENV === 'next'
 
 export const isWebLocalServer = isWeb && isServer && process.env.PORT === '3000'
 export const isWebLocalhost = isWeb && (globalThis?.location?.hostname === 'localhost' || isWebLocalServer)
 export const isExpoWebLocal = isWebLocalhost && globalThis?.location?.port === '8081'
 export const isNextLocal = isNext && isWebLocalhost && !isExpoWebLocal
-
-/* --- Size & Device Flags --------------------------------------------------------------------- */
-
-export const isLargeScreen = Dimensions.get('window').width > 1024
-export const isLargeTablet = isMobile && isLargeScreen
 
 /* --- Computed Fallbacks ---------------------------------------------------------------------- */
 
@@ -68,10 +65,9 @@ export const appConfig = {
     isLocal,
     isWebLocalhost,
     isNextLocal,
+    isExpoGo,
     isExpoWebLocal,
     isExpoMobileLocal,
-    isLargeScreen,
-    isLargeTablet,
     // - Server URLs -
     baseURL,
     backendURL,
@@ -84,6 +80,15 @@ export const appConfig = {
     drivers: createDriverConfig({
         db: DRIVER_OPTIONS.db.mockDB,
     }),
+    // - Constants -
+    appName: Constants?.manifest2?.name || Constants?.manifest?.name,
+    appVersion: Constants?.manifest2?.version || Constants?.manifest?.version,
+    appDescription: Constants?.manifest2?.description || Constants?.manifest?.description,
+    appIcon: Constants?.manifest2?.icon || Constants?.manifest?.icon,
+    appSlug: Constants?.manifest2?.slug || Constants?.manifest?.slug,
+    appScheme: Constants?.manifest2?.scheme || Constants?.manifest?.scheme,
+    appHostUri: Constants?.expoConfig?.hostUri,
+    debugMode: Constants?.debugMode,
 } as const
 
 /* --- Debug ----------------------------------------------------------------------------------- */

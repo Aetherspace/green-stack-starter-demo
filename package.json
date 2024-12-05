@@ -17,8 +17,8 @@
     "expo": "~52.0.11",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-native-reanimated": "3.10.1",
-    "@types/react": "18.2.79"
+    "react-native-reanimated": "3.16.3",
+    "@types/react": "18.3.1"
   },
   "scripts": {
     "dev": "npm run dev:apps",

@@ -108,7 +108,7 @@ const checkWorkspaces = async (isDeepCheck = true) => {
                 }
                 const newRequiredEnvVars = allProcessEnvVars.filter(filterEnvs)
                 
-                // Rebuild the "stackConfig" config for the package.json
+                // Rebuild the "stackConfig" metadata for the package.json
                 const existingRelations = packageJSON?.stackConfig?.relatedWorkspaces || []
                 const prevRequiredEnvVars = packageJSON?.stackConfig?.requiredEnvVars || []
                 const relatedWorkspaces = Array.from(new Set([...existingRelations, ...newRelatedWorkspaces])) // prettier-ignore
@@ -157,7 +157,10 @@ const checkWorkspaces = async (isDeepCheck = true) => {
 
             // Check for missing env vars
             const { requiredEnvVars } = workspaceMap[workspacePath] || {}
-            const getEnvVar = (envVar: string) => process.env[envVar] || process.env[`NEXT_PUBLIC_${envVar}`] || process.env[`EXPO_PUBLIC_${envVar}`] // prettier-ignore
+            const getEnvVar = (rawEnvVar: string) => {
+                const envVar = rawEnvVar.replace('EXPO_PUBLIC_', '').replace('NEXT_PUBLIC_', '')
+                return process.env[envVar] || process.env[`NEXT_PUBLIC_${envVar}`] || process.env[`EXPO_PUBLIC_${envVar}`]
+            }
             const missingEnvVars = requiredEnvVars.filter((envVar: string) => isEmpty(getEnvVar(envVar)))
 
             // Check for missing related workspaces
