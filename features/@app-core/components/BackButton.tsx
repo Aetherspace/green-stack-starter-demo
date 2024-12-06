@@ -3,6 +3,8 @@ import { View, Text, Link, Pressable, getThemeColor } from '../components/styled
 import { useRouter } from '@green-stack/navigation/useRouter'
 import { schema, z } from '@green-stack/schemas'
 import { Icon } from '@green-stack/components/Icon'
+import { isServer } from '@app/config'
+import { useDidMount } from '@green-stack/hooks/useDidMount'
 
 /* --- Props ----------------------------------------------------------------------------------- */
 
@@ -24,8 +26,11 @@ const BackButton = (props: BackButtonProps) => {
     // Routing
     const { canGoBack, back } = useRouter()
 
+    // Hooks
+    const didMount = useDidMount()
+
     // Vars
-    const showBackButton = canGoBack()
+    const showBackButton = !isServer && didMount && canGoBack()
 
     // -- Prerender --
 
