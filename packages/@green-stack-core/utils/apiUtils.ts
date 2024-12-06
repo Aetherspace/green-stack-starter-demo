@@ -1,7 +1,6 @@
 import type { NextApiRequest, GetServerSidePropsContext } from 'next'
 import type { NextRequest } from 'next/server' // @ts-ignore
 import CryptoJS from 'crypto-js'
-import { appConfig } from '@app/config'
 import { parseUrlParamsObject } from './objectUtils'
 import { isEmpty, warnOnce } from './commonUtils'
 
@@ -105,7 +104,7 @@ export const createMiddlewareHeaderContext = async (
     extraHeaders: Record<string, string> = {}
   ) => {
     // Warn and abort early when we won't be able to add and sign the data
-    const APP_SECRET = appConfig.appSecret
+    const APP_SECRET = process.env.APP_SECRET
     if (!APP_SECRET) warnOnce('APP_SECRET variable is required to create header context, skipping context generation until it is set') // prettier-ignore
     if (!req?.headers) throw new Error('Request headers are required to create header context, skipping context generation until they are available') // prettier-ignore
     // Set all extra headers first
@@ -144,7 +143,7 @@ export const getHeaderContext = (
         const headerContext = JSON.parse(headerContextJSON)
         if (isEmpty(headerContext)) return {}
         // Skip if there is no APP_SECRET
-        const APP_SECRET = appConfig.appSecret
+        const APP_SECRET = process.env.APP_SECRET
         if (!APP_SECRET) return headerContext
         // Check if the signature is valid
         const { signature, ...contextData } = headerContext
