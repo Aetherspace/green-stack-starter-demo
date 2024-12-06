@@ -1,7 +1,6 @@
-import glob from 'glob'
 import fs from 'fs'
 import { addSetItem } from '../utils/arrayUtils'
-import { createDivider, parseWorkspaces, uppercaseFirstChar } from './helpers/scriptUtils'
+import { createDivider, parseWorkspaces, uppercaseFirstChar, globRel } from './helpers/scriptUtils'
 
 /* --- drivers.config.ts ----------------------------------------------------------------------- */
 
@@ -74,8 +73,8 @@ type DriverConfig = {
 const collectDrivers = () => {
     try {
         // Get all driver file paths in /features/ & /packages/ workspaces
-        const featureDriverPaths = glob.sync('../../features/**/drivers/*.*.ts')
-        const packageDriverPaths = glob.sync('../../packages/**/drivers/*.*.ts')
+        const featureDriverPaths = globRel('../../features/**/drivers/*.*.ts')
+        const packageDriverPaths = globRel('../../packages/**/drivers/*.*.ts')
         const allDriverPaths = [...featureDriverPaths, ...packageDriverPaths]
 
         // Figure out import paths from each workspace
@@ -100,7 +99,7 @@ const collectDrivers = () => {
             const driverFilename = innerDriverFilePath.replace('/drivers/', '')
             const driverFileModuleName = driverFilename.replace('.tsx', '').replace('.ts', '')
             const [driverName, driverType] = driverFileModuleName.split('.') 
-            const driverImportPath = `${driverWorkspace}/drivers/${driverFileModuleName}`
+            const driverImportPath = `${driverWorkspace}/drivers/${driverFilename}`
             const driverKey = driverName === 'mock' ? `mock-${driverType}` : driverName
             const driverTypeKey = driverType.length <= 2 ? driverType.toUpperCase() : driverType
             const driverEnumKey = driverName === 'mock' ? `mock${driverTypeKey}` : driverName

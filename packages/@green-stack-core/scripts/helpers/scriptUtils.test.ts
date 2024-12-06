@@ -116,7 +116,7 @@ test('parseWorkspaces() returns all workspace info and mappings', () => {
         workspacePathsMap,
         workspacePaths,
         workspacePackages
-    } = utils.parseWorkspaces('')
+    } = utils.parseWorkspaces('./')
     // Verify we can retrieve the package.json config for the @green-stack/core workspace
     expect(workspaceConfigs['packages/@green-stack-core']).toBeDefined()
     expect(workspaceConfigs['packages/@green-stack-core'].name).toBe('@green-stack/core')
@@ -131,7 +131,7 @@ test('parseWorkspaces() returns all workspace info and mappings', () => {
 })
 
 test('getWorkspaceOptions() lists all available workspace path options for generators to use', () => {
-    const workspaceOptions = utils.getWorkspaceOptions('')
+    const workspaceOptions = utils.getWorkspaceOptions('./')
     // Check that the @green-stack/core package is omitted
     expect(workspaceOptions["packages/@green-stack-core  --  importable from: '@green-stack/core'"]).toBeUndefined()
     // Check that the @app/core workspace is included
@@ -139,7 +139,7 @@ test('getWorkspaceOptions() lists all available workspace path options for gener
 })
 
 test('getAvailableSchemas() lists all available schemas in the codebase for generators to use', () => {
-    const schemaConfigMap = utils.getAvailableSchemas('')
+    const schemaConfigMap = utils.getAvailableSchemas('./')
     // Check that the healthCheck input & output schemas are included
     expect(schemaConfigMap['@app/core - HealthCheckInput']).toBeDefined()
     expect(schemaConfigMap['@app/core - HealthCheckOutput']).toBeDefined()
@@ -162,7 +162,7 @@ test('getAvailableSchemas() lists all available schemas in the codebase for gene
 })
 
 test('getAvailableDataBridges() lists all available DataBridges in the codebase for generators to use', () => {
-    const dataBridgeConfigMap = utils.getAvailableDataBridges('')
+    const dataBridgeConfigMap = utils.getAvailableDataBridges('./')
     // Check that the healthCheck DataBridge is included
     expect(dataBridgeConfigMap['@app/core >>> healthCheck()']).toBeDefined()
     // Check that the config for the healthCheck DataBridge is correct

@@ -11,5 +11,5 @@ export const createSchemaModel = dbDriver['createSchemaModel']
 
 /* --- Export Driver Helpers ------------------------------------------------------------------- */
 
-export { validateDriver } from './utils/validateDriver.db'
-export { validateDriverModel } from './utils/validateDriverModel.db'
+export { validateDriver } from './utils/validateDriver.db.ts'
+export { validateDriverModel } from './utils/validateDriverModel.db.ts'

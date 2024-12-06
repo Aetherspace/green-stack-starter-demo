@@ -9,7 +9,7 @@ import { validateNonEmptyNoSpaces, getWorkspaceOptions, createDivider } from '..
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
-const workspaceOptions = getWorkspaceOptions('')
+const workspaceOptions = getWorkspaceOptions('./')
 
 /* --- Helpers --------------------------------------------------------------------------------- */
 

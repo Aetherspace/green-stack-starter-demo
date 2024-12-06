@@ -1,7 +1,6 @@
-import glob from 'glob'
 import fs from 'fs'
 import { findTargetString } from '../utils/stringUtils'
-import { excludeDirs, parseWorkspaces } from './helpers/scriptUtils'
+import { excludeDirs, parseWorkspaces, globRel } from './helpers/scriptUtils'
 
 /* --- Constants ------------------------------------------------------------------------------ */
 
@@ -12,8 +11,8 @@ const genMsg = `// -i- Auto generated with "npx turbo run @green-stack/core#coll
 const collectResolvers = () => {
   try {
     // Get all resolver file paths in /features/ & /packages/ workspace api folders
-    const featureAPIRoutes = glob.sync('../../features/**/routes/api/**/route.ts').filter(excludeDirs) // prettier-ignore
-    const packageAPIRoutes = glob.sync('../../packages/**/routes/api/**/route.ts').filter(excludeDirs) // prettier-ignore
+    const featureAPIRoutes = globRel('../../features/**/routes/api/**/route.ts').filter(excludeDirs) // prettier-ignore
+    const packageAPIRoutes = globRel('../../packages/**/routes/api/**/route.ts').filter(excludeDirs) // prettier-ignore
     const allAPIRoutes = [...featureAPIRoutes, ...packageAPIRoutes]
 
     // Figure out import paths from each workspace

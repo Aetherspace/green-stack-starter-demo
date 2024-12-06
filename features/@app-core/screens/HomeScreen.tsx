@@ -194,6 +194,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                                     className="rounded-full"
                                     src="https://codinsonn.dev/_next/image?url=%2Fimg%2FCodelyFansLogoPic160x160.jpeg&w=256&q=75"
                                     alt="Thorr / codinsonn's Profile Picture"
+                                    unoptimized
                                     fill
                                 />
                             </View>

@@ -14,10 +14,11 @@
     "fsevents": "2.3.2",
     "graphql": "16.8.1",
     "next": "~14.0.4",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-native-reanimated": "3.10.1",
-    "@types/react": "18.2.79"
+    "expo": "~52.0.11",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-native-reanimated": "3.16.3",
+    "@types/react": "18.3.1"
   },
   "scripts": {
     "dev": "npm run dev:apps",

@@ -1,6 +1,5 @@
-import glob from 'glob'
 import fs from 'fs'
-import { excludeDirs } from './helpers/scriptUtils'
+import { excludeDirs, globRel } from './helpers/scriptUtils'
 import { parseGlobalCSS } from '../utils/styleUtils'
 
 /* --- Constants ------------------------------------------------------------------------------- */
@@ -12,9 +11,9 @@ const genMsg = `// -i- Auto generated with "npx turbo run @green-stack/core#buil
 const buildThemeColors = () => {
     try {
         // Get all the global.css files in the workspace
-        const nextGlobalCssPaths = glob.sync('../../apps/next/global.css').filter(excludeDirs)
-        const featureGlobalCssPaths = glob.sync('../../packages/**/global.css').filter(excludeDirs)
-        const packageGlobalCssPaths = glob.sync('../../packages/**/global.css').filter(excludeDirs)
+        const nextGlobalCssPaths = globRel('../../apps/next/global.css').filter(excludeDirs)
+        const featureGlobalCssPaths = globRel('../../packages/**/global.css').filter(excludeDirs)
+        const packageGlobalCssPaths = globRel('../../packages/**/global.css').filter(excludeDirs)
         const allGlobalCssPaths = [...nextGlobalCssPaths, ...featureGlobalCssPaths, ...packageGlobalCssPaths]
 
         // Combine all the global.css files into a single string

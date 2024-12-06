@@ -1,4 +1,4 @@
-import { validateDriver } from '../utils/validateDriver.db'
+import { validateDriver } from '../utils/validateDriver.db.ts'
 
 /* --- Import Driver Methods ------------------------------------------------------------------- */
 

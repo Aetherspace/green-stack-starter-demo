@@ -76,11 +76,11 @@ export const useScrollToFocusedInput = () => {
 
   const height = useSharedValue(0)
   const animatedStyle = useAnimatedStyle(() => ({
-    height: withTiming(height.value, { duration: 90 }),
-  }), [height.value])
+    height: withTiming(height.get(), { duration: 90 }),
+  }), [height.get()])
 
   useEffect(() => {
-    height.value = isKeyboardVisible ? keyboardPadding : 0
+    height.set(isKeyboardVisible ? keyboardPadding : 0)
   }, [isKeyboardVisible])
 
   const keyboardPaddedView = Platform.OS !== 'web' ? (
