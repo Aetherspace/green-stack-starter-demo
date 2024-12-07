@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "next": "~14.0.4"
+    "next": "15.0.4"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",

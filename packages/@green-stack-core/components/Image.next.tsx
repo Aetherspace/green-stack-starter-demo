@@ -10,7 +10,7 @@ const Image = (props: UniversalImageProps): JSX.Element => {
     const {
         /* - Universal - */
         src,
-        alt,
+        alt = 'Alt description missing in image',
         width,
         height,
         className,
