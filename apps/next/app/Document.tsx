@@ -24,7 +24,7 @@ const Document = (props: { children: ReactNode }) => {
         {/* - Other - */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         <ServerStylesProvider>
           <UniversalRootLayout>
             <main className="flex min-w-screen min-h-screen">{children}</main>

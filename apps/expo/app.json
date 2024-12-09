@@ -10,6 +10,6 @@
       "bundler": "metro"
     },
     "newArchEnabled": true,
-    "userInterfaceStyle": "light"
+    "userInterfaceStyle": "automatic"
   }
 }

@@ -253,7 +253,9 @@ const FormsScreen = (props: TestForm) => {
                 <View className="flex flex-1 justify-center items-center pt-28 pb-16">
                     <View className="flex flex-col w-full max-w-[500px] px-8">
 
-                        <H1 onPress={scheme.toggleColorScheme}>{`Universal Forms Demo`}</H1>
+                        <H1 onPress={() => scheme.setColorScheme(scheme.colorScheme !== 'dark' ? 'dark' : 'light')}>
+                            {`Universal Forms Demo`}
+                        </H1>
 
                         <View className="h-4" />
 
