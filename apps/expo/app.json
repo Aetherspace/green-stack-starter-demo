@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "name": "@full-product-dot-dev/universal-starter",
+    "slug": "fullproduct-dot-dev-universal-starter",
+    "scheme": "fullproduct-dot-dev-universal-starter",
+    "plugins": [
+      "expo-router"
+    ],
+    "web": {
+      "bundler": "metro"
+    },
+    "newArchEnabled": true,
+    "userInterfaceStyle": "automatic"
+  }
+}

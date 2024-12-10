@@ -1,0 +1,88 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- Tailwind Theme -------------------------------------------------------------------------- */
+
+@layer base {
+    :root {
+        --background: 0, 0%, 100%; /* #FFFFFF; /* tailwind: colors.white */
+        --foreground: 240, 5%, 10%; /* #18181b; /* tailwind: colors.zinc[900] */
+        --primary: 222, 15%, 13%; /* #111827; /* tailwind: colors.gray[900] */
+        --primary-inverse: 0, 0%, 100%; /* #FFFFFF; /* tailwind: colors.white */
+        --secondary: 217, 13%, 19%; /* #1f2937; /* tailwind: colors.gray[800] */
+        --secondary-inverse: 210, 16%, 96%; /* #f3f4f6; /* tailwind: colors.gray[100] */
+        --link: 213, 94%, 76%; /* #93c5fd; /* tailwind: colors.blue[300] */
+        --muted: 220, 8%, 65%; /* #9ca3af; /* tailwind: colors.gray[400] */
+        --warn: 24, 89%, 47%; /* #ea580c; /* tailwind: colors.orange[600] */
+        --danger: 0, 78%, 47%; /* #dc2626; /* tailwind: colors.red[600] */
+        --info: 197, 87%, 47%; /* #0ea5e9; /* tailwind: colors.sky[500] */
+        --success: 145, 67%, 40%; /* #22c55e; /* tailwind: colors.green[500] */
+        --ring: 222, 22%, 15%; /* #0f172a; /* tailwind: colors.slate[900] */
+        --input: 216, 12%, 83%; /* #d1d5db; /* tailwind: colors.gray[300] */
+    }
+
+    .dark:root {
+        --background: 216, 34%, 17%; /* #1e293b; /* tailwind: colors.slate[800] */
+        --foreground: 210, 16%, 96%; /* #f3f4f6; /* tailwind: colors.gray[100] */
+        --primary: 210, 16%, 96%; /* #f3f4f6; /* tailwind: colors.gray[100] */
+        --primary-inverse: 222, 15%, 13%; /* #111827; /* tailwind: colors.gray[900] */
+        --secondary: 220, 14%, 91%; /* #e5e7eb; /* tailwind: colors.gray[200] */
+        --secondary-inverse: 210, 23%, 26%; /* #374151; /* tailwind: colors.gray[700] */
+        --link: 213, 94%, 76%; /* #93c5fd; /* tailwind: colors.blue[300] */
+        --muted: 220, 8%, 65%; /* #9ca3af; /* tailwind: colors.gray[400] */
+        --warn: 24, 92%, 64%; /* #fb923c; /* tailwind: colors.orange[400] */
+        --danger: 0, 85%, 72%; /* #f87171; /* tailwind: colors.red[400] */
+        --info: 197, 87%, 47%; /* #0ea5e9; /* tailwind: colors.sky[500] */
+        --success: 145, 67%, 40%; /* #22c55e; /* tailwind: colors.green[500] */
+        --ring: 222, 22%, 15%; /* #0f172a; /* tailwind: colors.slate[900] */
+        --input: 216, 12%, 83%; /* #d1d5db; /* tailwind: colors.gray[300] */
+    }
+}
+
+/* --- CSS Reset ------------------------------------------------------------------------------- */
+
+/* -i- Upgrade from the CSS reset that came with Expo's default Next.js setup */
+/* Follows the setup for react-native-web: */
+/* https://necolas.github.io/react-native-web/docs/setup/#root-element */
+/* Plus additional React Native scroll and text parity styles for various browsers. */
+/* Force Next-generated DOM elements to fill their parent's height */
+
+html, body, #__next {
+    width: 100%;
+    /* To smooth any scrolling behavior */
+    -webkit-overflow-scrolling: touch;
+    margin: 0px;
+    padding: 0px;
+    /* Allows content to fill the viewport and go beyond the bottom */
+    min-height: 100%;
+}
+
+#__next {
+    flex-shrink: 0;
+    flex-basis: auto;
+    flex-direction: column;
+    flex-grow: 1;
+    display: flex;
+    flex: 1;
+}
+
+html {
+    scroll-behavior: smooth;
+    /* Prevent text size change on orientation change https://gist.github.com/tfausak/2222823#file-ios-8-web-app-html-L138 */
+    -webkit-text-size-adjust: 100%;
+    height: 100%;
+}
+
+body {
+    display: flex;
+    /* Allows you to scroll below the viewport; default value is visible */
+    overflow-y: auto;
+    overscroll-behavior-y: none;
+    font-family: -apple-system, system, Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -ms-overflow-style: scrollbar;
+}

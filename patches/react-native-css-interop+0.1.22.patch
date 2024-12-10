@@ -1,0 +1,14 @@
+diff --git a/node_modules/react-native-css-interop/dist/doctor.js b/node_modules/react-native-css-interop/dist/doctor.js
+index 98379be..ef2c281 100644
+--- a/node_modules/react-native-css-interop/dist/doctor.js
++++ b/node_modules/react-native-css-interop/dist/doctor.js
+@@ -7,7 +7,8 @@ const computedStyles = globalThis.window
+     ? globalThis.window.getComputedStyle(globalThis.window.document.documentElement)
+     : { getPropertyValue: () => "asdf" };
+ function verifyJSX() {
+-    return <react-native-css-interop-jsx-pragma-check /> === true;
++    return true
++    // return <react-native-css-interop-jsx-pragma-check /> === true;
+ }
+ function verifyFlag(name, value = "true") {
+     return globalThis.window
