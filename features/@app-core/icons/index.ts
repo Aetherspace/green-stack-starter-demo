@@ -1,0 +1,8 @@
+export { AddFilled } from './AddFilled'
+export { ArrowLeftFilled } from './ArrowLeftFilled'
+export { ArrowRightFilled } from './ArrowRightFilled'
+export { CheckFilled } from './CheckFilled'
+export { ChevronDownFilled } from './ChevronDownFilled'
+export { ChevronUpFilled } from './ChevronUpFilled'
+export { RemoveFilled } from './RemoveFilled'
+export { UndoFilled } from './UndoFilled'

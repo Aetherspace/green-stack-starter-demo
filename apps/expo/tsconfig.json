@@ -1,0 +1,19 @@
+{
+  "extends": "@app/core/tsconfig",
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "../../apps/next/next-env.d.ts",
+    "../../packages/@green-stack-core/global.d.ts",
+    "../../features/@app-core/nativewind-env.d.ts",
+    "../../features/@app-core/appConfig.ts",
+    "../../features/**/*.tsx",
+    "../../features/**/*.ts",
+    "../../packages/**/*.tsx",
+    "../../packages/**/*.ts",
+    "nativewind-env.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

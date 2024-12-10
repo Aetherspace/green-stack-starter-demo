@@ -1,0 +1,76 @@
+{
+    "$schema": "https://turbo.build/schema.v1.json",
+    "pipeline": {
+        "build": {
+            "dependsOn": ["@green-stack/core#build:schema"],
+            "outputs": [".next/**", "!.next/cache/**"],
+            "cache": true
+        },
+        "dev": {
+            "dependsOn": ["@green-stack/core#build:schema"],
+            "cache": false
+        },
+        "@app/next#dev": {
+            "dependsOn": ["@green-stack/core#build:schema"],
+            "cache": false
+        },
+        "@app/expo#dev": {
+            "dependsOn": ["@green-stack/core#build:schema"],
+            "cache": false
+        },
+        "android": {
+            "cache": false
+        },
+        "ios": {
+            "cache": false
+        },
+        "@app/expo#web": {
+            "dependsOn": ["@green-stack/core#build:schema"],
+            "cache": false
+        },
+        "@app-expo#add-dependencies": {
+            "cache": false
+        },
+        "@green-stack/core#collect:resolvers": {
+            "cache": false
+        },
+        "@green-stack/core#link:routes": {
+            "cache": false
+        },
+        "@green-stack/core#build:schema": {
+            "dependsOn": [
+                "@green-stack/core#collect:resolvers",
+                "@green-stack/core#link:routes",
+                "@green-stack/core#collect:drivers",
+                "@db/driver#collect:models"
+            ],
+            "outputs": ["**/schema.graphql", "**/schema.ts", "**/graphql-env.d.ts"],
+            "inputs": [],
+            "cache": true
+        },
+        "@green-stack/core#build:theme-colors": {
+            "cache": false
+        },
+        "@green-stack/core#collect:generators": {
+            "cache": false
+        },
+        "@green-stack/core#check:workspaces": {
+            "dependsOn": [
+                "@green-stack/core#build:theme-colors",
+                "@green-stack/core#collect:generators"
+            ],
+            "cache": false
+        },
+        "@green-stack/core#collect:drivers": {
+            "dependsOn": ["@green-stack/core#check:workspaces"],
+            "cache": false
+        },
+        "@db/driver#collect:models": {
+            "dependsOn": ["@green-stack/core#collect:drivers"],
+            "cache": false
+        },
+        "env:local": {
+            "cache": false
+        }
+    }
+}

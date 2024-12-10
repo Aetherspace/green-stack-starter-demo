@@ -1,0 +1,16 @@
+{
+    "name": "@db/driver",
+    "version": "0.0.1",
+    "description": "Database Driver & types to create DB drivers with ease. Falls back to mock memory DB if no driver is provided.",
+    "dependencies": {},
+    "scripts": {
+        "collect:models": "npm -w @green-stack/core run run:script ../../packages/@db-driver/scripts/collect-models.ts",
+        "collect:drivers": "npm -w @green-stack/core run run:script ../../packages/@green-stack-core/scripts/collect-drivers.ts"
+    },
+    "stackConfig": {
+        "relatedWorkspaces": [
+            "@app/registries"
+        ],
+        "requiredEnvVars": []
+    }
+}

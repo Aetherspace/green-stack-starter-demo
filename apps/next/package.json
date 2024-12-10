@@ -1,0 +1,17 @@
+{
+  "name": "@app/next",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "next": "15.0.4"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.19",
+    "postcss": "8.4.23"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "env:local": "cp .env.example .env.local"
+  }
+}
