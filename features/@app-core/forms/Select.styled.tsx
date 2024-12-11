@@ -67,7 +67,7 @@ export const SelectTrigger = forwardRef<
                 props.className,
             )}
             disabled={disabled}
-            onPress={isWeb ? () => onOpenChange(!open) : undefined}
+            onPress={() => onOpenChange(!open)}
             asChild
         >
             <Pressable>
@@ -264,7 +264,7 @@ export const SelectItem = forwardRef<
     // -- Handlers --
 
     // -i- Fix for mobile view on web
-    const handlePressWeb = () => {
+    const handlePress = () => {
         selectContext.setValue(value)
         onOpenChange(false)
     }
@@ -297,7 +297,7 @@ export const SelectItem = forwardRef<
             label={label}
             asChild
         >
-            <Pressable onPress={isWeb ? handlePressWeb : undefined}>
+            <Pressable onPress={handlePress}>
                 <View className="flex flex-row items-center">
                     <View className="w-1.5 native:w-3" />
                     <View

@@ -19,6 +19,7 @@ import { TextArea } from '../forms/TextArea.styled'
 import { Button } from '../components/Button'
 import { removeSetItem } from '@green-stack/utils/arrayUtils'
 import { roundDownTo, roundUpTo } from '@green-stack/utils/numberUtils'
+import { isWeb } from '../appConfig'
 
 /* --- Constants ------------------------------------------------------------------------------- */
 
@@ -543,6 +544,10 @@ const FormsScreen = (props: TestForm) => {
                                         learningGapHours,
                                         annualSetupHoursSaved,
                                         ...formState,
+                                        metadata: {
+                                            isWeb,
+
+                                        }
                                     }, null, 2)}
                                 </Text>
                             </>
