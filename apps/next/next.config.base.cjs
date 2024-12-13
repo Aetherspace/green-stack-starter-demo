@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const mainNextConfig = {
     reactStrictMode: true,
+    logging: false, // -i- https://nextjs.org/docs/app/api-reference/config/next-config-js/logging
     transpilePackages: [
         "react-native",
         "react-native-web",
