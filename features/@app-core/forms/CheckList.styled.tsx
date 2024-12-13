@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 import { z } from '@green-stack/schemas'
 import { Checkbox, CheckboxProps } from './Checkbox.styled'
+import { arrFromSet } from '@green-stack/utils/arrayUtils'
 
 /* --- Context --------------------------------------------------------------------------------- */
 
@@ -98,7 +99,7 @@ const CheckListComponent = <T extends string[] = string[]>(rawProps: CheckListPr
     // -- Effects --
 
     useEffect(() => {
-        onChange(values)
+        onChange(arrFromSet(values || []) as T)
     }, [valuesKey])
 
     useEffect(() => {

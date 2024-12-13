@@ -23,6 +23,11 @@ const Document = (props: { children: ReactNode }) => {
         <title>Universal App Router</title>
         {/* - Other - */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:image" content="https://github.com/user-attachments/assets/a2eecfd2-7889-4079-944b-1b5af6cf5ddf" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:alt" content="A screenshot of the fullproduct.dev universal app starterkit demo" />
+        <meta property="og:image:width" content="2866" />
+        <meta property="og:image:height" content="1562" />
       </head>
       <body suppressHydrationWarning>
         <ServerStylesProvider>
