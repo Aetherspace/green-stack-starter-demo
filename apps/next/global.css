@@ -13,7 +13,7 @@
         --primary-inverse: 0, 0%, 100%; /* #FFFFFF; /* tailwind: colors.white */
         --secondary: 217, 13%, 19%; /* #1f2937; /* tailwind: colors.gray[800] */
         --secondary-inverse: 210, 16%, 96%; /* #f3f4f6; /* tailwind: colors.gray[100] */
-        --link: 213, 94%, 76%; /* #93c5fd; /* tailwind: colors.blue[300] */
+        --link: 217, 90%, 70%; /* #60a5fa; /* tailwind: colors.blue[400] */
         --muted: 220, 8%, 65%; /* #9ca3af; /* tailwind: colors.gray[400] */
         --warn: 24, 89%, 47%; /* #ea580c; /* tailwind: colors.orange[600] */
         --danger: 0, 78%, 47%; /* #dc2626; /* tailwind: colors.red[600] */

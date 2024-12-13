@@ -136,16 +136,18 @@ const HomeScreen = (props: HomeScreenProps) => {
                         "lg:absolute lg:bottom-24 lg:flex-row lg:top-auto lg:items-start lg:px-0",
                     )}
                 >
-                <InfoSection
-                    title="Docs 📚"
-                    summary="Documentation that grows as you build or paste app features"
-                    href="https://universal-base-starter-docs.vercel.app/quickstart" // TODO: Update this link
-                />
-                <View className="w-0 h-8 lg:w-16 lg:h-0" />
+                    <InfoSection
+                        title="Docs 📚"
+                        summary="Documentation that grows as you build or paste app features"
+                        href="https://universal-base-starter-docs.vercel.app/quickstart" // TODO: Update this link
+                        isBlank
+                    />
+                    <View className="w-0 h-8 lg:w-16 lg:h-0" />
                     <InfoSection
                         title="Concepts"
                         summary="Discover a way of working that's portable, write-once and universal"
                         href="https://universal-base-starter-docs.vercel.app/core-concepts"
+                        isBlank
                     />
                     <View className="w-0 h-8 lg:w-16 lg:h-0" />
                     <InfoSection
@@ -166,6 +168,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                         title="Codegen"
                         summary="Build even faster with generators for Routes, APIs, GraphQL & more"
                         href="https://universal-base-starter-docs.vercel.app/quickstart" // TODO: Update this link
+                        isBlank
                     />
                 </View>
 
@@ -255,12 +258,18 @@ const GettingStarted = () => {
 
 /* --- <InfoSection/> -------------------------------------------------------------------------- */
 
-const InfoSection = (props: { title: string, titleIcon?: any, summary: string, href: string }) => (
+const InfoSection = (props: {
+    title: string,
+    titleIcon?: any,
+    summary: string,
+    href: string,
+    isBlank?: boolean,
+}) => (
     <View className="flex flex-col flex-1 w-full max-w-[420px]">
         <Link
             className="flex flex-row w-full items-center justify-center lg:justify-start text-center lg:text-left no-underline mb-2 lg:mb-4"
             href={props.href}
-            target={props.href.includes('http') ? "_blank" : undefined}
+            target={(props.isBlank || props.href.includes('http')) ? "_blank" : undefined}
             asChild
         >
             <Pressable className="flex flex-row items-center justify-center">

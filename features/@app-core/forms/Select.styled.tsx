@@ -49,6 +49,9 @@ export const SelectTrigger = forwardRef<
     const props = SelectTriggerProps.applyDefaults(rawProps)
     const { children, disabled, hasError, ...restProps } = props
 
+    // Hooks
+    const { open, onOpenChange } = SP.useSelectRootContext()
+
     // -- Render --
 
     return (
@@ -64,9 +67,11 @@ export const SelectTrigger = forwardRef<
                 props.className,
             )}
             disabled={disabled}
+            onPress={() => onOpenChange(!open)}
             asChild
         >
             <Pressable>
+                {/* @ts-ignore */}
                 <>{children}</>
                 <ChevronDownFilled
                     size={16}
@@ -254,6 +259,15 @@ export const SelectItem = forwardRef<
 
     // Context
     const selectContext = useSelectContext()
+    const { onOpenChange } = SP.useSelectRootContext()
+
+    // -- Handlers --
+
+    // -i- Fix for mobile view on web
+    const handlePress = () => {
+        selectContext.setValue(value)
+        onOpenChange(false)
+    }
 
     // -- Effects --
 
@@ -283,7 +297,7 @@ export const SelectItem = forwardRef<
             label={label}
             asChild
         >
-            <Pressable>
+            <Pressable onPress={handlePress}>
                 <View className="flex flex-row items-center">
                     <View className="w-1.5 native:w-3" />
                     <View
