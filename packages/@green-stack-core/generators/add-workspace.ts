@@ -21,10 +21,12 @@ const tsConfigTemplate = `{
     "include": [
         "**/*.ts",
         "**/*.tsx",
+        "../../apps/next/next-env.d.ts",
+        "../../packages/@green-stack-core/global.d.ts",
+        "../../features/@app-core/nativewind-env.d.ts",
+        "../../features/@app-core/appConfig.ts",
         "../../features/**/*.ts",
         "../../features/**/*.tsx",
-        "../../features/app-core/graphql-env.d.ts",
-        "../../packages/@green-stack-core/global.d.ts"
     ],
     "exclude": ["node_modules"]
 }`

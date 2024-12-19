@@ -32,7 +32,7 @@ const SlugScreen = (props: UniversalRouteScreenProps) => {
                         Universal URL routing built on Expo & Next.js routers, shared between Web and Native. e.g. Tap to change the <Text className="text-white font-bold">count {`(${count})`}</Text> param:
                     </P>
                     <View className="h-2" />
-                    <Text className="text-center text-base text-blue-300 underline" onPress={() => setParams({ count: `${+count + 1}` })}>
+                    <Text className="text-center text-base text-link underline" onPress={() => setParams({ count: `${+count + 1}` })}>
                         {`router.setParams()`}
                     </Text>
 
@@ -40,15 +40,15 @@ const SlugScreen = (props: UniversalRouteScreenProps) => {
 
                     <View className="h-1 w-12 my-6 bg-slate-600" />
 
-                    <Text className="text-center text-base text-blue-300 underline" onPress={() => push('/subpages/push')}>
+                    <Text className="text-center text-base text-link underline" onPress={() => push('/subpages/push')}>
                         {`router.push()`}
                     </Text>
                     <View className="h-4" />
-                    <Text className="text-center text-base text-blue-300 underline" onPress={() => navigate('/subpages/navigate')}>
+                    <Text className="text-center text-base text-link underline" onPress={() => navigate('/subpages/navigate')}>
                         {`router.navigate()`}
                     </Text>
                     <View className="h-4" />
-                    <Text className="text-center text-base text-blue-300 underline" onPress={() => replace('/subpages/replace')}>
+                    <Text className="text-center text-base text-link underline" onPress={() => replace('/subpages/replace')}>
                         {`router.replace()`}
                     </Text>
 
