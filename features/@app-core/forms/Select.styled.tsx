@@ -176,6 +176,7 @@ export const SelectContent = forwardRef<
                                     !open && 'web:zoom-out-95 web:animate-out web:fade-out-0',
                                     props.className,
                                 )}
+                                style={{ maxWidth: 448 }}
                                 asChild
                             >
                                 <View>
