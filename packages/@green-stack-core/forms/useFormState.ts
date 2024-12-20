@@ -129,6 +129,14 @@ export const useFormState = <
         }
     }
 
+    const getSelectInputProps = <KEY extends K>(key: KEY) => {
+        const { onChange, ...inputProps } = getInputProps(key)
+        return {
+            ...inputProps,
+            onChange: (value: string) => onChange(value as T[KEY]),    
+        }
+    }
+
     // -- Flags --
 
     const isValid = validate(false)
@@ -188,6 +196,8 @@ export const useFormState = <
         getTextInputProps,
         /** -i- The props to add to a number input to manage its state, uses `onTextChange` instead */
         getNumberTextInputProps,
+        /** -i- The props to add to a select input to manage its state */
+        getSelectInputProps,
         /** -i- The key of the current form values, good for use in hook dependencies to trigger recalculations */
         valuesKey,
     }
