@@ -1,6 +1,6 @@
-import type { ReactNode, ElementRef, Dispatch, SetStateAction } from 'react'
-import { createContext, useContext, useState, useEffect, forwardRef } from 'react'
-import { Platform, StyleSheet } from 'react-native'
+import type { ReactNode, ElementRef, Dispatch, SetStateAction, LegacyRef } from 'react'
+import { createContext, useContext, useState, useEffect, forwardRef, useRef } from 'react'
+import { Platform, StyleSheet, Dimensions } from 'react-native'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import * as SP from '@green-stack/forms/Select.primitives'
@@ -145,12 +145,25 @@ export const SelectContent = forwardRef<
     const props = SelectContentProps.applyDefaults(rawProps)
     const { children, position, portalHost } = props
 
+    // Refs
+    const contentRef = useRef(null)
+
     // Flags
     const isPopper = position === 'popper'
 
     // Context
     const selectContext = useSelectContext()
-    const { open, onOpenChange } = SP.useSelectRootContext()
+    const { open: isOpen, onOpenChange } = SP.useSelectRootContext()
+
+    // -- Effects --
+
+    useEffect(() => {
+        if (isOpen && isWeb && contentRef.current) {
+            const $content = contentRef.current as HTMLElement
+            const $interactable = $content.querySelector('button, a, input, select, textarea') as HTMLElement
+            if ($interactable) $interactable.focus?.()
+        }
+    }, [isOpen])
 
     // -- Render --
 
@@ -159,24 +172,27 @@ export const SelectContent = forwardRef<
             <SelectContext.Provider value={selectContext}>
                 <SP.SelectOverlay
                     style={!isWeb ? StyleSheet.absoluteFill : undefined}
-                    onPress={() => onOpenChange(!open)}
+                    onPress={() => onOpenChange(!isOpen)}
                     asChild
                 >
                     <Pressable>
                         <Animated.View entering={FadeIn} exiting={FadeOut}>
                             <SP.SelectContent
-                                ref={ref}
+                                ref={contentRef}
                                 position={position}
                                 {...props}
                                 className={cn(
                                     'relative z-50 max-h-96 min-w-[8rem] rounded-md border border-border bg-popover shadow-md shadow-foreground/10 py-2 px-1',
                                     'data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
                                     isPopper && 'data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1',
-                                    !!open && 'web:zoom-in-95 web:animate-in web:fade-in-0',
-                                    !open && 'web:zoom-out-95 web:animate-out web:fade-out-0',
+                                    !!isOpen && 'web:zoom-in-95 web:animate-in web:fade-in-0',
+                                    !isOpen && 'web:zoom-out-95 web:animate-out web:fade-out-0',
                                     props.className,
                                 )}
-                                style={{ maxWidth: 448 }}
+                                style={{
+                                    maxWidth: Math.min(400, Dimensions.get('window').width - 40),
+                                    backgroundColor: getThemeColor('--popover'),
+                                }}
                                 asChild
                             >
                                 <View>
@@ -311,7 +327,7 @@ export const SelectItem = forwardRef<
                             <View>
                                 <CheckFilled
                                     size={16}
-                                    color={getThemeColor('--primary', 'light')}
+                                    color={getThemeColor('--primary')}
                                 />
                             </View>
                         </SP.SelectItemIndicator>
@@ -324,6 +340,7 @@ export const SelectItem = forwardRef<
                                 'native:text-lg native:text-base',
                                 'web:group-focus:text-accent-foreground',
                             )}
+                            style={{ color: getThemeColor('--popover-foreground') }}
                         />
                     </View>
                 </View>

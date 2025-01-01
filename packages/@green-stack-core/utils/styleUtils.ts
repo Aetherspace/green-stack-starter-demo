@@ -58,7 +58,7 @@ export const parseGlobalCSS = (globalCSS: string) => {
             value = value.split('/*')[0].trim()
 
             // Check the type of color value and format appropriately
-            if (value.match(/^\d+,\s*\d+%,\s*\d+%$/)) { // Check for hsl pattern without 'hsl' prefix
+            if (value.match(/^\d+,\s*\d+(?:\.\d+)?%,\s*\d+(?:\.\d+)?%$/)) { // Check for hsl pattern without 'hsl' prefix
                 value = `hsl(${value})`
             } else if (value.match(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/)) { // Check for hex pattern
                 // value stays the same

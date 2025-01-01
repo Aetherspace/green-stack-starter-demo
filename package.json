@@ -29,6 +29,7 @@
     "ios": "npx turbo run ios",
     "expo:web": "npx turbo run @app/expo#web",
     "build": "node -v && npx turbo run build",
+    "build:preview": "node -v && npx turbo run build @app/next#start",
     "build:schema": "npx turbo run @green-stack/core#build:schema",
     "build:theme-colors": "npx turbo run @green-stack/core#build:theme-colors",
     "check:workspaces": "npx turbo run @green-stack/core#check:workspaces",

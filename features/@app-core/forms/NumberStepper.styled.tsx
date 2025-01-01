@@ -4,6 +4,7 @@ import { TextInput } from './TextInput.styled'
 import { z, schema } from '@green-stack/schemas'
 import { cn, View, Pressable, getThemeColor } from '../components/styled'
 import { Icon } from '@green-stack/components/Icon'
+import { useFocusedPress } from '@green-stack/hooks/useFocusedPress'
 
 /* --- Schema ---------------------------------------------------------------------------------- */
 
@@ -23,16 +24,13 @@ export const NumberStepperProps = schema('NumberStepperProps', {
     placeholderTextColor: z.string().optional(),
 })
 
-type NumberStepperProps = z.input<typeof NumberStepperProps> & {
+export type NumberStepperProps = z.input<typeof NumberStepperProps> & {
     onChange: (value: number) => void
 }
 
-/* --- <NumberStepper/> ------------------------------------------------------------------------ */
+/* --- useNumberStepper() ---------------------------------------------------------------------- */
 
-export const NumberStepper = forwardRef<
-    ElementRef<typeof TextInput>,
-    NumberStepperProps
->((rawProps, ref) => {
+export const useNumberStepper = (rawProps: NumberStepperProps) => {
     // Props
     const props = NumberStepperProps.applyDefaults(rawProps)
     const { min, max, step, disabled, hasError, onChange, ...restProps } = props
@@ -61,10 +59,24 @@ export const NumberStepper = forwardRef<
     const onDecrement = () => setValue(constrainValue(numberValue - step))
 
     const onKeyPress = ({ nativeEvent }: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
-        const isUpKey = nativeEvent.key === 'ArrowUp'
-        const isDownKey = nativeEvent.key === 'ArrowDown'
-        if (isUpKey) return onIncrement()
-        if (isDownKey) return onDecrement()
+        if (nativeEvent.key === 'ArrowUp') return onIncrement()
+        if (nativeEvent.key === 'ArrowDown') return onDecrement()
+    }
+
+    const stepperButtonKeyhandlerProps = useFocusedPress(['ArrowUp', 'ArrowDown'], (key) => {
+        onKeyPress({ nativeEvent: { key } } as NativeSyntheticEvent<TextInputKeyPressEventData>)
+    })
+
+    const onChangeText = (newValue = '') => {
+        if (disabled) return
+        // Strip non-numeric characters
+        const strippedValue = newValue.replace(/[^0-9]/g, '')
+        // If empty, show placeholder
+        if (!strippedValue) setValue(undefined as unknown as number)
+        // Convert to number
+        const newNumberValue = +strippedValue 
+        // @ts-ignore
+        setValue(newNumberValue)
     }
 
     // -- Effects --
@@ -77,6 +89,40 @@ export const NumberStepper = forwardRef<
         if (props.value !== value) setValue(props.value)
     }, [props.value])
 
+    // -- Resources --
+
+    return {
+        ...restProps,
+        rawProps,
+        restProps,
+        numberValue,
+        value,
+        setValue,
+        min,
+        max,
+        step,
+        disabled,
+        hasError,
+        isDecrementDisabled,
+        isIncrementDisabled,
+        constrainValue,
+        onIncrement,
+        onDecrement,
+        onKeyPress,
+        stepperButtonKeyhandlerProps,
+        onChangeText,
+    }
+}
+
+/* --- <NumberStepper/> ------------------------------------------------------------------------ */
+
+export const NumberStepper = forwardRef<
+    ElementRef<typeof TextInput>,
+    NumberStepperProps
+>((rawProps, ref) => {
+    // Hooks
+    const stepper = useNumberStepper(rawProps)
+
     // -- Render --
 
     return (
@@ -85,7 +131,7 @@ export const NumberStepper = forwardRef<
                 'h-10 native:h-12',
                 'web:flex web:w-full',
                 'web:max-w-[200px]',
-                props.className,
+                stepper.className,
             )}
         >
             <Pressable
@@ -93,12 +139,13 @@ export const NumberStepper = forwardRef<
                     "absolute top-0 left-0 items-center justify-center select-none z-10",
                     "w-10 h-10 native:w-12 native:h-12",
                     "border-r border-r-input",
-                    isDecrementDisabled && 'opacity-50 web:cursor-not-allowed',
-                    props.hasError && 'border-r-danger',
-                    props.pressableClassName,
+                    stepper.isDecrementDisabled && 'opacity-50 web:cursor-not-allowed',
+                    stepper.hasError && 'border-r-danger',
+                    stepper.pressableClassName,
                 )}
-                onPress={onDecrement}
-                disabled={isDecrementDisabled}
+                {...stepper.stepperButtonKeyhandlerProps}
+                onPress={stepper.onDecrement}
+                disabled={stepper.isDecrementDisabled}
                 hitSlop={10}
             >
                 <Icon name="RemoveFilled" size={20} color={getThemeColor('--primary')} />
@@ -106,41 +153,32 @@ export const NumberStepper = forwardRef<
             <TextInput
                 ref={ref}
                 inputMode="numeric"
-                {...restProps}
+                {...stepper.restProps}
                 className={cn(
                     'text-center',
                     'px-10 native:px-12',
                     'web:max-w-[200px]',
                     'native:min-w-[130]',
-                    disabled && 'cursor-not-allowed text-muted border-muted',
-                    props.textInputClassName,
+                    stepper.disabled && 'cursor-not-allowed text-muted border-muted',
+                    stepper.textInputClassName,
                 )}
-                onKeyPress={onKeyPress}
-                disabled={disabled}
-                value={value ? `${value}` : ''}
-                onChangeText={(newValue = '') => {
-                    if (disabled) return
-                    // Strip non-numeric characters
-                    const strippedValue = newValue.replace(/[^0-9]/g, '')
-                    // If empty, show placeholder
-                    if (!strippedValue) setValue(undefined as unknown as number)
-                    // Convert to number
-                    const newNumberValue = +strippedValue 
-                    // @ts-ignore
-                    setValue(newNumberValue)
-                }}
+                onKeyPress={stepper.onKeyPress}
+                disabled={stepper.disabled}
+                value={stepper.value ? `${stepper.value}` : ''}
+                onChangeText={stepper.onChangeText}
             />
             <Pressable
                 className={cn(
                     "absolute top-0 right-0 items-center justify-center select-none z-10",
                     "w-10 h-10 native:w-12 native:h-12",
                     "border-l border-l-input",
-                    isIncrementDisabled && 'opacity-50 web:cursor-not-allowed',
-                    props.hasError && 'border-l-danger',
-                    props.pressableClassName,
+                    stepper.isIncrementDisabled && 'opacity-50 web:cursor-not-allowed',
+                    stepper.hasError && 'border-l-danger',
+                    stepper.pressableClassName,
                 )}
-                onPress={onIncrement}
-                disabled={isIncrementDisabled}
+                {...stepper.stepperButtonKeyhandlerProps}
+                onPress={stepper.onIncrement}
+                disabled={stepper.isIncrementDisabled}
                 hitSlop={10}
             >
                 <Icon name="AddFilled" size={20} color={getThemeColor('--primary')} />
