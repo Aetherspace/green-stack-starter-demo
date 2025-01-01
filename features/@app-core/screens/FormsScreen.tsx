@@ -101,7 +101,7 @@ export const FormsScreen = (props: FormScreenProps) => {
             case 'full-product-dev': formState.handleChange('projectsPerYear', 3); break
             case 'freelance-app-dev': formState.handleChange('projectsPerYear', 4); break
             case 'startup-founder': formState.handleChange('projectsPerYear', 1); break
-            case 'indiehacker': formState.handleChange('projectsPerYear', 6); break
+            case 'indiehacker': formState.handleChange('projectsPerYear', 5); break
             case 'studio-lead': formState.handleChange('projectsPerYear', 7); break
         }
     }, [identifiesWith])

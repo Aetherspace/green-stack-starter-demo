@@ -70,6 +70,7 @@ export const EfficiencyResults = (props: EfficiencyResultsProps) => {
                     type="outline"
                     size="sm"
                     className={cn('cursor-default', shipsMobileOnly && 'border-success')}
+                    textClassName={cn(shipsMobileOnly && 'font-bold')}
                 />
                 <View className="w-4" />
                 <Button
@@ -77,6 +78,7 @@ export const EfficiencyResults = (props: EfficiencyResultsProps) => {
                     type="outline"
                     size="sm"
                     className={cn('cursor-default', shipsWebOnly && 'border-success')}
+                    textClassName={cn(shipsWebOnly && 'font-bold')}
                 />
                 <View className="w-4" />
                 <Button
@@ -84,6 +86,7 @@ export const EfficiencyResults = (props: EfficiencyResultsProps) => {
                     type="outline"
                     size="sm"
                     className={cn('cursor-default', shipsWebOnly && 'border-success')}
+                    textClassName={cn(shipsWebOnly && 'font-bold')}
                 />
             </View>
 

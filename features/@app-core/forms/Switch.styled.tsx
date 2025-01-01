@@ -10,6 +10,7 @@ import Animated, {
     useDerivedValue,
     withTiming,
 } from 'react-native-reanimated'
+import { useFocusedPress } from '@green-stack/hooks/useFocusedPress'
 
 /* --- Props ----------------------------------------------------------------------------------- */
 
@@ -41,6 +42,8 @@ export const SwitchWeb = forwardRef<
 
     const onPress = disabled ? () => {} : () => onCheckedChange(!checked)
 
+    const focusedKeyHandlerProps = useFocusedPress(['Enter', ' '], () => onPress())
+
     // -- Render --
 
     return (
@@ -49,6 +52,7 @@ export const SwitchWeb = forwardRef<
                 'flex-row items-center',
                 props.className,
             )}
+            {...focusedKeyHandlerProps}
             onPress={onPress}
             disabled={disabled}
         >
