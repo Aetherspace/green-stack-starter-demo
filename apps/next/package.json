@@ -12,6 +12,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "start": "next start",
+    "preview": "next build && next start",
     "env:local": "cp .env.example .env.local"
   }
 }
