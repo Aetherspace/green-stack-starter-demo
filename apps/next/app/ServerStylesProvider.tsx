@@ -13,26 +13,25 @@ import { useServerInsertedHTML } from 'next/navigation'
 const ServerStylesProvider = (props: { children: React.ReactNode }) => {
     // Props
     const { children } = props
-  
-    // -- Serverside Styles --
-  
-    useServerInsertedHTML(() => {
-      // @ts-ignore
-      const sheet = StyleSheet.getSheet()
-      return (
-        <style
-          dangerouslySetInnerHTML={{ __html: sheet.textContent}}
-          id={sheet.id}
-        />
-      )
-    })
-  
-    // -- Render --
-  
-    return <>{children}</>
-  }
-  
-  /* --- Exports --------------------------------------------------------------------------------- */
-  
-  export default ServerStylesProvider
 
+    // -- Serverside Styles --
+
+    useServerInsertedHTML(() => {
+        // @ts-ignore
+        const sheet = StyleSheet.getSheet()
+        return (
+            <style
+                dangerouslySetInnerHTML={{ __html: sheet.textContent}}
+                id={sheet.id}
+            />
+        )
+    })
+
+    // -- Render --
+
+    return <>{children}</>
+}
+
+/* --- Exports --------------------------------------------------------------------------------- */
+
+export default ServerStylesProvider
