@@ -6,6 +6,7 @@ import { Image as NextContextImage } from '@green-stack/core/components/Image.ne
 import { Link as NextContextLink } from '@green-stack/core/navigation/Link.next'
 import { useRouter as useNextContextRouter } from '@green-stack/navigation/useRouter.next'
 import { useRouteParams as useNextRouteParams } from '@green-stack/navigation/useRouteParams.next'
+import { isServer } from '@app/config'
 
 // -i- This is a regular react client component
 // -i- It's still rendered on the server during SSR, but it also hydrates on the client
@@ -16,11 +17,12 @@ import { useRouteParams as useNextRouteParams } from '@green-stack/navigation/us
 
 type NextClientRootLayoutProps = {
     children: React.ReactNode
+    requestContext?: Record<string, any$TooComplex>
 }
 
 /* --- <NextClientRootLayout/> ---------------------------------------------------------------- */
 
-const NextClientRootLayout = ({ children }: NextClientRootLayoutProps) => {
+const NextClientRootLayout = ({ children, requestContext }: NextClientRootLayoutProps) => {
     // Navigation
     const nextContextRouter = useNextContextRouter()
 
@@ -38,6 +40,7 @@ const NextClientRootLayout = ({ children }: NextClientRootLayoutProps) => {
                 contextLink={NextContextLink}
                 contextRouter={nextContextRouter}
                 useContextRouteParams={useNextRouteParams}
+                requestContext={isServer ? requestContext : {}}
                 isNext
             >
                 {children}
@@ -47,5 +50,5 @@ const NextClientRootLayout = ({ children }: NextClientRootLayoutProps) => {
 }
 
 /* --- Exports --------------------------------------------------------------------------------- */
-  
+
 export default NextClientRootLayout

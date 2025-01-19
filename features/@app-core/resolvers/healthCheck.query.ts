@@ -47,6 +47,6 @@ export type HealthCheckQueryOutput = ResultOf<typeof healthCheckQuery>
 /* --- healthCheckFetcher() -------------------------------------------------------------------- */
 
 export const healthCheckFetcher = bridgedFetcher({
-  ...healthCheckBridge,
-  graphqlQuery: healthCheckQuery,
+    ...healthCheckBridge,
+    graphqlQuery: healthCheckQuery,
 })
