@@ -1,17 +1,16 @@
 import { print } from 'graphql/language/printer'
 import type { TadaDocumentNode, ResultOf } from 'gql.tada'
-import { warnOnce } from '@green-stack/utils/commonUtils'
 import type { QueryConfig } from './graphqlQuery.types'
-import { appConfig } from '../appConfig'
+import { appConfig, isServer } from '../appConfig'
 
 /** --- graphqlQuery --------------------------------------------------------------------------- */
 /** -i- Isomorphic graphql request, uses the graphql endpoint in browser & mobile, but the executable schema serverside */
-export const graphqlQuery = async <T extends TadaDocumentNode, R = ResultOf<T>>(query: T, config?: QueryConfig<T>) => {
+export const graphqlQuery = Object.assign(async <T extends TadaDocumentNode, R = ResultOf<T>>(
+    query: T,
+    config?: QueryConfig<T>,
+) => {
     // Config
-    const { variables, headers, graphqlEndpoint } = config || {}
-
-    // Flags
-    const isServer = typeof window === 'undefined'
+    const { variables, headers, graphqlEndpoint, requestContext } = config || {}
 
     // Vars
     const queryString = print(query)
@@ -24,18 +23,22 @@ export const graphqlQuery = async <T extends TadaDocumentNode, R = ResultOf<T>>(
             const [
                 { graphql },
                 { executableSchema },
-            ]  = await Promise.all([
+            ] = await Promise.all([
                 import('graphql'),
                 import('./schema'),
             ])
-            // 💡 You might want to build the server-only request context here
-            warnOnce('-i- graphqlQuery() called serverside without request context set up.')
+
             // Execute query with the executable schema
-            const { data } = await graphql({
+            const { data, errors } = await graphql({
                 schema: executableSchema,
                 source: queryString,
                 variableValues: variables,
-            }) as { data: R }
+                contextValue: requestContext || {},
+            }) as { data: R, errors: any[] }
+
+            // Throw errors if they exist
+            if (errors) throw new Error(errors[0].message)
+
             // Return resolver response
             return data
         } catch (error: any) {
@@ -62,5 +65,7 @@ export const graphqlQuery = async <T extends TadaDocumentNode, R = ResultOf<T>>(
     } catch (error: any) {
         throw new Error(error)
     }
-}
-
+}, {
+    // -i- Flag to help detect whether it's safe to pass extra context to this fetcher function
+    isUniversalQuery: true,
+})

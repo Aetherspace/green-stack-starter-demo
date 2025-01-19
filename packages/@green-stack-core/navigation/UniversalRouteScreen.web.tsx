@@ -1,10 +1,13 @@
 'use client'
-import { use, useState, useEffect } from 'react'
-import { useQueryClient, useQuery, dehydrate, HydrationBoundary } from '@tanstack/react-query'
+import { useState, useEffect, useContext } from 'react'
+import { useQuery, HydrationBoundary } from '@tanstack/react-query'
 import { UniversalRouteProps, QueryFn, DEFAULT_QUERY_BRIDGE } from './UniversalRouteScreen.helpers'
 import { useRouteParams } from './useRouteParams'
 import { extractParams } from './useRouteParams.helpers'
 import { isExpoWebLocal } from '../../../features/@app-core/appConfig'
+import { CoreContext } from '../context/CoreContext'
+import { isEmpty } from '../utils/commonUtils'
+import { ServerRouteScreen } from './ServerRouteScreen'
 
 /* --- Helpers --------------------------------------------------------------------------------- */
 
@@ -39,7 +42,7 @@ export const UniversalRouteScreen = <
     const nextRouterParams = useRouteParams(props)
 
     // Context
-    const queryClient = useQueryClient()
+    const { requestContext } = useContext(CoreContext)
 
     // State
     const [hydratedData, setHydratedData] = useState<Record<string, any> | null>(null)
@@ -50,6 +53,9 @@ export const UniversalRouteScreen = <
     const queryParams = { ...routeParams, ...searchParams, ...nextRouterParams } // @ts-ignore
     const queryKey = routeParamsToQueryKey(queryParams as unknown as ARGS)
     const queryInput = routeParamsToQueryInput(queryParams as any)
+
+    // Flags
+    const shouldAddContext = !isEmpty(requestContext) && !!routeDataFetcher?.isUniversalQuery && !isBrowser
 
     // -- Effects --
 
@@ -64,7 +70,12 @@ export const UniversalRouteScreen = <
 
     const queryConfig = {
         queryKey,
-        queryFn: async () => await routeDataFetcher(queryInput as unknown as ARGS),
+        queryFn: async () => {
+            return await routeDataFetcher(
+                queryInput as unknown as ARGS,
+                shouldAddContext ? { requestContext } : {},
+            )
+        },
         initialData: queryBridge.initialData,
     }
     
@@ -78,7 +89,7 @@ export const UniversalRouteScreen = <
         const hasInitialData = !!hydrationData || !!queryBridge.initialData
         const shouldRefetchOnMount = isExpoWebLocal || !hasInitialData
 
-        const { data: fetcherData } = useQuery({
+        const { data: fetcherData, ...query } = useQuery({
             ...queryConfig, // @ts-ignore
             initialData: shouldRefetchOnMount ? undefined : {
                 ...queryConfig.initialData,
@@ -87,6 +98,12 @@ export const UniversalRouteScreen = <
             refetchOnMount: shouldRefetchOnMount,
         })
         const routeDataProps = fetcherDataToProps(fetcherData as any) as Record<string, unknown> // prettier-ignore
+        
+        const refetchInitialData = async () => {
+            const queryState = await query.refetch()
+            const regeneratedProps = fetcherDataToProps(queryState.data as any) as Record<string, unknown>
+            return regeneratedProps
+        }
 
         return (
             <HydrationBoundary state={hydrationState}>
@@ -96,6 +113,7 @@ export const UniversalRouteScreen = <
                     {...routeDataProps}
                     queryKey={queryKey}
                     queryInput={queryInput}
+                    refetchInitialData={refetchInitialData}
                     {...screenProps} // @ts-ignore
                     params={routeParams}
                     searchParams={searchParams}
@@ -106,22 +124,15 @@ export const UniversalRouteScreen = <
 
     // -- Server --
 
-    const fetcherData = use(queryClient.fetchQuery(queryConfig)) as Awaited<ReturnType<QueryFn<ARGS, RES>>>
-    const routeDataProps = fetcherDataToProps(fetcherData) as Record<string, unknown>
-    const dehydratedState = dehydrate(queryClient)
-    
     return (
-        <HydrationBoundary state={dehydratedState}>
-            {!!fetcherData && <div id="ssr-data" data-ssr={JSON.stringify(fetcherData)} />}
-            {!!dehydratedState && <div id="ssr-hydration-state" data-ssr={JSON.stringify(dehydratedState)} />}
-            <RouteScreen
-                {...routeDataProps}
-                queryKey={queryKey}
-                queryInput={queryInput}
-                {...screenProps} // @ts-ignore
-                params={routeParams}
-                searchParams={searchParams}
-            />
-        </HydrationBoundary>
+        <ServerRouteScreen
+            queryConfig={queryConfig}
+            queryInput={queryInput}
+            fetcherDataToProps={fetcherDataToProps}
+            RouteScreen={RouteScreen}
+            {...screenProps}
+            routeParams={routeParams}
+            searchParams={searchParams}
+        />
     )
 }

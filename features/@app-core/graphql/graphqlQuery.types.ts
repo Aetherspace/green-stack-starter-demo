@@ -4,4 +4,5 @@ export type QueryConfig<T extends TadaDocumentNode> = {
     variables?: VariablesOf<T>
     headers?: Record<string, string>
     graphqlEndpoint?: string
+    requestContext?: Record<string, any$TooComplex>
 }
