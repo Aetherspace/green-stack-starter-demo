@@ -6,12 +6,21 @@ export type RequestContext = {
     // -i- Next.js app API router request and response objects
     req: NextRequest,
     res: NextResponse,
+    requestUrl?: string,
+    // -i- Geolocation info
+    geolocation?: {
+        ip?: string,
+        country?: string,
+        city?: string,
+    },
     // -i- GraphQL context properties
     parent?: unknown,
     info?: unknown,
     // -i- Anything else you might want to attach as context through middleware, e.g.
-    // user: ...
-    // permissions: ...
+    userId?: string,
+    sessionId?: string,
+    authToken?: string,
+    // ...
 }
 
 export type CreateRequestContextArgs = Partial<Omit<RequestContext, 'req' | 'res'>> & {

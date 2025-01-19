@@ -2,6 +2,7 @@
 import React from 'react'
 import { CoreContext, CoreContextType } from '@green-stack/context/CoreContext'
 import { UniversalQueryClientProvider } from '@green-stack/context/UniversalQueryClientProvider'
+import { isServer } from '../appConfig'
 
 // -i- This is a regular react client component
 // -i- Use this file for adding universal app providers that work in both Expo and Next.js
@@ -41,6 +42,7 @@ const UniversalAppProviders = (props: UniversalAppProvidersProps) => {
                     isNext,
                     isDebugMode,
                     setIsDebugMode,
+                    requestContext: isServer ? props.requestContext : {},
                 }}
             >
                 {children}

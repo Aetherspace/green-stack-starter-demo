@@ -28,7 +28,8 @@ export const healthCheck = createResolver(async ({ args, withDefaults, req, cont
     const rn = req as NextRequest
     const requestHost = rn?.headers?.get?.('host')
     const requestProtocol = rn?.headers?.get?.('x-forwarded-proto') ?? 'http'
-    const requestURL = r?.url || `${requestProtocol}://${requestHost}/api/health`
+    const requestUrlFallback = `${requestProtocol}://${requestHost}/api/health`
+    const requestURL = r?.url || headerContext.requestUrl || requestUrlFallback
     const { baseURL, backendURL, apiURL, graphURL } = appConfig
 
     // -- Context --

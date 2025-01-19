@@ -1,4 +1,6 @@
 'use client'
+import { QueryConfig } from '@app/core/graphql/graphqlQuery.types'
+import type { TadaDocumentNode } from 'gql.tada'
 import type { QueryKey } from '@tanstack/react-query'
 
 /* --- Types ----------------------------------------------------------------------------------- */
@@ -6,7 +8,10 @@ import type { QueryKey } from '@tanstack/react-query'
 export type QueryFn<
     ARGS extends Record<string, unknown> = Record<string, unknown>,
     RES extends Record<string, unknown> = Record<string, unknown>
-> = (args: ARGS) => Promise<RES>
+> = (
+    args: ARGS,
+    context?: QueryConfig<TadaDocumentNode>
+) => Promise<RES>
 
 // @ts-ignore
 export type QueryBridgeConfig<
@@ -23,7 +28,7 @@ export type QueryBridgeConfig<
     /** -i- Function to turn any route params into the input args for the `routeDataFetcher()` query */
     routeParamsToQueryInput: ParamsToQueryInput
     /** -i- Fetcher to prefetch data for the Page and QueryClient during SSR, or fetch it clientside if browser / mobile */
-    routeDataFetcher: Fetcher
+    routeDataFetcher: Fetcher & { isUniversalQuery?: boolean }
     /** -i- Function transform fetcher data into props */
     fetcherDataToProps?: FetcherToProps
     /** -i- Initial data provided to the QueryClient */
@@ -72,6 +77,8 @@ export type HydratedRouteProps<
     params: Partial<Parameters<QueryBridge['routeDataFetcher']>[0]>
     /** -i- The search params passed by the Next.js app router, in Expo we get these from `useRouteParams()` */
     searchParams: Partial<Parameters<QueryBridge['routeDataFetcher']>[0]>
+    /** -i- Refetch the initial data */
+    refetchInitialData?: () => Promise<{ data: ReturnType<Exclude<QueryBridge['fetcherDataToProps'], undefined>> }>
 }
 
 /** --- createQueryBridge() -------------------------------------------------------------------- */
@@ -99,7 +106,7 @@ export const createQueryBridge = <
 export const DEFAULT_QUERY_BRIDGE = {
     routeParamsToQueryKey: (routeParams: Record<string, unknown>) => [JSON.stringify(routeParams)],
     routeParamsToQueryInput: (routeParams: Record<string, unknown>) => routeParams,
-    routeDataFetcher: async () => ({}),
+    routeDataFetcher: Object.assign(async () => ({}), { isUniversalQuery: true }),
     initialData: {},
 } as unknown as QueryBridgeConfig<
     Record<string, any$Unknown>,

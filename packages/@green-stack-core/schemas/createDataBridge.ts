@@ -50,6 +50,14 @@ export const renderGraphqlQuery = <ArgsShape extends z.ZodRawShape, ResShape ext
     let query = `${resolverType} ${resolverName}($${_resolverArgsName}: ${argsSchemaName}) {\n  {{body}}\n}` // prettier-ignore
     query = query.replace('{{body}}', `${resolverName}(args: $${_resolverArgsName}) {\n{{fields}}\n  }`) // prettier-ignore
 
+    // Re-evaluate query setup if there are no args
+    // @ts-ignore
+    const hasArgs = Object.keys(argsSchemaDefs.schema).length > 0
+    if (!hasArgs) {
+        query = `${resolverType} ${resolverName} {\n  {{body}}\n}`
+        query = query.replace('{{body}}', `${resolverName} {\n{{fields}}\n  }`)
+    }
+
     // Nestable field builder
     const renderFields = (schema: Meta$Schema, depth: number, fieldName?: string) => {
         try {

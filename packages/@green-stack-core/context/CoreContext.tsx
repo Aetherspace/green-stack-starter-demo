@@ -28,6 +28,8 @@ export type CoreContextType = {
     isDebugMode?: boolean
     // Setters
     setIsDebugMode?: (isDebugMode: boolean) => void
+    // Request Context
+    requestContext?: Record<string, any$TooComplex>
 }
 
 /* --- Dummy ----------------------------------------------------------------------------------- */

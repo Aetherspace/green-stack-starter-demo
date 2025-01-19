@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import { ScrollView, Dimensions } from 'react-native'
+import { Dimensions } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { HydratedRouteProps, createQueryBridge } from '@green-stack/navigation'
-import { Pressable, View, Link, Image, P, H1, H3, Text, H2, cn } from '../components/styled'
+import { Pressable, ScrollView, View, Link, Image, P, H1, H3, Text, H2, cn } from '../components/styled'
 import { healthCheckFetcher } from '../resolvers/healthCheck.query'
 import { Icon } from '@green-stack/components/Icon'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -19,7 +19,12 @@ import { isMobile } from '@app/config'
 export const queryBridge = createQueryBridge({
     routeDataFetcher: healthCheckFetcher,
     routeParamsToQueryKey: (routeParams) => ['healthCheck', routeParams.echo],
-    routeParamsToQueryInput: (routeParams) => ({ healthCheckArgs: { echo: routeParams.echo } }),
+    routeParamsToQueryInput: (routeParams) => ({
+        healthCheckArgs: {
+            echo: routeParams.echo,
+            verbose: routeParams.verbose === 'true',
+        },
+    }),
     fetcherDataToProps: (fetcherData) => ({ serverHealth: fetcherData?.healthCheck }),
 })
 
@@ -41,7 +46,11 @@ const HomeScreen = (props: HomeScreenProps) => {
 
     // TODO: Remove this useEffect once you're done with testing this demo
     useEffect(() => {
-        // if (serverHealth) console.log('Server Health:', JSON.stringify(serverHealth, null, 4))
+        const refetchServerHealth = async () => {
+            const refetchedProps = await props.refetchInitialData?.()
+            console.log({ props, refetchedProps })
+        }
+        if (serverHealth?.echo) refetchServerHealth()
     }, [!!serverHealth])
 
     // -- Render --
@@ -50,7 +59,7 @@ const HomeScreen = (props: HomeScreenProps) => {
         <>
             <StatusBar style="light" />
             <ScrollView
-                contentContainerStyle={{ position: 'relative', minWidth: '100%', minHeight: '100%' }}
+                contentContainerClassName="relative min-w-screen min-h-screen"
                 style={{ backgroundColor: '#1e293b' }}
             >
                 <View

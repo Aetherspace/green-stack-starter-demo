@@ -1,7 +1,9 @@
 /* @jsxImportSource react */
-import type { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import Document from './Document'
 import NextClientRootLayout from './NextClientRootLayout'
+import { headers } from 'next/headers'
+import { parseIfJSON } from '@green-stack/utils/apiUtils'
 
 // -i- This is a react server component that serves as the root (server) layout for our app
 // -i- Use this file to do server-only things for web:
@@ -16,13 +18,22 @@ type NextServerRootLayoutProps = {
 
 /* --- <NextServerRootLayout/> ----------------------------------------------------------------- */
 
-const NextServerRootLayout = ({ children }: NextServerRootLayoutProps) => (
-    <Document>
-        <NextClientRootLayout>
-            {children}
-        </NextClientRootLayout>
-    </Document>
-)
+const NextServerRootLayout = async ({ children }: NextServerRootLayoutProps) => {
+    
+    const headersContext = await headers()
+    const requestContextJSON = await headersContext.get('context')
+    const requestContext = parseIfJSON(requestContextJSON)
+
+    // -- Render --
+
+    return (
+        <Document>
+            <NextClientRootLayout requestContext={requestContext}>
+                {children}
+            </NextClientRootLayout>
+        </Document>
+    )
+}
 
 /* --- Exports --------------------------------------------------------------------------------- */
 

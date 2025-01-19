@@ -41,9 +41,9 @@ export const createResolverDefinition = (resolverConfig: ResolverConfig) => {
     // Vars
     const { resolverName, argSchema, resSchema } = resolverConfig
     const argsMeta = argSchema?.introspect?.() as Meta$Schema
-    const resMeta = resSchema?.introspect?.()
+    const resMeta = resSchema?.introspect?.() as Meta$Schema
     // Flags
-    const hasArgs = !isEmpty(argsMeta)
+    const hasArgs = !isEmpty(argsMeta) && !isEmpty(argsMeta?.schema)
     const areArgsRequired = hasArgs && !argsMeta?.isNullable && !argsMeta?.isOptional
     const areArgsOptional = !areArgsRequired || Object.values(argsMeta?.schema!).every((arg) => arg.isOptional || arg.isNullable) // prettier-ignore
     const nullableToken = areArgsOptional ? '' : '!'
@@ -169,8 +169,15 @@ export const createSchemaDefinition = (
 export const createDataDefinitions = (resolverConfigs: ResolverConfig[]) => {
     // Use introspection metadata to create schema definitions of the input & output types
     const dataDefinitions = resolverConfigs.reduce((acc, { argSchema, resSchema }) => {
-        const argDefinitions = createSchemaDefinition(argSchema.introspect() as Meta$Schema, 'input')
-        const resDefinitions = createSchemaDefinition(resSchema.introspect() as Meta$Schema, 'type')
+        let argDefinitions = createSchemaDefinition(argSchema.introspect() as Meta$Schema, 'input')
+        let resDefinitions = createSchemaDefinition(resSchema.introspect() as Meta$Schema, 'type')
+        // If there are no args, we don't need to define an input type
+        const hasArgs = !isEmpty(argSchema.introspect().schema)
+        if (!hasArgs) argDefinitions = []
+        // If there's no output, we don't need to define an output type
+        const hasRes = !isEmpty(resSchema.introspect().schema)
+        if (!hasRes) resDefinitions = []
+        // Return the data definitions
         return [...acc, ...argDefinitions, ...resDefinitions] as string[]
     }, [] as string[])
     // Flatten the resulting array of definitions (can contain duplicates)
@@ -235,4 +242,3 @@ export const createGraphSchemaDefs = (resolvers: ResolversMapType) => {
         schemaDefsString,
     }
 }
-

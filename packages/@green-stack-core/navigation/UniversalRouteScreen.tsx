@@ -32,14 +32,21 @@ export const UniversalRouteScreen = <
 
     // -- Mobile --
     
-    const { data: fetcherData } = useQuery(queryConfig)
+    const { data: fetcherData, ...query } = useQuery(queryConfig)
     const routeDataProps = fetcherDataToProps(fetcherData as Awaited<RES>) as Record<string, unknown>
+    
+    const refetchInitialData = async () => {
+        const queryState = await query.refetch()
+        const regeneratedProps = fetcherDataToProps(queryState.data as any) as Record<string, unknown>
+        return regeneratedProps
+    }
 
     return (
         <RouteScreen
             {...routeDataProps}
             queryKey={queryKey}
             queryInput={queryInput}
+            refetchInitialData={refetchInitialData}
             {...screenProps} // @ts-ignore
             params={routeParams}
             searchParams={searchParams}
