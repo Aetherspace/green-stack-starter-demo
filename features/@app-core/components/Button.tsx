@@ -76,7 +76,7 @@ export const Button = <HREF extends KnownRoutes | never = never>(rawProps: Butto
         'relative flex flex-row items-center justify-center rounded-md no-underline',
         'web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2',
         props.type === 'primary' && 'bg-primary web:hover:opacity-90 active:opacity-90',
-        props.type === 'secondary' && 'bg-secondary-inverse web:hover:opacity-80 active:opacity-80',
+        props.type === 'secondary' && 'bg-secondary-foreground web:hover:opacity-80 active:opacity-80',
         props.type === 'outline' && 'bg-transparent border border-input web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent',
         props.type === 'link' && 'bg-transparent border-none web:hover:bg-transparent active:bg-transparent',
         props.type === 'warn' && 'bg-warn web:hover:opacity-90 active:opacity-90',
@@ -94,14 +94,14 @@ export const Button = <HREF extends KnownRoutes | never = never>(rawProps: Butto
 
     const textClassNames = cn(
         'no-underline',
-        props.type === 'primary' && 'text-primary-inverse',
+        props.type === 'primary' && 'text-primary-foreground',
         props.type === 'secondary' && 'text-secondary',
         props.type === 'outline' && 'text-primary',
         props.type === 'link' && 'text-link',
-        props.type === 'warn' && 'text-primary-inverse',
-        props.type === 'danger' && 'text-primary-inverse',
-        props.type === 'info' && 'text-primary-inverse',
-        props.type === 'success' && 'text-primary-inverse',
+        props.type === 'warn' && 'text-primary-foreground',
+        props.type === 'danger' && 'text-primary-foreground',
+        props.type === 'info' && 'text-primary-foreground',
+        props.type === 'success' && 'text-primary-foreground',
         props.size === 'sm' && 'text-sm',
         props.size === 'md' && 'text-base',
         props.size === 'lg' && 'text-lg',
@@ -112,18 +112,18 @@ export const Button = <HREF extends KnownRoutes | never = never>(rawProps: Butto
     )
 
     const iconClassNames = cn(
-        props.type === 'primary' && 'text-primary-inverse',
+        props.type === 'primary' && 'text-primary-foreground',
         props.type === 'secondary' && 'text-secondary',
         props.type === 'outline' && 'text-primary',
         props.type === 'link' && 'text-link',
-        props.type === 'warn' && 'text-primary-inverse',
-        props.type === 'danger' && 'text-primary-inverse',
-        props.type === 'info' && 'text-primary-inverse',
-        props.type === 'success' && 'text-primary-inverse',
+        props.type === 'warn' && 'text-primary-foreground',
+        props.type === 'danger' && 'text-primary-foreground',
+        props.type === 'info' && 'text-primary-foreground',
+        props.type === 'success' && 'text-primary-foreground',
         props.disabled && 'text-muted',
     )
 
-    const colorPrimaryInverse = useThemeColor('--primary-inverse')
+    const colorPrimaryInverse = useThemeColor('--primary-foreground')
     const colorPrimary = useThemeColor('--primary')
     const colorLink = useThemeColor('--link')
     const colorMuted = useThemeColor('--muted')

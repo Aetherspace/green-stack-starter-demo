@@ -5,7 +5,7 @@ import { appConfig } from '../appConfig'
 
 /** --- graphqlQuery --------------------------------------------------------------------------- */
 /** -i- Isomorphic graphql request, uses the graphql endpoint in browser & mobile, but the executable schema serverside */
-export const graphqlQuery = async <T extends TadaDocumentNode, R = ResultOf<T>>(query: T, config?: QueryConfig<T>) => {
+export const graphqlQuery = Object.assign(async <T extends TadaDocumentNode, R = ResultOf<T>>(query: T, config?: QueryConfig<T>) => {
     // Config
     const { variables, headers, graphqlEndpoint } = config || {}
 
@@ -31,5 +31,7 @@ export const graphqlQuery = async <T extends TadaDocumentNode, R = ResultOf<T>>(
     } catch (error: any) {
         throw new Error(error)
     }
-}
-
+}, {
+    // -i- Flag to help detect whether it's safe to pass extra context to this fetcher function
+    isUniversalQuery: true,
+})

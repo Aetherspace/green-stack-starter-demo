@@ -4,7 +4,7 @@ import { DRIVER_OPTIONS, createDriverConfig } from '@app/registries/drivers.conf
 
 /* --- Notes ----------------------------------------------------------------------------------- */
 
-// -i- Workpacke package '@green-stack/core' expects this file to be at '/features/app-core/appConfig.ts'
+// -i- Workspace package '@green-stack/core' expects this file to be at '/features/app-core/appConfig.ts'
 // -i- Please keep it here to avoid issues
 
 // -i- Avoid exposing secrets by only using `EXPO_PUBLIC_` or `NEXT_PUBLIC_` prefixes for public variables.
@@ -12,11 +12,14 @@ import { DRIVER_OPTIONS, createDriverConfig } from '@app/registries/drivers.conf
 
 /* --- Env Flags ------------------------------------------------------------------------------- */
 
+export const isProd = process.env.NODE_ENV === 'production'
+export const isDev = process.env.NODE_ENV === 'development'
+
 export const isWeb = Platform.OS === 'web'
 export const isAndroid = Platform.OS === 'android'
 export const isIOS = Platform.OS === 'ios'
 export const isMobile = isAndroid || isIOS
-export const isServer = typeof window === 'undefined'
+export const isServer = isWeb && typeof window === 'undefined'
 
 export const isExpoGo = Constants?.appOwnership === 'expo' || !!Constants?.expoVersion
 
@@ -55,6 +58,8 @@ export const isLocal = isWebLocalhost || isExpoLocal || isNextLocal || backendUR
 /** -i- App config variables powered by env vars universally, and including some expo contants config on mobile */
 export const appConfig = {
     // - Flags -
+    isProd,
+    isDev,
     isWeb,
     isMobile,
     isAndroid,

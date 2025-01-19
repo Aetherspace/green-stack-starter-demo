@@ -23,7 +23,7 @@ export const registerDependencyGenerator = (plop: PlopTypes.NodePlopAPI) => {
                 type: 'list',
                 name: 'workspaceTarget',
                 message: 'Which workspace should we install the Expo SDK compatible versions in?',
-                choices: workspacePackages,
+                choices: ['@app/next', '@app/expo', ...workspacePackages],
             },
             {
                 type: 'input',

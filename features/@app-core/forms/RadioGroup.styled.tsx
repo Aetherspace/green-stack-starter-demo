@@ -3,6 +3,7 @@ import { createContext, useContext, useState, useEffect, forwardRef } from 'reac
 import { RadioGroupRoot, RadioGroupItem, RadioGroupIndicator } from '@green-stack/forms/RadioGroup.primitives'
 import { cn, View, Text, Pressable } from '../components/styled'
 import { z, schema, PropsOf } from '@green-stack/schemas'
+import { useFocusedPress } from '@green-stack/hooks/useFocusedPress'
 
 /* --- Context --------------------------------------------------------------------------------- */
 
@@ -61,6 +62,8 @@ export const RadioButton = forwardRef<
     // -- Handlers --
 
     const onPress = disabled ? () => {} : () => setValue(value)
+
+    const focusedKeyHandlerProps = useFocusedPress(['Enter', ' '], () => onPress())
     
     // -- Render --
 
@@ -71,6 +74,7 @@ export const RadioButton = forwardRef<
                 disabled && 'cursor-not-allowed',
                 props.className,
             )}
+            {...focusedKeyHandlerProps}
             onPress={onPress}
             hitSlop={props.hitSlop}
         >
@@ -117,14 +121,12 @@ export const RadioButton = forwardRef<
             {!!label && (
                 <Text
                     id={labelledByID}
-                    role="checkbox"
                     className={cn(
                         'flex items-center ml-2 web:select-none',
                         'text-primary',
                         disabled && 'opacity-50 cursor-not-allowed',
                         props.labelClassName,
                     )}
-                    onPress={onPress}
                     disabled={disabled}
                 >
                     {label}

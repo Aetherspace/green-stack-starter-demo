@@ -3,6 +3,7 @@ import { CheckboxRoot, CheckboxIndicator } from '@green-stack/forms/Checkbox.pri
 import { cn, View, Text, Pressable, getThemeColor } from '../components/styled'
 import { z, schema, PropsOf } from '@green-stack/schemas'
 import { Icon } from '@green-stack/components/Icon'
+import { useFocusedPress } from '@green-stack/hooks/useFocusedPress'
 
 /* --- Props ----------------------------------------------------------------------------------- */
 
@@ -39,6 +40,8 @@ export const Checkbox = forwardRef<
 
     const onPress = disabled ? () => {} : () => onCheckedChange(!checked)
 
+    const focusedKeyHandlerProps = useFocusedPress(['Enter', ' '], () => onPress())
+
     // -- Render --
 
     return (
@@ -48,6 +51,7 @@ export const Checkbox = forwardRef<
                 disabled && 'opacity-50 cursor-not-allowed',
                 props.className,
             )}
+            {...focusedKeyHandlerProps}
             onPress={onPress}
             hitSlop={props.hitSlop}
             role="checkbox"
@@ -88,9 +92,9 @@ export const Checkbox = forwardRef<
                                 <Icon
                                     name="CheckFilled"
                                     size={12}
-                                    color={getThemeColor('--primary-inverse')}
+                                    color={getThemeColor('--primary-foreground')}
                                     className={cn(
-                                        'text-primary-inverse',
+                                        'text-primary-foreground',
                                         hasError && 'text-red-500',
                                     )}
                                 />
