@@ -25,6 +25,10 @@ export const parseUrlParamsObject = (
             if (['true', 'false'].includes(val)) val = JSON.parse(val)
             // Normalize stringified numbers to actual number
             else val = Array.isArray(val) || !isValidNumber(val) ? val : +val
+            // Keep Dates as is
+            if (val instanceof Date) return val
+            // Keep Buffers as is
+            if (typeof window === 'undefined' && val instanceof Buffer) return val
             // In case of nested objects, use recursion
             if (typeof val === 'object' && val !== null && !Array.isArray(val)) {
                 val = parseUrlParamsObject(val, ignoredKeys)
@@ -75,6 +79,7 @@ export const createKey = (obj: ObjectType<any$Unknown> = {}, separator = '-'): s
     if (!Array.isArray(obj) && typeof obj !== 'object') return `${obj}`
     const valueKeys = Object.entries(obj).map(([key, val]) => {
         let value = val
+        if (value === null) value = 'null'
         if (typeof value === 'object') value = createKey(value)
         if (Array.isArray(value)) {
             const itemType = typeof value[0]

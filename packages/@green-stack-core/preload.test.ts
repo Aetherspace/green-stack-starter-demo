@@ -36,6 +36,18 @@ relevantTsConfigs.forEach(async (tsConfigPath) => {
     })
 })
 
+/* --- Load .env.local vars if available ------------------------------------------------------- */
+
+// -i- We need to load the .env.local vars if available
+// -i- ... as they're not loaded by default in the test environment.
+
+const fs = require('fs')
+const path = require('path')
+const dotenv = require('dotenv')
+const envPath = path.resolve(__dirname, '../../apps/next/.env.local')
+const envPathExists = fs.existsSync(envPath)
+if (envPathExists) dotenv.config({ path: envPath })
+
 /* --- Mock Flow typed modules ----------------------------------------------------------------- */
 
 // -i- We need aliases for these as they touch parts of react-native that ship Flow types
