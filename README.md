@@ -26,7 +26,7 @@ Install and/or open the [Expo Go](https://expo.io/client) app on your phone and 
 
 ## Documentation
 
-All docs for this basic Universal Starter can be found at [universal-base-starter-docs.vercel.app](https://universal-base-starter-docs.vercel.app/) and are built from the `with/mdx-docs-nextra` branch.
+All docs for this basic Universal Starter can be found at [universal-base-starter-docs.vercel.app](https://fullproduct.dev/docs/) and a local version can be built from the `with/automatic-docs` branch.
 
 ## Alternative Universal App starters
 

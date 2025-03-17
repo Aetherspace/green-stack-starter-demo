@@ -1,5 +1,5 @@
 import Constants from 'expo-constants'
-import { Platform } from 'react-native'
+import { Platform, Dimensions } from 'react-native'
 import { DRIVER_OPTIONS, createDriverConfig } from '@app/registries/drivers.config'
 
 /* --- Notes ----------------------------------------------------------------------------------- */
@@ -54,6 +54,10 @@ export const isExpoLocal = isExpoWebLocal || isExpoMobileLocal
 
 export const isLocal = isWebLocalhost || isExpoLocal || isNextLocal || backendURL?.includes('localhost')
 
+/* --- Sizes ----------------------------------------------------------------------------------- */
+
+export const isMobileSize = isServer ? undefined : Dimensions.get('window').width < 768
+
 /** --- appConfig ------------------------------------------------------------------------------ */
 /** -i- App config variables powered by env vars universally, and including some expo contants config on mobile */
 export const appConfig = {
@@ -73,6 +77,7 @@ export const appConfig = {
     isExpoGo,
     isExpoWebLocal,
     isExpoMobileLocal,
+    isMobileSize,
     // - Server URLs -
     baseURL,
     backendURL,

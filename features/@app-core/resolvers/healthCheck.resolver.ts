@@ -10,6 +10,9 @@ import { DRIVER_KEYS } from '@app/registries/drivers.config'
 
 const ALIVE_SINCE = new Date()
 
+/** --- Test Links ----------------------------------------------------------------------------- */
+/** -i- http://localhost:3000/api/health */
+
 /** --- healthCheck() -------------------------------------------------------------------------- */
 /** -i- Check the health status of the server. Includes relevant urls, server time(zone), versions and more */
 export const healthCheck = createResolver(async ({ args, withDefaults, req, context }) => {

@@ -331,7 +331,7 @@ export const FormsScreen = (props: FormScreenProps) => {
                                 <H3>
                                     <Link
                                         className="text-primary no-underline"
-                                        href="https://universal-base-starter-docs.vercel.app/form-management"
+                                        href="https://fullproduct.dev/docs/form-management"
                                         target="_blank"
                                     >
                                         {`formState = useFormState( zod )`}
@@ -342,7 +342,7 @@ export const FormsScreen = (props: FormScreenProps) => {
 
                                 <Link
                                     className="no-underline"
-                                    href="https://universal-base-starter-docs.vercel.app/form-management"
+                                    href="https://fullproduct.dev/docs/form-management"
                                     target="_blank"
                                 >
                                     📗 Read form-management docs
