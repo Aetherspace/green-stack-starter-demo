@@ -7,6 +7,7 @@ export const DbDriverSchema = z.object({
         z.instanceof(z.ZodObject<z.ZodRawShape>),
         z.string().optional(),
     ),
+    DBEntity: z.instanceof(z.ZodObject<z.ZodRawShape>),
 })
 
 /* --- Types ----------------------------------------------------------------------------------- */
@@ -17,5 +18,5 @@ export type DbDriverShape = z.infer<typeof DbDriverSchema>
 /** -i- Validates whether a DB driver matches the expected methods */
 export const validateDriver = <DB_DRIVER extends DbDriverShape>(driver: DB_DRIVER) => {
     DbDriverSchema.parse(driver)
-    return driver
+    return driver as DB_DRIVER
 }
