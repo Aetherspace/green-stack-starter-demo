@@ -4,48 +4,16 @@ import { z } from '@green-stack/schemas'
 import { warnOnce } from '@green-stack/utils/commonUtils'
 import { getProperty } from '@green-stack/utils/objectUtils'
 import { memoryDB } from '../constants/memoryDB.mock'
-import http from 'http'
-
-/* --- Constants ------------------------------------------------------------------------------- */
-
-const LOGICAL_OPERATORS = ['$and', '$or', '$nor', '$not']
-
-const QUERY_OPERATORS = ['$eq', '$ne', '$gt', '$gte', '$lt', '$lte', '$in', '$nin']
-
-/* --- Types ----------------------------------------------------------------------------------- */
-
-type QueryPrimitive = string | number | boolean | Date | null | undefined
-
-type QueryOperators<T> = {
-    $eq?: T;
-    $ne?: T;
-    $gt?: T;
-    $gte?: T;
-    $lt?: T;
-    $lte?: T;
-    $in?: T[];
-    $nin?: T[];
-}
-
-type LogicalOperators<T> = {
-    $and?: QueryFilterType<T>[];
-    $or?: QueryFilterType<T>[];
-    $nor?: QueryFilterType<T>[];
-    $not?: QueryFilterType<T>;
-}
-
-type QueryFilterType<T> = {
-    [P in keyof T]?: T[P] extends QueryPrimitive 
-        ? (QueryOperators<T[P]> | T[P])
-        : QueryFilterType<T[P]>
-} & LogicalOperators<T>
+import { includesAny } from '@green-stack/utils/stringUtils'
+import { arrFromSet } from '@green-stack/utils/arrayUtils'
+import { LOGICAL_OPERATORS, QUERY_OPERATORS, QueryFilterType } from './createSchemaModel.types.ts'
 
 /** --- createSchemaModel() -------------------------------------------------------------------- */
 /** -i- Creates a schema model to interface with the mock memory DB */
 export const createSchemaModel = <
     S extends z.ZodRawShape,
-    DataType extends Prettify<z.infer<z.ZodObject<S>> & { id: string }> = Prettify<z.infer<z.ZodObject<S>> & { id: string }>, // prettier-ignore
-    QueryFilter extends QueryFilterType<DataType> = QueryFilterType<DataType>, // prettier-ignore
+    DataType extends Prettify<z.input<z.ZodObject<S>>> = Prettify<z.input<z.ZodObject<S>>>, // prettier-ignore
+    QueryFilter extends QueryFilterType<Partial<DataType>> = QueryFilterType<Partial<DataType>>, // prettier-ignore
 >(
     schema: z.ZodObject<S>,
     modelName?: string,
@@ -54,12 +22,27 @@ export const createSchemaModel = <
     const schemaMeta = schema.introspect()
     const modelKey = (modelName || schemaMeta.name) as string
 
-    // Check if the model already exists in memory DB
-    if (memoryDB[modelKey]) {
-        warnOnce(`-!- Model "${modelKey}" already exists in memory DB. Skipping recreation from createSchemaModel()`) // prettier-ignore
-    }
+    // Keep track of id fields used in find by ID operations
+    const idFields = arrFromSet([...Object.keys(schemaMeta.schema!).filter(k => {
+        const fieldMeta = schemaMeta.schema![k]
+        return fieldMeta.isID || (fieldMeta.isUnique && fieldMeta.isIndex)
+    })])
 
-    http.createServer()
+    // Keep track of created/modified dates?
+    const createdAtField = Object.keys(schemaMeta.schema!).find(key => {
+        if (!includesAny(key, ['created', 'inserted'])) return false
+        return schemaMeta.schema![key].zodType === 'ZodDate'
+    })
+    const updatedAtField = Object.keys(schemaMeta.schema!).find(key => {
+        if (!includesAny(key, ['updated', 'modified', 'edited'])) return false
+        return schemaMeta.schema![key].zodType === 'ZodDate'
+    })
+
+    // Use softdeletes?
+    const softDeleteField = Object.keys(schemaMeta.schema!).find(key => {
+        if (!includesAny(key, ['deleted', 'removed'])) return false
+        return schemaMeta.schema![key].zodType === 'ZodDate'
+    })
 
     /** --- matchesCondition() ----------------------------------------------------------------- */
     /** -i- Checks whether mongo-like condition matching keys `$eq`, `$ne`, `$gt`, `$gte`, `$lt`, `$lte`, `$in`, `$nin` match the query */
@@ -185,6 +168,8 @@ export const createSchemaModel = <
     const findOne = async (query: QueryFilter) => {
         memoryDB[modelKey] = memoryDB[modelKey] || {}
         try {
+            // @ts-ignore
+            if (softDeleteField) query[softDeleteField] = { $exists: false }
             // Find the record in the memory DB
             const result = Object.values(memoryDB[modelKey]).find((record) => {
                 return matchesQuery(record as DataType, query)
@@ -201,6 +186,8 @@ export const createSchemaModel = <
     const findMany = async (query: QueryFilter) => {
         memoryDB[modelKey] = memoryDB[modelKey] || {}
         try {
+            // @ts-ignore
+            if (softDeleteField) query[softDeleteField] = { $exists: false }
             // Find the records in the memory DB
             const result = Object.values(memoryDB[modelKey]).filter((record) => {
                 return matchesQuery(record as DataType, query)
@@ -209,6 +196,25 @@ export const createSchemaModel = <
             return result as DataType[]
         } catch (error: any$FixMe) {
             throw new Error(`Failed to find records in "${modelKey}" collection: ${error.message}`)
+        }
+    }
+
+    /** --- findOrCreate() --------------------------------------------------------------------- */
+    /** -i- Finds an existing record or creates it with the provided data */
+    const findOrCreate = async (query: QueryFilter, record: Partial<DataType>) => {
+        memoryDB[modelKey] = memoryDB[modelKey] || {}
+        try {
+            // @ts-ignore
+            if (softDeleteField) query[softDeleteField] = { $exists: false }
+            // Find the record to create
+            const recordToCreate = await findOne(query) as DataType
+            if (recordToCreate) {
+                return recordToCreate
+            } else {
+                return insertOne(record)
+            }
+        } catch (error: any$FixMe) {
+            throw new Error(`Failed to find or create record in "${modelKey}" collection: ${error.message}`)
         }
     }
 
@@ -222,6 +228,10 @@ export const createSchemaModel = <
         memoryDB[modelKey] = memoryDB[modelKey] || {}
         let recordId = ''
         try {
+            // @ts-ignore
+            if (softDeleteField) query[softDeleteField] = { $exists: false }
+            // @ts-ignore
+            if (updatedAtField) fieldUpdates[updatedAtField] = new Date()
             // Find the record to update
             const recordToUpdate = await findOne(query) as DataType
             if (!recordToUpdate && errorOnUnmatched) {
@@ -257,6 +267,10 @@ export const createSchemaModel = <
     ) => {
         memoryDB[modelKey] = memoryDB[modelKey] || {}
         try {
+            // @ts-ignore
+            if (softDeleteField) query[softDeleteField] = { $exists: false }
+            // @ts-ignore
+            if (updatedAtField) fieldUpdates[updatedAtField] = new Date()
             // Find the records to update
             const recordsToUpdate = await findMany(query)
             if (!recordsToUpdate.length && errorOnUnmatched) {
@@ -289,6 +303,8 @@ export const createSchemaModel = <
     const upsertOne = async (query: QueryFilter, record: Partial<DataType>) => {
         memoryDB[modelKey] = memoryDB[modelKey] || {}
         try {
+            // @ts-ignore
+            if (softDeleteField) query[softDeleteField] = { $exists: false }
             // Find the record to update
             const recordToUpdate = await findOne(query) as DataType
             if (recordToUpdate) {
@@ -308,6 +324,8 @@ export const createSchemaModel = <
     const deleteOne = async (query: QueryFilter, errorOnUnmatched = false) => {
         memoryDB[modelKey] = memoryDB[modelKey] || {}
         try {
+            // @ts-ignore
+            if (softDeleteField) query[softDeleteField] = { $exists: false }
             // Find the record to delete
             const recordToDelete = await findOne(query) as DataType
             if (!recordToDelete && errorOnUnmatched) {
@@ -315,10 +333,16 @@ export const createSchemaModel = <
             } else if (!recordToDelete) {
                 return recordToDelete
             }
-            // Delete the record from the memory DB
-            delete memoryDB[modelKey][recordToDelete.id as string]
-            // Return the deleted record
-            return recordToDelete
+            // Hard delete the record?
+            if (!softDeleteField) {
+                // Delete the record from the memory DB
+                delete memoryDB[modelKey][recordToDelete.id as string]
+                // Return the deleted record
+                return recordToDelete
+            }
+            // Soft delete the record instead
+            // @ts-ignore
+            return updateOne(query, { [softDeleteField]: new Date() }, true)
         } catch (error: any$FixMe) {
             throw new Error(`Failed to delete record from "${modelKey}" collection: ${error.message}`)
         }
@@ -329,6 +353,8 @@ export const createSchemaModel = <
     const deleteMany = async (query: QueryFilter, errorOnUnmatched = false) => {
         memoryDB[modelKey] = memoryDB[modelKey] || {}
         try {
+            // @ts-ignore
+            if (softDeleteField) query[softDeleteField] = { $exists: false }
             // Find the records to delete
             const recordsToDelete = await findMany(query)
             if (!recordsToDelete.length && errorOnUnmatched) {
@@ -336,26 +362,33 @@ export const createSchemaModel = <
             } else if (!recordsToDelete.length) {
                 return recordsToDelete
             }
-            // Delete the records from the memory DB
-            recordsToDelete.forEach((record) => {
-                delete memoryDB[modelKey][record.id as string]
-            })
-            // Return the deleted records
-            return recordsToDelete
+            // Hard delete the records?
+            if (!softDeleteField) {
+                // Delete the records from the memory DB
+                recordsToDelete.forEach((record) => {
+                    delete memoryDB[modelKey][record.id as string]
+                })
+                // Return the deleted records
+                return recordsToDelete
+            }
+            // Soft delete the records instead
+            // @ts-ignore
+            return updateMany(query, { [softDeleteField]: new Date() }, true)
         } catch (error: any$FixMe) {
             throw new Error(`Failed to delete records from "${modelKey}" collection: ${error.message}`)
         }
     }
 
-    /* --- Return Model ------------------------------------------------------------------------ */
+    /* --- Return Driver Model ----------------------------------------------------------------- */
 
-    const driverMethods = {
+    const rawModel = {
         insert: insertOne,
         insertOne,
         insertMany,
-        find: findOne,
+        find: findMany,
         findOne,
         findMany,
+        findOrCreate,
         update: updateOne,
         updateOne,
         updateMany,
@@ -377,11 +410,22 @@ export const createSchemaModel = <
         remove: deleteOne,
         removeOne: deleteOne,
         removeMany: deleteMany,
-        // - Model meta -
-        _data: undefined as unknown as DataType,
     }
 
-    return Object.assign(driverMethods, {
-        driver: driverMethods
+    const driver = {
+        ...rawModel,
+        // - Metadata -
+        _key: modelKey,
+        _raw: rawModel,
+        _schema: schema,
+        _data: undefined as unknown as DataType,
+        _idFields: idFields,
+        _createdAtField: createdAtField,
+        _updatedAtField: updatedAtField,
+        _softDeleteField: softDeleteField,
+    }
+
+    return Object.assign(driver, {
+        driver,
     })
 }

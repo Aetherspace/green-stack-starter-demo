@@ -6,6 +6,7 @@ import { createGraphQLServerHandler } from '../../../graphql/graphqlServer'
 const handler = createGraphQLServerHandler()
 
 /* --- /api/graphql ---------------------------------------------------------------------------- */
+/* -i- http://localhost:3000/api/graphql */
 
 export const GET = (req: NextRequest) => handler(req)
 

@@ -1,3 +1,4 @@
+// @ts-ignore
 import { expect, test } from 'bun:test'
 import { print } from 'graphql'
 import { z, schema } from '../index'

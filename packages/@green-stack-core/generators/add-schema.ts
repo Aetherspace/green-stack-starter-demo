@@ -16,6 +16,7 @@ const workspaceOptions = getWorkspaceOptions('./')
 export const createSchemaContent = (ctx: {
     schemaName: string,
     schemaFields: string[],
+    schemaDescription: string,
     descriptions: string[],
     jsDocTitle: string,
     jsDocDescription?: string,
@@ -24,11 +25,9 @@ export const createSchemaContent = (ctx: {
 
     `import { z, schema } from '@green-stack/schemas'\n`,
 
-    `${createDivider('Descriptions')}\n`,
+    `${createDivider('Description')}\n`,
 
-    `const d = {`,
-        ctx.descriptions.map((d) => `    ${d}`).join('\n'),
-    `}\n`,
+    `const d = "${ctx.schemaDescription}"\n`,
 
     [ctx.jsDocTitle, ctx.jsDocDescription].filter(Boolean).join('\n'),
     `export const ${ctx.schemaName} = schema('${ctx.schemaName}', {`,
@@ -37,7 +36,7 @@ export const createSchemaContent = (ctx: {
 
     `${createDivider('Type Alias')}\n`,
 
-    `export type ${ctx.schemaName} = z.infer<typeof ${ctx.schemaName}>\n`,
+    `export type ${ctx.schemaName} = z.input<typeof ${ctx.schemaName}>\n`,
 
 ].join('\n')
 
@@ -64,16 +63,16 @@ export const registerSchemaGenerator = (plop: PlopTypes.NodePlopAPI) => {
                 name: 'schemaDescription',
                 message: 'Optional description: What data structure does this schema describe?',
             },
-            {
-                type: 'checkbox',
-                name: 'commonFields',
-                message: 'Optional examples: Would you like to add any common field definitions?', // prettier-ignore
-                choices: ['id', 'slug'],
-            },
+            // {
+            //     type: 'checkbox',
+            //     name: 'commonFields',
+            //     message: 'Optional examples: Would you like to add any common field definitions?', // prettier-ignore
+            //     choices: ['id', 'slug'],
+            // },
         ],
         actions: (data) => {
             // Args
-            const { workspaceTarget, schemaName, schemaDescription, commonFields } = data!
+            const { workspaceTarget, schemaName, schemaDescription, commonFields = [] } = data!
 
             // -- Vars --
 
@@ -91,26 +90,27 @@ export const registerSchemaGenerator = (plop: PlopTypes.NodePlopAPI) => {
                 descriptions.push(`${schemaName}: \`${schemaDescription}\`,`)
                 jsDocDescription = `/** -i- ${schemaDescription} */`
                 jsDocTitle = createDivider(schemaName, true)
-                describeStatement = `.describe(d.${schemaName})`
+                describeStatement = `.describe(d)`
             } else {
                 jsDocTitle = createDivider(schemaName, false)
             }
         
-            if (commonFields.includes('id')) {
-                descriptions.push(`id: \`the unique identifier for this ${schemaName}\`,`)
-                schemaFields.push(`id: z.string().uuid().describe(d.id),`)
-            }
+            // if (commonFields.includes('id')) {
+            //     descriptions.push(`id: \`the unique identifier for this ${schemaName}\`,`)
+            //     schemaFields.push(`id: z.string().uuid().describe(d.id),`)
+            // }
         
-            if (commonFields.includes('slug')) {
-                descriptions.push(`slug: \`the unique slug for this ${schemaName}\`,`)
-                schemaFields.push(`slug: z.string().describe(d.slug),`)
-            }
+            // if (commonFields.includes('slug')) {
+            //     descriptions.push(`slug: \`the unique slug for this ${schemaName}\`,`)
+            //     schemaFields.push(`slug: z.string().describe(d.slug),`)
+            // }
 
             // -- Build schema --
 
             const schemaContent = createSchemaContent({
                 schemaName,
                 schemaFields,
+                schemaDescription,
                 descriptions,
                 jsDocTitle,
                 jsDocDescription,
@@ -122,12 +122,12 @@ export const registerSchemaGenerator = (plop: PlopTypes.NodePlopAPI) => {
             const actions = [
                 {
                     type: 'add',
-                    path: `${workspacePath}/schemas/${schemaName}.ts`,
+                    path: `${workspacePath}/schemas/${schemaName}.schema.ts`,
                     template: schemaContent,
                 },
                 {
                     type: 'open-files-in-vscode',
-                    paths: [`${workspacePath}/schemas/${schemaName}.ts`],
+                    paths: [`${workspacePath}/schemas/${schemaName}.schema.ts`],
                 },
             ] as PlopTypes.ActionType[]
 

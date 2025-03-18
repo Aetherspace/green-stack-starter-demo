@@ -43,11 +43,15 @@ export const renderGraphqlQuery = <ArgsShape extends z.ZodRawShape, ResShape ext
     // Introspect input & output schemas
     const argsSchemaDefs = inputSchema.introspect()
     const responseSchemaDefs = outputSchema.introspect()
-    const argsSchemaName = normalizeInputSchemaName(argsSchemaDefs.name!, 'input')
+    let argsInputName = normalizeInputSchemaName(argsSchemaDefs.name!, 'input')
     const _resolverArgsName = lowercaseFirstChar(resolverArgsName)
 
+    // Determine nullability of args
+    const isRequired = !argsSchemaDefs.isNullable && !argsSchemaDefs.isOptional
+    if (isRequired) argsInputName = `${argsInputName}!`
+
     // Build query base
-    let query = `${resolverType} ${resolverName}($${_resolverArgsName}: ${argsSchemaName}) {\n  {{body}}\n}` // prettier-ignore
+    let query = `${resolverType} ${resolverName}($${_resolverArgsName}: ${argsInputName}) {\n  {{body}}\n}` // prettier-ignore
     query = query.replace('{{body}}', `${resolverName}(args: $${_resolverArgsName}) {\n{{fields}}\n  }`) // prettier-ignore
 
     // Re-evaluate query setup if there are no args
@@ -68,6 +72,9 @@ export const renderGraphqlQuery = <ArgsShape extends z.ZodRawShape, ResShape ext
                 const zodType = fieldConfig.zodType
                 const fieldType = fieldConfig.baseType
                 const spacing = '  '.repeat(depth)
+
+                // Skip sensitive fields
+                if (fieldConfig.isSensitive) return ''
 
                 // Skip incompatible types
                 const INCOMPATIBLES = ['ZodRecord', 'ZodIntersection', 'ZodDiscriminatedUnion', 'ZodVoid', 'ZodFunction', 'ZodPromise', 'ZodLazy', 'ZodEffects'] as const // prettier-ignore
@@ -125,7 +132,7 @@ export const createDataBridge = <
     DefaultQueryArgs = PrettifySingleKeyRecord<Record<LowercaseFirstChar<ResolverArgsName>, z.ZodObject<ArgsShape>['_input']>>,
     DefaultQueryRes = PrettifySingleKeyRecord<Record<ResolverName, z.ZodObject<ResShape>['_output']>>,
     QueryArgs = CustomQuery extends null ? DefaultQueryArgs : VariablesOf<CustomQuery>,
-    QueryRes = CustomQuery extends null ? DefaultQueryRes : ResultOf<CustomQuery>
+    QueryRes = CustomQuery extends null ? DefaultQueryRes : ResultOf<CustomQuery>,
 >({
     resolverName,
     resolverType: customResolverType,
@@ -150,20 +157,22 @@ export const createDataBridge = <
     // Vars & Flags
     const printedQuery = graphqlQuery ? print(graphqlQuery) : ''
     const containsMutation = printedQuery?.includes?.('mutation')
-    const resolverType = customResolverType || (containsMutation ? 'mutation' : 'query')
-    const isMutation = restOptions.isMutation || containsMutation || resolverType === 'mutation'
+    const isMutation = restOptions.isMutation || containsMutation
+    const resolverType = customResolverType || (isMutation ? 'mutation' : 'query')
 
     // -- Error Checks --
 
-    if (!resolverName) throw new Error('Resolver name is required')
-    if (!inputSchema) throw new Error('Args schema is required')
-    if (!outputSchema) throw new Error('Response schema is required')
+    if (!resolverName) throw new Error('createDataBridge() -!- Resolver name is required')
+    if (!inputSchema) throw new Error('createDataBridge() -!- Args schema is required')
+    if (!outputSchema) throw new Error('createDataBridge() -!- Response schema is required')
 
     // -- Build default graphql query? --
 
-    const getGraphqlQuery = () => {
+    const getGraphqlQuery = (showPrintedQuery = false) => {
         // Return custom query if provided
-        if (graphqlQuery) return graphqlQuery as TadaDocumentNode<QueryRes, QueryArgs>
+        if (graphqlQuery && !showPrintedQuery) {
+            return graphqlQuery as TadaDocumentNode<QueryRes, QueryArgs>
+        }
 
         // Build a default query otherwise
         const defaultGraphqlQueryString = renderGraphqlQuery({
@@ -173,6 +182,11 @@ export const createDataBridge = <
             inputSchema,
             outputSchema,
         })
+
+        // Return the query as a string
+        if (showPrintedQuery) return defaultGraphqlQueryString
+
+        // Return the query as a TadaDocumentNode
         const gqlArgsSchema = z.object({ [resolverName as ResolverName]: inputSchema })
         const gqlResSchema = z.object({ [resolverName as ResolverName]: outputSchema })
         const documentNode = graphql(defaultGraphqlQueryString) as TadaDocumentNode<
@@ -194,5 +208,7 @@ export const createDataBridge = <
         allowedMethods,
         isMutation,
         getGraphqlQuery,
+        _input: undefined as unknown as z.ZodObject<ArgsShape>['_input'],
+        _output: undefined as unknown as z.ZodObject<ResShape>['_output'],
     }
 }

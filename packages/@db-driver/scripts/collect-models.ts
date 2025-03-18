@@ -77,7 +77,7 @@ const collectModels = () => {
         }, {} as ModelRegistry)
 
         // Build models.generated.ts file
-        const modelModuleAliasLines = modelRegistry.modelAliasEntryLines.join('\n,')
+        const modelModuleAliasLines = modelRegistry.modelAliasEntryLines.join(',\n')
         const modelImportLines = modelRegistry.modelImportLines.join('\n')
         let modelsFileContent = modelsFileTemplate.replace('{{modelImportLines}}', modelImportLines) // prettier-ignore
         modelsFileContent = replaceMany(modelsFileContent, ['    {{modelModuleAliasLines}}'], modelModuleAliasLines) // prettier-ignore
