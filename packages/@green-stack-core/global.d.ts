@@ -1,3 +1,9 @@
+type DeepPartial<T> = { [P in keyof T]?: DeepPartial<T[P]> }
+
+type DeepNullable<T> = { [P in keyof T]: DeepNullable<T[P]> | null }
+
+type DeepNullish<T> = { [P in keyof T]?: DeepNullish<T[P]> | null }
+
 type Overwrite<T, U> = Omit<T, keyof U> & U
 
 type FlattenIfArray<T> = T extends (infer R)[] ? R : T
@@ -13,7 +19,7 @@ type Primitive = string | number | boolean | bigint | symbol | null | undefined
 type NonNullableRequired<T> = T extends null | undefined ? never : T
 
 type ExtractPrimitives<T> = {
-  [K in keyof T]: NonNullableRequired<T[K]> extends Primitive ? { [P in K]: string } : ExtractPrimitives<T[K]>
+  [K in keyof T]: NonNullableRequired<T[K]> extends Primitive ? { [P in K]: T[K] } : ExtractPrimitives<T[K]>
 }[keyof NonNullableRequired<T>]
 
 type DeepFlattenRequired<T> = {
@@ -25,7 +31,7 @@ type MergeUnion<T> = (T extends any ? (x: T) => void : never) extends (x: infer 
 type ExtractRouteParams<T> = Partial<MergeUnion<ExtractPrimitives<DeepFlattenRequired<T>>>>
 
 type Prettify<T> = {
-  [K in keyof T]: T[K] extends Object ? Prettify<T[K]> : T[K]
+  [K in keyof T]: T[K] extends Date ? T[K] : T[K] extends Object ? Prettify<T[K]> : T[K]
 } & {}
 
 type PrettifySingleKeyRecord<T> = T extends Record<infer K, infer V>

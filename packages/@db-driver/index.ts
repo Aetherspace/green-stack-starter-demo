@@ -8,6 +8,7 @@ const dbDriver = dbDrivers[appConfig.drivers.db]
 /* --- Re-export Driver Methods ---------------------------------------------------------------- */
 
 export const createSchemaModel = dbDriver['createSchemaModel']
+export const DBEntity = dbDriver['DBEntity']
 
 /* --- Export Driver Helpers ------------------------------------------------------------------- */
 

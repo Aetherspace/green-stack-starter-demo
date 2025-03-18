@@ -22,7 +22,7 @@ export const queryBridge = createQueryBridge({
     routeParamsToQueryInput: (routeParams) => ({
         healthCheckArgs: {
             echo: routeParams.echo,
-            verbose: routeParams.verbose === 'true',
+            verbose: routeParams.verbose,
         },
     }),
     fetcherDataToProps: (fetcherData) => ({ serverHealth: fetcherData?.healthCheck }),
@@ -148,14 +148,14 @@ const HomeScreen = (props: HomeScreenProps) => {
                         <InfoSection
                             title="Docs 📚"
                             summary="Documentation that grows as you build or paste app features"
-                            href="https://universal-base-starter-docs.vercel.app/quickstart" // TODO: Update this link
+                            href="https://fullproduct.dev/docs/quickstart"
                             isBlank
                         />
                         <View className="w-0 h-8 lg:w-16 lg:h-0" />
                         <InfoSection
                             title="Concepts"
                             summary="Discover a way of working that's portable, write-once and universal"
-                            href="https://universal-base-starter-docs.vercel.app/core-concepts"
+                            href="https://fullproduct.dev/docs/core-concepts"
                             isBlank
                         />
                         <View className="w-0 h-8 lg:w-16 lg:h-0" />
@@ -176,7 +176,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                         <InfoSection
                             title="Codegen"
                             summary="Build even faster with generators for Routes, APIs, GraphQL & more"
-                            href="https://universal-base-starter-docs.vercel.app/quickstart" // TODO: Update this link
+                            href="https://fullproduct.dev/docs/quickstart"
                             isBlank
                         />
                     </View>

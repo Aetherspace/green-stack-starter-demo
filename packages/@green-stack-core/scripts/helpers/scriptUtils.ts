@@ -41,13 +41,13 @@ export const globRel = (globPath: string) => {
     // Get all matches
     const rawMatches = globSync(globPath, { absolute: true })
     // Filter out any node_modules files if present
-    const allMatches = rawMatches.filter(excludeModules)
+    const allMatches = rawMatches.filter(excludeModules).map(p => p.replaceAll('\\', '/'))
     // Determine the folder level from the glob path
     const folderLevel = globPath.split(workspaceFoldersRegex)?.[0] || '../../'
     // Determine the absolute root dir where our app starts
-    const [absoluteRootDir] = __dirname.split('packages/@green-stack-core/scripts')
+    const [absoluteRootDir] = __dirname.replaceAll('\\', '/').split('packages/@green-stack-core/scripts')
     // Replace the root app dir with the folder level
-    return allMatches.map((match) => match.replace(absoluteRootDir, folderLevel))
+    return allMatches.map((match) => match.replace(absoluteRootDir, folderLevel).replaceAll('\\', '/'))
 }
 
 /** --- createDivider() ------------------------------------------------------------------------ */
@@ -62,9 +62,9 @@ export const createDivider = (title: string, isDocDivider = false) => {
 /** --- includesOption() ----------------------------------------------------------------------- */
 /** -i- HoC to prefill a list of options that are checked against in the actual filter method
  * @example ```
- *  const includesGet = includesOption(['GET', 'POST'])
+ *  const includesGetOrPost = includesOption(['GET', 'POST'])
  *  // => Creates filter method
- *  const result = ['GET', 'POST', 'PUT'].filter(includesGet)
+ *  const result = ['GET', 'POST', 'PUT'].filter(includesGetOrPost)
  *  // => ['GET', 'POST']
  * ``` */
 export const includesOption = (options: string[]) => {

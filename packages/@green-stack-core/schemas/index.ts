@@ -71,9 +71,12 @@ export type Metadata<S = Record<string, any$Unknown> | any$Unknown[]> = {
     literalType?: 'string' | 'boolean' | 'number',
     literalBase?: BASE_TYPE,
     schema?: S,
-    // only included when calling with .introspect(true)
-    zodStruct?: z.ZodType & { _def: z.ZodTypeDef & { typeName: ZOD_TYPE } }, 
-    // compatibility with other systems like databases & drivers
+    // The actual Zod objects, only included with .introspect(true)
+    zodStruct?: z.ZodType & { _def: z.ZodTypeDef & { typeName: ZOD_TYPE } }, // wrapped, outermost
+    innerStruct?: z.ZodType & { _def: z.ZodTypeDef & { typeName: ZOD_TYPE } }, // unwrapped
+    // Mark as serverside only, strippable in API responses
+    isSensitive?: boolean,
+    // Compatibility with other systems like databases & drivers
     isID?: boolean,
     isIndex?: boolean,
     isUnique?: boolean,
@@ -86,6 +89,7 @@ export type Meta$Union = Metadata<Metadata[]>
 export type Meta$Intersection = Metadata<{ left: Metadata, right: Metadata }>
 
 type StackedMeta = Metadata & {
+    innerStruct?: z.ZodType & { _def: z.ZodTypeDef & { typeName: ZOD_TYPE } },
     zodStruct?: z.ZodType & { _def: z.ZodTypeDef & { typeName: ZOD_TYPE } },
 }
 
@@ -103,6 +107,7 @@ export type ZodSchema<S extends z.ZodRawShape = z.ZodRawShape> = z.ZodObject<S>
 export type ApplyDefaultsOptions = {
     logErrors?: boolean,
     stripUnknown?: boolean,
+    stripSensitive?: boolean,
     applyExamples?: boolean,
 }
 
@@ -134,6 +139,7 @@ declare module 'zod' {
     interface ZodType {
         metadata(): Record<string, any>,
         addMeta(meta: Record<string, any>): this
+        sensitive(): this
         index(): this
         unique(): this
         sparse(): this
@@ -165,7 +171,7 @@ declare module 'zod' {
         ): z.ZodObject<Omit<T, keyof Mask>, UnknownKeys, Catchall>
 
         applyDefaults<
-            D extends Partial<Output> & Record<string, any$Unknown>
+            D extends Partial<Input> & Record<string, any$Unknown>
         >(
             data: D,
             options?: ApplyDefaultsOptions
@@ -215,6 +221,10 @@ if (!ZodType.prototype.metadata) {
             ...this._def,
             metadata: { ...this._def.metadata, ...meta }
         })
+    }
+
+    ZodType.prototype.sensitive = function () {
+        return this.addMeta({ isSensitive: true })
     }
 
     ZodType.prototype.index = function () {
@@ -365,10 +375,13 @@ if (!ZodType.prototype.metadata) {
             const _zodPromise = zodStruct as unknown as z.ZodPromise<any>
             meta.schema = _zodPromise._def.type.introspect?.(includeZodStruct)
         }
+        // Include innerStruct?
+        const isInnerMostStruct = !zodStruct._def.innerType
+        if (isInnerMostStruct && includeZodStruct) meta.innerStruct = zodStruct
         // Add the metadata for the current type
         const currentMetaStack = [...stackedMeta, meta as Metadata]
         // If we've reached the innermost type, end recursion, return all metadata
-        if (!zodStruct._def.innerType) return currentMetaStack
+        if (isInnerMostStruct) return currentMetaStack
         // If there's another inner layer, unwrap it, add to the stack
         return getStackedMeta(zodStruct._def.innerType, currentMetaStack, includeZodStruct)
     }
@@ -410,22 +423,57 @@ if (!ZodType.prototype.metadata) {
     }
 
     ZodObject.prototype.applyDefaults = function <
-        D extends Partial<(typeof thisSchema)['_type']> & Record<string, any$Unknown>
+        D extends Partial<(typeof thisSchema)['_input']> & Record<string, any$Unknown>
     >(
         data: D,
         options: ApplyDefaultsOptions = {},
     ) {
-        const { logErrors = false, stripUnknown = false, applyExamples = false } = options
+        const {
+            logErrors = false,
+            stripUnknown = false,
+            stripSensitive = false,
+            applyExamples = false,
+        } = options
         const thisSchema = this.extend({})
         const result = thisSchema.safeParse(data)
-        const introSpectionResult = thisSchema.introspect()
+        const introSpectionResult = thisSchema.introspect(stripSensitive)
         const defaultValues = Object.keys(introSpectionResult.schema!).reduce((acc, key) => {
             const fieldMeta = introSpectionResult.schema![key] as Metadata
             const defaultValue = applyExamples ? fieldMeta.exampleValue : fieldMeta.defaultValue
             const hasDefault = defaultValue !== undefined
             return hasDefault ? { ...acc, [key]: defaultValue } : acc
         }, {})
-        const values = { ...defaultValues, ...data, ...result.data } as (typeof thisSchema)['_type']
+        // Include default values from introspection
+        const values = {
+            ...defaultValues,
+            ...data,
+            ...result.data,
+        } as (typeof thisSchema)['_type']
+        // Apply options to nested schemas?
+        if (stripSensitive || stripUnknown) {
+            // Also strip unknown or sensitive keys within nested schemas
+            Object.keys(introSpectionResult.schema!).forEach(key => {
+                const fieldMeta = introSpectionResult.schema![key] as Metadata // @ts-ignore
+                const isObject = fieldMeta.zodType == 'ZodObject'
+                // Skip if empty or not a nested schema
+                if (!data[key] || !isObject) return
+                const innerMeta = fieldMeta.zodStruct?.introspect?.(true)
+                if (!innerMeta) return // @ts-ignore
+                const InnerSchema = innerMeta?.innerStruct // @ts-ignore
+                if (!InnerSchema?.applyDefaults) return
+                // Apply options recursively
+                const oldData = { ...values[key] } // @ts-ignore
+                const newData = InnerSchema.applyDefaults(oldData, options)
+                values[key] = newData
+            })
+        }
+        // Remove sensitive keys?
+        if (stripSensitive) {
+            Object.keys(introSpectionResult.schema!).forEach(key => {
+                const fieldMeta = introSpectionResult.schema![key] as Metadata
+                if (fieldMeta.isSensitive) delete values[key]
+            })
+        }
         // Log errors if requested
         if (!result.success && logErrors) console.warn(JSON.stringify(result.error, null, 2))
         // Strip unknown keys if requested

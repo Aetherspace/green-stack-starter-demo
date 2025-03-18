@@ -69,6 +69,9 @@ export const createSchemaDefinition = (
             // Allow overrides of the graphql type to happen in specific cases (e.g. Float vs. Int)
             let gqlType = graphqlType
 
+            // Skip sensitive fields on output types
+            if (fieldMeta.isSensitive) return undefined
+
             // Determine nullability
             const isNullable = fieldMeta.isNullable || fieldMeta.isOptional
             const nullableToken = isNullable ? '' : '!'
@@ -80,14 +83,10 @@ export const createSchemaDefinition = (
                 : ''
 
             // Handle Int vs. Float - e.g. `someKey: Int!`
-            if (fieldMeta.baseType === 'Number' && fieldMeta.isInt) {
-                gqlType = 'Int'
-            }
+            if (fieldMeta.baseType === 'Number' && fieldMeta.isInt) gqlType = 'Int'
 
             // Handle ID - e.g. `someKey: ID!`
-            if (fieldMeta.baseType === 'String' && fieldMeta.isID) {
-                gqlType = 'ID'
-            }
+            if (fieldMeta.baseType === 'String' && fieldMeta.isID) gqlType = 'ID'
             
             // Handle nested schemas - e.g. `someKey: SomeData!`
             if (graphqlType === 'Schema' && fieldMeta.schema) {
@@ -95,7 +94,7 @@ export const createSchemaDefinition = (
                 schemaDefinitions = [...schemaDefinitions, ...createSchemaDefinition(fieldMeta)]
                 // Add the definition line for the schema itself
                 if (!schema.name) console.log('schema', schema)
-                const schemaName = normalizeInputSchemaName(schema?.name!, prefix)
+                const schemaName = normalizeInputSchemaName(fieldMeta?.name!, prefix)
                 return `${optionalDescription}${schemaKey}: ${schemaName}${nullableToken}`
             }
 
@@ -133,12 +132,11 @@ export const createSchemaDefinition = (
     })
 
     // Transform schema meta into graphql definitions - e.g. `type SomeType { someKey: String! }`
-    if (!schema.name) console.log('schema', schema)
     const finalSchemaName = normalizeInputSchemaName(schema.name!, prefix)
     const finalPrefix = finalSchemaName.includes('Input') ? 'input' : prefix
     const fullSchemaDef = `
         ${finalPrefix} ${finalSchemaName} {
-            ${Object.values(schemaMap).join('\n        ')}
+            ${Object.values(schemaMap).filter(Boolean).join('\n        ')}
         }
     `
     

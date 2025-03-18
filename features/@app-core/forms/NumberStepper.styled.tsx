@@ -164,6 +164,7 @@ export const NumberStepper = forwardRef<
                 )}
                 onKeyPress={stepper.onKeyPress}
                 disabled={stepper.disabled}
+                hasError={stepper.hasError}
                 value={stepper.value ? `${stepper.value}` : ''}
                 onChangeText={stepper.onChangeText}
             />
